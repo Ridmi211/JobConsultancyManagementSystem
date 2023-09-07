@@ -68,7 +68,7 @@ String useractiontype = request.getParameter("useractiontype");
 //		System.out.println("name" + request.getParameter("name")	);
 		user.setPhoneNumber(request.getParameter("telephone"));
 		user.setEmail(request.getParameter("email"));
-		user.setPassword(request.getParameter("pwd"));
+		user.setPassword(request.getParameter("password"));
 		user.setBirthdate(request.getParameter("birthdate"));
 		user.setGender(request.getParameter("gender"));
 		user.setOccupation(request.getParameter("jobtype"));
