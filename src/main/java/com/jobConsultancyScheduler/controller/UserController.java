@@ -85,7 +85,7 @@ String useractiontype = request.getParameter("useractiontype");
 				message = "The user has been successfully added!";
 			}
 			else {
-				message = "Failed to add the usert!";
+				message = "Failed to add the user!";
 			}
 		} 
 		catch (ClassNotFoundException | SQLException e) {
@@ -102,13 +102,18 @@ String useractiontype = request.getParameter("useractiontype");
 		clearMessage();
 		
 		User user = new User();
-		user.setGender(request.getParameter("name"));
-		user.setOccupation(request.getParameter("name"));
-		user.setCountry(request.getParameter("name"));
-		
+		user.setUserId(Integer.parseInt(request.getParameter("userId")));
+		user.setName(request.getParameter("name"));
+		user.setPhoneNumber(request.getParameter("phoneNumber"));
+		user.setEmail(request.getParameter("email"));
+//		user.setPassword(request.getParameter("password"));
+		user.setBirthdate(request.getParameter("birthdate"));
+		user.setGender(request.getParameter("gender"));
+		user.setOccupation(request.getParameter("occupation"));
+		user.setCountry(request.getParameter("country"));
 		try {
 			if(getUserService().editUser(user)) {
-				message = "The product has been successfully updated! Product Code: " + user.getUserId();
+				message = "The user has been successfully updated! User ID: " + user.getUserId();
 			}
 			else {
 				message = "Failed to update the product! Product Code: " + user.getUserId();
@@ -119,7 +124,7 @@ String useractiontype = request.getParameter("useractiontype");
 		}
 		
 		request.setAttribute("feebackMessage", message);
-		RequestDispatcher rd = request.getRequestDispatcher("search-and-update.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("search-and-update-user.jsp");
 		rd.forward(request, response);
 		
 	}
@@ -134,7 +139,7 @@ String useractiontype = request.getParameter("useractiontype");
 				message = "The product has been successfully deleted. Product Code: " + productCode;
 			}
 			else {
-				message = "Failed to delet the product! Product Code: " + productCode;
+				message = "Failed to delete the product! Product Code: " + productCode;
 			}
 		} 
 		catch (ClassNotFoundException | SQLException e) {
@@ -168,7 +173,7 @@ String useractiontype = request.getParameter("useractiontype");
 			message = e.getMessage();
 		}
 		request.setAttribute("feebackMessage", message);
-		RequestDispatcher rd = request.getRequestDispatcher("search-and-update.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("search-and-update-user.jsp");
 		rd.forward(request, response);
 	}
 	
@@ -191,7 +196,7 @@ String useractiontype = request.getParameter("useractiontype");
 		request.setAttribute("userList", userList);
 		request.setAttribute("feebackMessage", message);
 		
-		RequestDispatcher rd = request.getRequestDispatcher("view-all-and-delete-specific.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("view-job-seekers.jsp");
 		rd.forward(request, response);
 		
 	}

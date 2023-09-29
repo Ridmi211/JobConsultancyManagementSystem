@@ -7,7 +7,7 @@
 	<head>
 	
 		<meta charset="ISO-8859-1">
-		<title>GlobalWorkConnect.com</title>
+		<title>Register</title>
  
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="https://static.vecteezy.com/system/resources/previews/010/430/526/non_2x/job-for-immigrants-app-icon-refugee-employment-construction-worker-finding-work-abroad-hard-hat-worker-handyman-uiux-user-interface-web-or-mobile-application-isolated-illustration-vector.jpg">
@@ -395,15 +395,15 @@ p{ color:white;
 }
 
  #feedback-container {
-    background-color: #4CAF50; /* Green background color */
-    color: white; /* White text color */
-    padding: 10px; /* Padding around the message */
-    position: fixed; /* Fixed position on the screen */
-    bottom: 20px; /* Distance from the bottom of the screen */
-    right: 20px; /* Distance from the right side of the screen */
-    border-radius: 5px; /* Rounded corners */
-    opacity: 1; /* Fully visible initially */
-    transition: opacity 0.5s; /* Smooth fade-in/out effect */
+    background-color: #4CAF50; 
+    color: white; 
+    padding: 10px; 
+    position: fixed; 
+    bottom: 20px; 
+    right: 20px; 
+    border-radius: 5px; 
+    opacity: 1; 
+    transition: opacity 0.5s; 
   }
 
   #feedback-container p {
@@ -420,12 +420,44 @@ p{ color:white;
 	</head>
 	
 	<body>		
+	  <div class="sidebar">
+     <header>Menu</header>
+     <a href="#" class="active">
+       <i class="fas fa-qrcode"></i>
+       <span>Dashboard</span>
+     </a>
+     <a href="add-user.jsp">
+       <i class="fas fa-link"></i>
+       <span>Register</span>
+     </a>
+     <a href="search-and-update-user.jsp">
+       <i class="fas fa-stream"></i>
+       <span>Update User</span>
+     </a>
+     <a href="#">
+        <i class="fas fa-calendar"></i>
+       <span>Events</span>
+     </a>
+     <a href="#">
+       <i class="far fa-question-circle"></i>
+       <span>About</span>
+     </a>
+     <a href="#">
+       <i class="fas fa-sliders-h"></i>
+       <span>Services</span>
+     </a>
+     <a href="getuser?useractiontype=all">
+       <i class="far fa-envelope"></i>
+       <span>View All</span>
+       
+     </a>
+   </div>
 		
 			 <div class="container">
 			<form name="form1" class="box" action="usermanager" method="post">
         <h4>Job<span>Consultancy</span></h4>
         <p>${feebackMessage}</p>
-        <h5>Ctreate a new account.</h5>
+        <h5>Create a new account.</h5>
         <input type="text" name="name" placeholder="Name" id="name" autocomplete="off" required>
         <input type="tel" name="telephone" id="telephone" placeholder="Phone number" required>
         <input type="text" name="email" id ="email" placeholder="Email" autocomplete="off">
