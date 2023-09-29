@@ -15,13 +15,13 @@
 		<div class="container">
 			<ul class="nav nav-tabs">
 			  <li class="nav-item">
-			    <a class="nav-link" aria-current="page" href="add-user.jsp">Add Product</a>
+			    <a class="nav-link" aria-current="page" href="add-user.jsp">Add User</a>
 			  </li>
 			  <li class="nav-item">
-			    <a class="nav-link active" href="#">Search & Update the Product</a>
+			    <a class="nav-link active" href="#">Search & Update the User</a>
 			  </li>
 			  <li class="nav-item">
-			    <a class="nav-link" href="getproduct?actiontype=all">View All & Delete Specific</a>
+			    <a class="nav-link" href="getuser?useractiontype=all">View All & Delete Specific</a>
 			  </li>
 			</ul>			
 			<br/>

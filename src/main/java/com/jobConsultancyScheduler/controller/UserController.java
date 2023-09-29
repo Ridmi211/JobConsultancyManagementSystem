@@ -132,14 +132,14 @@ String useractiontype = request.getParameter("useractiontype");
 	private void deleteUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		clearMessage();
-		int productCode = Integer.parseInt(request.getParameter("productCode"));
+		int userId = Integer.parseInt(request.getParameter("userId"));
 		
 		try {
-			if(getUserService().deleteUser(productCode)) {
-				message = "The product has been successfully deleted. Product Code: " + productCode;
+			if(getUserService().deleteUser(userId)) {
+				message = "The product has been successfully deleted. Product Code: " + userId;
 			}
 			else {
-				message = "Failed to delete the product! Product Code: " + productCode;
+				message = "Failed to delete the product! Product Code: " + userId;
 			}
 		} 
 		catch (ClassNotFoundException | SQLException e) {
@@ -151,7 +151,7 @@ String useractiontype = request.getParameter("useractiontype");
 		HttpSession session = request.getSession();
 		session.setAttribute("message", message);
 		
-		response.sendRedirect("getproduct?actiontype=all");
+		response.sendRedirect("getuser?useractiontype=all");
 	}
 	
 	private void fetchSingleUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

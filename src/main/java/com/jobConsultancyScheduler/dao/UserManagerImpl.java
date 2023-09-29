@@ -154,12 +154,12 @@ public class UserManagerImpl implements UserManager {
 			User user = new User();
 			user.setUserId(rs.getInt("userId"));
 			user.setName(rs.getString("name"));
-			user.setPhoneNumber(rs.getString("phoneNumber"));
+//			user.setPhoneNumber(rs.getString("phoneNumber"));
 			user.setEmail(rs.getString("email"));
-			user.setBirthdate(rs.getString(" birthdate"));
-			user.setGender(rs.getString("gender"));
-			user.setOccupation(rs.getString("occupation"));
-			user.setCountry(rs.getString("country"));
+//			user.setBirthdate(rs.getString(" birthdate"));
+//			user.setGender(rs.getString("gender"));
+//			user.setOccupation(rs.getString("occupation"));
+//			user.setCountry(rs.getString("country"));
 //			user.setAccessRight(rs.getAccessRight("name"));		
 			
 			userList.add(user);

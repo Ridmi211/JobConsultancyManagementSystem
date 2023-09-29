@@ -337,7 +337,7 @@ p {
   font-family: 'Lato', sans-serif;
   font-weight: 300;
   text-align: center;
-  font-size: 30px;
+  font-size: 15px;
   color: #d6adff;
   margin: 0;
 }
@@ -395,7 +395,7 @@ p {
 
 
     <h1>Registered Job Seekers </h1>
-
+<p style='color:magenta'>${message}</p>	
 
      <!-- Search abr  -->
      <nav class="navbar navbar-light bg-light">
@@ -438,8 +438,8 @@ p {
             <td class="btn-column">
               	<form action="usermanager" method="post">								
 									<input type="hidden" name="userId" value="${user.userId}">
-									<input type="hidden" name="actiontype" value="delete">
-									<button type="submit" class="btn btn-danger">Delete the Product</button>
+									<input type="hidden" name="useractiontype" value="delete">
+									<button type="submit" class="btn btn-danger">Delete</button>
 								</form>	
             </td>
           </tr>
