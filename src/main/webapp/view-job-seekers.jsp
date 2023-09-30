@@ -342,11 +342,36 @@ p {
   margin: 0;
 }
 
+.nav{
+position:relative;
+top:1%;
+left:10%;
+width:70%;
+}
+.active{
+background-color
+}
+
     /*  <!-- sidebar end here  --> */
     </Style>
 
 </head>
 <body >
+
+<!-- <ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link active" aria-current="page" href="#">Active ActivActiv</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#">Link</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#">Link</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+  </li>
+</ul> -->
  <!-- sidebar  -->
 
 
@@ -409,9 +434,9 @@ p {
       <table class="table table-hover">
         <thead>
           <tr>
-            <th scope="col">Row count </th>
-            <th scope="col">Patient NIC</th>
-            <th scope="col">Patient Name</th>
+            <th scope="col">Count </th>
+            <th scope="col">User ID</th>
+            <th scope="col">Name</th>
             <th scope="col">Email</th>
             <th scope="col">View</th>
             <th >Edit</th>
