@@ -1,6 +1,12 @@
 package com.jobConsultancyScheduler.controller;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
+import java.util.Base64;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -68,7 +74,23 @@ String useractiontype = request.getParameter("useractiontype");
 //		System.out.println("name" + request.getParameter("name")	);
 		user.setPhoneNumber(request.getParameter("telephone"));
 		user.setEmail(request.getParameter("email"));
-		user.setPassword(request.getParameter("password"));
+		
+
+	    String plainPassword = request.getParameter("password");
+	    
+	    if (plainPassword == null || plainPassword.isEmpty()) {
+	        // Password is null or empty, return an error message
+	        message = "Password cannot be null or empty.";
+	        request.setAttribute("feebackMessage", message);
+	        RequestDispatcher rd = request.getRequestDispatcher("add-user.jsp");
+	        rd.forward(request, response);
+	        return; // Exit the method, do not proceed with adding the user
+	    }
+		
+		
+		    String hashedPassword = hashPassword(plainPassword);
+		    user.setPassword(hashedPassword);
+		    
 		user.setBirthdate(request.getParameter("birthdate"));
 		user.setGender(request.getParameter("gender"));
 		user.setOccupation(request.getParameter("jobtype"));
@@ -96,6 +118,39 @@ String useractiontype = request.getParameter("useractiontype");
 		RequestDispatcher rd = request.getRequestDispatcher("add-user.jsp");
 		rd.forward(request, response);
 	}
+	
+	private String hashPassword(String plainPassword) {
+	    byte[] salt = generateSalt(); // Generate a random salt
+	    int iterations = 10000; // You can adjust the number of iterations according to your security requirements
+	    int keyLength = 256; // Key length in bits
+	    
+	    // Hash the password using PBKDF2
+	    char[] passwordChars = plainPassword.toCharArray();
+	    PBEKeySpec spec = new PBEKeySpec(passwordChars, salt, iterations, keyLength);
+	    try {
+	        SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+	        byte[] hash = skf.generateSecret(spec).getEncoded();
+	        
+	        // Combine the salt and hash and encode as Base64
+	        byte[] combined = new byte[salt.length + hash.length];
+	        System.arraycopy(salt, 0, combined, 0, salt.length);
+	        System.arraycopy(hash, 0, combined, salt.length, hash.length);
+	        
+	        return Base64.getEncoder().encodeToString(combined);
+	    } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+	        e.printStackTrace(); // Handle the exception properly in your application
+	        return null;
+	    }
+	}
+
+	private byte[] generateSalt() {
+	    // Generate a random salt for password hashing
+	    byte[] salt = new byte[16]; // You can adjust the salt length as needed
+	    // Generate the salt using a secure random number generator
+	    // Example: SecureRandom.getInstanceStrong().nextBytes(salt);
+	    return salt;
+	}
+	
 	
 	private void editUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
