@@ -38,7 +38,7 @@ public class UserController extends HttpServlet {
 
 		String useractiontype = request.getParameter("useractiontype");
 
-		if ( useractiontype!= null && useractiontype.equals("single")) {
+		if (useractiontype.equals("single")) {
 			fetchSingleUser(request, response);
 		} else {
 			fetchAllUsers(request, response);
