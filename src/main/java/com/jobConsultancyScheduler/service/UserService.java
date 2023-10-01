@@ -47,5 +47,10 @@ public class UserService implements UserManager {
 	public List<User> fetchAllUsers() throws ClassNotFoundException, SQLException {
 		return getUserManager().fetchAllUsers();
 	}
+	
+	public User fetchUserByEmail(String email) throws ClassNotFoundException, SQLException {
+	    return getUserManager().fetchUserByEmail(email);
+	}
+
 
 }

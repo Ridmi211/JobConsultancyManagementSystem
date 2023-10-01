@@ -306,7 +306,7 @@ p{ color:white;
       <form name="form1" class="box" method="post" action="usermanager">
         <h4>Job<span>Consultancy</span></h4>
         
-        <h5>Sign in to your account.</h5>
+        <h5>Sign in to your account. TODO make email unique, store user details, consider user type</h5>
           
           <input type="text" name="email" placeholder="Email" autocomplete="off" required>
           <i class="typcn typcn-eye" id="eye"></i>

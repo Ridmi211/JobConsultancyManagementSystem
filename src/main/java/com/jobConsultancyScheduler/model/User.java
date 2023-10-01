@@ -114,4 +114,11 @@ public class User {
 	    public void setAccessRight(AccessRight accessRight) {
 	        this.accessRight = accessRight;
 	    }
+	    
+	    public boolean checkPassword(String enteredPassword) {
+	        // Compare enteredPassword with this.password (hashed password)
+	        return enteredPassword.equals(this.password); // Update this line accordingly
+	    }
+
+
 	}

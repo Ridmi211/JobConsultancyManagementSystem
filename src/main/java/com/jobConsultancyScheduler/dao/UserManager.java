@@ -16,5 +16,8 @@ public interface UserManager {
 	public User fetchSingleUser(int userId) throws SQLException, ClassNotFoundException;
 	
 	public List<User> fetchAllUsers() throws SQLException, ClassNotFoundException;
+	
+	public User fetchUserByEmail(String email) throws SQLException, ClassNotFoundException;
+
 
 }
