@@ -511,12 +511,18 @@ User user = (User) session.getAttribute("user");
     <i class="fas fa-qrcode"></i>
     <span>Dashboard</span>
   </a>
+  <a href="logout.jsp">
+    
+      <i class="fas fa-stream"></i>
+      <span>logout</span>
+    </a>
 
   <%-- Display Events and Overview for Consultant --%>
   <% if (user != null && user.getAccessRight() == AccessRight.ROLE_CONSULTANT) { %>
-    <a href="#">
+    <a href="logout.jsp">
+    
       <i class="fas fa-stream"></i>
-      <span>Events</span>
+      <span>logout</span>
     </a>
     <a href="#">
       <i class="fas fa-calendar"></i>
