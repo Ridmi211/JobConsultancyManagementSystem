@@ -12,6 +12,7 @@ import java.util.List;
 
 import com.jobConsultancyScheduler.dao.dbUtils.DbDriverManager;
 import com.jobConsultancyScheduler.dao.dbUtils.DbDriverManagerFactory;
+import com.jobConsultancyScheduler.model.AccessRight;
 import com.jobConsultancyScheduler.model.User;
 
 public class UserManagerImpl implements UserManager {
@@ -170,5 +171,62 @@ public class UserManagerImpl implements UserManager {
 		
 		return userList;
 	}
+	
+	// In UserManagerImpl.java
+	@Override
+	public User fetchUserByEmail(String email) throws SQLException, ClassNotFoundException {
+	    Connection connection = getConnection(); // Implement the getConnection() method.
+
+	    String query = "SELECT * FROM user WHERE email=?";
+	    PreparedStatement preparedStatement = connection.prepareStatement(query);
+	    preparedStatement.setString(1, email);
+
+	    ResultSet resultSet = preparedStatement.executeQuery();
+
+	    User user = null;
+
+	    if (resultSet.next()) {
+	        user = new User();
+	        user.setUserId(resultSet.getInt("userId"));
+	        user.setName(resultSet.getString("name"));
+	        user.setPhoneNumber(resultSet.getString("phoneNumber"));
+	        user.setEmail(resultSet.getString("email"));
+	        user.setPassword(resultSet.getString("password"));
+	        user.setBirthdate(resultSet.getString("birthdate"));
+	        user.setGender(resultSet.getString("gender"));
+	        user.setOccupation(resultSet.getString("occupation"));
+	        user.setCountry(resultSet.getString("country"));
+	        user.setAccessRight(AccessRight.valueOf(resultSet.getString("accessRight")));
+	    }
+
+	    preparedStatement.close();
+	    connection.close();
+
+	    return user;
+	}
+	
+	@Override
+	public boolean isEmailAlreadyExists(String email) throws SQLException, ClassNotFoundException {
+	    Connection connection = getConnection();
+	    String query = "SELECT COUNT(*) FROM user WHERE email=?";
+	    PreparedStatement preparedStatement = connection.prepareStatement(query);
+	    preparedStatement.setString(1, email);
+
+	    ResultSet resultSet = preparedStatement.executeQuery();
+
+	    boolean emailExists = false;
+
+	    if (resultSet.next()) {
+	        int count = resultSet.getInt(1);
+	        emailExists = count > 0;
+	    }
+
+	    preparedStatement.close();
+	    connection.close();
+
+	    return emailExists;
+	}
+
+
 
 }
