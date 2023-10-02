@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     <%@ taglib prefix="tag" uri="http://java.sun.com/jsp/jstl/core"%>
+    <%@ page import="com.jobConsultancyScheduler.model.User" %>
+    <%@ page import="com.jobConsultancyScheduler.model.AccessRight" %>
+    
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -494,7 +498,63 @@ p {
      <i class="fas fa-bars" id="btn"></i>
      <i class="fas fa-times" id="cancel"></i>
    </label>
-   <div class="sidebar">
+   
+   <%
+// Get the user object from the session
+User user = (User) session.getAttribute("user");
+%>
+
+<div class="sidebar">
+  <header>Menu</header>
+  <%-- Always display Dashboard --%>
+  <a href="#" class="active">
+    <i class="fas fa-qrcode"></i>
+    <span>Dashboard</span>
+  </a>
+
+  <%-- Display Events and Overview for Consultant --%>
+  <% if (user != null && user.getAccessRight() == AccessRight.ROLE_CONSULTANT) { %>
+    <a href="#">
+      <i class="fas fa-stream"></i>
+      <span>Events</span>
+    </a>
+    <a href="#">
+      <i class="fas fa-calendar"></i>
+      <span>Overview</span>
+    </a>
+  <% } %>
+
+  <%-- Display About and Services for Admin --%>
+  <% if (user != null && user.getAccessRight() == AccessRight.ROLE_ADMIN) { %>
+    <a href="#">
+      <i class="far fa-question-circle"></i>
+      <span>About</span>
+    </a>
+    <a href="#">
+      <i class="fas fa-sliders-h"></i>
+      <span>Services</span>
+    </a>
+  <% } %>
+
+  <%-- Display Services for all users, regardless of role --%>
+  <a href="#">
+    <i class="fas fa-sliders-h"></i>
+    <span>Services</span>
+  </a>
+
+  <%-- Display Contact for User --%>
+  <% if (user != null && user.getAccessRight() == AccessRight.ROLE_USER) { %>
+    <a href="#">
+      <i class="far fa-envelope"></i>
+      <span>Contact</span>
+    </a>
+  <% } %>
+</div>
+   
+   
+   
+   
+<!--    <div class="sidebar">
      <header>Menu</header>
      <a href="#" class="active">
        <i class="fas fa-qrcode"></i>
@@ -525,17 +585,32 @@ p {
        <span>Contact</span>
      </a>
    </div>
-</div>  
+</div>  --> 
   <!-- sidebar end here  -->  
   
 
 
   <h1><b>Admin - DASHBOARD</b></h1>
+  
+    <div>
+    <% 
+  /*   User user = (User) session.getAttribute("user"); */
+    if (user != null) {
+    %>
+    <h1>Welcome, <%= user.getName() %>!</h1>
+      <p>Your access right: <%= user.getAccessRight() %></p>
+    <% } else { %>
+     <h1>Welcome,!</h1>
+    <!-- Handle the case where the user is not in the session -->
+    <% } %>
+</div>
  
   <section class="page-contain">
     <a href="/patients/list" class="data-card">
       <h3>12 </h3>
       <h4> Ongoing<br> Appointments</h4>
+      
+    
       <!-- <p>Manage registered patients</p> -->
       <span class="link-text">
         View All

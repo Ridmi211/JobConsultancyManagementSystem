@@ -12,6 +12,7 @@ import java.util.List;
 
 import com.jobConsultancyScheduler.dao.dbUtils.DbDriverManager;
 import com.jobConsultancyScheduler.dao.dbUtils.DbDriverManagerFactory;
+import com.jobConsultancyScheduler.model.AccessRight;
 import com.jobConsultancyScheduler.model.User;
 
 public class UserManagerImpl implements UserManager {
@@ -195,7 +196,7 @@ public class UserManagerImpl implements UserManager {
 	        user.setGender(resultSet.getString("gender"));
 	        user.setOccupation(resultSet.getString("occupation"));
 	        user.setCountry(resultSet.getString("country"));
-//	        user.setAccessRight(AccessRight.valueOf(resultSet.getString("accessRight")));
+	        user.setAccessRight(AccessRight.valueOf(resultSet.getString("accessRight")));
 	    }
 
 	    preparedStatement.close();
