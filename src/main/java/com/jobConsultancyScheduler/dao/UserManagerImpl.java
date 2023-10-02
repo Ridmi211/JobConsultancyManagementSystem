@@ -203,6 +203,29 @@ public class UserManagerImpl implements UserManager {
 
 	    return user;
 	}
+	
+	@Override
+	public boolean isEmailAlreadyExists(String email) throws SQLException, ClassNotFoundException {
+	    Connection connection = getConnection();
+	    String query = "SELECT COUNT(*) FROM user WHERE email=?";
+	    PreparedStatement preparedStatement = connection.prepareStatement(query);
+	    preparedStatement.setString(1, email);
+
+	    ResultSet resultSet = preparedStatement.executeQuery();
+
+	    boolean emailExists = false;
+
+	    if (resultSet.next()) {
+	        int count = resultSet.getInt(1);
+	        emailExists = count > 0;
+	    }
+
+	    preparedStatement.close();
+	    connection.close();
+
+	    return emailExists;
+	}
+
 
 
 }

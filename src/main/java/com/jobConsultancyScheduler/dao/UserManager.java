@@ -18,6 +18,9 @@ public interface UserManager {
 	public List<User> fetchAllUsers() throws SQLException, ClassNotFoundException;
 	
 	public User fetchUserByEmail(String email) throws SQLException, ClassNotFoundException;
+	
+    public boolean isEmailAlreadyExists(String email) throws SQLException, ClassNotFoundException;
+
 
 
 }

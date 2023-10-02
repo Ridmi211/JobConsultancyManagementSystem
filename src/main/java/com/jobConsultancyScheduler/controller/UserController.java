@@ -112,55 +112,100 @@ public class UserController extends HttpServlet {
 	    }
 	}
 
-
 	private void addUser(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	        throws ServletException, IOException {
 
-		clearMessage();
+	    clearMessage();
 
-		User user = new User();
+	    User user = new User();
 
-		user.setName(request.getParameter("name"));
-//		System.out.println("name" + request.getParameter("name")	);
-		user.setPhoneNumber(request.getParameter("telephone"));
-		user.setEmail(request.getParameter("email"));
+	    user.setName(request.getParameter("name"));
+	    user.setPhoneNumber(request.getParameter("telephone"));
+	    user.setEmail(request.getParameter("email"));
 
-		String plainPassword = request.getParameter("password");
+	    String plainPassword = request.getParameter("password");
 
-		if (plainPassword == null || plainPassword.isEmpty()) {
-			// Password is null or empty, return an error message
-			message = "Password cannot be null or empty.";
-			request.setAttribute("feebackMessage", message);
-			RequestDispatcher rd = request.getRequestDispatcher("add-user.jsp");
-			rd.forward(request, response);
-			return; // Exit the method, do not proceed with adding the user
-		}
+	    if (plainPassword == null || plainPassword.isEmpty()) {
+	        // Password is null or empty, return an error message
+	        message = "Password cannot be null or empty.";
+	        request.setAttribute("feebackMessage", message);
+	        RequestDispatcher rd = request.getRequestDispatcher("add-user.jsp");
+	        rd.forward(request, response);
+	        return; // Exit the method, do not proceed with adding the user
+	    }
 
-		String hashedPassword = hashPassword(plainPassword);
-		user.setPassword(hashedPassword);
+	    String hashedPassword = hashPassword(plainPassword);
+	    user.setPassword(hashedPassword);
 
-		user.setBirthdate(request.getParameter("birthdate"));
-		user.setGender(request.getParameter("gender"));
-		user.setOccupation(request.getParameter("jobtype"));
-		user.setCountry(request.getParameter("country"));
-		user.setAccessRight(AccessRight.valueOf(request.getParameter("usertype")));
-//		 MyEnum myEnum = MyEnum.valueOf(enumString);
+	    user.setBirthdate(request.getParameter("birthdate"));
+	    user.setGender(request.getParameter("gender"));
+	    user.setOccupation(request.getParameter("jobtype"));
+	    user.setCountry(request.getParameter("country"));
+	    user.setAccessRight(AccessRight.valueOf(request.getParameter("usertype")));
 
-		try {
-			boolean savedUser = getUserService().addUser(user);
-			if (savedUser) {
-				message = "The user has been successfully added!";
-			} else {
-				message = "Failed to add the user!";
-			}
-		} catch (ClassNotFoundException | SQLException e) {
-			message = "operation failed! " + e.getMessage();
-		}
+	    try {
+	        // Check if the email already exists in the database
+	        if (getUserService().isEmailAlreadyExists(user.getEmail())) {
+	            message = "User with the same email already exists!";
+	        } else {
+	            boolean savedUser = getUserService().addUser(user);
+	            if (savedUser) {
+	                message = "The user has been successfully added!";
+	            } else {
+	                message = "Failed to add the user!";
+	            }
+	        }
+	    } catch (ClassNotFoundException | SQLException e) {
+	        message = "Operation failed! " + e.getMessage();
+	    }
 
-		request.setAttribute("feebackMessage", message);
-		RequestDispatcher rd = request.getRequestDispatcher("add-user.jsp");
-		rd.forward(request, response);
+	    request.setAttribute("feebackMessage", message);
+	    RequestDispatcher rd = request.getRequestDispatcher("add-user.jsp");
+	    rd.forward(request, response);
 	}
+
+	
+	/*
+	 * private void addUser(HttpServletRequest request, HttpServletResponse
+	 * response) throws ServletException, IOException {
+	 * 
+	 * clearMessage();
+	 * 
+	 * User user = new User();
+	 * 
+	 * user.setName(request.getParameter("name")); // System.out.println("name" +
+	 * request.getParameter("name") );
+	 * user.setPhoneNumber(request.getParameter("telephone"));
+	 * user.setEmail(request.getParameter("email"));
+	 * 
+	 * String plainPassword = request.getParameter("password");
+	 * 
+	 * if (plainPassword == null || plainPassword.isEmpty()) { // Password is null
+	 * or empty, return an error message message =
+	 * "Password cannot be null or empty."; request.setAttribute("feebackMessage",
+	 * message); RequestDispatcher rd =
+	 * request.getRequestDispatcher("add-user.jsp"); rd.forward(request, response);
+	 * return; // Exit the method, do not proceed with adding the user }
+	 * 
+	 * String hashedPassword = hashPassword(plainPassword);
+	 * user.setPassword(hashedPassword);
+	 * 
+	 * user.setBirthdate(request.getParameter("birthdate"));
+	 * user.setGender(request.getParameter("gender"));
+	 * user.setOccupation(request.getParameter("jobtype"));
+	 * user.setCountry(request.getParameter("country"));
+	 * user.setAccessRight(AccessRight.valueOf(request.getParameter("usertype")));
+	 * // MyEnum myEnum = MyEnum.valueOf(enumString);
+	 * 
+	 * try { boolean savedUser = getUserService().addUser(user); if (savedUser) {
+	 * message = "The user has been successfully added!"; } else { message =
+	 * "Failed to add the user!"; } } catch (ClassNotFoundException | SQLException
+	 * e) { message = "operation failed! " + e.getMessage(); }
+	 * 
+	 * request.setAttribute("feebackMessage", message); RequestDispatcher rd =
+	 * request.getRequestDispatcher("add-user.jsp"); rd.forward(request, response);
+	 * }
+	 */
 
 	private String hashPassword(String plainPassword) {
 		byte[] salt = generateSalt(); // Generate a random salt

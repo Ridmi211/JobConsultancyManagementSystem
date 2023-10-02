@@ -51,6 +51,11 @@ public class UserService implements UserManager {
 	public User fetchUserByEmail(String email) throws ClassNotFoundException, SQLException {
 	    return getUserManager().fetchUserByEmail(email);
 	}
+	
+	public boolean isEmailAlreadyExists(String email) throws ClassNotFoundException, SQLException {
+	    return getUserManager().isEmailAlreadyExists(email);
+	}
+
 
 
 }
