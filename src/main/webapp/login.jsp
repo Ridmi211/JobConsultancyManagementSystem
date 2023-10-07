@@ -285,7 +285,7 @@ p{ color:white;
         <i class="fas fa-calendar"></i>
        <span>Events</span>
      </a>
-     <a href="#">
+     <a href="view-profile.jsp">
        <i class="far fa-question-circle"></i>
        <span>About</span>
      </a>
@@ -306,7 +306,7 @@ p{ color:white;
       <form name="form1" class="box" method="post" action="usermanager">
         <h4>Job<span>Consultancy</span></h4>
         
-        <h5>Sign in to your account. TODO make email unique, store user details, consider user type</h5>
+        <h5>Sign in to your account. TODO logout, menu bar</h5>
           
           <input type="text" name="email" placeholder="Email" autocomplete="off" required>
           <i class="typcn typcn-eye" id="eye"></i>

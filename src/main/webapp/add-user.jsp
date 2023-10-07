@@ -438,9 +438,9 @@ p{ color:white;
         <i class="fas fa-calendar"></i>
        <span>Events</span>
      </a>
-     <a href="#">
+     <a href="view-profile.jsp">
        <i class="far fa-question-circle"></i>
-       <span>About</span>
+       <span>profile</span>
      </a>
      <a href="#">
        <i class="fas fa-sliders-h"></i>
