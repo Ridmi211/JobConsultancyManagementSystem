@@ -266,7 +266,7 @@ public class UserController extends HttpServlet {
 		}
 
 		request.setAttribute("feebackMessage", message);
-		RequestDispatcher rd = request.getRequestDispatcher("search-and-update-user.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("update-profile.jsp");
 		rd.forward(request, response);
 
 	}

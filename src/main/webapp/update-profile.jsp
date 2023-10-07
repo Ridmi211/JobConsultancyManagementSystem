@@ -1,20 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-    <%@ taglib prefix="tag" uri="http://java.sun.com/jsp/jstl/core"%>
+    pageEncoding="ISO-8859-1" isELIgnored="false"%>
+      <%@ taglib prefix="tag" uri="http://java.sun.com/jsp/jstl/core"%>
     <%@ page import="com.jobConsultancyScheduler.model.User" %>
     <%@ page import="com.jobConsultancyScheduler.model.AccessRight" %>
-    
     
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
- <title>Job-Seekers
-
-  </title>
+<title>Insert title here</title>
   <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
   <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
   
+  <meta charset="utf-8">
+  <title>Job-Seekers
+
+  </title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
   <link rel="icon" type="image/x-icon" href="https://static.vecteezy.com/system/resources/previews/010/430/526/non_2x/job-for-immigrants-app-icon-refugee-employment-construction-worker-finding-work-abroad-hard-hat-worker-handyman-uiux-user-interface-web-or-mobile-application-isolated-illustration-vector.jpg">
@@ -23,7 +24,8 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <Style>
 
-  /*  <!-- sidebar styling start here  -->*/
+
+    /*  <!-- sidebar styling start here  -->*/
 
     @media print {
             table {
@@ -209,7 +211,10 @@ p {
   margin: 0;
 }
  /*  <!-- sidebar styling end here  --> */
- 
+
+
+
+
  /* page- header */
 .pageHeader {
   position: fixed;
@@ -235,217 +240,110 @@ p {
 
 .pageHeader .navbar-brand {
   padding-top: 5px;
-  margin-left: 1050px; 
+  margin-left: 1200px; 
   color: rgb(255, 255, 255);
   font-size: 20px;
 }
 
-/* end of page header */
+/* end of page header */ 
+
 
 .container {
-  max-width: 1200px;
-  margin: 150px auto;
-  padding: 20px;
-  padding-left: 200px;
-  left: 303px;
+    max-width: 900px;
+    margin: 150px auto;
+    padding: 20px;
+    left: 303px;
+    
+  }
   
-}
+  h1 {
+    text-align: center;
+    font-size: 24px;
+    color: #1884a5;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+  
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  label {
+    font-weight: bold;
+  }
+  
+  input[type="text"],
+  input[type="date"],
+  textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  
+  .btn{
+    
+    margin: 10px;
+    padding: 10px;
+    width:400px ;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    
+  }
+ 
 
-h1 {
-  text-align: center;
-  font-size: 24px;
-  color: #1884a5;
-  margin-bottom: 20px;
-  text-transform: uppercase;
-}
 
-h2{text-align: center;}
-/* Search bar  */
+ /* Search bar  */
 .navbar {
-  margin-bottom: 20px;
-  justify-content: center;
-  padding: 20px;
-}
-
-.form-inline {
-  display: flex;
-  align-items: center;
-}
-
-.form-control[type="search"] {
-  width: 400px;
-  margin-right: 10px; /* Add margin to create space between search bar and buttons */
-}
-
-.btn-outline-success {
-  border-color: #1884a5;
-  color: #1884a5;
-}
-
-.btn-outline-success:hover {
-  background-color: #1884a5;
-  color: #fff;
-}
-
-.btn-outline-success:focus,
-.btn-outline-success.focus {
-  box-shadow: 0 0 0 0.2rem rgba(24, 132, 165, 0.5);
-}
-
-
-/* Card */
-
-
-
-.card {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  transition: 0.3s;
-  width: 900px;
-  margin-bottom: 80px;
-}
-
-.card:hover {
-  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-}
-
-.card-img-top {
-  width: 100%;
-  height: 200px; /* Adjust the height as desired */
-  object-fit: cover;
-}
-
-.card-title {
-  font-size: 24px;
-}
-.card-text {
-  font-size: 16px;
-  line-height: 1.5;
-  font-weight: 500;     
-}
-
-.list-group-item {
-  font-size: 14px;
-  border: none; /* Remove borders from list items */
-  padding: 5px 0; /* Adjust padding as desired */
-}
-
-/* .btn {
-  margin-top: 10px;
-  font-size: 16px;
-  padding: 8px 16px;
-} */
-
-/* buttons */
-
-.btn{
+    margin-bottom: 20px;
+    justify-content: center;
+    padding: 20px;
+  }
   
-  margin: 10px;
-  padding: 10px;
-  width:400px ;
-  border-radius: 4px;
-  font-size: 14px;
-  cursor: pointer;
+  .form-inline {
+    display: flex;
+    align-items: center;
+  }
   
-}
-
-.btn-outline-success{
-  width:150px ;
-  margin: 5px;
-  padding: 8px;
-  border-radius: 8px;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-
-
-
-/* Table */
-.table {
-  margin-top: 50px;
-  width: 100%;
-  border-collapse: collapse;
-  background-color: #f8f8f8;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.table th,
-.table td {
-  padding: 10px;
-}
-
-.table thead th {
-  background-color: #036685;
-  color: #fff;
-  height: 60px;
-  margin-bottom: 100px;
-}
-
-.table tbody tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-
-.table-hover tbody tr:hover {
-  background-color: #d4eaff;
-}
-
-.btn-column {
-  /* display: flex; */
-  justify-content: center;
-  align-items: center;
-  padding: 0;
-}
-
-.btn-column button {
-  margin: 0 5px;
-  padding: 5px 10px;
-  width:70px ;
-  border-radius: 15px;
-  font-size: 14px;
-  cursor: pointer;
+  .form-control[type="search"] {
+    width: 400px;
+    margin-right: 10px; 
+    background-color: #fff;
+  }
   
-}
-
-.btn-primary {
-  background-color: #2db6e0;
-  color: #fff;
-  border-color: #2db6e0;
-}
-
-.btn-primary:hover {
-  background-color: #136d8f;
-  border-color: #136d8f;
-}
-
-.btn-success {
-  background-color: #63c45d;
-  color: #fff;
-  border-color: #63c45d;
-}
-
-.btn-success:hover {
-  background-color: #449140;
-  border-color: #4da249;
-}
-
-.btn-danger {
-  background-color: #e74c3c;
-  color: #fff;
-  border-color: #e74c3c;
-}
-
-.btn-danger:hover {
-  background-color: #bd2918;
-  border-color: #c23c2d;
-}
-
-
+  .btn-outline-success {
+    border-color: #1884a5;
+    color: #1884a5;
+  }
+  
+  .btn-outline-success:hover {
+    background-color: #1884a5;
+    color: #fff;
+  }
+  
+  .btn-outline-success:focus,
+  .btn-outline-success.focus {
+    box-shadow: 0 0 0 0.2rem rgba(24, 132, 165, 0.5);
+  }
+  .btn-outline-success{
+    width:auto ;
+    margin: 5px;
+    padding: 7px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+ 
+  
     </Style>
 
 </head>
-<body >
-  <!-- sidebar start here  -->
+<body class="m-0 p-0" >
+ <!-- sidebar start here  -->
    <input type="checkbox" id="check">
    <label for="check">
      <i class="fas fa-bars" id="btn"></i>
@@ -514,58 +412,57 @@ User user = (User) session.getAttribute("user");
     </a>
   <% } %>
 </div>
-   
-   
+ 
   <!-- sidebar end here  -->  
+
+<div class="container m-0 p-0 pt-4">
   
-  <div class="container">
-
-
-    <h1>MY PROFILE</h1>
+    <h1>Update Patient</h1>
    
- <%--   <%
-// Get the user object from the session
-User user = (User) session.getAttribute("user");
-%> --%>
-
-    <div class="card" >
-    <img class="card-img-top" src="https://assets.contenthub.wolterskluwer.com/api/public/content/20fc8b2fb1a445f78a9be1ca7fda9a35" alt="Card image cap">
-    <div class="card-body">
-      <h2 class="card-title"><%= user.getName() %></h2>
-      
-      <ul class="list-group">
-        <p class="card-text">User ID :<%= user.getUserId() %> </p>
-        <li class="list-group-item"></li>
-        <p class="card-text">Gender :<%= user.getGender() %></p>
-        <li class="list-group-item"></li>
-        <p class="card-text">Birthdate :<%= user.getBirthdate() %></p>
-        <li class="list-group-item"></li>
-        <p class="card-text">Occupation : <%= user.getOccupation() %></p>
-        <li class="list-group-item"></li>
-        <p class="card-text">Country : <%= user.getCountry() %></p>
-        <li class="list-group-item"></li>
-        <p class="card-text">Email : <%= user.getEmail() %></p>
-        <li class="list-group-item"></li>
-        <p class="card-text">Conatct Number : <%= user.getPhoneNumber() %></p>
-        <li class="list-group-item"></li>
- <p class="card-text">You are registered as   : <%= user.getAccessRight().getDisplayName() %></p>
-
-        <li class="list-group-item"></li>
-       
-      </ul>
-      <a  class="btn btn-primary" (click)="onBackClick()" >Back</a>
-      
-       
-         <a  class="btn btn-primary" href="update-profile.jsp"  >Edit</a>
-         
- <!--      <input type="hidden" name="useractiontype" value="edit"/>				
-				<button type="submit" ">Update </button>	 -->
-     
-    </div>
-  </div>
-
+<p style='color:magenta'>${feebackMessage}</p>
+		<form action="getuser">			
+				<label for="userId">Enter UserId:</label>
+				<input class="form-control" type="number" id="userId" name="userId" placeholder="Type the userId" required/>
+				<input type="hidden" name="useractiontype" value="single"/>
+				<br/>
+				<button type="submit" class="btn btn-info">Search</button>			
+			</form>
+<form action="usermanager" method="post">	
+    <label for="userIdUpdate">User ID:</label>
+    <input class="form-control" type="number" id="userIdUpdate" name="userId" readonly="readonly" value="${user.userId}"/>
+    
+    <label for="name"> Name:</label>
+    <input class="form-control" type="text" id="name" name="name" value="${user.name}"/>
+    
+      <label for="phoneNumber">Phone number:</label>
+    <input class="form-control" type="text" id="phoneNumber" name="phoneNumber" value="${user.phoneNumber}"/>
+      <label for="email">Email:</label>
+    <input class="form-control" type="text" id="email" name="email" value="${user.email}"/>
+      <label for="birthdate">Birth-date:</label>
+    <input class="form-control" type="date" id="birthdate" name="birthdate" value="${user.birthdate}"/>
+      <label for="gender">Gender:</label>
+    <input class="form-control" type="text" id="gender" name="gender" value="${user.gender}"/>
+      <label for="occupation">Occupation:</label>
+    <input class="form-control" type="text" id="occupation" name="occupation" value="${user.occupation}"/>
+    <label for="country">Country:</label>
+    <input class="form-control" type="text" i
+    d="country" name="country" value="${user.country}"/>
+    
 
   
+      
+				<input type="hidden" name="useractiontype" value="edit"/>
+				
+				<button type="submit" class="btn btn-success">Update </button>	
+
+        <input type="hidden" name="useractiontype" value="back"/>
+				
+				<button type="submit" class="btn btn-primary">Back</button>	
+ 
+ 
+ </form>
 </div>
+
+  
 </body>
-</html> 
+</html>

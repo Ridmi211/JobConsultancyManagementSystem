@@ -420,39 +420,7 @@ p{ color:white;
 	</head>
 	
 	<body>		
-	  <div class="sidebar">
-     <header>Menu</header>
-     <a href="#" class="active">
-       <i class="fas fa-qrcode"></i>
-       <span>Dashboard</span>
-     </a>
-     <a href="add-user.jsp">
-       <i class="fas fa-link"></i>
-       <span>Register</span>
-     </a>
-     <a href="search-and-update-user.jsp">
-       <i class="fas fa-stream"></i>
-       <span>Update User</span>
-     </a>
-     <a href="#">
-        <i class="fas fa-calendar"></i>
-       <span>Events</span>
-     </a>
-     <a href="view-profile.jsp">
-       <i class="far fa-question-circle"></i>
-       <span>profile</span>
-     </a>
-     <a href="#">
-       <i class="fas fa-sliders-h"></i>
-       <span>Services</span>
-     </a>
-     <a href="getuser?useractiontype=all">
-       <i class="far fa-envelope"></i>
-       <span>View All</span>
-       
-     </a>
-   </div>
-		
+	
 			 <div class="container">
 			<form name="form1" class="box" action="usermanager" method="post">
         <h4>Job<span>Consultancy</span></h4>

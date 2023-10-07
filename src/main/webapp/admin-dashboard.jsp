@@ -511,18 +511,7 @@ User user = (User) session.getAttribute("user");
     <span>Dashboard</span>
   </a>
 
-  <%-- Display Login or Logout based on user status --%>
-  <% if (user != null) { %>
-    <a href="logout.jsp">
-      <i class="fas fa-stream"></i>
-      <span>Logout</span>
-    </a>
-  <% } else { %>
-    <a href="login.jsp">
-      <i class="fas fa-sign-in-alt"></i>
-      <span>Login</span>
-    </a>
-  <% } %>
+
 
   <%-- Display Events and Overview for Consultant --%>
   <% if (user != null && user.getAccessRight() == AccessRight.ROLE_CONSULTANT) { %>
@@ -545,7 +534,7 @@ User user = (User) session.getAttribute("user");
   <% } %>
 
   <%-- Display Services for all users, regardless of role --%>
-  <a href="view-profile">
+  <a href="view-profile.jsp">
     <i class="fas fa-sliders-h"></i>
     <span>Profile</span>
   </a>
@@ -555,6 +544,20 @@ User user = (User) session.getAttribute("user");
     <a href="#">
       <i class="far fa-envelope"></i>
       <span>Contact</span>
+    </a>
+  <% } %>
+  
+  
+    <%-- Display Login or Logout based on user status --%>
+  <% if (user != null) { %>
+    <a href="logout.jsp">
+      <i class="fas fa-stream"></i>
+      <span>Logout</span>
+    </a>
+  <% } else { %>
+    <a href="login.jsp">
+      <i class="fas fa-sign-in-alt"></i>
+      <span>Login</span>
     </a>
   <% } %>
 </div>

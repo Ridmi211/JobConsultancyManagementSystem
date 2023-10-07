@@ -55,7 +55,8 @@
 					<label for="occupation">Occupation:</label>
 				<input class="form-control" type="text" id="occupation" name="occupation" value="${user.occupation}"/>
 				<label for="country">Country:</label>
-				<input class="form-control" type="text" id="country" name="country" value="${user.country}"/>
+				<input class="form-control" type="text" i
+				d="country" name="country" value="${user.country}"/>
 				
 				
 				
