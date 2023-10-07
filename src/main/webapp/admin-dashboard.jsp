@@ -498,8 +498,7 @@ p {
      <i class="fas fa-bars" id="btn"></i>
      <i class="fas fa-times" id="cancel"></i>
    </label>
-   
-   <%
+<%
 // Get the user object from the session
 User user = (User) session.getAttribute("user");
 %>
@@ -507,23 +506,26 @@ User user = (User) session.getAttribute("user");
 <div class="sidebar">
   <header>Menu</header>
   <%-- Always display Dashboard --%>
-  <a href="#" class="active">
+  <a href="admin-dashboard.jsp" class="active">
     <i class="fas fa-qrcode"></i>
     <span>Dashboard</span>
   </a>
-  <a href="logout.jsp">
-    
+
+  <%-- Display Login or Logout based on user status --%>
+  <% if (user != null) { %>
+    <a href="logout.jsp">
       <i class="fas fa-stream"></i>
-      <span>logout</span>
+      <span>Logout</span>
     </a>
+  <% } else { %>
+    <a href="login.jsp">
+      <i class="fas fa-sign-in-alt"></i>
+      <span>Login</span>
+    </a>
+  <% } %>
 
   <%-- Display Events and Overview for Consultant --%>
   <% if (user != null && user.getAccessRight() == AccessRight.ROLE_CONSULTANT) { %>
-    <a href="logout.jsp">
-    
-      <i class="fas fa-stream"></i>
-      <span>logout</span>
-    </a>
     <a href="#">
       <i class="fas fa-calendar"></i>
       <span>Overview</span>
@@ -532,31 +534,31 @@ User user = (User) session.getAttribute("user");
 
   <%-- Display About and Services for Admin --%>
   <% if (user != null && user.getAccessRight() == AccessRight.ROLE_ADMIN) { %>
-    <a href="#">
+    <a href="search-and-update-user.jsp">
       <i class="far fa-question-circle"></i>
-      <span>About</span>
+      <span>Update user</span>
     </a>
-    <a href="#">
+    <a href="view-all-users-and-delete-specific.jsp">
       <i class="fas fa-sliders-h"></i>
-      <span>Services</span>
+      <span>View all</span>
     </a>
   <% } %>
 
   <%-- Display Services for all users, regardless of role --%>
-  <a href="#">
+  <a href="view-profile">
     <i class="fas fa-sliders-h"></i>
-    <span>Services</span>
+    <span>Profile</span>
   </a>
 
-  <%-- Display Contact for User --%>
-  <% if (user != null && user.getAccessRight() == AccessRight.ROLE_USER) { %>
+  <%-- Display Contact for User and Consultant --%>
+  <% if (user != null && (user.getAccessRight() == AccessRight.ROLE_USER || user.getAccessRight() == AccessRight.ROLE_CONSULTANT)) { %>
     <a href="#">
       <i class="far fa-envelope"></i>
       <span>Contact</span>
     </a>
   <% } %>
 </div>
-   
+
    
    
    
