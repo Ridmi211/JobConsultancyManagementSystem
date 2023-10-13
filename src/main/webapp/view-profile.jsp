@@ -551,7 +551,12 @@ User user = (User) session.getAttribute("user");
  <p class="card-text">You are registered as   : <%= user.getAccessRight().getDisplayName() %></p>
 
         <li class="list-group-item"></li>
-       
+       <p class="card-text">specializedJobs : <%= user.getSpecializedJobs() %></p>
+        <li class="list-group-item"></li>
+        <p class="card-text">specializedCountries : <%= user.getSpecializedCountries() %></p>
+        <li class="list-group-item"></li>
+        <p class="card-text">specializedJobs : <%= user.getEducationalQualifications() %></p>
+        <li class="list-group-item"></li>
       </ul>
       <a  class="btn btn-primary" (click)="onBackClick()" >Back</a>
       

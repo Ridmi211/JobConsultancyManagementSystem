@@ -472,6 +472,9 @@ p{ color:white;
             <label for="consultant">
                 <input type="radio" name="usertype" id="consultant" value="ROLE_CONSULTANT" required> A Job consultant
             </label>
+             <label for="admin">
+                <input type="radio" name="usertype" id="admin" value="ROLE_ADMIN" required> Admin
+            </label>
            
         </div>
         <div>

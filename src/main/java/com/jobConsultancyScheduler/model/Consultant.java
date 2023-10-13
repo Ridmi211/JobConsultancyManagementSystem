@@ -1,7 +1,7 @@
 package com.jobConsultancyScheduler.model;
 import java.util.List;
 
-public class Consultant extends User {
+public class Consultant  {
 
 	    private int consultantId;
 	    private User user; // Reference to the User model
@@ -25,7 +25,6 @@ public class Consultant extends User {
 	        this.user = user;
 //	        this.age = age;
 	        this.educationalQualifications = educationalQualifications;
-//	        this.gender = gender;
 	        this.specializedCountries = specializedCountries;
 	        this.specializedJobs = specializedJobs;
 	        this.profilePicture = profilePicture;

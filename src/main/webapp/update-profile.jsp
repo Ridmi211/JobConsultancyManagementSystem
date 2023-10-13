@@ -420,13 +420,13 @@ User user = (User) session.getAttribute("user");
     <h1>Update Patient</h1>
    
 <p style='color:magenta'>${feebackMessage}</p>
-		<form action="getuser">			
+		<!-- <form action="getuser">			
 				<label for="userId">Enter UserId:</label>
 				<input class="form-control" type="number" id="userId" name="userId" placeholder="Type the userId" required/>
 				<input type="hidden" name="useractiontype" value="single"/>
 				<br/>
 				<button type="submit" class="btn btn-info">Search</button>			
-			</form>
+			</form> -->
 <form action="usermanager" method="post">	
     <label for="userIdUpdate">User ID:</label>
     <input class="form-control" type="number" id="userIdUpdate" name="userId" readonly="readonly" value="${user.userId}"/>
@@ -445,9 +445,18 @@ User user = (User) session.getAttribute("user");
       <label for="occupation">Occupation:</label>
     <input class="form-control" type="text" id="occupation" name="occupation" value="${user.occupation}"/>
     <label for="country">Country:</label>
-    <input class="form-control" type="text" i
-    d="country" name="country" value="${user.country}"/>
+    <input class="form-control" type="text" id="country" name="country" value="${user.country}"/>
+      <label for="country">educational Qualifications:</label>
+    <input class="form-control" type="text" id="educationalQualifications" name="educationalQualifications" value="${user.educationalQualifications}"/>
+      <label for="country">specializedCountries:</label>
+    <input class="form-control" type="text" id="specializedCountries" name="specializedCountries" value="${user.specializedCountries}"/>
+      <label for="country">specializedJobs:</label>
+    <input class="form-control" type="text" id="specializedJobs" name="specializedJobs" value="${user.specializedJobs}"/>
+    <%--  <label for="country">Registered as :</label>
+    <input class="form-control" type="text" id="accessRight" name="accessRight" readonly="readonly" value="${user.accessRight.displayName}"/>
     
+    
+     --%>
 
   
       

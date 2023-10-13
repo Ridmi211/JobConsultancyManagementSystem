@@ -433,13 +433,13 @@ background-color
     <!-- <div class="col-sm"> -->
       <table class="table table-hover">
         <thead>
-          <tr>
-            <th scope="col">Count </th>
-            <th scope="col">User ID</th>
-            <th scope="col">Name</th>
-            <th scope="col">Email</th>
+          <tr >
+            <th scope="col" class="text-center">Count </th>
+            <th scope="col" class="text-center">User ID</th>
+            <th scope="col" class="text-center">Name</th>
+            <th scope="col" class="text-center">Email</th>
+           <!--  <th scope="col">Role</th> -->
             <th scope="col">View</th>
-            <th >Edit</th>
             <th  scope="col" >Delete</th>
           </tr>
         </thead>
@@ -458,8 +458,9 @@ background-color
           ${user.email}
             </td>
               
+             <%--     <td class="text-center">${user.accessRight.displayName}</td> --%>
             <td class="btn-column"><button type="button" class="btn btn-primary" >View</button></td>
-            <td class="btn-column"><button  type="button" class="btn btn-success">Edit</button></td>
+         
             <td class="btn-column">
               	<form action="usermanager" method="post">								
 									<input type="hidden" name="userId" value="${user.userId}">

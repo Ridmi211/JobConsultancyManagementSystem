@@ -506,6 +506,11 @@ User user = (User) session.getAttribute("user");
 <div class="sidebar">
   <header>Menu</header>
   <%-- Always display Dashboard --%>
+  
+   <a href="home.jsp" class="active">
+    <i class="fas fa-qrcode"></i>
+    <span>Home</span>
+  </a>
   <a href="admin-dashboard.jsp" class="active">
     <i class="fas fa-qrcode"></i>
     <span>Dashboard</span>
@@ -527,10 +532,12 @@ User user = (User) session.getAttribute("user");
       <i class="far fa-question-circle"></i>
       <span>Update user</span>
     </a>
-    <a href="view-all-users-and-delete-specific.jsp">
-      <i class="fas fa-sliders-h"></i>
-      <span>View all</span>
-    </a>
+   
+      <a href="getuser?useractiontype=all">
+       <i class="far fa-envelope"></i>
+       <span>View All</span>
+       
+     </a>
   <% } %>
 
   <%-- Display Services for all users, regardless of role --%>

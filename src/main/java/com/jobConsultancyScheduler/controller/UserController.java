@@ -255,6 +255,12 @@ public class UserController extends HttpServlet {
 		user.setGender(request.getParameter("gender"));
 		user.setOccupation(request.getParameter("occupation"));
 		user.setCountry(request.getParameter("country"));
+		
+		/////only for consultant		
+		user.setEducationalQualifications(request.getParameter("educationalQualifications"));
+		user.setSpecializedCountries(request.getParameter("specializedCountries"));
+		user.setSpecializedJobs(request.getParameter("specializedJobs"));
+//		user.setAccessRight(AccessRight.valueOf(request.getParameter("accessRight")));
 		try {
 			if (getUserService().editUser(user)) {
 				message = "The user has been successfully updated! User ID: " + user.getUserId();
