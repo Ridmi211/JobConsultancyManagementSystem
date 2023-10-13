@@ -138,6 +138,9 @@ public class UserManagerImpl implements UserManager {
 			user.setGender(rs.getString("gender"));
 			user.setOccupation(rs.getString("occupation"));
 			user.setCountry(rs.getString("country"));
+			   user.setEducationalQualifications(rs.getString("educationalQualifications"));
+		        user.setSpecializedCountries(rs.getString("specializedCountries"));
+		        user.setSpecializedJobs(rs.getString("specializedJobs"));
 		}
 		
 		ps.close();

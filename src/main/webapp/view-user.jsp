@@ -522,48 +522,57 @@ User user = (User) session.getAttribute("user");
 
 
     <h1>MY PROFILE</h1>
-
+   
+ <%--   <%
+// Get the user object from the session
+User user = (User) session.getAttribute("user");
+%> --%>
 
     <div class="card" >
     <img class="card-img-top" src="https://assets.contenthub.wolterskluwer.com/api/public/content/20fc8b2fb1a445f78a9be1ca7fda9a35" alt="Card image cap">
     <div class="card-body">
-      <h2 class="card-title"><%= user.getName() %></h2>
-      
-      <ul class="list-group">
-        <p class="card-text">User ID :<%= user.getUserId() %> </p>
-        <li class="list-group-item"></li>
-        <p class="card-text">Gender :<%= user.getGender() %></p>
-        <li class="list-group-item"></li>
-        <p class="card-text">Birthdate :<%= user.getBirthdate() %></p>
-        <li class="list-group-item"></li>
-        <p class="card-text">Occupation : <%= user.getOccupation() %></p>
-        <li class="list-group-item"></li>
-        <p class="card-text">Country : <%= user.getCountry() %></p>
-        <li class="list-group-item"></li>
-        <p class="card-text">Email : <%= user.getEmail() %></p>
-        <li class="list-group-item"></li>
-        <p class="card-text">Conatct Number : <%= user.getPhoneNumber() %></p>
-        <li class="list-group-item"></li>
- <p class="card-text">You are registered as   : <%= user.getAccessRight().getDisplayName() %></p>
-
-        <li class="list-group-item"></li>
-       <p class="card-text">specializedJobs : <%= user.getSpecializedJobs() %></p>
-        <li class="list-group-item"></li>
-        <p class="card-text">specializedCountries : <%= user.getSpecializedCountries() %></p>
-        <li class="list-group-item"></li>
-        <p class="card-text">specializedJobs : <%= user.getEducationalQualifications() %></p>
-        <li class="list-group-item"></li>
-      </ul>
-    <a id="backButton" class="btn btn-primary">Back</a>
-
-<script>
-  document.getElementById('backButton').addEventListener('click', function() {
-    window.history.back(); // This will navigate back to the previous page in the browser's history.
-  });
-</script>
-
+      <p style='color:magenta'>${feebackMessage}</p>
+			<br/>
+			
+			<form action="getuser">			
+				<label for="userId">Enter UserId:</label>
+				<input class="form-control" type="number" id="userId" name="userId" placeholder="Type the userId" required/>
+				<input type="hidden" name="useractiontype" value="single"/>
+				<br/>
+				<button type="submit" class="btn btn-info">Search</button>			
+			</form>
+			<hr/>
+			<form action="usermanager" method="post">			
+				<label for="userIdUpdate">User ID:</label>
+				<input class="form-control" type="number" id="userIdUpdate" name="userId" readonly="readonly" value="${user.userId}"/>
+				
+				<label for="name"> Name:</label>
+				<input class="form-control" type="text" id="name" name="name" value="${user.name}"/>
+				
+					<label for="phoneNumber">Phone number:</label>
+				<input class="form-control" type="text" id="phoneNumber" name="phoneNumber" value="${user.phoneNumber}"/>
+					<label for="email">Email:</label>
+				<input class="form-control" type="text" id="email" name="email" value="${user.email}"/>
+					<label for="birthdate">Birth-date:</label>
+				<input class="form-control" type="date" id="birthdate" name="birthdate" value="${user.birthdate}"/>
+					<label for="gender">Gender:</label>
+				<input class="form-control" type="text" id="gender" name="gender" value="${user.gender}"/>
+					<label for="occupation">Occupation:</label>
+				<input class="form-control" type="text" id="occupation" name="occupation" value="${user.occupation}"/>
+				<label for="country">Country:</label>
+				<input class="form-control" type="text" i
+				d="country" name="country" value="${user.country}"/>
+				
+				
+				
+				<input type="hidden" name="useractiontype" value="edit"/>
+				<br/>
+				<button type="submit" class="btn btn-success">Update User</button>			
+			</form>
+     <!--  <a  class="btn btn-primary" (click)="onBackClick()" >Back</a> -->
+     <a href="view-job-seekers.jsp" class="btn btn-primary">Back to User List</a> 
        
-         <a  class="btn btn-primary" href="update-profile.jsp"  >Edit</a>
+         <a  class="btn btn-primary" href="update-profile.jsp"  >Edit</a> -->
          
  <!--      <input type="hidden" name="useractiontype" value="edit"/>				
 				<button type="submit" ">Update </button>	 -->

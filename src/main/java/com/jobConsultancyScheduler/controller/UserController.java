@@ -40,11 +40,13 @@ public class UserController extends HttpServlet {
 
 		if (useractiontype.equals("single")) {
 			fetchSingleUser(request, response);
-		} else {
+		}else if (useractiontype.equals("view")) {
+			viewUser(request, response); 
+		}else
 			fetchAllUsers(request, response);
 		}
 
-	}
+
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -57,27 +59,34 @@ public class UserController extends HttpServlet {
 			addUser(request, response);
 		} else if (useractiontype.equals("edit")) {
 			editUser(request, response);
+		}else if (useractiontype.equals("view")) {
+			viewUser(request, response); 
 		} else if (useractiontype.equals("delete")) {
 			deleteUser(request, response);
 		}
 	}
 
-	/*
-	 * private void loginUser(HttpServletRequest request, HttpServletResponse
-	 * response) throws ServletException, IOException { String email =
-	 * request.getParameter("email"); String password =
-	 * request.getParameter("password");
-	 * 
-	 * try { User user = getUserService().fetchUserByEmail(email);
-	 * 
-	 * if (user != null && user.checkPassword(password)) { HttpSession session =
-	 * request.getSession(); session.setAttribute("user", user);
-	 * response.sendRedirect("admin-dashboard.jsp"); } else {
-	 * request.setAttribute("loginError", "Invalid email or password");
-	 * RequestDispatcher rd = request.getRequestDispatcher("add-user.jsp");
-	 * rd.forward(request, response); } } catch (ClassNotFoundException |
-	 * SQLException e) { e.printStackTrace(); } }
-	 */
+	private void viewUser(HttpServletRequest request, HttpServletResponse response)
+	        throws ServletException, IOException {
+	    int userId = Integer.parseInt(request.getParameter("userId"));
+	    System.out.println("Reached the 'viewUser' method.");
+
+	    try {
+	        User user = getUserService().fetchSingleUser(userId);
+	        if (user.getUserId() > 0) {
+	            request.setAttribute("user", user);
+	            RequestDispatcher rd = request.getRequestDispatcher("update-profile.jsp");
+	            rd.forward(request, response);
+	        } else {
+	            request.setAttribute("message", "No user found!");
+	            RequestDispatcher rd = request.getRequestDispatcher("user-list.jsp");
+	            rd.forward(request, response);
+	        }
+	    } catch (ClassNotFoundException | SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
+
 	
 	private void loginUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    String email = request.getParameter("email");
@@ -272,7 +281,7 @@ public class UserController extends HttpServlet {
 		}
 
 		request.setAttribute("feebackMessage", message);
-		RequestDispatcher rd = request.getRequestDispatcher("update-profile.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("feedback-message.jsp");
 		rd.forward(request, response);
 
 	}
