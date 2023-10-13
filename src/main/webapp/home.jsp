@@ -16,12 +16,13 @@
 
   </title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
   <link rel="icon" type="image/x-icon" href="https://static.vecteezy.com/system/resources/previews/010/430/526/non_2x/job-for-immigrants-app-icon-refugee-employment-construction-worker-finding-work-abroad-hard-hat-worker-handyman-uiux-user-interface-web-or-mobile-application-isolated-illustration-vector.jpg">
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<Style>*{margin:0;
+<Style>
+*{margin:0;
         padding: 0;
         font-family: 'Poppins',sans-serif;
         box-sizing: border-box;
@@ -34,10 +35,6 @@
         body{
             /* background: #080808; */
             color:#000000;
-        }
-
-        h2{
-          color: #855ba5;
         }
         #header{
             width: 100;
@@ -423,12 +420,12 @@
         }
         form input, form textarea{
             width: 100%;
-            border: 1px solid rgb(223, 179, 245);
+            border: 0;
             outline: none;
-            background: #ffffff;
+            background: #262626;
             padding: 15px;
             margin: 15px 0;
-            color:#6c6c6c;
+            color:#000000;
             font-size: 18px;
             border-radius:6px;
         }
@@ -443,12 +440,10 @@
         .copyright{
             width: 100%;
             text-align: center;
-            padding-top: 20px ;
-            padding-bottom: 10px ;
-            background: #1a1a1add;
-            font-weight: 100;
+            padding: 25px 0;
+            background: #262626;
+            font-weight: 300;
             margin-top: 20px;
-            color: white;
         
         }
         .copyright i{
@@ -458,8 +453,6 @@
         nav .fas {
             display: none;
         }
-
-        
         
         @media only screen and (max-width:600px) {
            
@@ -496,17 +489,6 @@
             }
         
         }
-
-        .sub-title:hover{
-            /* background: #d6adff; */
-            transform: translateY(-10px);
-          }
-
-            .sub-title{
-            transition:background 0.5s , transform 0.5s;
-        }
-            
-     
         #msg{
             color: #08d8ca;
             margin-top: -40px;

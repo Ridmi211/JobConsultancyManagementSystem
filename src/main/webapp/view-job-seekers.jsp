@@ -414,7 +414,6 @@ background-color
    </div>
 
 
-</div>  
    
 
 
@@ -468,24 +467,33 @@ background-color
 </td>
 
          
-            <td class="btn-column">
+           <%--  <td class="btn-column">
               	<form action="usermanager" method="post">								
 									<input type="hidden" name="userId" value="${user.userId}">
 									<input type="hidden" name="useractiontype" value="delete">
 									<button type="submit" class="btn btn-danger">Delete</button>
 								</form>	
-            </td>
+            </td> --%>
+            
+            <td class="btn-column">
+    <form onsubmit="return confirmDelete();" action="usermanager" method="post">								
+        <input type="hidden" name="userId" value="${user.userId}">
+        <input type="hidden" name="useractiontype" value="delete">
+        <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
+</td>
+            
           </tr>
         </tag:forEach>
       <!--   </tbody> -->
       </table>
       
       
-      
-    </div>
- </div>
-</div>
-
+  <script>
+function confirmDelete() {
+    return confirm("Are you sure you want to delete this user?");
+}
+</script>
   
 </body>
 </html>
