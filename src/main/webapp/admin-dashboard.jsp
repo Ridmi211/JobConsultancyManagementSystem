@@ -12,13 +12,24 @@ if (user == null || !user.getAccessRight().equals(AccessRight.ROLE_ADMIN)) {
     response.sendRedirect("login.jsp");
     return; // Stop processing the current page
 }
-%> --%>
-
+%> 
+ --%>
+<%
+// Check if the user is logged in and has the appropriate role
+User user = (User) session.getAttribute("user");
+if (user == null || !user.getAccessRight().equals(AccessRight.ROLE_ADMIN)) {
+    // Set an error message in the session
+    session.setAttribute("errorMessage", "You do not have the required access to view this page.");
+    // Redirect the user to the login page
+    response.sendRedirect("accessRightError.jsp");
+    return; // Stop processing the current page
+}
+%>
 
 
 <!-- just login check -->
 
-<%
+<%-- <%
 User user = (User) session.getAttribute("user");
 // Check if the user is logged in
 if (session.getAttribute("user") == null) {
@@ -26,7 +37,7 @@ if (session.getAttribute("user") == null) {
     response.sendRedirect("login.jsp");
     return; // Stop processing the current page
 }
-%>
+%> --%>
     
 <!DOCTYPE html>
 <html>
@@ -531,7 +542,7 @@ p {
     <i class="fas fa-qrcode"></i>
     <span>Home</span>
   </a>
-  <a href="admin-dashboard.jsp"  class="active">
+  <a href="admin-dashboard.jsp" >
     <i class="fas fa-qrcode"></i>
     <span>Dashboard</span>
   </a>
@@ -590,6 +601,7 @@ p {
       <i class="fas fa-stream"></i>
       <span>Logout</span>
     </a>
+    
   <% } else { %>
     <a href="login.jsp">
       <i class="fas fa-sign-in-alt"></i>
@@ -610,10 +622,7 @@ p {
     if (user != null) {
     %>
     <h1>Welcome, <%= user.getName() %>!</h1>
-      <p>Your access right: <%= user.getAccessRight() %></p>
-    <% } else { %>
-     <h1>Welcome,!</h1>
-    <!-- Handle the case where the user is not in the session -->
+      <p>You're logged in as <%= user.getAccessRight().getDisplayName() %></p>
     <% } %>
 </div>
  

@@ -4,7 +4,15 @@
     <%@ page import="com.jobConsultancyScheduler.model.User" %>
     <%@ page import="com.jobConsultancyScheduler.model.AccessRight" %>
     
-    
+    <%
+User user = (User) session.getAttribute("user");
+// Check if the user is logged in
+if (session.getAttribute("user") == null) {
+    // Redirect the user to a login page or display an error message
+    response.sendRedirect("login.jsp");
+    return; // Stop processing the current page
+}
+%>
 <!DOCTYPE html>
 <html>
 <head>
