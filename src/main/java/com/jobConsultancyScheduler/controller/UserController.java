@@ -151,7 +151,9 @@ public class UserController extends HttpServlet {
 	    user.setOccupation(request.getParameter("jobtype"));
 	    user.setCountry(request.getParameter("country"));
 	    user.setAccessRight(AccessRight.valueOf(request.getParameter("usertype")));
-
+	    user.setEducationalQualifications(request.getParameter("educationalQualifications"));
+	    user.setSpecializedCountries(request.getParameter("specializedCountries"));
+	    user.setSpecializedJobs(request.getParameter("specializedJobs"));
 	    try {
 	        // Check if the email already exists in the database
 	        if (getUserService().isEmailAlreadyExists(user.getEmail())) {

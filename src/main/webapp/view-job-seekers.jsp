@@ -469,7 +469,7 @@ background-color
             <th scope="col" class="text-center">User ID</th>
             <th scope="col" class="text-center">Name</th>
             <th scope="col" class="text-center">Email</th>
-           <!--    <th scope="col" class="text-center">Role</th> -->
+           <th scope="col" class="text-center">Role</th>
            <!--  <th scope="col">Role</th> -->
             <th scope="col">View</th>
             <th  scope="col" >Delete</th>
@@ -489,9 +489,9 @@ background-color
             <td class="text-center">
           ${user.email}
             </td>
-            <%--   <td class="text-center">
+             <td class="text-center">
           ${user.accessRight.displayName}
-            </td> --%>
+            </td>
               
              <%--     <td class="text-center">${user.accessRight.displayName}</td> --%>
             <td class="btn-column">

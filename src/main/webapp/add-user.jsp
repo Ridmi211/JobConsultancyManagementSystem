@@ -427,7 +427,7 @@ p{ color:white;
         <h4>Job<span>Consultancy</span></h4>
         <p>${feebackMessage}</p>
         <h5>Create a new account.</h5>
-      <!--   <input type="text" name="name" placeholder="Name" id="name" autocomplete="off" required> -->
+       <input type="text" name="name" placeholder="Name" id="name" autocomplete="off" required>
         <input type="tel" name="telephone" id="telephone" placeholder="Phone number" required>
         <input type="text" name="email" id ="email" placeholder="Email" autocomplete="off" required>
         <i class="typcn typcn-eye" id="eye"></i>
@@ -480,11 +480,15 @@ p{ color:white;
         </div>
         <div id="jobConsultantQuestions" style="display: none; ">
   <!-- Add your additional questions here -->
-  <input type="text" name="name" placeholder="Name" id="name" autocomplete="off" required>
-     <!--    <input type="tel" name="telephone" id="telephone" placeholder="Phone number" required>
-        <input type="text" name="email" id ="email" placeholder="Email" autocomplete="off" required>
-        <i class="typcn typcn-eye" id="eye"></i>
-        <input type="password" name="password" placeholder="Passsword" id="password" autocomplete="off" required> -->
+
+   <p>Please fill following mandatory fields.</p>
+   
+   <input type="text" name="educationalQualifications" placeholder="Mention your educational Qualifications" id="educationalQualifications" autocomplete="off" required>
+   
+    <input type="text" name="specializedCountries" placeholder="Mention your specialized Countries" id="specializedCountries" autocomplete="off" required>
+    
+     <input type="text" name="specializedJobs" placeholder="Mention your specialized Jobs" id="specializedJobs" autocomplete="off" required>
+
       
 </div>
         
@@ -519,7 +523,7 @@ p{ color:white;
   handleRoleSelection();
 </script> -->
       
-<script>
+<!-- <script>
   const roleRadioButtons = document.querySelectorAll('input[name="usertype"]');
   const jobConsultantQuestions = document.getElementById('jobConsultantQuestions');
   const form = document.forms['form1'];
@@ -552,6 +556,53 @@ p{ color:white;
       const name = document.querySelector('input[name="name"]').value;
 
       if (!name) {
+        event.preventDefault(); // Prevent form submission if additional questions are not answered
+        alert('Please answer the additional questions for Job Consultants.');
+      }
+    }
+  });
+</script> -->
+
+
+<script>
+  const roleRadioButtons = document.querySelectorAll('input[name="usertype"]');
+  const jobConsultantQuestions = document.getElementById('jobConsultantQuestions');
+  const form = document.forms['form1'];
+
+  // Function to show or hide additional questions based on the selected role
+  function handleRoleSelection() {
+    if (document.querySelector('input[name="usertype"]:checked').value === "ROLE_CONSULTANT") {
+      jobConsultantQuestions.style.display = 'block';
+      // Make the additional questions required for job consultants
+      document.querySelector('input[name="educationalQualifications"]').setAttribute('required', 'required');
+      document.querySelector('input[name="specializedCountries"]').setAttribute('required', 'required');
+      document.querySelector('input[name="specializedJobs"]').setAttribute('required', 'required');
+    } else {
+      jobConsultantQuestions.style.display = 'none';
+      // Remove the required attribute for the additional questions
+      document.querySelector('input[name="educationalQualifications"]').removeAttribute('required');
+      document.querySelector('input[name="specializedCountries"]').removeAttribute('required');
+      document.querySelector('input[name="specializedJobs"]').removeAttribute('required');
+    }
+  }
+
+  // Attach the handleRoleSelection function to the change event of the radio buttons
+  roleRadioButtons.forEach((radio) => {
+    radio.addEventListener('change', handleRoleSelection);
+  });
+
+  // Call handleRoleSelection initially to set the initial state
+  handleRoleSelection();
+
+  // Function to handle form submission
+  form.addEventListener('submit', function (event) {
+    if (document.querySelector('input[name="usertype"]:checked').value === "ROLE_CONSULTANT") {
+      // Check if additional questions are answered when "Job Consultant" is selected
+      const educationalQualifications = document.querySelector('input[name="educationalQualifications"]').value;
+      const specializedCountries = document.querySelector('input[name="specializedCountries"]').value;
+      const specializedJobs = document.querySelector('input[name="specializedJobs"]').value;
+
+      if (!educationalQualifications || !specializedCountries || !specializedJobs) {
         event.preventDefault(); // Prevent form submission if additional questions are not answered
         alert('Please answer the additional questions for Job Consultants.');
       }
