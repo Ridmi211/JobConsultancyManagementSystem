@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1" isELIgnored="false"%>
-    
-    <%@ taglib prefix="tag" uri="http://java.sun.com/jsp/jstl/core"%>
-
+      <%@ taglib prefix="tag" uri="http://java.sun.com/jsp/jstl/core"%>
     <%@ page import="com.jobConsultancyScheduler.model.User" %>
     <%@ page import="com.jobConsultancyScheduler.model.AccessRight" %>
     
@@ -15,172 +13,40 @@ if (session.getAttribute("user") == null) {
     return; // Stop processing the current page
 }
 %>
+    
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
-
-    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
+<title>Insert title here</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
   <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
   
- 
+  <meta charset="utf-8">
   <title>Job-Seekers
 
   </title>
-
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-  <link rel="icon" type="image/x-icon" href="https://pbs.twimg.com/profile_images/1486752160004018179/zpnSGdpM_400x400.jpg">
+  <link rel="icon" type="image/x-icon" href="https://static.vecteezy.com/system/resources/previews/010/430/526/non_2x/job-for-immigrants-app-icon-refugee-employment-construction-worker-finding-work-abroad-hard-hat-worker-handyman-uiux-user-interface-web-or-mobile-application-isolated-illustration-vector.jpg">
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <Style>
 
 
-    
-    
-    .container {
-        
-      margin: 150px auto;
-      max-width: 1500px;
-    
-      
-    }
-    
-    h1 {
-      text-align: center;
-      font-size: 24px;
-      color: #7c6694;
-      margin-bottom: 20px;
-      margin-top: 80px;
-      text-transform: uppercase;
-    }
-    
-    /* Search bar  */
-    .navbar {
-      margin-bottom: 20px;
-      justify-content: center;
-      padding: 20px;
-      /* background-image: linear-gradient(30deg, #44a7fd, #107fc0); */
-      /* background-image: none; */
-      /* z-index: -1; */
-      background-image: linear-gradient(-45deg, #e3eefe 0%, #efddfb 100%);
+    /*  <!-- sidebar styling start here  -->*/
 
-    }
-    
-    .form-inline {
-      display: flex;
-      align-items: center;
-    }
-    
-    .form-control[type="search"] {
-      width:400px;
-    
-      margin-right: 10px; /* Add margin to create space between search bar and buttons */
-    }
-    
-    .btn-outline-success {
-      border-color:  #52d6f4;
-      color: #1884a5;
-    }
-    
-    .btn-outline-success:hover {
-      /* background-color: #1884a5; */
-      --accent-color: #52d6f4;
-  --gradient-color: #c1b1f7;
-      background: linear-gradient(to left, var(--accent-color), var(--gradient-color));
-      color: #fff;
-      border-color:  #c1b1f7;
-    }
-    
-    .btn-outline-success:focus,
-    .btn-outline-success.focus {
-      box-shadow:  #c1b1f7;
-    }
-    
-    /* Table */
-    .table {
-      width: 80%;
-      border-collapse: collapse;
-      background-color: #f8f8f8;
-      /* background-image: linear-gradient(30deg, #44a7fd, #107fc0); */
-      /* background-color:linear-gradient(-45deg, #e3eefe 0%, #efddfb 100%); */
-      border-radius: 5px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    
-    .table th,
-    .table td {
-      padding: 10px;
-    }
-    
-    .table thead th {
-      background-color:#A890FE;
-      color: #fff;
-      height: 60px;
-      margin-bottom: 100px;
-    }
-    
-    .table tbody tr:nth-child(even) {
-      background-color: #f2f2f2;
-    }
-    
-    .table-hover tbody tr:hover {
-      background-color: #d4eaff;
-    }
-    
-    .btn-column {
-      /* display: flex; */
-      justify-content: center;
-      align-items: center;
-      padding: 0;
-    }
-    
-    .btn-column button {
-      margin: 0 5px;
-      padding: 5px 10px;
-      width:70px ;
-      border-radius: 15px;
-      font-size: 14px;
-      cursor: pointer;
-      
-    }
-    
-    .btn-primary {
-      background-color: #2db6e0;
-      color: #fff;
-      border-color: #2db6e0;
-    }
-    
-    .btn-primary:hover {
-      background-color: #136d8f;
-      border-color: #136d8f;
-    }
-    
-    .btn-success {
-      background-color: #63c45d;
-      color: #fff;
-      border-color: #63c45d;
-    }
-    
-    .btn-success:hover {
-      background-color: #449140;
-      border-color: #4da249;
-    }
-    
-    .btn-danger {
-      background-color: #e74c3c;
-      color: #fff;
-      border-color: #e74c3c;
-    }
-    
-    .btn-danger:hover {
-      background-color: #bd2918;
-      border-color: #c23c2d;
-    }
-    
+    @media print {
+            table {
+                width: 100%;
+            }
+        }
 
-    /*  <!-- sidebar  -->*/
+        @page {
+            size: A4 portrait;
+            margin: 0;
+        }
     *{
   margin: 0;
   padding: 0;
@@ -350,33 +216,151 @@ p {
   font-family: 'Lato', sans-serif;
   font-weight: 300;
   text-align: center;
-  font-size: 15px;
+  font-size: 30px;
   color: #d6adff;
   margin: 0;
 }
+ /*  <!-- sidebar styling end here  --> */
 
-.nav{
-position:relative;
-top:1%;
-left:10%;
-width:70%;
-}
-.active{
-background-color
+
+
+
+ /* page- header */
+.pageHeader {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background-image: linear-gradient(30deg, #44a7fd, #107fc0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease-in-out;
+  z-index: 9995;
+ 
 }
 
-    /*  <!-- sidebar end here  --> */
+.pageHeader .container {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;
+  max-width: 1200px; 
+  margin: 0 auto; 
+
+}
+
+.pageHeader .navbar-brand {
+  padding-top: 5px;
+  margin-left: 1200px; 
+  color: rgb(255, 255, 255);
+  font-size: 20px;
+}
+
+/* end of page header */ 
+
+
+.container {
+    max-width: 900px;
+    margin: 150px auto;
+    padding: 20px;
+    left: 303px;
+    
+  }
+  
+  h1 {
+    text-align: center;
+    font-size: 24px;
+    color: #1884a5;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+  
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  label {
+    font-weight: bold;
+  }
+  
+  input[type="text"],
+  input[type="date"],
+  textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  
+  .btn{
+    
+    margin: 10px;
+    padding: 10px;
+    width:400px ;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    
+  }
+ 
+
+
+ /* Search bar  */
+.navbar {
+    margin-bottom: 20px;
+    justify-content: center;
+    padding: 20px;
+  }
+  
+  .form-inline {
+    display: flex;
+    align-items: center;
+  }
+  
+  .form-control[type="search"] {
+    width: 400px;
+    margin-right: 10px; 
+    background-color: #fff;
+  }
+  
+  .btn-outline-success {
+    border-color: #1884a5;
+    color: #1884a5;
+  }
+  
+  .btn-outline-success:hover {
+    background-color: #1884a5;
+    color: #fff;
+  }
+  
+  .btn-outline-success:focus,
+  .btn-outline-success.focus {
+    box-shadow: 0 0 0 0.2rem rgba(24, 132, 165, 0.5);
+  }
+  .btn-outline-success{
+    width:auto ;
+    margin: 5px;
+    padding: 7px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+ 
+  
     </Style>
 
 </head>
-<body >
-
+<body class="m-0 p-0" >
  <!-- sidebar start here  -->
+  <!-- sidebar start here  -->
    <input type="checkbox" id="check">
       <label style="position: fixed; top: 60px; z-index: 1; left: -5px;" for="check">
         <i class="fas fa-bars" id="btn"></i>
         <i class="fas fa-times" id="cancel"></i>
       </label>
+
 
 <div class="sidebar">
   <header>Menu</header>
@@ -452,83 +436,70 @@ background-color
   <% } %>
 </div>
 
+ 
+  <!-- sidebar end here  -->  
 
-    <h1>Registered Job Seekers </h1>
-<p style='color:magenta'>${message}</p>	
+<div class="container m-0 p-0 pt-4">
+  
+    <h1>Update Patient</h1>
+   
+<p style='color:magenta'>${feebackMessage}</p>
+		<!-- <form action="getuser">			
+				<label for="userId">Enter UserId:</label>
+				<input class="form-control" type="number" id="userId" name="userId" placeholder="Type the userId" required/>
+				<input type="hidden" name="useractiontype" value="single"/>
+				<br/>
+				<button type="submit" class="btn btn-info">Search</button>			
+			</form> -->
+<form action="usermanager" method="post">	
+    <label for="userIdUpdate">User ID:</label>
+    <input class="form-control" type="number" id="userIdUpdate" name="userId" readonly="readonly" value="${user.userId}"/>
+    
+    <label for="name"> Name:</label>
+    <input class="form-control" type="text" id="name" name="name" value="${user.name}"/>
+    
+      <label for="phoneNumber">Phone number:</label>
+    <input class="form-control" type="text" id="phoneNumber" name="phoneNumber" value="${user.phoneNumber}"/>
+      <label for="email">Email:</label>
+    <input class="form-control" type="text" id="email" name="email" value="${user.email}"/>
+      <label for="birthdate">Birth-date:</label>
+    <input class="form-control" type="date" id="birthdate" name="birthdate" value="${user.birthdate}"/>
+      <label for="gender">Gender:</label>
+    <input class="form-control" type="text" id="gender" name="gender" value="${user.gender}"/>
+      <label for="occupation">Occupation:</label>
+    <input class="form-control" type="text" id="occupation" name="occupation" value="${user.occupation}"/>
+    <label for="country">Country:</label>
+    <input class="form-control" type="text" id="country" name="country" value="${user.country}"/>
+      <label for="country">educational Qualifications:</label>
+    <input class="form-control" type="text" id="educationalQualifications" name="educationalQualifications" value="${user.educationalQualifications}"/>
+      <label for="country">specializedCountries:</label>
+    <input class="form-control" type="text" id="specializedCountries" name="specializedCountries" value="${user.specializedCountries}"/>
+      <label for="country">specializedJobs:</label>
+    <input class="form-control" type="text" id="specializedJobs" name="specializedJobs" value="${user.specializedJobs}"/>
+    <%--  <label for="country">Registered as :</label>
+    <input class="form-control" type="text" id="accessRight" name="accessRight" readonly="readonly" value="${user.accessRight.displayName}"/>
+    
+    
+     --%>
 
-     <!-- Search abr  -->
-     <nav class="navbar navbar-light bg-light">
-      <form class="form-inline">
-     <!--    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" [(ngModel)]="requestedNIC" name="searchInp">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="search(requestedNIC)">Search</button> -->
-      </form>
-    </nav>
-<!-- table -->
-    <!-- <div class="col-sm"> -->
-      <table class="table table-hover">
-        <thead>
-          <tr >
-            <th scope="col" class="text-center">Count </th>
-            <th scope="col" class="text-center">User ID</th>
-            <th scope="col" class="text-center">Name</th>
-            <th scope="col" class="text-center">Email</th>
-           <!--  <th scope="col">Role</th> -->
-            <th scope="col">View</th>
-            <th  scope="col" >Delete</th>
-          </tr>
-        </thead>
-       <!--  <tbody> -->
-        <tag:forEach var="user" items="${userList}">
-          <tr >
-            <td scope="row">
-            </td>
-            <td class="text-center">
-           ${user.userId}
-            </td>
-            <td class="text-center">
-           ${user.name}
-            </td>
-            <td class="text-center">
-          ${user.email}
-            </td>
-              
-             <%--     <td class="text-center">${user.accessRight.displayName}</td> --%>
-            <td class="btn-column">
-    <form action="usermanager" method="post">
-        <input type="hidden" name="userId" value="${user.userId}">
-        <input type="hidden" name="useractiontype" value="view">
-        <button type="submit" class="btn btn-primary">View</button>
-    </form>
-</td>
-
-         
-           <%--  <td class="btn-column">
-              	<form action="usermanager" method="post">								
-									<input type="hidden" name="userId" value="${user.userId}">
-									<input type="hidden" name="useractiontype" value="delete">
-									<button type="submit" class="btn btn-danger">Delete</button>
-								</form>	
-            </td> --%>
-            
-            <td class="btn-column">
-    <form onsubmit="return confirmDelete();" action="usermanager" method="post">								
-        <input type="hidden" name="userId" value="${user.userId}">
-        <input type="hidden" name="useractiontype" value="delete">
-        <button type="submit" class="btn btn-danger">Delete</button>
-    </form>
-</td>
-            
-          </tr>
-        </tag:forEach>
-      <!--   </tbody> -->
-      </table>
+  
       
-      
-  <script>
-function confirmDelete() {
-    return confirm("Are you sure you want to delete this user?");
-}
+				<input type="hidden" name="useractiontype" value="edit"/>
+				
+				<button type="submit" class="btn btn-success">Update </button>	
+
+           <a id="backButton" class="btn btn-primary">Back</a>
+
+<script>
+  document.getElementById('backButton').addEventListener('click', function() {
+    window.history.back(); // This will navigate back to the previous page in the browser's history.
+  });
 </script>
+ 
+ 
+ </form>
+</div>
+
   
 </body>
 </html>

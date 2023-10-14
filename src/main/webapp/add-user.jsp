@@ -420,39 +420,7 @@ p{ color:white;
 	</head>
 	
 	<body>		
-	  <div class="sidebar">
-     <header>Menu</header>
-     <a href="#" class="active">
-       <i class="fas fa-qrcode"></i>
-       <span>Dashboard</span>
-     </a>
-     <a href="add-user.jsp">
-       <i class="fas fa-link"></i>
-       <span>Register</span>
-     </a>
-     <a href="search-and-update-user.jsp">
-       <i class="fas fa-stream"></i>
-       <span>Update User</span>
-     </a>
-     <a href="#">
-        <i class="fas fa-calendar"></i>
-       <span>Events</span>
-     </a>
-     <a href="#">
-       <i class="far fa-question-circle"></i>
-       <span>About</span>
-     </a>
-     <a href="#">
-       <i class="fas fa-sliders-h"></i>
-       <span>Services</span>
-     </a>
-     <a href="getuser?useractiontype=all">
-       <i class="far fa-envelope"></i>
-       <span>View All</span>
-       
-     </a>
-   </div>
-		
+	
 			 <div class="container">
 			<form name="form1" class="box" action="usermanager" method="post">
         <h4>Job<span>Consultancy</span></h4>
@@ -460,9 +428,9 @@ p{ color:white;
         <h5>Create a new account.</h5>
         <input type="text" name="name" placeholder="Name" id="name" autocomplete="off" required>
         <input type="tel" name="telephone" id="telephone" placeholder="Phone number" required>
-        <input type="text" name="email" id ="email" placeholder="Email" autocomplete="off">
+        <input type="text" name="email" id ="email" placeholder="Email" autocomplete="off" required>
         <i class="typcn typcn-eye" id="eye"></i>
-        <input type="password" name="password" placeholder="Passsword" id="password" autocomplete="off">
+        <input type="password" name="password" placeholder="Passsword" id="password" autocomplete="off" required>
       
      
         <label for="birthdate">Birthdate:</label>
@@ -470,18 +438,18 @@ p{ color:white;
         <label for="gender">Gender:</label>
         <div class="gender">
             <label for="male">
-                <input type="radio" name="gender" id="male" value="Male"> Male
+                <input type="radio" name="gender" id="male" value="Male" required> Male
             </label>
             <label for="female">
-                <input type="radio" name="gender" id="female" value="Female"> Female
+                <input type="radio" name="gender" id="female" value="Female" required> Female
             </label>
             <label for="other">
-                <input type="radio" name="gender" id="other" value="Other"> Other
+                <input type="radio" name="gender" id="other" value="Other" required> Other
             </label>
         </div>
           
           <label for="jobtype">Job Type:</label>
-          <select name="jobtype" id="jobtype">
+          <select name="jobtype" id="jobtype" required>
               <option value="Full-time">Full-time</option>
               <option value="Part-time">Part-time</option>
               <option value="Freelance">Freelance</option>
@@ -489,7 +457,7 @@ p{ color:white;
           </select>
           
           <label for="country">Country:</label>
-          <select name="country" id="country">
+          <select name="country" id="country" required>
               <option value="USA">USA</option>
               <option value="Canada">Canada</option>
               <option value="UK">UK</option>
@@ -497,12 +465,15 @@ p{ color:white;
           </select>
           
           <label for="usertype">Tell us who you are?</label>
-          <div class="usertype">
-            <label for="seeker">
-                <input type="radio" name="usertype" id="seeker" value="ROLE_USER">A Job Seeker
+          <div class="usertype" >
+            <label for="seeker" >
+                <input type="radio" name="usertype" id="seeker" value="ROLE_USER" required>A Job Seeker
             </label>
             <label for="consultant">
-                <input type="radio" name="usertype" id="consultant" value="ROLE_CONSULTANT"> A Job consultant
+                <input type="radio" name="usertype" id="consultant" value="ROLE_CONSULTANT" required> A Job consultant
+            </label>
+             <label for="admin">
+                <input type="radio" name="usertype" id="admin" value="ROLE_ADMIN" required> Admin
             </label>
            
         </div>
@@ -512,7 +483,7 @@ p{ color:white;
           <button style="left: 21%; " class="btn1" type="submit">Create User</button>
         </div>
         </form>
-          <a href="#" class="dnthave">Already have an account? Login</a>
+          <a href="login.jsp" class="dnthave">Already have an account? Login</a>
     </div> 
       
  

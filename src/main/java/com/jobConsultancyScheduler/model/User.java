@@ -1,5 +1,6 @@
 package com.jobConsultancyScheduler.model;
 import java.util.Date;
+import java.util.List;
 
 public class User {
 
@@ -13,6 +14,16 @@ public class User {
 	    private String occupation;
 	    private String country;
 	    private AccessRight accessRight; // Use the AccessRight enumeration
+	    
+	    
+	    private String educationalQualifications;
+	    private String specializedCountries;
+	    private String specializedJobs;
+//	    private String profilePicture;
+	    
+	    private String cvPath; // Path to the CV file
+	    private String profilePicturePath; // Path to the profile picture file
+
 
 	    // Constructors
 	    public User() {
@@ -21,7 +32,9 @@ public class User {
 
 	    public User(int userId, String name, String phoneNumber, String email, String password,
 	                String birthdate, String gender, String occupation, String country,
-	                AccessRight accessRight) {
+	                AccessRight accessRight, String educationalQualifications,
+	                String specializedCountries, String specializedJobs, String profilePicturePath, String cvPath) {
+	    	
 	        this.userId = userId;
 	        this.name = name;
 	        this.phoneNumber = phoneNumber;
@@ -32,6 +45,13 @@ public class User {
 	        this.occupation = occupation;
 	        this.country = country;
 	        this.accessRight = accessRight;
+	        
+	        this.educationalQualifications = educationalQualifications;
+	        this.specializedCountries = specializedCountries;
+	        this.specializedJobs = specializedJobs;
+	        
+	        this.profilePicturePath = profilePicturePath;
+	        this.cvPath = cvPath;
 	    }
 
 	    // Getter and Setter methods for attributes
@@ -114,4 +134,54 @@ public class User {
 	    public void setAccessRight(AccessRight accessRight) {
 	        this.accessRight = accessRight;
 	    }
+	    
+	    public boolean checkPassword(String enteredPassword) {
+	        // Compare enteredPassword with this.password (hashed password)
+	        return enteredPassword.equals(this.password); // Update this line accordingly
+	    }
+	    
+//	    For consultants
+	    
+	    public String getEducationalQualifications() {
+	        return educationalQualifications;
+	    }
+
+	    public void setEducationalQualifications(String educationalQualifications) {
+	        this.educationalQualifications = educationalQualifications;
+	    }
+
+	    public String getSpecializedCountries() {
+	        return specializedCountries;
+	    }
+
+	    public void setSpecializedCountries(String specializedCountries) {
+	        this.specializedCountries = specializedCountries;
+	    }
+
+	    public String getSpecializedJobs() {
+	        return specializedJobs;
+	    }
+
+	    public void setSpecializedJobs(String specializedJobs) {
+	        this.specializedJobs = specializedJobs;
+	    }
+	    
+	    public String getProfilePicturePath() {
+	        return profilePicturePath;
+	    }
+
+	    public void setProfilePicturePath(String profilePicture) {
+	        this.profilePicturePath = profilePicture;
+	    }
+
+	    public String getCvPathPath() {
+	        return cvPath;
+	    }
+
+	    public void setCvPathPath(String cvPath) {
+	        this.cvPath = cvPath;
+	    }
+	    
+
+
 	}

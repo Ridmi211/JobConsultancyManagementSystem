@@ -12,6 +12,7 @@ import java.util.List;
 
 import com.jobConsultancyScheduler.dao.dbUtils.DbDriverManager;
 import com.jobConsultancyScheduler.dao.dbUtils.DbDriverManagerFactory;
+import com.jobConsultancyScheduler.model.AccessRight;
 import com.jobConsultancyScheduler.model.User;
 
 public class UserManagerImpl implements UserManager {
@@ -66,18 +67,24 @@ public class UserManagerImpl implements UserManager {
 	@Override
 	public boolean editUser(User user) throws SQLException, ClassNotFoundException {
 		Connection connection = getConnection();
-		String query = "UPDATE user SET name =?,phoneNumber=?,email=?, password=?,birthdate=?,gender=?,occupation=?,country=? WHERE userId=?";
+		String query = "UPDATE user SET name =?,phoneNumber=?,email=?,birthdate=?,gender=?,occupation=?,country=?,educationalQualifications=?,specializedCountries=?,specializedJobs=? WHERE userId=?";
 		
 		PreparedStatement ps = connection.prepareStatement(query);
 		ps.setString(1, user.getName());
 		ps.setString(2, user.getPhoneNumber());
 		ps.setString(3, user.getEmail());
-		ps.setString(4, user.getPassword());
-		ps.setString(5, user.getBirthdate());
-		ps.setString(6, user.getGender());
-		ps.setString(7, user.getOccupation());
-		ps.setString(8, user.getCountry());
-		ps.setInt(9, user.getUserId());
+//		ps.setString(4, user.getPassword());
+		ps.setString(4, user.getBirthdate());
+		ps.setString(5, user.getGender());
+		ps.setString(6, user.getOccupation());
+		ps.setString(7, user.getCountry());
+		
+		
+		ps.setString(8, user.getEducationalQualifications());
+		ps.setString(9, user.getSpecializedCountries());
+		ps.setString(10, user.getSpecializedJobs());
+		
+		ps.setInt(11, user.getUserId());
 		
 		boolean result = false;
 		
@@ -131,6 +138,9 @@ public class UserManagerImpl implements UserManager {
 			user.setGender(rs.getString("gender"));
 			user.setOccupation(rs.getString("occupation"));
 			user.setCountry(rs.getString("country"));
+			   user.setEducationalQualifications(rs.getString("educationalQualifications"));
+		        user.setSpecializedCountries(rs.getString("specializedCountries"));
+		        user.setSpecializedJobs(rs.getString("specializedJobs"));
 		}
 		
 		ps.close();
@@ -170,5 +180,65 @@ public class UserManagerImpl implements UserManager {
 		
 		return userList;
 	}
+	
+	// In UserManagerImpl.java
+	@Override
+	public User fetchUserByEmail(String email) throws SQLException, ClassNotFoundException {
+	    Connection connection = getConnection(); // Implement the getConnection() method.
+
+	    String query = "SELECT * FROM user WHERE email=?";
+	    PreparedStatement preparedStatement = connection.prepareStatement(query);
+	    preparedStatement.setString(1, email);
+
+	    ResultSet resultSet = preparedStatement.executeQuery();
+
+	    User user = null;
+
+	    if (resultSet.next()) {
+	        user = new User();
+	        user.setUserId(resultSet.getInt("userId"));
+	        user.setName(resultSet.getString("name"));
+	        user.setPhoneNumber(resultSet.getString("phoneNumber"));
+	        user.setEmail(resultSet.getString("email"));
+	        user.setPassword(resultSet.getString("password"));
+	        user.setBirthdate(resultSet.getString("birthdate"));
+	        user.setGender(resultSet.getString("gender"));
+	        user.setOccupation(resultSet.getString("occupation"));
+	        user.setCountry(resultSet.getString("country"));
+	        user.setEducationalQualifications(resultSet.getString("educationalQualifications"));
+	        user.setSpecializedCountries(resultSet.getString("specializedCountries"));
+	        user.setSpecializedJobs(resultSet.getString("specializedJobs"));
+	        user.setAccessRight(AccessRight.valueOf(resultSet.getString("accessRight")));
+	    }
+
+	    preparedStatement.close();
+	    connection.close();
+
+	    return user;
+	}
+	
+	@Override
+	public boolean isEmailAlreadyExists(String email) throws SQLException, ClassNotFoundException {
+	    Connection connection = getConnection();
+	    String query = "SELECT COUNT(*) FROM user WHERE email=?";
+	    PreparedStatement preparedStatement = connection.prepareStatement(query);
+	    preparedStatement.setString(1, email);
+
+	    ResultSet resultSet = preparedStatement.executeQuery();
+
+	    boolean emailExists = false;
+
+	    if (resultSet.next()) {
+	        int count = resultSet.getInt(1);
+	        emailExists = count > 0;
+	    }
+
+	    preparedStatement.close();
+	    connection.close();
+
+	    return emailExists;
+	}
+
+
 
 }

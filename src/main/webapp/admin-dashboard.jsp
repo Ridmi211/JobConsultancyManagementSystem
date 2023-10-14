@@ -1,6 +1,44 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     <%@ taglib prefix="tag" uri="http://java.sun.com/jsp/jstl/core"%>
+    <%@ page import="com.jobConsultancyScheduler.model.User" %>
+    <%@ page import="com.jobConsultancyScheduler.model.AccessRight" %>
+    
+<%--     <%
+// Check if the user is logged in and has the appropriate role
+User user = (User) session.getAttribute("user");
+if (user == null || !user.getAccessRight().equals(AccessRight.ROLE_ADMIN)) {
+    // Redirect the user to a login page or display an error message
+    response.sendRedirect("login.jsp");
+    return; // Stop processing the current page
+}
+%> 
+ --%>
+<%
+// Check if the user is logged in and has the appropriate role
+User user = (User) session.getAttribute("user");
+if (user == null || !user.getAccessRight().equals(AccessRight.ROLE_ADMIN)) {
+    // Set an error message in the session
+    session.setAttribute("errorMessage", "You do not have the required access to view this page.");
+    // Redirect the user to the login page
+    response.sendRedirect("accessRightError.jsp");
+    return; // Stop processing the current page
+}
+%>
+
+
+<!-- just login check -->
+
+<%-- <%
+User user = (User) session.getAttribute("user");
+// Check if the user is logged in
+if (session.getAttribute("user") == null) {
+    // Redirect the user to a login page or display an error message
+    response.sendRedirect("login.jsp");
+    return; // Stop processing the current page
+}
+%> --%>
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -490,52 +528,110 @@ p {
 <body >
  <!-- sidebar start here  -->
    <input type="checkbox" id="check">
-   <label for="check">
-     <i class="fas fa-bars" id="btn"></i>
-     <i class="fas fa-times" id="cancel"></i>
-   </label>
-   <div class="sidebar">
-     <header>Menu</header>
-     <a href="#" class="active">
-       <i class="fas fa-qrcode"></i>
-       <span>Dashboard</span>
-     </a>
-     <a href="#">
-       <i class="fas fa-link"></i>
-       <span>Shortcuts</span>
-     </a>
-     <a href="#">
-       <i class="fas fa-stream"></i>
-       <span>Overview</span>
-     </a>
-     <a href="#">
-        <i class="fas fa-calendar"></i>
-       <span>Events</span>
-     </a>
-     <a href="#">
-       <i class="far fa-question-circle"></i>
-       <span>About</span>
-     </a>
-     <a href="#">
-       <i class="fas fa-sliders-h"></i>
-       <span>Services</span>
-     </a>
-     <a href="#">
+      <label style="position: fixed; top: 60px; z-index: 1; left: -5px;" for="check">
+        <i class="fas fa-bars" id="btn"></i>
+        <i class="fas fa-times" id="cancel"></i>
+      </label>
+
+
+
+<div class="sidebar">
+  <header>Menu</header>
+  <%-- Always display Dashboard --%>
+   <a href="home.jsp">
+    <i class="fas fa-qrcode"></i>
+    <span>Home</span>
+  </a>
+  <a href="admin-dashboard.jsp" >
+    <i class="fas fa-qrcode"></i>
+    <span>Dashboard</span>
+  </a>
+
+
+
+  <%-- Display Events and Overview for Consultant --%>
+  <% if (user != null && user.getAccessRight() == AccessRight.ROLE_CONSULTANT) { %>
+    <a href="#">
+      <i class="fas fa-calendar"></i>
+      <span>Overview</span>
+    </a>
+    
+     <a  >
        <i class="far fa-envelope"></i>
-       <span>Contact</span>
+       <span>Consultant</span>
+       
      </a>
-   </div>
-</div>  
+  <% } %>
+
+  <%-- Display About and Services for Admin --%>
+  <% if (user != null && user.getAccessRight() == AccessRight.ROLE_ADMIN) { %>
+       
+      <a href="getuser?useractiontype=all" >
+       <i class="far fa-envelope"></i>
+       <span>View All</span>
+       
+     </a>
+     
+       <a  >
+       <i class="far fa-envelope"></i>
+       <span>Admin</span>
+       
+     </a>
+  <% } %>
+
+  <%-- Display Services for all users, regardless of role --%>
+ 
+
+  <%-- Display Contact for User and Consultant --%>
+  <% if (user != null && (user.getAccessRight() == AccessRight.ROLE_USER || user.getAccessRight() == AccessRight.ROLE_CONSULTANT)) { %>
+    <a href="#">
+      <i class="far fa-envelope"></i>
+      <span>Contact</span>
+    </a>
+     <a href="view-profile.jsp">
+    <i class="fas fa-sliders-h"></i>
+    <span>Profile</span>
+  </a>
+  <% } %>
+  
+  
+    <%-- Display Login or Logout based on user status --%>
+  <% if (user != null) { %>
+    <a href="logout.jsp">
+      <i class="fas fa-stream"></i>
+      <span>Logout</span>
+    </a>
+    
+  <% } else { %>
+    <a href="login.jsp">
+      <i class="fas fa-sign-in-alt"></i>
+      <span>Login</span>
+    </a>
+  <% } %>
+</div>
+
   <!-- sidebar end here  -->  
   
 
 
   <h1><b>Admin - DASHBOARD</b></h1>
+  
+    <div>
+    <% 
+  /*   User user = (User) session.getAttribute("user"); */
+    if (user != null) {
+    %>
+    <h1>Welcome, <%= user.getName() %>!</h1>
+      <p>You're logged in as <%= user.getAccessRight().getDisplayName() %></p>
+    <% } %>
+</div>
  
   <section class="page-contain">
     <a href="/patients/list" class="data-card">
       <h3>12 </h3>
       <h4> Ongoing<br> Appointments</h4>
+      
+    
       <!-- <p>Manage registered patients</p> -->
       <span class="link-text">
         View All
