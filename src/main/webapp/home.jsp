@@ -422,12 +422,13 @@
             width: 100%;
             border: 0;
             outline: none;
-            background: #262626;
+           /*  background: #262626; */
             padding: 15px;
             margin: 15px 0;
             color:#000000;
             font-size: 18px;
             border-radius:6px;
+            border: 1px solid #d6adff;
         }
         form .btn2{
             padding: 14px 60px;
@@ -708,12 +709,12 @@ label #cancel{
 </head>
 <body >
  <!-- sidebar start here  -->
-  <!-- sidebar start here  -->
    <input type="checkbox" id="check">
       <label style="position: fixed; top: 60px; z-index: 1; left: -5px;" for="check">
         <i class="fas fa-bars" id="btn"></i>
         <i class="fas fa-times" id="cancel"></i>
       </label>
+
 <%
 // Get the user object from the session
 User user = (User) session.getAttribute("user");
@@ -722,11 +723,11 @@ User user = (User) session.getAttribute("user");
 <div class="sidebar">
   <header>Menu</header>
   <%-- Always display Dashboard --%>
-   <a href="home.jsp" class="active">
+   <a href="home.jsp"  class="active">
     <i class="fas fa-qrcode"></i>
     <span>Home</span>
   </a>
-  <a href="admin-dashboard.jsp" class="active">
+  <a href="admin-dashboard.jsp" >
     <i class="fas fa-qrcode"></i>
     <span>Dashboard</span>
   </a>
@@ -739,27 +740,32 @@ User user = (User) session.getAttribute("user");
       <i class="fas fa-calendar"></i>
       <span>Overview</span>
     </a>
+    
+     <a  >
+       <i class="far fa-envelope"></i>
+       <span>Consultant</span>
+       
+     </a>
   <% } %>
 
   <%-- Display About and Services for Admin --%>
   <% if (user != null && user.getAccessRight() == AccessRight.ROLE_ADMIN) { %>
-    <a href="search-and-update-user.jsp">
-      <i class="far fa-question-circle"></i>
-      <span>Update user</span>
-    </a>
-   
-      <a href="getuser?useractiontype=all">
+       
+      <a href="getuser?useractiontype=all" >
        <i class="far fa-envelope"></i>
        <span>View All</span>
+       
+     </a>
+     
+       <a  >
+       <i class="far fa-envelope"></i>
+       <span>Admin</span>
        
      </a>
   <% } %>
 
   <%-- Display Services for all users, regardless of role --%>
-  <a href="view-profile.jsp">
-    <i class="fas fa-sliders-h"></i>
-    <span>Profile</span>
-  </a>
+ 
 
   <%-- Display Contact for User and Consultant --%>
   <% if (user != null && (user.getAccessRight() == AccessRight.ROLE_USER || user.getAccessRight() == AccessRight.ROLE_CONSULTANT)) { %>
@@ -767,6 +773,10 @@ User user = (User) session.getAttribute("user");
       <i class="far fa-envelope"></i>
       <span>Contact</span>
     </a>
+     <a href="view-profile.jsp">
+    <i class="fas fa-sliders-h"></i>
+    <span>Profile</span>
+  </a>
   <% } %>
   
   
@@ -784,9 +794,11 @@ User user = (User) session.getAttribute("user");
   <% } %>
 </div>
 
-   
  
   <!-- sidebar end here  -->  
+  
+  
+  <!--   nav -->
   <nav class="p-0 m-0 pt-2">
     <img src="images/logo.png" alt="logo">
     <ul class="" id="sidemenu" >
@@ -795,10 +807,22 @@ User user = (User) session.getAttribute("user");
         <li><a href="#services">Extra-Curricular</a></li>
         <li><a href="#portfolio">Projects</a></li>
         <li><a href="#contact">Contact</a></li>
-        <i class="fas fa-solid fa-xmark" onclick="closemenu()"> </i>
+        
+          <% if (user != null) { %>
+          
+    <li ><a href="view-profile.jsp"><i class="fa fa-user-circle" aria-hidden="true" ></i>&nbsp;&nbsp; <%= user.getName() %></a></li> 
+    
+  <% } else { %>
+    <li ><a href="login.jsp"><i class="fa fa-user-circle" aria-hidden="true" ></i>&nbsp;&nbsp; Login</a></li> 
+  <% } %>
+         
+         <i class="fas fa-solid fa-xmark" onclick="closemenu()"> </i>
     </ul>
+    
+   
     <i class="fas fa-solid fa-bars" onclick="openmenu()"></i>
   </nav>
+<!--   nav -->
   <div class="row p-0 m-0">
     <div class="p-0 m-0 d-flex align-items-end d-flex justify-content-center" id="header" style="background-image: url(https://chuckgarcia.com/wp-content/uploads/2017/12/bigstock-167128436.jpg);"  >
   

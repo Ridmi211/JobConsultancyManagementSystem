@@ -446,20 +446,26 @@ h2{text-align: center;}
 </head>
 <body >
   <!-- sidebar start here  -->
+   <!-- sidebar start here  -->
    <input type="checkbox" id="check">
-   <label for="check">
-     <i class="fas fa-bars" id="btn"></i>
-     <i class="fas fa-times" id="cancel"></i>
-   </label>
-   <%
+      <label style="position: fixed; top: 60px; z-index: 1; left: -5px;" for="check">
+        <i class="fas fa-bars" id="btn"></i>
+        <i class="fas fa-times" id="cancel"></i>
+      </label>
+
+<%
 // Get the user object from the session
 User user = (User) session.getAttribute("user");
 %>
- 
+
 <div class="sidebar">
   <header>Menu</header>
   <%-- Always display Dashboard --%>
-  <a href="admin-dashboard.jsp" class="active">
+   <a href="home.jsp">
+    <i class="fas fa-qrcode"></i>
+    <span>Home</span>
+  </a>
+  <a href="admin-dashboard.jsp" >
     <i class="fas fa-qrcode"></i>
     <span>Dashboard</span>
   </a>
@@ -472,25 +478,32 @@ User user = (User) session.getAttribute("user");
       <i class="fas fa-calendar"></i>
       <span>Overview</span>
     </a>
+    
+     <a  >
+       <i class="far fa-envelope"></i>
+       <span>Consultant</span>
+       
+     </a>
   <% } %>
 
   <%-- Display About and Services for Admin --%>
   <% if (user != null && user.getAccessRight() == AccessRight.ROLE_ADMIN) { %>
-    <a href="search-and-update-user.jsp">
-      <i class="far fa-question-circle"></i>
-      <span>Update user</span>
-    </a>
-    <a href="view-all-users-and-delete-specific.jsp">
-      <i class="fas fa-sliders-h"></i>
-      <span>View all</span>
-    </a>
+       
+      <a href="getuser?useractiontype=all"  class="active">
+       <i class="far fa-envelope"></i>
+       <span>View All</span>
+       
+     </a>
+     
+       <a  >
+       <i class="far fa-envelope"></i>
+       <span>Admin</span>
+       
+     </a>
   <% } %>
 
   <%-- Display Services for all users, regardless of role --%>
-  <a href="view-profile.jsp">
-    <i class="fas fa-sliders-h"></i>
-    <span>Profile</span>
-  </a>
+ 
 
   <%-- Display Contact for User and Consultant --%>
   <% if (user != null && (user.getAccessRight() == AccessRight.ROLE_USER || user.getAccessRight() == AccessRight.ROLE_CONSULTANT)) { %>
@@ -498,6 +511,10 @@ User user = (User) session.getAttribute("user");
       <i class="far fa-envelope"></i>
       <span>Contact</span>
     </a>
+     <a href="view-profile.jsp">
+    <i class="fas fa-sliders-h"></i>
+    <span>Profile</span>
+  </a>
   <% } %>
   
   
@@ -514,7 +531,7 @@ User user = (User) session.getAttribute("user");
     </a>
   <% } %>
 </div>
-   
+
    
   <!-- sidebar end here  -->  
   
@@ -570,7 +587,13 @@ User user = (User) session.getAttribute("user");
 				<button type="submit" class="btn btn-success">Update User</button>			
 			</form>
      <!--  <a  class="btn btn-primary" (click)="onBackClick()" >Back</a> -->
-     <a href="view-job-seekers.jsp" class="btn btn-primary">Back to User List</a> 
+         <a id="backButton" class="btn btn-primary">Back</a>
+
+<script>
+  document.getElementById('backButton').addEventListener('click', function() {
+    window.history.back(); // This will navigate back to the previous page in the browser's history.
+  });
+</script>
        
          <a  class="btn btn-primary" href="update-profile.jsp"  >Edit</a> -->
          

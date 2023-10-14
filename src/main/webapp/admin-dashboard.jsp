@@ -4,6 +4,29 @@
     <%@ page import="com.jobConsultancyScheduler.model.User" %>
     <%@ page import="com.jobConsultancyScheduler.model.AccessRight" %>
     
+<%--     <%
+// Check if the user is logged in and has the appropriate role
+User user = (User) session.getAttribute("user");
+if (user == null || !user.getAccessRight().equals(AccessRight.ROLE_ADMIN)) {
+    // Redirect the user to a login page or display an error message
+    response.sendRedirect("login.jsp");
+    return; // Stop processing the current page
+}
+%> --%>
+
+
+
+<!-- just login check -->
+
+<%
+User user = (User) session.getAttribute("user");
+// Check if the user is logged in
+if (session.getAttribute("user") == null) {
+    // Redirect the user to a login page or display an error message
+    response.sendRedirect("login.jsp");
+    return; // Stop processing the current page
+}
+%>
     
 <!DOCTYPE html>
 <html>
@@ -494,24 +517,21 @@ p {
 <body >
  <!-- sidebar start here  -->
    <input type="checkbox" id="check">
-   <label for="check">
-     <i class="fas fa-bars" id="btn"></i>
-     <i class="fas fa-times" id="cancel"></i>
-   </label>
-<%
-// Get the user object from the session
-User user = (User) session.getAttribute("user");
-%>
+      <label style="position: fixed; top: 60px; z-index: 1; left: -5px;" for="check">
+        <i class="fas fa-bars" id="btn"></i>
+        <i class="fas fa-times" id="cancel"></i>
+      </label>
+
+
 
 <div class="sidebar">
   <header>Menu</header>
   <%-- Always display Dashboard --%>
-  
-   <a href="home.jsp" class="active">
+   <a href="home.jsp">
     <i class="fas fa-qrcode"></i>
     <span>Home</span>
   </a>
-  <a href="admin-dashboard.jsp" class="active">
+  <a href="admin-dashboard.jsp"  class="active">
     <i class="fas fa-qrcode"></i>
     <span>Dashboard</span>
   </a>
@@ -524,27 +544,32 @@ User user = (User) session.getAttribute("user");
       <i class="fas fa-calendar"></i>
       <span>Overview</span>
     </a>
+    
+     <a  >
+       <i class="far fa-envelope"></i>
+       <span>Consultant</span>
+       
+     </a>
   <% } %>
 
   <%-- Display About and Services for Admin --%>
   <% if (user != null && user.getAccessRight() == AccessRight.ROLE_ADMIN) { %>
-    <a href="search-and-update-user.jsp">
-      <i class="far fa-question-circle"></i>
-      <span>Update user</span>
-    </a>
-   
-      <a href="getuser?useractiontype=all">
+       
+      <a href="getuser?useractiontype=all" >
        <i class="far fa-envelope"></i>
        <span>View All</span>
+       
+     </a>
+     
+       <a  >
+       <i class="far fa-envelope"></i>
+       <span>Admin</span>
        
      </a>
   <% } %>
 
   <%-- Display Services for all users, regardless of role --%>
-  <a href="view-profile.jsp">
-    <i class="fas fa-sliders-h"></i>
-    <span>Profile</span>
-  </a>
+ 
 
   <%-- Display Contact for User and Consultant --%>
   <% if (user != null && (user.getAccessRight() == AccessRight.ROLE_USER || user.getAccessRight() == AccessRight.ROLE_CONSULTANT)) { %>
@@ -552,6 +577,10 @@ User user = (User) session.getAttribute("user");
       <i class="far fa-envelope"></i>
       <span>Contact</span>
     </a>
+     <a href="view-profile.jsp">
+    <i class="fas fa-sliders-h"></i>
+    <span>Profile</span>
+  </a>
   <% } %>
   
   
@@ -569,41 +598,6 @@ User user = (User) session.getAttribute("user");
   <% } %>
 </div>
 
-   
-   
-   
-<!--    <div class="sidebar">
-     <header>Menu</header>
-     <a href="#" class="active">
-       <i class="fas fa-qrcode"></i>
-       <span>Dashboard</span>
-     </a>
-     <a href="#">
-       <i class="fas fa-link"></i>
-       <span>Shortcuts</span>
-     </a>
-     <a href="#">
-       <i class="fas fa-stream"></i>
-       <span>Overview</span>
-     </a>
-     <a href="#">
-        <i class="fas fa-calendar"></i>
-       <span>Events</span>
-     </a>
-     <a href="#">
-       <i class="far fa-question-circle"></i>
-       <span>About</span>
-     </a>
-     <a href="#">
-       <i class="fas fa-sliders-h"></i>
-       <span>Services</span>
-     </a>
-     <a href="#">
-       <i class="far fa-envelope"></i>
-       <span>Contact</span>
-     </a>
-   </div>
-</div>  --> 
   <!-- sidebar end here  -->  
   
 
