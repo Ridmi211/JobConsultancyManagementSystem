@@ -2,6 +2,19 @@
     pageEncoding="ISO-8859-1" isELIgnored="false"%>
     
     <%@ taglib prefix="tag" uri="http://java.sun.com/jsp/jstl/core"%>
+
+    <%@ page import="com.jobConsultancyScheduler.model.User" %>
+    <%@ page import="com.jobConsultancyScheduler.model.AccessRight" %>
+    
+    <%
+User user = (User) session.getAttribute("user");
+// Check if the user is logged in
+if (session.getAttribute("user") == null) {
+    // Redirect the user to a login page or display an error message
+    response.sendRedirect("login.jsp");
+    return; // Stop processing the current page
+}
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -358,65 +371,86 @@ background-color
 </head>
 <body >
 
-<!-- <ul class="nav nav-tabs">
-  <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="#">Active ActivActiv</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Link</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Link</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-  </li>
-</ul> -->
- <!-- sidebar  -->
-
-
+ <!-- sidebar start here  -->
    <input type="checkbox" id="check">
-   <label for="check">
-     <i class="fas fa-bars" id="btn"></i>
-     <i class="fas fa-times" id="cancel"></i>
-   </label>
-   <div class="sidebar">
-     <header>Menu</header>
-     <a href="#" class="active">
-       <i class="fas fa-qrcode"></i>
-       <span>Dashboard</span>
+      <label style="position: fixed; top: 60px; z-index: 1; left: -5px;" for="check">
+        <i class="fas fa-bars" id="btn"></i>
+        <i class="fas fa-times" id="cancel"></i>
+      </label>
+
+<div class="sidebar">
+  <header>Menu</header>
+  <%-- Always display Dashboard --%>
+   <a href="home.jsp">
+    <i class="fas fa-qrcode"></i>
+    <span>Home</span>
+  </a>
+  <a href="admin-dashboard.jsp" >
+    <i class="fas fa-qrcode"></i>
+    <span>Dashboard</span>
+  </a>
+
+
+
+  <%-- Display Events and Overview for Consultant --%>
+  <% if (user != null && user.getAccessRight() == AccessRight.ROLE_CONSULTANT) { %>
+    <a href="#">
+      <i class="fas fa-calendar"></i>
+      <span>Overview</span>
+    </a>
+    
+     <a  >
+       <i class="far fa-envelope"></i>
+       <span>Consultant</span>
+       
      </a>
-     <a href="add-user.jsp">
-       <i class="fas fa-link"></i>
-       <span>Register</span>
-     </a>
-     <a href="#">
-       <i class="fas fa-stream"></i>
-       <span>Overview</span>
-     </a>
-     <a href="#">
-        <i class="fas fa-calendar"></i>
-       <span>Events</span>
-     </a>
-     <a href="#">
-       <i class="far fa-question-circle"></i>
-       <span>About</span>
-     </a>
-     <a href="#">
-       <i class="fas fa-sliders-h"></i>
-       <span>Services</span>
-     </a>
-     <a href="getuser?useractiontype=all">
+  <% } %>
+
+  <%-- Display About and Services for Admin --%>
+  <% if (user != null && user.getAccessRight() == AccessRight.ROLE_ADMIN) { %>
+       
+      <a href="getuser?useractiontype=all"  class="active">
        <i class="far fa-envelope"></i>
        <span>View All</span>
        
      </a>
-   </div>
+     
+       <a  >
+       <i class="far fa-envelope"></i>
+       <span>Admin</span>
+       
+     </a>
+  <% } %>
 
+  <%-- Display Services for all users, regardless of role --%>
+ 
 
-</div>  
-   
-
+  <%-- Display Contact for User and Consultant --%>
+  <% if (user != null && (user.getAccessRight() == AccessRight.ROLE_USER || user.getAccessRight() == AccessRight.ROLE_CONSULTANT)) { %>
+    <a href="#">
+      <i class="far fa-envelope"></i>
+      <span>Contact</span>
+    </a>
+     <a href="view-profile.jsp">
+    <i class="fas fa-sliders-h"></i>
+    <span>Profile</span>
+  </a>
+  <% } %>
+  
+  
+    <%-- Display Login or Logout based on user status --%>
+  <% if (user != null) { %>
+    <a href="logout.jsp">
+      <i class="fas fa-stream"></i>
+      <span>Logout</span>
+    </a>
+  <% } else { %>
+    <a href="login.jsp">
+      <i class="fas fa-sign-in-alt"></i>
+      <span>Login</span>
+    </a>
+  <% } %>
+</div>
 
 
     <h1>Registered Job Seekers </h1>
@@ -433,13 +467,13 @@ background-color
     <!-- <div class="col-sm"> -->
       <table class="table table-hover">
         <thead>
-          <tr>
-            <th scope="col">Count </th>
-            <th scope="col">User ID</th>
-            <th scope="col">Name</th>
-            <th scope="col">Email</th>
+          <tr >
+            <th scope="col" class="text-center">Count </th>
+            <th scope="col" class="text-center">User ID</th>
+            <th scope="col" class="text-center">Name</th>
+            <th scope="col" class="text-center">Email</th>
+           <!--  <th scope="col">Role</th> -->
             <th scope="col">View</th>
-            <th >Edit</th>
             <th  scope="col" >Delete</th>
           </tr>
         </thead>
@@ -458,26 +492,43 @@ background-color
           ${user.email}
             </td>
               
-            <td class="btn-column"><button type="button" class="btn btn-primary" >View</button></td>
-            <td class="btn-column"><button  type="button" class="btn btn-success">Edit</button></td>
+             <%--     <td class="text-center">${user.accessRight.displayName}</td> --%>
             <td class="btn-column">
+    <form action="usermanager" method="post">
+        <input type="hidden" name="userId" value="${user.userId}">
+        <input type="hidden" name="useractiontype" value="view">
+        <button type="submit" class="btn btn-primary">View</button>
+    </form>
+</td>
+
+         
+           <%--  <td class="btn-column">
               	<form action="usermanager" method="post">								
 									<input type="hidden" name="userId" value="${user.userId}">
 									<input type="hidden" name="useractiontype" value="delete">
 									<button type="submit" class="btn btn-danger">Delete</button>
 								</form>	
-            </td>
+            </td> --%>
+            
+            <td class="btn-column">
+    <form onsubmit="return confirmDelete();" action="usermanager" method="post">								
+        <input type="hidden" name="userId" value="${user.userId}">
+        <input type="hidden" name="useractiontype" value="delete">
+        <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
+</td>
+            
           </tr>
         </tag:forEach>
       <!--   </tbody> -->
       </table>
       
       
-      
-    </div>
- </div>
-</div>
-
+  <script>
+function confirmDelete() {
+    return confirm("Are you sure you want to delete this user?");
+}
+</script>
   
 </body>
 </html>

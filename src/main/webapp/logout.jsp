@@ -18,7 +18,7 @@
         }
 
         // Redirect the user to a login page or any other desired page
-        response.sendRedirect("login.jsp");
+        response.sendRedirect("home.jsp");
     %>
 </body>
 </html>
