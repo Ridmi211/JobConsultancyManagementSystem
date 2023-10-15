@@ -61,9 +61,6 @@ if (session.getAttribute("user") == null) {
       margin-bottom: 20px;
       justify-content: center;
       padding: 20px;
-      /* background-image: linear-gradient(30deg, #44a7fd, #107fc0); */
-      /* background-image: none; */
-      /* z-index: -1; */
       background-image: linear-gradient(-45deg, #e3eefe 0%, #efddfb 100%);
 
     }
@@ -472,6 +469,7 @@ background-color
             <th scope="col" class="text-center">User ID</th>
             <th scope="col" class="text-center">Name</th>
             <th scope="col" class="text-center">Email</th>
+           <th scope="col" class="text-center">Role</th>
            <!--  <th scope="col">Role</th> -->
             <th scope="col">View</th>
             <th  scope="col" >Delete</th>
@@ -491,24 +489,21 @@ background-color
             <td class="text-center">
           ${user.email}
             </td>
+             <td class="text-center">
+          ${user.accessRight.displayName}
+            </td>
               
              <%--     <td class="text-center">${user.accessRight.displayName}</td> --%>
             <td class="btn-column">
     <form action="usermanager" method="post">
-        <input type="hidden" name="userId" value="${user.userId}">
-        <input type="hidden" name="useractiontype" value="view">
-        <button type="submit" class="btn btn-primary">View</button>
-    </form>
+    <input type="hidden" name="userId" value="${user.userId}">
+    <input type="hidden" name="accessRight" value="${user.accessRight.displayName}">
+    <input type="hidden" name="useractiontype" value="view">
+    <button type="submit" class="btn btn-primary">View</button>
+</form>
+
 </td>
 
-         
-           <%--  <td class="btn-column">
-              	<form action="usermanager" method="post">								
-									<input type="hidden" name="userId" value="${user.userId}">
-									<input type="hidden" name="useractiontype" value="delete">
-									<button type="submit" class="btn btn-danger">Delete</button>
-								</form>	
-            </td> --%>
             
             <td class="btn-column">
     <form onsubmit="return confirmDelete();" action="usermanager" method="post">								

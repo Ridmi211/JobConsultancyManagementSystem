@@ -566,7 +566,8 @@ h2{text-align: center;}
         <p class="card-text">Conatct Number : <%= user.getPhoneNumber() %></p>
         <li class="list-group-item"></li>
  <p class="card-text">You are registered as   : <%= user.getAccessRight().getDisplayName() %></p>
-
+ 
+ <% if (user != null && user.getAccessRight() == AccessRight.ROLE_CONSULTANT) { %>
         <li class="list-group-item"></li>
        <p class="card-text">specializedJobs : <%= user.getSpecializedJobs() %></p>
         <li class="list-group-item"></li>
@@ -574,6 +575,7 @@ h2{text-align: center;}
         <li class="list-group-item"></li>
         <p class="card-text">specializedJobs : <%= user.getEducationalQualifications() %></p>
         <li class="list-group-item"></li>
+          <% } %>
       </ul>
     <a id="backButton" class="btn btn-primary">Back</a>
 

@@ -41,7 +41,7 @@ public class UserManagerImpl implements UserManager {
 		
 //		String query = "INSERT INTO product (name, price) VALUES (?,?)";
 		
-		String query = "INSERT INTO user(`name`,`phoneNumber`,`email`, `password`,`birthdate`,`gender`,`occupation`,`country`,`accessRight`)	VALUES	(?,?,?,?,?,?,?,?,?)";
+		String query = "INSERT INTO user(`name`,`phoneNumber`,`email`, `password`,`birthdate`,`gender`,`occupation`,`country`,`educationalQualifications`,`specializedCountries`,`specializedJobs`,`accessRight`)	VALUES	(?,?,?,?,?,?,?,?,?,?,?,?)";
 
 		PreparedStatement ps = connection.prepareStatement(query);
 		ps.setString(1, user.getName());
@@ -52,7 +52,10 @@ public class UserManagerImpl implements UserManager {
 		ps.setString(6, user.getGender());
 		ps.setString(7, user.getOccupation());
 		ps.setString(8, user.getCountry());
-		 ps.setString(9, user.getAccessRight().toString()); 
+		ps.setString(9, user.getEducationalQualifications());
+		ps.setString(10, user.getSpecializedCountries());
+		ps.setString(11, user.getSpecializedJobs());
+		 ps.setString(12, user.getAccessRight().toString()); 
 
 		boolean result = false;
 		
@@ -67,7 +70,7 @@ public class UserManagerImpl implements UserManager {
 	@Override
 	public boolean editUser(User user) throws SQLException, ClassNotFoundException {
 		Connection connection = getConnection();
-		String query = "UPDATE user SET name =?,phoneNumber=?,email=?,birthdate=?,gender=?,occupation=?,country=?,educationalQualifications=?,specializedCountries=?,specializedJobs=? WHERE userId=?";
+		String query = "UPDATE user SET name =?,phoneNumber=?,email=?,birthdate=?,gender=?,occupation=?,country=?,educationalQualifications=?,specializedCountries=?,specializedJobs=?,accessRight=? WHERE userId=?";
 		
 		PreparedStatement ps = connection.prepareStatement(query);
 		ps.setString(1, user.getName());
@@ -83,8 +86,8 @@ public class UserManagerImpl implements UserManager {
 		ps.setString(8, user.getEducationalQualifications());
 		ps.setString(9, user.getSpecializedCountries());
 		ps.setString(10, user.getSpecializedJobs());
-		
-		ps.setInt(11, user.getUserId());
+		 ps.setString(11, user.getAccessRight().toString()); 
+		ps.setInt(12, user.getUserId());
 		
 		boolean result = false;
 		
@@ -138,6 +141,7 @@ public class UserManagerImpl implements UserManager {
 			user.setGender(rs.getString("gender"));
 			user.setOccupation(rs.getString("occupation"));
 			user.setCountry(rs.getString("country"));
+			  user.setAccessRight(AccessRight.valueOf(rs.getString("accessRight")));
 			   user.setEducationalQualifications(rs.getString("educationalQualifications"));
 		        user.setSpecializedCountries(rs.getString("specializedCountries"));
 		        user.setSpecializedJobs(rs.getString("specializedJobs"));
@@ -166,12 +170,13 @@ public class UserManagerImpl implements UserManager {
 			user.setName(rs.getString("name"));
 //			user.setPhoneNumber(rs.getString("phoneNumber"));
 			user.setEmail(rs.getString("email"));
+			 user.setAccessRight(AccessRight.valueOf(rs.getString("accessRight")));
 //			user.setBirthdate(rs.getString(" birthdate"));
 //			user.setGender(rs.getString("gender"));
 //			user.setOccupation(rs.getString("occupation"));
 //			user.setCountry(rs.getString("country"));
 //			user.setAccessRight(rs.getAccessRight("name"));		
-			
+
 			userList.add(user);
 		}
 		

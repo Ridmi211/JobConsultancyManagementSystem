@@ -47,8 +47,9 @@
       border-top: 10px solid #79a6fe;
       border-bottom: 10px solid #8BD17C;
       width: 600px;
-      height: 800px;
+     /*  height: 800px; */
       box-shadow: 1px 1px 108.8px 19.2px rgb(25,31,53);
+      padding-bottom:10px;
     }
     
     .box h4 {
@@ -426,7 +427,7 @@ p{ color:white;
         <h4>Job<span>Consultancy</span></h4>
         <p>${feebackMessage}</p>
         <h5>Create a new account.</h5>
-        <input type="text" name="name" placeholder="Name" id="name" autocomplete="off" required>
+       <input type="text" name="name" placeholder="Name" id="name" autocomplete="off" required>
         <input type="tel" name="telephone" id="telephone" placeholder="Phone number" required>
         <input type="text" name="email" id ="email" placeholder="Email" autocomplete="off" required>
         <i class="typcn typcn-eye" id="eye"></i>
@@ -477,15 +478,138 @@ p{ color:white;
             </label>
            
         </div>
+        <div id="jobConsultantQuestions" style="display: none; ">
+  <!-- Add your additional questions here -->
+
+   <p>Please fill following mandatory fields.</p>
+   
+   <input type="text" name="educationalQualifications" placeholder="Mention your educational Qualifications" id="educationalQualifications" autocomplete="off" required>
+   
+    <input type="text" name="specializedCountries" placeholder="Mention your specialized Countries" id="specializedCountries" autocomplete="off" required>
+    
+     <input type="text" name="specializedJobs" placeholder="Mention your specialized Jobs" id="specializedJobs" autocomplete="off" required>
+
+      
+</div>
+        
         <div>
                  
           <input type="hidden" name="useractiontype" value="add"/>
-          <button style="left: 21%; " class="btn1" type="submit">Create User</button>
+          <button style="position:relative;left:0%; " class="btn1" type="submit">Create User</button>
         </div>
+         <a href="login.jsp" class="dnthave"  style="position:relative;left:0%;top:1%; ">Already have an account? Login</a>
         </form>
-          <a href="login.jsp" class="dnthave">Already have an account? Login</a>
+         
     </div> 
+<!--       <script>
+  const roleRadioButtons = document.querySelectorAll('input[name="usertype"]');
+  const jobConsultantQuestions = document.getElementById('jobConsultantQuestions');
+
+  // Function to show or hide additional questions based on the selected role
+  function handleRoleSelection() {
+    if (document.querySelector('input[name="usertype"]:checked').value === "ROLE_CONSULTANT") {
+      jobConsultantQuestions.style.display = 'block';
+    } else {
+      jobConsultantQuestions.style.display = 'none';
+    }
+  }
+
+  // Attach the handleRoleSelection function to the change event of the radio buttons
+  roleRadioButtons.forEach((radio) => {
+    radio.addEventListener('change', handleRoleSelection);
+  });
+
+  // Call handleRoleSelection initially to set the initial state
+  handleRoleSelection();
+</script> -->
       
+<!-- <script>
+  const roleRadioButtons = document.querySelectorAll('input[name="usertype"]');
+  const jobConsultantQuestions = document.getElementById('jobConsultantQuestions');
+  const form = document.forms['form1'];
+
+  // Function to show or hide additional questions based on the selected role
+  function handleRoleSelection() {
+    if (document.querySelector('input[name="usertype"]:checked').value === "ROLE_CONSULTANT") {
+      jobConsultantQuestions.style.display = 'block';
+      // Make the additional questions required
+      document.querySelector('input[name="name"]').setAttribute('required', 'required');
+    } else {
+      jobConsultantQuestions.style.display = 'none';
+      // Remove the required attribute for the additional questions
+      document.querySelector('input[name="name"]').removeAttribute('required');
+    }
+  }
+
+  // Attach the handleRoleSelection function to the change event of the radio buttons
+  roleRadioButtons.forEach((radio) => {
+    radio.addEventListener('change', handleRoleSelection);
+  });
+
+  // Call handleRoleSelection initially to set the initial state
+  handleRoleSelection();
+
+  // Function to handle form submission
+  form.addEventListener('submit', function (event) {
+    if (document.querySelector('input[name="usertype"]:checked').value === "ROLE_CONSULTANT") {
+      // Check if additional questions are answered when "Job Consultant" is selected
+      const name = document.querySelector('input[name="name"]').value;
+
+      if (!name) {
+        event.preventDefault(); // Prevent form submission if additional questions are not answered
+        alert('Please answer the additional questions for Job Consultants.');
+      }
+    }
+  });
+</script> -->
+
+
+<script>
+  const roleRadioButtons = document.querySelectorAll('input[name="usertype"]');
+  const jobConsultantQuestions = document.getElementById('jobConsultantQuestions');
+  const form = document.forms['form1'];
+
+  // Function to show or hide additional questions based on the selected role
+  function handleRoleSelection() {
+    if (document.querySelector('input[name="usertype"]:checked').value === "ROLE_CONSULTANT") {
+      jobConsultantQuestions.style.display = 'block';
+      // Make the additional questions required for job consultants
+      document.querySelector('input[name="educationalQualifications"]').setAttribute('required', 'required');
+      document.querySelector('input[name="specializedCountries"]').setAttribute('required', 'required');
+      document.querySelector('input[name="specializedJobs"]').setAttribute('required', 'required');
+    } else {
+      jobConsultantQuestions.style.display = 'none';
+      // Remove the required attribute for the additional questions
+      document.querySelector('input[name="educationalQualifications"]').removeAttribute('required');
+      document.querySelector('input[name="specializedCountries"]').removeAttribute('required');
+      document.querySelector('input[name="specializedJobs"]').removeAttribute('required');
+    }
+  }
+
+  // Attach the handleRoleSelection function to the change event of the radio buttons
+  roleRadioButtons.forEach((radio) => {
+    radio.addEventListener('change', handleRoleSelection);
+  });
+
+  // Call handleRoleSelection initially to set the initial state
+  handleRoleSelection();
+
+  // Function to handle form submission
+  form.addEventListener('submit', function (event) {
+    if (document.querySelector('input[name="usertype"]:checked').value === "ROLE_CONSULTANT") {
+      // Check if additional questions are answered when "Job Consultant" is selected
+      const educationalQualifications = document.querySelector('input[name="educationalQualifications"]').value;
+      const specializedCountries = document.querySelector('input[name="specializedCountries"]').value;
+      const specializedJobs = document.querySelector('input[name="specializedJobs"]').value;
+
+      if (!educationalQualifications || !specializedCountries || !specializedJobs) {
+        event.preventDefault(); // Prevent form submission if additional questions are not answered
+        alert('Please answer the additional questions for Job Consultants.');
+      }
+    }
+  });
+</script>
+
  
 
 </html>

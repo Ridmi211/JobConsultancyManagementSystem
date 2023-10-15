@@ -461,10 +461,6 @@ h2{text-align: center;}
         <i class="fas fa-times" id="cancel"></i>
       </label>
 
-<%
-// Get the user object from the session
-User user = (User) session.getAttribute("user");
-%>
 
 <div class="sidebar">
   <header>Menu</header>
