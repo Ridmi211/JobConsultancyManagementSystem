@@ -454,14 +454,14 @@ p {
 <form action="usermanager" method="post">	
     <label for="userIdUpdate">User ID:</label>
     <input class="form-control" type="number" id="userIdUpdate" name="userId" readonly="readonly" value="${user.userId}"/>
-    
+        <label for="email">Email:</label>
+    <input class="form-control" type="text" id="email" name="email" readonly="readonly" value="${user.email}"/>
     <label for="name"> Name:</label>
     <input class="form-control" type="text" id="name" name="name" value="${user.name}"/>
     
       <label for="phoneNumber">Phone number:</label>
     <input class="form-control" type="text" id="phoneNumber" name="phoneNumber" value="${user.phoneNumber}"/>
-      <label for="email">Email:</label>
-    <input class="form-control" type="text" id="email" name="email" value="${user.email}"/>
+  
       <label for="birthdate">Birth-date:</label>
     <input class="form-control" type="date" id="birthdate" name="birthdate" value="${user.birthdate}"/>
       <label for="gender">Gender:</label>

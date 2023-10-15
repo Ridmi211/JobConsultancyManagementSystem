@@ -517,28 +517,6 @@
 }
 
 
-
-    /*  <!-- sidebar styling start here  -->*/
-
-    /* @media print {
-            table {
-                width: 100%;
-            }
-        } */
-
-        /* @page {
-            size: A4 portrait;
-            margin: 0;
-        } */
-    /* *{
-  margin: 0;
-  padding: 0;
-  text-decoration: none;
-}
-:root {
-  --accent-color: #fff;
-  --gradient-color: #FBFBFB;
-} */
 body{
   display: flex;
   flex-direction: column;
@@ -685,24 +663,7 @@ label #cancel{
   text-align: center;
 }
 
-/* h2 {
-  position: relative;
-  text-align: center;
-  color: #353535;
-  font-size: 60px;
-  font-family: 'Lato', sans-serif;
-  margin: 0;
-  color: #a759f5;
-} */
 
-/* p {
-  font-family: 'Lato', sans-serif;
-  font-weight: 300;
-  text-align: center;
-  font-size: 30px;
-  color: #d6adff;
-  margin: 0;
-} */
  /*  <!-- sidebar styling end here  --> */
     </Style>
 

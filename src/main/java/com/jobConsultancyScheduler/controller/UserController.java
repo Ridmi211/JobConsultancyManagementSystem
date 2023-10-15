@@ -105,7 +105,7 @@ public class UserController extends HttpServlet {
 	            if (enteredHashedPassword != null && enteredHashedPassword.equals(storedHashedPassword)) {
 	                HttpSession session = request.getSession();
 	                session.setAttribute("user", user);
-	                response.sendRedirect("admin-dashboard.jsp");
+	                response.sendRedirect("home.jsp");
 	            } else {
 	                request.setAttribute("loginError", "Invalid email or password");
 	                RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
