@@ -3,6 +3,7 @@
       <%@ taglib prefix="tag" uri="http://java.sun.com/jsp/jstl/core"%>
     <%@ page import="com.jobConsultancyScheduler.model.User" %>
     <%@ page import="com.jobConsultancyScheduler.model.AccessRight" %>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     
     <%
 User user = (User) session.getAttribute("user");
@@ -452,6 +453,8 @@ p {
 				<button type="submit" class="btn btn-info">Search</button>			
 			</form> -->
 <form action="usermanager" method="post">	
+ 
+    <input class="form-control" type="hidden" id="accessRight" name="accessRight"  readonly="readonly" value="${user.accessRight}"/>
     <label for="userIdUpdate">User ID:</label>
     <input class="form-control" type="number" id="userIdUpdate" name="userId" readonly="readonly" value="${user.userId}"/>
         <label for="email">Email:</label>
@@ -470,12 +473,26 @@ p {
     <input class="form-control" type="text" id="occupation" name="occupation" value="${user.occupation}"/>
     <label for="country">Country:</label>
     <input class="form-control" type="text" id="country" name="country" value="${user.country}"/>
-      <label for="country">educational Qualifications:</label>
+  
+    
+    
+    
+    <c:if test="${user.accessRight == 'ROLE_CONSULTANT'}">
+    <label for="educationalQualifications">Educational Qualifications:</label>
+    <input class="form-control" type="text" id="educationalQualifications" name="educationalQualifications" value="${user.educationalQualifications}"/>
+    
+    <label for="specializedCountries">Specialized Countries:</label>
+    <input class="form-control" type="text" id="specializedCountries" name="specializedCountries" value="${user.specializedCountries}"/>
+    
+    <label for="specializedJobs">Specialized Jobs:</label>
+    <input class="form-control" type="text" id="specializedJobs" name="specializedJobs" value="${user.specializedJobs}"/>
+</c:if>
+     <%--  <label for="country">educational Qualifications:</label>
     <input class="form-control" type="text" id="educationalQualifications" name="educationalQualifications" value="${user.educationalQualifications}"/>
       <label for="country">specializedCountries:</label>
     <input class="form-control" type="text" id="specializedCountries" name="specializedCountries" value="${user.specializedCountries}"/>
       <label for="country">specializedJobs:</label>
-    <input class="form-control" type="text" id="specializedJobs" name="specializedJobs" value="${user.specializedJobs}"/>
+    <input class="form-control" type="text" id="specializedJobs" name="specializedJobs" value="${user.specializedJobs}"/> --%>
     <%--  <label for="country">Registered as :</label>
     <input class="form-control" type="text" id="accessRight" name="accessRight" readonly="readonly" value="${user.accessRight.displayName}"/>
     

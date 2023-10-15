@@ -271,6 +271,7 @@ public class UserController extends HttpServlet {
 		user.setEducationalQualifications(request.getParameter("educationalQualifications"));
 		user.setSpecializedCountries(request.getParameter("specializedCountries"));
 		user.setSpecializedJobs(request.getParameter("specializedJobs"));
+		 user.setAccessRight(AccessRight.valueOf(request.getParameter("accessRight")));
 //		user.setAccessRight(AccessRight.valueOf(request.getParameter("accessRight")));
 		try {
 			if (getUserService().editUser(user)) {
