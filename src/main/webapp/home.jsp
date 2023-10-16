@@ -693,6 +693,10 @@ User user = (User) session.getAttribute("user");
     <span>Dashboard</span>
   </a>
 
+<a href="view-consultants.jsp" >
+    <i class="fas fa-qrcode"></i>
+    <span>Dashboard</span>
+  </a>
 
 
   <%-- Display Events and Overview for Consultant --%>
