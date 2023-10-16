@@ -38,14 +38,25 @@ public class UserController extends HttpServlet {
 
 		String useractiontype = request.getParameter("useractiontype");
 
-		if (useractiontype.equals("single")) {
-			fetchSingleUser(request, response);
-		}else if (useractiontype.equals("view")) {
-			viewUser(request, response); 
-		}else
-			fetchAllUsers(request, response);
-		}
+//		if (useractiontype.equals("single")) {
+//			fetchSingleUser(request, response);
+//		}else if (useractiontype.equals("view")) {
+//			viewUser(request, response); 
+//		}else
+//			fetchAllUsers(request, response);
+//		}
 
+
+	    if (useractiontype.equals("single")) {
+	        fetchSingleUser(request, response);
+	    } else if (useractiontype.equals("view")) {
+	        viewUser(request, response);
+	    } else if (useractiontype.equals("consultants")) {
+	        fetchConsultantUsers(request, response); // Add this condition to fetch consultant users
+	    } else {
+	        fetchAllUsers(request, response);
+	    }
+	}
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -373,6 +384,31 @@ public class UserController extends HttpServlet {
 		rd.forward(request, response);
 
 	}
+	
+	
+	private void fetchConsultantUsers(HttpServletRequest request, HttpServletResponse response)
+		    throws ServletException, IOException {
+
+		    clearMessage();
+
+		    List<User> consultantUsers = new ArrayList<User>();
+		    try {
+		        consultantUsers = getUserService().fetchAllConsultantUsers(); // Use the new method to fetch consultant users
+
+		        if (!(consultantUsers.size() > 0)) {
+		            message = "No consultant users found!";
+		        }
+		    } catch (ClassNotFoundException | SQLException e) {
+		        message = e.getMessage();
+		    }
+
+		    request.setAttribute("consultantUsers", consultantUsers); // Use a different attribute name for consultant users
+		    request.setAttribute("feebackMessage", message);
+
+		    RequestDispatcher rd = request.getRequestDispatcher("view-consultants.jsp"); // Use a different JSP page
+		    rd.forward(request, response);
+		}
+
 
 	private void clearMessage() {
 		message = "";

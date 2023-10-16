@@ -897,11 +897,11 @@ button.primary.ghost {
 
 
         <!-- ---------------------------------------Consultants--------------------------------------------------------------------- -->
-<% List<User> userList = (List<User>) request.getAttribute("userList"); %>
+<% List<User> consultantUsers = (List<User>) request.getAttribute("consultantUsers"); %>
         <div class="row p-0 pb-5  " style="margin-left: 240px; margin-top:200px;">
             <div class="container">
                 <div class="row">
-            <% for (User user : userList) { %>
+            <% for (User user : consultantUsers) { %>
                   <div class="col-sm mb-5">
                    
                   <div class="work">

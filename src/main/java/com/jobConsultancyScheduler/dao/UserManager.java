@@ -21,6 +21,12 @@ public interface UserManager {
 	
     public boolean isEmailAlreadyExists(String email) throws SQLException, ClassNotFoundException;
 
+    public List<User> fetchAllConsultantUsers() throws SQLException, ClassNotFoundException;
+
+//    public int countUsers() throws SQLException, ClassNotFoundException;
+//    public List<User> searchUsers(String searchTerm) throws SQLException, ClassNotFoundException;
+//    public boolean changePassword(int userId, String newPassword) throws SQLException, ClassNotFoundException;
+
 
 
 }

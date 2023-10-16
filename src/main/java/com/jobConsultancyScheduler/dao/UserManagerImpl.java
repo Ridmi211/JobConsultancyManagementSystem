@@ -193,6 +193,42 @@ public class UserManagerImpl implements UserManager {
 		return userList;
 	}
 	
+	public List<User> fetchAllConsultantUsers() throws SQLException, ClassNotFoundException {
+	    Connection connection = getConnection();
+	    String query = "SELECT * FROM user WHERE accessRight = 'ROLE_CONSULTANT'";
+	    Statement st = connection.createStatement();
+	    
+	    List<User> consultantUsers = new ArrayList<>();
+	    
+	    ResultSet rs = st.executeQuery(query);
+	    while (rs.next()) {
+	        User user = new User();
+	        user.setUserId(rs.getInt("userId"));
+			user.setName(rs.getString("name"));
+			user.setPhoneNumber(rs.getString("phoneNumber"));
+			user.setEmail(rs.getString("email"));
+			user.setBirthdate(rs.getString("birthdate"));
+			user.setGender(rs.getString("gender"));
+			user.setOccupation(rs.getString("occupation"));
+			user.setCountry(rs.getString("country"));
+			  user.setAccessRight(AccessRight.valueOf(rs.getString("accessRight")));
+			   user.setEducationalQualifications(rs.getString("educationalQualifications"));
+		        user.setSpecializedCountries(rs.getString("specializedCountries"));
+		        user.setSpecializedJobs(rs.getString("specializedJobs"));
+		        user.setAvailableDays(rs.getString("availableDays"));
+		        user.setAvailableTimeSlots(rs.getString("availableTimeSlots"));
+
+	        consultantUsers.add(user);
+	    }
+	    
+	    st.close();
+	    connection.close();
+	    
+	    return consultantUsers;
+	}
+
+	
+	
 	// In UserManagerImpl.java
 	@Override
 	public User fetchUserByEmail(String email) throws SQLException, ClassNotFoundException {
