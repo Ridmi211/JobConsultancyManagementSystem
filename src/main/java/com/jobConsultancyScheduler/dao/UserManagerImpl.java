@@ -41,7 +41,7 @@ public class UserManagerImpl implements UserManager {
 		
 //		String query = "INSERT INTO product (name, price) VALUES (?,?)";
 		
-		String query = "INSERT INTO user(`name`,`phoneNumber`,`email`, `password`,`birthdate`,`gender`,`occupation`,`country`,`educationalQualifications`,`specializedCountries`,`specializedJobs`,`accessRight`)	VALUES	(?,?,?,?,?,?,?,?,?,?,?,?)";
+		String query = "INSERT INTO user(`name`,`phoneNumber`,`email`, `password`,`birthdate`,`gender`,`occupation`,`country`,`educationalQualifications`,`specializedCountries`,`specializedJobs`,`availableDays`,`availableTimeSlots`,`accessRight`)	VALUES	(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 		PreparedStatement ps = connection.prepareStatement(query);
 		ps.setString(1, user.getName());
@@ -55,7 +55,9 @@ public class UserManagerImpl implements UserManager {
 		ps.setString(9, user.getEducationalQualifications());
 		ps.setString(10, user.getSpecializedCountries());
 		ps.setString(11, user.getSpecializedJobs());
-		 ps.setString(12, user.getAccessRight().toString()); 
+		ps.setString(12, user.getAvailableDays());
+		ps.setString(13, user.getAvailableTimeSlots());
+		 ps.setString(14, user.getAccessRight().toString()); 
 
 		boolean result = false;
 		

@@ -19,6 +19,8 @@ public class User {
 	    private String educationalQualifications;
 	    private String specializedCountries;
 	    private String specializedJobs;
+	    private String availableDays;
+	    private String availableTimeSlots;
 //	    private String profilePicture;
 	    
 	    private String cvPath; // Path to the CV file
@@ -33,7 +35,7 @@ public class User {
 	    public User(int userId, String name, String phoneNumber, String email, String password,
 	                String birthdate, String gender, String occupation, String country,
 	                AccessRight accessRight, String educationalQualifications,
-	                String specializedCountries, String specializedJobs, String profilePicturePath, String cvPath) {
+	                String specializedCountries, String specializedJobs,String availableDays,String availableTimeSlots, String profilePicturePath, String cvPath) {
 	    	
 	        this.userId = userId;
 	        this.name = name;
@@ -49,6 +51,8 @@ public class User {
 	        this.educationalQualifications = educationalQualifications;
 	        this.specializedCountries = specializedCountries;
 	        this.specializedJobs = specializedJobs;
+	        this.availableDays = availableDays;
+	        this.availableTimeSlots = availableTimeSlots;
 	        
 	        this.profilePicturePath = profilePicturePath;
 	        this.cvPath = cvPath;
@@ -181,6 +185,22 @@ public class User {
 	    public void setCvPathPath(String cvPath) {
 	        this.cvPath = cvPath;
 	    }
+
+		public String getAvailableDays() {
+			return availableDays;
+		}
+
+		public void setAvailableDays(String availableDays) {
+			this.availableDays = availableDays;
+		}
+
+		public String getAvailableTimeSlots() {
+			return availableTimeSlots;
+		}
+
+		public void setAvailableTimeSlots(String availableTimeSlots) {
+			this.availableTimeSlots = availableTimeSlots;
+		}
 	    
 
 
