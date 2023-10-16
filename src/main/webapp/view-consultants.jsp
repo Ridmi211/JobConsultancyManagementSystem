@@ -776,10 +776,10 @@
 }
 
 button.primary {
-	background-color: #03BFCB;
-	border: 1px solid #03BFCB;
+	background-color: #905abd;
+	/* border: 1px solid #2D2747; */
 	border-radius: 3px;
-	color: #231E39;
+	color: white;
 	font-family: Montserrat, sans-serif;
 	font-weight: 500;
 	padding: 10px 25px;
@@ -794,7 +794,7 @@ button.primary.ghost {
 	background-color: #905abd;
 	text-align: left;
 	padding: 15px;
-	margin-top: 30px;
+	margin-top: 10px;
 }
 
 .skills ul {
@@ -806,6 +806,39 @@ button.primary.ghost {
 .skills ul li {
 	border: 1px solid #2D2747;
 	border-radius: 2px;
+	display: inline-block;
+	font-size: 12px;
+	margin: 0 7px 7px 0;
+	padding: 7px;
+}
+.name {
+	
+	display: inline-block;
+	font-size: 20px;
+	margin: 0 7px 7px 0;
+	padding: 7px;
+	color: #2D2747;
+	font-weight:600;
+}
+.countries {
+	
+	text-align: center;
+	padding: 15px;
+	padding-bottom:0px;
+	
+}
+
+.countries ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+.countries ul li {
+	background-color: #03BFCB;
+	border: 1px solid #03BFCB;
+	border-radius: 3px;
+	color: #231E39;
 	display: inline-block;
 	font-size: 12px;
 	margin: 0 7px 7px 0;
@@ -908,57 +941,78 @@ button.primary.ghost {
                         <div class="card-container">
                             <span class="pro">PRO</span>
                             <img class="round" src="https://randomuser.me/api/portraits/women/79.jpg" alt="user" />
-                            <h3> <%= user.getUserId() %> </h3>
-                            <h6>New York</h6>
-                            <p>User interface designer and <br/> front-end developer</p>
-                            <div class="buttons">
-                                <button class="primary">
-                                    Message
-                                </button>
-                                <button class="primary ghost">
-                                    Following
-                                </button>
+                           <br> <div class="name"> <%= user.getName() %>  </div>
+                            <h6> <%= user.getOccupation() %></h6>
+                            <p><%= user.getEducationalQualifications() %></p>
+                             <div class="countries">
+                               <%--  <h6>   <%= user.getSpecializedCountries() %></h6> --%>
+                                <ul>
+                                      <%
+                                        String specializedCountries = user.getSpecializedCountries();
+                                        if (specializedCountries != null && !specializedCountries.isEmpty()) {
+                                            String[] countries = specializedCountries.split(",");
+                                            for (String country : countries) {
+                                    %>
+                                    <li><%= country.trim() %></li>
+                                    <%
+                                            }
+                                        }
+                                    %>
+                                </ul>
                             </div>
                             <div class="skills">
-                                <h6>Skills</h6>
+                                <h6>Specialized Jobs</h6>
                                 <ul>
-                                    <li>UI / UX</li>
-                                    <li>Front End Development</li>
-                                    <li>HTML</li>
-                                    <li>CSS</li>
-                                    <li>JavaScript</li>
-                                    <li>React</li>
-                                    <li>Node</li>
+                                      <%
+                                        String specializedJobs = user.getSpecializedJobs();
+                                        if (specializedJobs != null && !specializedJobs.isEmpty()) {
+                                            String[] jobs = specializedJobs.split(",");
+                                            for (String job : jobs) {
+                                    %>
+                                    <li><%= job.trim() %></li>
+                                    <%
+                                            }
+                                        }
+                                    %>
                                 </ul>
                             </div>
                         </div>
                         <div class="layer">
                             <div class="days">
-                                <h6>    ${user.userId}</h6>
+                                <h6>  Available Days</h6>
                                 <ul>
-                                    <li>UI / UX</li>
-                                    <li>Front End Development</li>
-                                    <li>HTML</li>
-                                    <li>CSS</li>
-                                    <li>JavaScript</li>
-                                    <li>React</li>
-                                    <li>Node</li>
+                                     <%
+                                        String availableDays = user.getAvailableDays();
+                                        if (availableDays != null && !availableDays.isEmpty()) {
+                                            String[] days = availableDays.split(",");
+                                            for (String day : days) {
+                                    %>
+                                    <li><%= day.trim() %></li>
+                                    <%
+                                            }
+                                        }
+                                    %>
                                 </ul>
                             </div>
                             <div class="days">
-                                <h6>Skills</h6>
-                                <ul>
-                                    <li>UI / UX</li>
-                                    <li>Front End Development</li>
-                                    <li>HTML</li>
-                                    <li>CSS</li>
-                                    <li>JavaScript</li>
-                                    <li>React</li>
-                                    <li>Node</li>
+                                <h6>Available Time Slots</h6>
+                                 <ul>
+                                   
+                                     <%
+                                        String availableTimeSlots = user.getAvailableTimeSlots();
+                                        if (availableTimeSlots != null && !availableTimeSlots.isEmpty()) {
+                                            String[] timeSlots = availableTimeSlots.split(",");
+                                            for (String timeSlot : timeSlots) {
+                                    %>
+                                    <li><%= timeSlot.trim() %></li>
+                                    <%
+                                            }
+                                        }
+                                    %>
                                 </ul>
                             </div>
                      
-                          <a href=""><i class="fa-solid fa-arrow-up-right-from-square"></i> Book</a>
+                          <button class="btn primary"><i class="fa-solid fa-calendar-plus"></i>&nbsp;Book Now </button>
                         </div>
                       </div>
                      

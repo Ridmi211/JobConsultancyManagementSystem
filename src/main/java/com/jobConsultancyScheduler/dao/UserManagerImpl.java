@@ -33,13 +33,6 @@ public class UserManagerImpl implements UserManager {
 	public boolean addUser(User user) throws SQLException, ClassNotFoundException {
 	Connection connection = getConnection();
 		
-		//String query = "INSERT INTO product (name, price) VALUES ("+ product.getName() + "," + product.getPrice() + ")";
-		//Statement st = connection.createStatement();
-		
-		/*if(st.executeUpdate(query) > 0)
-			result = true;*/
-		
-//		String query = "INSERT INTO product (name, price) VALUES (?,?)";
 		
 		String query = "INSERT INTO user(`name`,`phoneNumber`,`email`, `password`,`birthdate`,`gender`,`occupation`,`country`,`educationalQualifications`,`specializedCountries`,`specializedJobs`,`availableDays`,`availableTimeSlots`,`accessRight`)	VALUES	(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 

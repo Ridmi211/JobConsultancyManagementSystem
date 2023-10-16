@@ -166,21 +166,7 @@ public class UserController extends HttpServlet {
 	    user.setSpecializedCountries(request.getParameter("specializedCountries"));
 	    user.setSpecializedJobs(request.getParameter("specializedJobs"));
 	    
-		/*
-		 * // In your addUser and editUser methods, retrieve the values of available
-		 * days and time slots String[] selectedAvailableDays =
-		 * request.getParameterValues("availableDays"); String[]
-		 * selectedAvailableTimeSlots =
-		 * request.getParameterValues("availableTimeSlots");
-		 * 
-		 * // Convert the selected values to a comma-separated string String
-		 * availableDays = String.join(",", selectedAvailableDays); String
-		 * availableTimeSlots = String.join(",", selectedAvailableTimeSlots);
-		 * 
-		 * // Set the values in the User object user.setAvailableDays(availableDays);
-		 * user.setAvailableTimeSlots(availableTimeSlots);
-		 */
-	    
+	
 	    
 	 // In your addUser and editUser methods, retrieve the values of available days and time slots
 	    String[] selectedAvailableDays = request.getParameterValues("availableDays");
