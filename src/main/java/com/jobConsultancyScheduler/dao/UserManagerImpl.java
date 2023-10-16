@@ -72,7 +72,7 @@ public class UserManagerImpl implements UserManager {
 	@Override
 	public boolean editUser(User user) throws SQLException, ClassNotFoundException {
 		Connection connection = getConnection();
-		String query = "UPDATE user SET name =?,phoneNumber=?,email=?,birthdate=?,gender=?,occupation=?,country=?,educationalQualifications=?,specializedCountries=?,specializedJobs=?,accessRight=? WHERE userId=?";
+		String query = "UPDATE user SET name =?,phoneNumber=?,email=?,birthdate=?,gender=?,occupation=?,country=?,educationalQualifications=?,specializedCountries=?,specializedJobs=?,accessRight=?,availableDays=?,availableTimeSlots=? WHERE userId=?";
 		
 		PreparedStatement ps = connection.prepareStatement(query);
 		ps.setString(1, user.getName());
@@ -89,7 +89,9 @@ public class UserManagerImpl implements UserManager {
 		ps.setString(9, user.getSpecializedCountries());
 		ps.setString(10, user.getSpecializedJobs());
 		 ps.setString(11, user.getAccessRight().toString()); 
-		ps.setInt(12, user.getUserId());
+		 ps.setString(12, user.getAvailableDays());
+			ps.setString(13, user.getAvailableTimeSlots());
+		ps.setInt(14, user.getUserId());
 		
 		boolean result = false;
 		
@@ -147,6 +149,9 @@ public class UserManagerImpl implements UserManager {
 			   user.setEducationalQualifications(rs.getString("educationalQualifications"));
 		        user.setSpecializedCountries(rs.getString("specializedCountries"));
 		        user.setSpecializedJobs(rs.getString("specializedJobs"));
+		        user.setAvailableDays(rs.getString("availableDays"));
+		        user.setAvailableTimeSlots(rs.getString("availableTimeSlots"));
+		        
 		}
 		
 		ps.close();
@@ -216,6 +221,8 @@ public class UserManagerImpl implements UserManager {
 	        user.setSpecializedCountries(resultSet.getString("specializedCountries"));
 	        user.setSpecializedJobs(resultSet.getString("specializedJobs"));
 	        user.setAccessRight(AccessRight.valueOf(resultSet.getString("accessRight")));
+	        user.setAvailableDays(resultSet.getString("availableDays"));
+	        user.setAvailableTimeSlots(resultSet.getString("availableTimeSlots"));
 	    }
 
 	    preparedStatement.close();

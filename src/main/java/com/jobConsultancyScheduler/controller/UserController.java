@@ -250,42 +250,61 @@ public class UserController extends HttpServlet {
 	}
 
 	private void editUser(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	        throws ServletException, IOException {
 
-		clearMessage();
+	    clearMessage();
 
-		User user = new User();
-		user.setUserId(Integer.parseInt(request.getParameter("userId")));
-		user.setName(request.getParameter("name"));
-		user.setPhoneNumber(request.getParameter("phoneNumber"));
-		user.setEmail(request.getParameter("email"));
-//		user.setPassword(request.getParameter("password"));
-		user.setBirthdate(request.getParameter("birthdate"));
-		user.setGender(request.getParameter("gender"));
-		user.setOccupation(request.getParameter("occupation"));
-		user.setCountry(request.getParameter("country"));
-		
-		/////only for consultant		
-		user.setEducationalQualifications(request.getParameter("educationalQualifications"));
-		user.setSpecializedCountries(request.getParameter("specializedCountries"));
-		user.setSpecializedJobs(request.getParameter("specializedJobs"));
-		 user.setAccessRight(AccessRight.valueOf(request.getParameter("accessRight")));
-//		user.setAccessRight(AccessRight.valueOf(request.getParameter("accessRight")));
-		try {
-			if (getUserService().editUser(user)) {
-				message = "The user has been successfully updated! User ID: " + user.getUserId();
-			} else {
-				message = "Failed to update the product! Product Code: " + user.getUserId();
-			}
-		} catch (ClassNotFoundException | SQLException e) {
-			message = e.getMessage();
-		}
+	    User user = new User();
+	    user.setUserId(Integer.parseInt(request.getParameter("userId")));
+	    user.setName(request.getParameter("name"));
+	    user.setPhoneNumber(request.getParameter("phoneNumber"));
+	    user.setEmail(request.getParameter("email"));
+	    // user.setPassword(request.getParameter("password"));
+	    user.setBirthdate(request.getParameter("birthdate"));
+	    user.setGender(request.getParameter("gender"));
+	    user.setOccupation(request.getParameter("occupation"));
+	    user.setCountry(request.getParameter("country"));
 
-		request.setAttribute("feebackMessage", message);
-		RequestDispatcher rd = request.getRequestDispatcher("feedback-message.jsp");
-		rd.forward(request, response);
+	    /////only for consultant
+	    user.setEducationalQualifications(request.getParameter("educationalQualifications"));
+	    user.setSpecializedCountries(request.getParameter("specializedCountries"));
+	    user.setSpecializedJobs(request.getParameter("specializedJobs"));
+	    user.setAccessRight(AccessRight.valueOf(request.getParameter("accessRight")));
 
+	    // Retrieve the values of available days and time slots
+	    String[] selectedAvailableDays = request.getParameterValues("availableDays");
+	    String[] selectedAvailableTimeSlots = request.getParameterValues("availableTimeSlots");
+
+	    // Check for null before processing
+	    if (selectedAvailableDays != null && selectedAvailableTimeSlots != null) {
+	        // Convert the selected values to a comma-separated string
+	        String availableDays = String.join(",", selectedAvailableDays);
+	        String availableTimeSlots = String.join(",", selectedAvailableTimeSlots);
+
+	        // Set the values in the User object
+	        user.setAvailableDays(availableDays);
+	        user.setAvailableTimeSlots(availableTimeSlots);
+	    } else {
+	        // Handle the case when no checkboxes were selected
+	        user.setAvailableDays("");
+	        user.setAvailableTimeSlots("");
+	    }
+
+	    try {
+	        if (getUserService().editUser(user)) {
+	            message = "The user has been successfully updated! User ID: " + user.getUserId();
+	        } else {
+	            message = "Failed to update the user! User ID: " + user.getUserId();
+	        }
+	    } catch (ClassNotFoundException | SQLException e) {
+	        message = e.getMessage();
+	    }
+
+	    request.setAttribute("feebackMessage", message);
+	    RequestDispatcher rd = request.getRequestDispatcher("feedback-message.jsp");
+	    rd.forward(request, response);
 	}
+
 
 	private void deleteUser(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

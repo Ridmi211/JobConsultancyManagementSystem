@@ -486,6 +486,12 @@ p {
     
     <label for="specializedJobs">Specialized Jobs:</label>
     <input class="form-control" type="text" id="specializedJobs" name="specializedJobs" value="${user.specializedJobs}"/>
+    
+      <label for="availableDays">availableDays:</label>
+    <input class="form-control" type="text" id="availableDays" name="availableDays" value="${user.availableDays}"/>
+    
+      <label for="availableTimeSlots">availableTimeSlotss:</label>
+    <input class="form-control" type="text" id="availableTimeSlots" name="availableTimeSlots" value="${user.availableTimeSlots}"/>
 </c:if>
      <%--  <label for="country">educational Qualifications:</label>
     <input class="form-control" type="text" id="educationalQualifications" name="educationalQualifications" value="${user.educationalQualifications}"/>
