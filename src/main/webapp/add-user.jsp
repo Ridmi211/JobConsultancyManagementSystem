@@ -541,6 +541,21 @@ p{ color:white;
 				<option value="Physical-Therapist">Physical Therapist</option>
 				<option value="Environmental-Engineer">Environmental Engineer</option>
 				<option value="UX-Designer">UX Designer</option>
+				<option value="Employment-Consultant">Employment Consultant</option>
+				<option value="Career-Advisor">Career Advisor</option>
+				<option value="HR-Consultant">HR Consultant</option>
+				<option value="Talent-Acquisition-Specialist">Talent Acquisition Specialist</option>
+				<option value="Resume-Writer">Resume Writer</option>
+				<option value="Interview-Coach">Interview Coach</option>
+				<option value="Job-Placement-Specialist">Job Placement Specialist</option>
+				<option value="Career-Development-Specialist">Career Development Specialist</option>
+				<option value="Recruitment-Consultant">Recruitment Consultant</option>
+				<option value="Executive-Search-Consultant">Executive Search Consultant</option>
+				<option value="Job-Search-Strategist">Job Search Strategist</option>
+				<option value="Human-Resources-Advisor">Human Resources Advisor</option>
+				<option value="Career-Services-Coordinator">Career Services Coordinator</option>
+				<option value="College-Career-Advisor">College Career Advisor</option>
+				<option value="Outplacement-Consultant">Outplacement Consultant</option>
 				<option value="Biomedical-Engineer">Biomedical Engineer</option>
 				<option value="Content-Writer">Content Writer</option>
 				<option value="Solar-Panel-Installer">Solar Panel Installer</option>
@@ -654,7 +669,7 @@ p{ color:white;
 
    <p>Please fill following mandatory fields.</p>
    
-   <input type="text" name="educationalQualifications" placeholder="Mention your educational Qualifications" id="educationalQualifications" autocomplete="off" required>
+   <input type="text" name="educationalQualifications" placeholder="Mention your qualifications for this role" id="educationalQualifications" autocomplete="off" required>
    
     <input type="text" name="specializedCountries" placeholder="Mention your specialized Countries" id="specializedCountries" autocomplete="off" required>
     

@@ -111,13 +111,19 @@
         }
 
         .header-text {
-            margin-top: 15%;
+            margin-top: 45%;
             font-size: 22px;
         }
 
         .header-text h1 {
-            font-size: 50px;
-            margin-top: 20px;
+            font-size: 20px;
+            margin-top: 40px;
+        } 
+        
+        .header-text h2 {
+              font-size: 60px;
+            margin-top: 40px;
+            color:#584674;
         }
 
         .header-text h1 span {
@@ -846,6 +852,31 @@ button.primary.ghost {
 }
 
 
+.qualifications {
+	
+	text-align: center;
+	padding: 15px;
+	padding-bottom:0px;
+	
+}
+
+.qualifications ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+.qualifications ul li {
+	
+	border: 1px solid #00433f;
+	border-radius: 3px;
+	color: #231E39;
+	display: inline-block;
+	font-size: 12px;
+	margin: 0 7px 7px 0;
+	padding: 7px;
+}
+
 .days {
 	
 	text-align: left;
@@ -875,80 +906,175 @@ button.primary.ghost {
 </head>
 
 <body>
-    <!-- sidebar start here  -->
-    <input type="checkbox" id="check">
-    <label style="position: fixed; top: 60px; z-index: 1; left: -5px;" for="check">
+   <!-- sidebar start here  -->
+   <input type="checkbox" id="check">
+      <label style="position: fixed; top: 60px; z-index: 1; left: -5px;" for="check">
         <i class="fas fa-bars" id="btn"></i>
         <i class="fas fa-times" id="cancel"></i>
-    </label>
-    <div class="sidebar">
-        <header>Menu</header>
-        <a href="#" class="active">
-            <i class="fas fa-qrcode"></i>
-            <span>Dashboard</span>
-        </a>
-        <a href="#">
-            <i class="fas fa-link"></i>
-            <span>Shortcuts</span>
-        </a>
-        <a href="#">
-            <i class="fas fa-stream"></i>
-            <span>Overview</span>
-        </a>
-        <a href="#">
-            <i class="fas fa-calendar"></i>
-            <span>Events</span>
-        </a>
-        <a href="#">
-            <i class="far fa-question-circle"></i>
-            <span>About</span>
-        </a>
-        <a href="#">
-            <i class="fas fa-sliders-h"></i>
-            <span>Services</span>
-        </a>
-        <a href="#">
-            <i class="far fa-envelope"></i>
-            <span>Contact</span>
-        </a>
-    </div>
+      </label>
 
-    <!-- sidebar end here  -->
-    <nav class="p-0 m-0 pt-2" style="z-index: 10;">
-        <img src="images/logo.png" alt="logo">
-        <ul class="" id="sidemenu">
-            <li><a href="#header">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#services">Extra-Curricular</a></li>
-            <li><a href="#portfolio">Projects</a></li>
-            <li><a href="#contact">Contact</a></li>
-            <i class="fas fa-solid fa-xmark" onclick="closemenu()"> </i>
-        </ul>
-        <i class="fas fa-solid fa-bars" onclick="openmenu()"></i>
-    </nav>
+<%
+// Get the user object from the session
+User user = (User) session.getAttribute("user");
+%>
+
+<div class="sidebar">
+  <header>Menu</header>
+  <%-- Always display Dashboard --%>
+   <a href="home.jsp"  class="active">
+    <i class="fas fa-qrcode"></i>
+    <span>Home</span>
+  </a>
+  <a href="admin-dashboard.jsp" >
+    <i class="fas fa-qrcode"></i>
+    <span>Dashboard</span>
+  </a>
+
+<a href="getuser?useractiontype=consultants" >
+    <i class="fas fa-qrcode"></i>
+    <span>Consultants</span>
+  </a>
+
+
+  <%-- Display Events and Overview for Consultant --%>
+  <% if (user != null && user.getAccessRight() == AccessRight.ROLE_CONSULTANT) { %>
+    <a href="#">
+      <i class="fas fa-calendar"></i>
+      <span>Overview</span>
+    </a>
     
+     <a  >
+       <i class="far fa-envelope"></i>
+       <span>Consultant</span>
+       
+     </a>
+  <% } %>
 
+  <%-- Display About and Services for Admin --%>
+  <% if (user != null && user.getAccessRight() == AccessRight.ROLE_ADMIN) { %>
+       
+      <a href="getuser?useractiontype=all" >
+       <i class="far fa-envelope"></i>
+       <span>View All</span>
+       
+     </a>
+     
+       <a  >
+       <i class="far fa-envelope"></i>
+       <span>Admin</span>
+       
+     </a>
+  <% } %>
+
+  <%-- Display Services for all users, regardless of role --%>
+ 
+
+  <%-- Display Contact for User and Consultant --%>
+  <% if (user != null && (user.getAccessRight() == AccessRight.ROLE_USER || user.getAccessRight() == AccessRight.ROLE_CONSULTANT)) { %>
+    <a href="#">
+      <i class="far fa-envelope"></i>
+      <span>Contact</span>
+    </a>
+     <a href="view-profile.jsp">
+    <i class="fas fa-sliders-h"></i>
+    <span>Profile</span>
+  </a>
+  <% } %>
+  
+  
+    <%-- Display Login or Logout based on user status --%>
+  <% if (user != null) { %>
+    <a href="logout.jsp">
+      <i class="fas fa-stream"></i>
+      <span>Logout</span>
+    </a>
+  <% } else { %>
+    <a href="login.jsp">
+      <i class="fas fa-sign-in-alt"></i>
+      <span>Login</span>
+    </a>
+  <% } %>
+</div>
+
+ 
+  <!-- sidebar end here  -->  
+   <nav class="p-0 m-0 pt-2">
+    <img src="images/logo.png" alt="logo">
+    <ul class="" id="sidemenu" >
+        <li><a href="#header">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Extra-Curricular</a></li>
+        <li><a href="#portfolio">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+        
+          <% if (user != null) { %>
+          
+    <li ><a href="view-profile.jsp"><i class="fa fa-user-circle" aria-hidden="true" ></i>&nbsp;&nbsp; <%= user.getName() %></a></li> 
+    
+  <% } else { %>
+    <li ><a href="login.jsp"><i class="fa fa-user-circle" aria-hidden="true" ></i>&nbsp;&nbsp; Login</a></li> 
+  <% } %>
+         
+         <i class="fas fa-solid fa-xmark" onclick="closemenu()"> </i>
+    </ul>
+    
+   
+    <i class="fas fa-solid fa-bars" onclick="openmenu()"></i>
+  </nav>
+    
+<div class="row p-0 m-0">
+    <div class="p-0 m-0 d-flex align-items-end d-flex justify-content-center" id="header" style="background-image: url(https://remodelerplatform.blob.core.windows.net/wwwsolarmaxtechcom/gallery/original/b1954715-acfa-42f4-8c83-6de06a836d44.jpg);"  >
+  
+      <div class="container d-flex justify-content-center p-0 m-0">       
+
+        <div class="header-text pt-2 " >
+      
+          <h1>Choose your dream path with our experienced</h1> <h2> Consultation panel</h2>
+         
+        
+       
+        </div>
+        
+      </div>
+    </div>
+  </div>
 
         <!-- ---------------------------------------Consultants--------------------------------------------------------------------- -->
 <% List<User> consultantUsers = (List<User>) request.getAttribute("consultantUsers"); %>
-        <div class="row p-0 pb-5  " style="margin-left: 240px; margin-top:200px;">
+        <div class="row p-0 pb-5  " style="margin-left: 140px; margin-top:110px;">
+        
             <div class="container">
                 <div class="row">
-            <% for (User user : consultantUsers) { %>
+            <% for (User user2 : consultantUsers) { %>
                   <div class="col-sm mb-5">
                    
                   <div class="work">
                         <div class="card-container">
                             <span class="pro">PRO</span>
                             <img class="round" src="https://randomuser.me/api/portraits/women/79.jpg" alt="user" />
-                           <br> <div class="name"> <%= user.getName() %>  </div>
-                            <h6> <%= user.getOccupation() %></h6>
-                            <p><%= user.getEducationalQualifications() %></p>
+                           <br> <div class="name"> <%= user2.getName() %>  </div>
+                            <h6> <%= user2.getOccupation() %></h6>
+                             <div class="qualifications">
+                               
+                                <ul>
+                                      <%
+                                        String educationalQualifications = user2.getEducationalQualifications();
+                                        if (educationalQualifications != null && !educationalQualifications.isEmpty()) {
+                                            String[] edus = educationalQualifications.split(",");
+                                            for (String edu : edus) {
+                                    %>
+                                    <li><%= edu.trim() %></li>
+                                    <%
+                                            }
+                                        }
+                                    %>
+                                </ul>
+                            </div>
                              <div class="countries">
                                <%--  <h6>   <%= user.getSpecializedCountries() %></h6> --%>
                                 <ul>
                                       <%
-                                        String specializedCountries = user.getSpecializedCountries();
+                                        String specializedCountries = user2.getSpecializedCountries();
                                         if (specializedCountries != null && !specializedCountries.isEmpty()) {
                                             String[] countries = specializedCountries.split(",");
                                             for (String country : countries) {
@@ -964,7 +1090,7 @@ button.primary.ghost {
                                 <h6>Specialized Jobs</h6>
                                 <ul>
                                       <%
-                                        String specializedJobs = user.getSpecializedJobs();
+                                        String specializedJobs = user2.getSpecializedJobs();
                                         if (specializedJobs != null && !specializedJobs.isEmpty()) {
                                             String[] jobs = specializedJobs.split(",");
                                             for (String job : jobs) {
@@ -982,7 +1108,7 @@ button.primary.ghost {
                                 <h6>  Available Days</h6>
                                 <ul>
                                      <%
-                                        String availableDays = user.getAvailableDays();
+                                        String availableDays = user2.getAvailableDays();
                                         if (availableDays != null && !availableDays.isEmpty()) {
                                             String[] days = availableDays.split(",");
                                             for (String day : days) {
@@ -999,7 +1125,7 @@ button.primary.ghost {
                                  <ul>
                                    
                                      <%
-                                        String availableTimeSlots = user.getAvailableTimeSlots();
+                                        String availableTimeSlots = user2.getAvailableTimeSlots();
                                         if (availableTimeSlots != null && !availableTimeSlots.isEmpty()) {
                                             String[] timeSlots = availableTimeSlots.split(",");
                                             for (String timeSlot : timeSlots) {
@@ -1032,7 +1158,7 @@ button.primary.ghost {
             </div>
             <div class="m-0 services justify-content-center">
 
-                <a href="#" class="btn btn2">Register Now</a>
+                <a href="add-user.jsp" class="btn btn2">Register Now</a>
             </div>
 
         </div>

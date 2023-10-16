@@ -1045,7 +1045,7 @@ User user = (User) session.getAttribute("user");
 <div class="row pt-5 font-weight-bold p-0 m-0" style="text-align: center;margin-top:100px;"> <h1 style="margin-top: 70px;"> <b> Start your global work adventure</b> </h1></div>
   <div class="m-0 services justify-content-center">
   
-    <a href="#"  class="btn btn2">Register Now</a>
+    <a href="add-user.jsp"  class="btn btn2">Register Now</a>
   </div>
 
 </div>
