@@ -575,6 +575,10 @@ h2{text-align: center;}
         <li class="list-group-item"></li>
         <p class="card-text">specializedJobs : <%= user.getEducationalQualifications() %></p>
         <li class="list-group-item"></li>
+         <p class="card-text">getAvailableDays : <%= user.getAvailableDays() %></p>
+        <li class="list-group-item"></li>
+         <p class="card-text">getAvailableTimeSlots : <%= user.getAvailableTimeSlots() %></p>
+        <li class="list-group-item"></li>
           <% } %>
       </ul>
     <a id="backButton" class="btn btn-primary">Back</a>

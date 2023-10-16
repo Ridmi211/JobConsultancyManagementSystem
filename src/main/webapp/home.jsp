@@ -693,6 +693,10 @@ User user = (User) session.getAttribute("user");
     <span>Dashboard</span>
   </a>
 
+<a href="getuser?useractiontype=consultants" >
+    <i class="fas fa-qrcode"></i>
+    <span>Consultants</span>
+  </a>
 
 
   <%-- Display Events and Overview for Consultant --%>
@@ -792,7 +796,7 @@ User user = (User) session.getAttribute("user");
         <div class="header-text pt-2" >
           <p>Software Engineering Undergarduate</p>
           <h2>Hi, I'm <span>Ridmi Yatigammana </span> <br> from Sri Lanka</h2>
-          <a href="#" class="btn">See more</a>
+         <a href="getuser?useractiontype=consultants" class="btn">Book Appointment</a>
         </div>
         
       </div>
@@ -1041,7 +1045,7 @@ User user = (User) session.getAttribute("user");
 <div class="row pt-5 font-weight-bold p-0 m-0" style="text-align: center;margin-top:100px;"> <h1 style="margin-top: 70px;"> <b> Start your global work adventure</b> </h1></div>
   <div class="m-0 services justify-content-center">
   
-    <a href="#"  class="btn btn2">Register Now</a>
+    <a href="add-user.jsp"  class="btn btn2">Register Now</a>
   </div>
 
 </div>

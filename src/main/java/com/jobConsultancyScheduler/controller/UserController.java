@@ -38,14 +38,25 @@ public class UserController extends HttpServlet {
 
 		String useractiontype = request.getParameter("useractiontype");
 
-		if (useractiontype.equals("single")) {
-			fetchSingleUser(request, response);
-		}else if (useractiontype.equals("view")) {
-			viewUser(request, response); 
-		}else
-			fetchAllUsers(request, response);
-		}
+//		if (useractiontype.equals("single")) {
+//			fetchSingleUser(request, response);
+//		}else if (useractiontype.equals("view")) {
+//			viewUser(request, response); 
+//		}else
+//			fetchAllUsers(request, response);
+//		}
 
+
+	    if (useractiontype.equals("single")) {
+	        fetchSingleUser(request, response);
+	    } else if (useractiontype.equals("view")) {
+	        viewUser(request, response);
+	    } else if (useractiontype.equals("consultants")) {
+	        fetchConsultantUsers(request, response); // Add this condition to fetch consultant users
+	    } else {
+	        fetchAllUsers(request, response);
+	    }
+	}
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -154,6 +165,31 @@ public class UserController extends HttpServlet {
 	    user.setEducationalQualifications(request.getParameter("educationalQualifications"));
 	    user.setSpecializedCountries(request.getParameter("specializedCountries"));
 	    user.setSpecializedJobs(request.getParameter("specializedJobs"));
+	    
+	
+	    
+	 // In your addUser and editUser methods, retrieve the values of available days and time slots
+	    String[] selectedAvailableDays = request.getParameterValues("availableDays");
+	    String[] selectedAvailableTimeSlots = request.getParameterValues("availableTimeSlots");
+
+	    // Check for null before processing
+	    if (selectedAvailableDays != null && selectedAvailableTimeSlots != null) {
+	        // Convert the selected values to a comma-separated string
+	        String availableDays = String.join(",", selectedAvailableDays);
+	        String availableTimeSlots = String.join(",", selectedAvailableTimeSlots);
+
+	        // Set the values in the User object
+	        user.setAvailableDays(availableDays);
+	        user.setAvailableTimeSlots(availableTimeSlots);
+	    } else {
+	        // Handle the case when no checkboxes were selected
+	        user.setAvailableDays("");
+	        user.setAvailableTimeSlots("");
+	    }
+
+	    // Now you can proceed with setting the remaining data
+	    // ...
+
 	    try {
 	        // Check if the email already exists in the database
 	        if (getUserService().isEmailAlreadyExists(user.getEmail())) {
@@ -175,48 +211,7 @@ public class UserController extends HttpServlet {
 	    rd.forward(request, response);
 	}
 
-	
-	/*
-	 * private void addUser(HttpServletRequest request, HttpServletResponse
-	 * response) throws ServletException, IOException {
-	 * 
-	 * clearMessage();
-	 * 
-	 * User user = new User();
-	 * 
-	 * user.setName(request.getParameter("name")); // System.out.println("name" +
-	 * request.getParameter("name") );
-	 * user.setPhoneNumber(request.getParameter("telephone"));
-	 * user.setEmail(request.getParameter("email"));
-	 * 
-	 * String plainPassword = request.getParameter("password");
-	 * 
-	 * if (plainPassword == null || plainPassword.isEmpty()) { // Password is null
-	 * or empty, return an error message message =
-	 * "Password cannot be null or empty."; request.setAttribute("feebackMessage",
-	 * message); RequestDispatcher rd =
-	 * request.getRequestDispatcher("add-user.jsp"); rd.forward(request, response);
-	 * return; // Exit the method, do not proceed with adding the user }
-	 * 
-	 * String hashedPassword = hashPassword(plainPassword);
-	 * user.setPassword(hashedPassword);
-	 * 
-	 * user.setBirthdate(request.getParameter("birthdate"));
-	 * user.setGender(request.getParameter("gender"));
-	 * user.setOccupation(request.getParameter("jobtype"));
-	 * user.setCountry(request.getParameter("country"));
-	 * user.setAccessRight(AccessRight.valueOf(request.getParameter("usertype")));
-	 * // MyEnum myEnum = MyEnum.valueOf(enumString);
-	 * 
-	 * try { boolean savedUser = getUserService().addUser(user); if (savedUser) {
-	 * message = "The user has been successfully added!"; } else { message =
-	 * "Failed to add the user!"; } } catch (ClassNotFoundException | SQLException
-	 * e) { message = "operation failed! " + e.getMessage(); }
-	 * 
-	 * request.setAttribute("feebackMessage", message); RequestDispatcher rd =
-	 * request.getRequestDispatcher("add-user.jsp"); rd.forward(request, response);
-	 * }
-	 */
+
 
 	private String hashPassword(String plainPassword) {
 		byte[] salt = generateSalt(); // Generate a random salt
@@ -252,42 +247,61 @@ public class UserController extends HttpServlet {
 	}
 
 	private void editUser(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	        throws ServletException, IOException {
 
-		clearMessage();
+	    clearMessage();
 
-		User user = new User();
-		user.setUserId(Integer.parseInt(request.getParameter("userId")));
-		user.setName(request.getParameter("name"));
-		user.setPhoneNumber(request.getParameter("phoneNumber"));
-		user.setEmail(request.getParameter("email"));
-//		user.setPassword(request.getParameter("password"));
-		user.setBirthdate(request.getParameter("birthdate"));
-		user.setGender(request.getParameter("gender"));
-		user.setOccupation(request.getParameter("occupation"));
-		user.setCountry(request.getParameter("country"));
-		
-		/////only for consultant		
-		user.setEducationalQualifications(request.getParameter("educationalQualifications"));
-		user.setSpecializedCountries(request.getParameter("specializedCountries"));
-		user.setSpecializedJobs(request.getParameter("specializedJobs"));
-		 user.setAccessRight(AccessRight.valueOf(request.getParameter("accessRight")));
-//		user.setAccessRight(AccessRight.valueOf(request.getParameter("accessRight")));
-		try {
-			if (getUserService().editUser(user)) {
-				message = "The user has been successfully updated! User ID: " + user.getUserId();
-			} else {
-				message = "Failed to update the product! Product Code: " + user.getUserId();
-			}
-		} catch (ClassNotFoundException | SQLException e) {
-			message = e.getMessage();
-		}
+	    User user = new User();
+	    user.setUserId(Integer.parseInt(request.getParameter("userId")));
+	    user.setName(request.getParameter("name"));
+	    user.setPhoneNumber(request.getParameter("phoneNumber"));
+	    user.setEmail(request.getParameter("email"));
+	    // user.setPassword(request.getParameter("password"));
+	    user.setBirthdate(request.getParameter("birthdate"));
+	    user.setGender(request.getParameter("gender"));
+	    user.setOccupation(request.getParameter("occupation"));
+	    user.setCountry(request.getParameter("country"));
 
-		request.setAttribute("feebackMessage", message);
-		RequestDispatcher rd = request.getRequestDispatcher("feedback-message.jsp");
-		rd.forward(request, response);
+	    /////only for consultant
+	    user.setEducationalQualifications(request.getParameter("educationalQualifications"));
+	    user.setSpecializedCountries(request.getParameter("specializedCountries"));
+	    user.setSpecializedJobs(request.getParameter("specializedJobs"));
+	    user.setAccessRight(AccessRight.valueOf(request.getParameter("accessRight")));
 
+	    // Retrieve the values of available days and time slots
+	    String[] selectedAvailableDays = request.getParameterValues("availableDays");
+	    String[] selectedAvailableTimeSlots = request.getParameterValues("availableTimeSlots");
+
+	    // Check for null before processing
+	    if (selectedAvailableDays != null && selectedAvailableTimeSlots != null) {
+	        // Convert the selected values to a comma-separated string
+	        String availableDays = String.join(",", selectedAvailableDays);
+	        String availableTimeSlots = String.join(",", selectedAvailableTimeSlots);
+
+	        // Set the values in the User object
+	        user.setAvailableDays(availableDays);
+	        user.setAvailableTimeSlots(availableTimeSlots);
+	    } else {
+	        // Handle the case when no checkboxes were selected
+	        user.setAvailableDays("");
+	        user.setAvailableTimeSlots("");
+	    }
+
+	    try {
+	        if (getUserService().editUser(user)) {
+	            message = "The user has been successfully updated! User ID: " + user.getUserId();
+	        } else {
+	            message = "Failed to update the user! User ID: " + user.getUserId();
+	        }
+	    } catch (ClassNotFoundException | SQLException e) {
+	        message = e.getMessage();
+	    }
+
+	    request.setAttribute("feebackMessage", message);
+	    RequestDispatcher rd = request.getRequestDispatcher("feedback-message.jsp");
+	    rd.forward(request, response);
 	}
+
 
 	private void deleteUser(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -356,6 +370,31 @@ public class UserController extends HttpServlet {
 		rd.forward(request, response);
 
 	}
+	
+	
+	private void fetchConsultantUsers(HttpServletRequest request, HttpServletResponse response)
+		    throws ServletException, IOException {
+
+		    clearMessage();
+
+		    List<User> consultantUsers = new ArrayList<User>();
+		    try {
+		        consultantUsers = getUserService().fetchAllConsultantUsers(); // Use the new method to fetch consultant users
+
+		        if (!(consultantUsers.size() > 0)) {
+		            message = "No consultant users found!";
+		        }
+		    } catch (ClassNotFoundException | SQLException e) {
+		        message = e.getMessage();
+		    }
+
+		    request.setAttribute("consultantUsers", consultantUsers); // Use a different attribute name for consultant users
+		    request.setAttribute("feebackMessage", message);
+
+		    RequestDispatcher rd = request.getRequestDispatcher("view-consultants.jsp"); // Use a different JSP page
+		    rd.forward(request, response);
+		}
+
 
 	private void clearMessage() {
 		message = "";

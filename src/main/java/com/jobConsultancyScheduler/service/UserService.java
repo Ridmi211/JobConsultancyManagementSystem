@@ -56,6 +56,9 @@ public class UserService implements UserManager {
 	    return getUserManager().isEmailAlreadyExists(email);
 	}
 
+	public List<User> fetchAllConsultantUsers() throws SQLException, ClassNotFoundException {
+	    return getUserManager().fetchAllConsultantUsers();
+	}
 
 
 }
