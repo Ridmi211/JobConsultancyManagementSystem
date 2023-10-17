@@ -41,7 +41,7 @@
         }
 
         body {
-            /* background: #080808; */
+             background-image: linear-gradient(-45deg, #e3eefe 0%, #efddfb 100%); 
             color: #000000;
         }
 
@@ -902,6 +902,37 @@ button.primary.ghost {
 	padding: 5px;
 }
 
+     
+     
+     
+     
+.box select[name="jobtype"], .box select[name="country"] {
+  display: block;
+  margin: 5px auto;
+  background: #262e49;
+  border: 0;
+  border-radius: 5px;
+  padding: 8px 10px;
+  width: 320px;
+  outline: none;
+  color:  #a1a4ad;
+  transition: all 0.2s ease-out;
+  margin-left:22%;
+  font-size: 13px;
+}
+
+.box select[name="jobtype"]:focus {
+  border: 1px solid #79A6FE;
+  
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
        
         /*  <!-- sidebar styling end here  --> */
     </Style>
@@ -1001,7 +1032,7 @@ User user = (User) session.getAttribute("user");
 
  
   <!-- sidebar end here  -->  
-   <nav class="p-0 m-0 pt-2">
+   <nav class="p-0 m-0 pt-2" style="z-index:10;">
     <img src="images/logo.png" alt="logo">
     <ul class="" id="sidemenu" >
         <li><a href="#header">Home</a></li>
@@ -1042,21 +1073,54 @@ User user = (User) session.getAttribute("user");
     </div>
   </div>
   
-  
- <label for="filterCountry">Select a Country:</label>
-    <select id="filterCountry">
+  <!-- <div class="row mt-5">
+   <div class="col-2"> </div>
+   <div class="col-3">  <label for="filterCountry">Select a Country:</label>
+    <select id="filterCountry" name="jobtype">
         <option value="">All</option>
         <option value="Canada">Canada</option>
         <option value="Australia">Australia</option>
         <option value="USA">USA</option>
         <option value="Russia">Russia</option>
-        <!-- Add more countries as needed -->
-    </select>
-    <button onclick="applyFilter()">Apply Filter</button>
+        Add more countries as needed
+    </select></div>
+    <div class="col-3"> <label for="filterJob">Select a Job:</label>
+    <select id="filterJob">
+        <option value="">All</option>
+        <option value="Job1">Job 1</option>
+        <option value="Job2">Job 2</option>
+        <option value="adad">adad</option>
+        Add more job options as needed
+    </select></div>
+     <div class="col-1">    <button onclick="applyFilter()">Apply Filter</button></div>
+  <div class="col-3"> </div>
+  
+  </div> -->
+  
+  
+  <div class="row mt-5" style="color:#3f2e59;">
+     <div class="col-2"> </div>
+    <div class="col-3">
+        <label for="filterCountry">Filter by Country:</label>
+        <input type="text" id="filterCountry" placeholder="Enter country" name="filterCountry">
+    </div>
+    <div class="col-3">
+        <label for="filterJob">Filter by Job:</label>
+        <input type="text" id="filterJob" name="filterJob" placeholder="Enter job">
+    </div>
+    <div class="col-2">
+        <button class="btn mt-4" onclick="applyFilter()">Apply Filter</button>
+    </div>
+    <div class="col-2"> </div>
+</div>
+  
+   
         <!-- ---------------------------------------Consultants--------------------------------------------------------------------- -->
 
 <%
 String selectedCountry = request.getParameter("filterCountry");
+String selectedJob = request.getParameter("filterJob"); // Add this line
+
 List<User> consultantUsers = (List<User>) request.getAttribute("consultantUsers");
 
 List<User> filteredConsultants = new ArrayList<User>();
@@ -1077,116 +1141,31 @@ if (selectedCountry != null && !selectedCountry.isEmpty()) {
     // No country selected, show all consultants
     filteredConsultants = consultantUsers;
 }
+
+if (selectedJob != null && !selectedJob.isEmpty()) { // Add this condition
+    List<User> jobFilteredConsultants = new ArrayList<User>();
+    for (User user2 : filteredConsultants) {
+        String specializedJobs = user2.getSpecializedJobs();
+        if (specializedJobs != null) {
+            String[] jobs = specializedJobs.split(", ");
+            for (String job : jobs) {
+                if (job.equals(selectedJob)) {
+                    jobFilteredConsultants.add(user2);
+                    break; // No need to check further if job is found
+                }
+            }
+        }
+    }
+    filteredConsultants = jobFilteredConsultants; // Update filtered consultants with job filter
+}
 %>
 
 
-        <div class="row p-0 pb-5  " style="margin-left: 140px; margin-top:110px;">
+        <div class="row p-0 pb-5  " style="margin-left: 140px; margin-top:30px;">
         
             <div class="container">
                 <div class="row">
-                
-           <%--  <% for (User user2 : consultantUsers) { %>
-                  <div class="col-sm mb-5">
-                   
-                  <div class="work">
-                        <div class="card-container">
-                            <span class="pro">PRO</span>
-                            <img class="round" src="https://randomuser.me/api/portraits/women/79.jpg" alt="user" />
-                           <br> <div class="name"> <%= user2.getName() %>  </div>
-                            <h6> <%= user2.getOccupation() %></h6>
-                             <div class="qualifications">
-                               
-                                <ul>
-                                      <%
-                                        String educationalQualifications = user2.getEducationalQualifications();
-                                        if (educationalQualifications != null && !educationalQualifications.isEmpty()) {
-                                            String[] edus = educationalQualifications.split(",");
-                                            for (String edu : edus) {
-                                    %>
-                                    <li><%= edu.trim() %></li>
-                                    <%
-                                            }
-                                        }
-                                    %>
-                                </ul>
-                            </div>
-                             <div class="countries">
-                                <h6>   <%= user.getSpecializedCountries() %></h6>
-                                <ul>
-                                      <%
-                                        String specializedCountries = user2.getSpecializedCountries();
-                                        if (specializedCountries != null && !specializedCountries.isEmpty()) {
-                                            String[] countries = specializedCountries.split(",");
-                                            for (String country : countries) {
-                                    %>
-                                    <li><%= country.trim() %></li>
-                                    <%
-                                            }
-                                        }
-                                    %>
-                                </ul>
-                            </div>
-                            <div class="skills">
-                                <h6>Specialized Jobs</h6>
-                                <ul>
-                                      <%
-                                        String specializedJobs = user2.getSpecializedJobs();
-                                        if (specializedJobs != null && !specializedJobs.isEmpty()) {
-                                            String[] jobs = specializedJobs.split(",");
-                                            for (String job : jobs) {
-                                    %>
-                                    <li><%= job.trim() %></li>
-                                    <%
-                                            }
-                                        }
-                                    %>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="layer">
-                            <div class="days">
-                                <h6>  Available Days</h6>
-                                <ul>
-                                     <%
-                                        String availableDays = user2.getAvailableDays();
-                                        if (availableDays != null && !availableDays.isEmpty()) {
-                                            String[] days = availableDays.split(",");
-                                            for (String day : days) {
-                                    %>
-                                    <li><%= day.trim() %></li>
-                                    <%
-                                            }
-                                        }
-                                    %>
-                                </ul>
-                            </div>
-                            <div class="days">
-                                <h6>Available Time Slots</h6>
-                                 <ul>
-                                   
-                                     <%
-                                        String availableTimeSlots = user2.getAvailableTimeSlots();
-                                        if (availableTimeSlots != null && !availableTimeSlots.isEmpty()) {
-                                            String[] timeSlots = availableTimeSlots.split(",");
-                                            for (String timeSlot : timeSlots) {
-                                    %>
-                                    <li><%= timeSlot.trim() %></li>
-                                    <%
-                                            }
-                                        }
-                                    %>
-                                </ul>
-                            </div>
-                     
-                          <button class="btn primary"><i class="fa-solid fa-calendar-plus"></i>&nbsp;Book Now </button>
-                        </div>
-                      </div>
-                     
-                  </div>
-                   <% } %>
-                 
-                  --%>
-                 
+                             
                  
                     <% for (User user2 : filteredConsultants) { %>
                   <div class="col-sm mb-5">
@@ -1290,20 +1269,26 @@ if (selectedCountry != null && !selectedCountry.isEmpty()) {
                 </div>
               </div>
         </div>
+<!--bnbnbnbnbnbnb  -->
 
-        <!-- ----------------portfolio-------------------------------------------------- -->
 
 
-        <div class="p-0 m-0 " style=" background-color: #f9f2fc; height:60vh;color: #5b4a6b; font-size: 2.5rem;">
+
+<div class="p-0 m-0 d-flex align-items-center services justify-content-center" id="about-us" style="height:60vh;color: #5b4a6b; font-size: 2.5rem; background-image: url(https://images.unsplash.com/photo-1474127773417-aec7504236d2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aWN5JTIwbW91bnRhaW58ZW58MHx8MHx8fDA%3D&w=1000&q=80); position: relative;">
+  <div style="text-align: center; z-index: 1;">
+  <div class="p-0 m-0 " style=" background-color: #f9f2fc; height:40vh;color: #5b4a6b; font-size: 2.5rem;">
             <div class="row pt-5 font-weight-bold p-0 m-0" style="text-align: center;margin-top:100px;">
                 <h1 style="margin-top: 70px;"> <b> Start your global work adventure</b> </h1>
             </div>
             <div class="m-0 services justify-content-center">
 
-                <a href="add-user.jsp" class="btn btn2">Register Now</a>
+                <a href="add-user.jsp" class="btn btn2 mb-5">Register Now</a>
             </div>
 
         </div>
+  </div>
+</div>
+        
         <!-- ------------------------------contact-------------------------------- -->
         <div id="contact">
             <div class="container">
@@ -1339,26 +1324,61 @@ if (selectedCountry != null && !selectedCountry.isEmpty()) {
         </div>
 
         <!-- --------------------javascript-------------------------- -->
- <script>
-        function applyFilter() {
-            // Get the selected country from the dropdown
-            var selectedCountry = document.getElementById("filterCountry").value;
+<script>
+  /*   function applyFilter() {
+        // Get the selected country and job from the dropdowns
+        var selectedCountry = document.getElementById("filterCountry").value;
+        var selectedJob = document.getElementById("filterJob").value;
 
-            // Loop through the consultants and display only those who specialize in the selected country
-            var consultants = document.querySelectorAll(".work");
-            consultants.forEach(function(consultant) {
-                var countries = consultant.querySelector(".countries");
-                var countryList = countries.querySelector("ul");
+        // Loop through the consultants and display only those who match the selected criteria
+        var consultants = document.querySelectorAll(".work");
+        consultants.forEach(function(consultant) {
+            var countries = consultant.querySelector(".countries");
+            var countryList = countries.querySelector("ul");
 
-                // Check if the selectedCountry is in the list of specialized countries
-                if (selectedCountry === "All" || countryList.textContent.includes(selectedCountry)) {
-                    consultant.style.display = "block";
-                } else {
-                    consultant.style.display = "none";
-                }
-            });
-        }
-    </script>
+            var jobs = consultant.querySelector(".skills"); // Assuming you have an element for displaying jobs
+            var jobList = jobs.querySelector("ul");
+
+            // Check if the selectedCountry and selectedJob are in the respective lists
+            if (
+                (selectedCountry === "All" || countryList.textContent.includes(selectedCountry)) &&
+                (selectedJob === "All" || jobList.textContent.includes(selectedJob))
+            ) {
+                consultant.style.display = "block";
+            } else {
+                consultant.style.display = "none";
+            }
+        });
+    } */
+    
+    function applyFilter() {
+        // Get the values entered by the user in the text input fields
+        var selectedCountry = document.getElementById("filterCountry").value;
+        var selectedJob = document.getElementById("filterJob").value;
+
+        // Loop through the consultants and display only those that match the filter criteria
+        var consultants = document.querySelectorAll(".work");
+        consultants.forEach(function (consultant) {
+            var countries = consultant.querySelector(".countries");
+            var countriesText = countries.textContent.toLowerCase();
+
+            var jobs = consultant.querySelector(".skills");
+            var jobsText = jobs.textContent.toLowerCase();
+
+            // Check if the user input is found in the consultant's countries or jobs
+            if (
+                (selectedCountry === "" || countriesText.includes(selectedCountry.toLowerCase())) &&
+                (selectedJob === "" || jobsText.includes(selectedJob.toLowerCase()))
+            ) {
+                consultant.style.display = "block";
+            } else {
+                consultant.style.display = "none";
+            }
+        });
+    }
+
+</script>
+
 
 
         <script>
