@@ -697,6 +697,10 @@ User user = (User) session.getAttribute("user");
     <i class="fas fa-qrcode"></i>
     <span>Consultants</span>
   </a>
+<a href="spinner.jsp" >
+    <i class="fas fa-qrcode"></i>
+    <span>Spinner</span>
+  </a>
 
 
   <%-- Display Events and Overview for Consultant --%>
