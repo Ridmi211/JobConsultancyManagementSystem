@@ -478,7 +478,7 @@ background-color
           </tr>
         </thead>
        <!--  <tbody> -->
-        <tag:forEach var="user" items="${userList}">
+        <tag:forEach var="user" items="${pendingUsers}">
           <tr >
             <td scope="row">
             </td>

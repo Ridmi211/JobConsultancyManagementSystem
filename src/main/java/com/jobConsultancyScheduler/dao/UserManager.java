@@ -26,7 +26,9 @@ public interface UserManager {
     
     // Add methods related to registration status
     boolean updateRegistrationStatus(int userId, RegistrationStatus status) throws SQLException, ClassNotFoundException;
-    
+
+
+	 public List<User> fetchPendingUsers() throws SQLException, ClassNotFoundException;
 //    RegistrationStatus getRegistrationStatus(int userId) throws SQLException, ClassNotFoundException;
 
 //    public int countUsers() throws SQLException, ClassNotFoundException;

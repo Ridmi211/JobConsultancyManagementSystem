@@ -45,7 +45,9 @@ public class UserController extends HttpServlet {
 	        viewUser(request, response);
 	    } else if (useractiontype.equals("consultants")) {
 	        fetchConsultantUsers(request, response); 
-	    } else {
+	    }  else if (useractiontype.equals("pending")) {
+	        fetchPendingUsers(request, response); 
+	    }else {
 	        fetchAllUsers(request, response);
 	    }
 	}
@@ -522,6 +524,29 @@ public class UserController extends HttpServlet {
 		    rd.forward(request, response);
 		}
 
+	
+	private void fetchPendingUsers(HttpServletRequest request, HttpServletResponse response)
+		    throws ServletException, IOException {
+
+		    clearMessage();
+
+		    List<User> pendingUsers = new ArrayList<User>();
+		    try {
+		    	pendingUsers = getUserService().fetchPendingUsers(); // Use the new method to fetch consultant users
+
+		        if (!(pendingUsers.size() > 0)) {
+		            message = "No consultant users found!";
+		        }
+		    } catch (ClassNotFoundException | SQLException e) {
+		        message = e.getMessage();
+		    }
+
+		    request.setAttribute("pendingUsers", pendingUsers); // Use a different attribute name for consultant users
+		    request.setAttribute("feebackMessage", message);
+
+		    RequestDispatcher rd = request.getRequestDispatcher("view-pending-users.jsp"); // Use a different JSP page
+		    rd.forward(request, response);
+		}
 
 	private void clearMessage() {
 		message = "";

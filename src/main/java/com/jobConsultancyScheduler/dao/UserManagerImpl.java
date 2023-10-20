@@ -224,6 +224,7 @@ public class UserManagerImpl implements UserManager {
 //			user.setPhoneNumber(rs.getString("phoneNumber"));
 			user.setEmail(rs.getString("email"));
 			 user.setAccessRight(AccessRight.valueOf(rs.getString("accessRight")));
+			 user.setRegistrationStatus(RegistrationStatus.valueOf(rs.getString("registrationStatus")));
 //			user.setBirthdate(rs.getString(" birthdate"));
 //			user.setGender(rs.getString("gender"));
 //			user.setOccupation(rs.getString("occupation"));
@@ -241,7 +242,9 @@ public class UserManagerImpl implements UserManager {
 	
 	public List<User> fetchAllConsultantUsers() throws SQLException, ClassNotFoundException {
 	    Connection connection = getConnection();
-	    String query = "SELECT * FROM user WHERE accessRight = 'ROLE_CONSULTANT'";
+	    String query = "SELECT * FROM user WHERE accessRight = 'ROLE_CONSULTANT'AND registrationStatus = 'APPROVED'";
+
+
 	    Statement st = connection.createStatement();
 	    
 	    List<User> consultantUsers = new ArrayList<>();
@@ -273,7 +276,31 @@ public class UserManagerImpl implements UserManager {
 	    return consultantUsers;
 	}
 
-	
+	public List<User> fetchPendingUsers() throws SQLException, ClassNotFoundException {
+	    Connection connection = getConnection();
+	    String query = "SELECT * FROM user WHERE registrationStatus = 'PENDING'";
+	    Statement st = connection.createStatement();
+	    
+	    List<User> consultantUsers = new ArrayList<>();
+	    
+	    ResultSet rs = st.executeQuery(query);
+	    while (rs.next()) {
+	        User user = new User();
+			user.setUserId(rs.getInt("userId"));
+			user.setName(rs.getString("name"));
+			user.setEmail(rs.getString("email"));
+			 user.setAccessRight(AccessRight.valueOf(rs.getString("accessRight")));
+			 user.setRegistrationStatus(RegistrationStatus.valueOf(rs.getString("registrationStatus")));
+
+	        consultantUsers.add(user);
+	    }
+	    
+	    st.close();
+	    connection.close();
+	    
+	    return consultantUsers;
+	}
+
 	
 	// In UserManagerImpl.java
 	@Override
