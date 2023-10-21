@@ -474,11 +474,12 @@ background-color
             <th scope="col" class="text-center">Reg.Status</th>
            <!--  <th scope="col">Role</th> -->
             <th scope="col">View</th>
-            <th  scope="col" >Delete</th>
+            <th  scope="col" >Approve</th>
+            <th  scope="col" >Reject</th>
           </tr>
         </thead>
        <!--  <tbody> -->
-        <tag:forEach var="user" items="${userList}">
+        <tag:forEach var="user" items="${pendingUsers}">
           <tr >
             <td scope="row">
             </td>
@@ -509,14 +510,40 @@ background-color
 
 </td>
 
-            
+         
+        <td class="btn-column">
+       <form action="usermanager" method="post">
+    <input type="hidden" name="userId" value="${user.userId}">
+    <input type="hidden" name="useractiontype" value="approve"> <!-- Set the action type to "approve" -->
+    <button type="submit" class="btn btn-success">Approve</button>
+      </form></td>
+
+ <td class="btn-column">
+    <form action="usermanager" method="post">
+    <input type="hidden" name="userId" value="${user.userId}">
+    <input type="hidden" name="useractiontype" value="reject"> <!-- Set the action type to "reject" -->
+    <button type="submit" class="btn btn-danger">Reject</button>
+</form></td>
+       
+       
+       
+    <%--               
             <td class="btn-column">
-    <form onsubmit="return confirmDelete();" action="usermanager" method="post">								
+    <form onsubmit="" action="usermanager" method="post">								
         <input type="hidden" name="userId" value="${user.userId}">
-        <input type="hidden" name="useractiontype" value="delete">
-        <button type="submit" class="btn btn-danger">Delete</button>
+        <input type="hidden" name="useractiontype" value="">
+        <button type="submit" class="btn btn-danger">Approve</button>
     </form>
 </td>
+         
+                  
+            <td class="btn-column">
+    <form onsubmit="" action="usermanager" method="post">								
+        <input type="hidden" name="userId" value="${user.userId}">
+        <input type="hidden" name="useractiontype" value="">
+        <button type="submit" class="btn btn-danger">Reject</button>
+    </form>
+</td> --%>
             
           </tr>
         </tag:forEach>

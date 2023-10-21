@@ -5,14 +5,17 @@ import java.util.Date;
 public class Appointment {
 	
 	    private int appointmentId;
-	    private JobSeeker jobSeeker; // Reference to the User model for the job seeker
-	    private Consultant consultant; // Reference to the Consultant model for the consultant
+	   
+	   // Reference to the Consultant model for the consultant
 	    private Date scheduledDateAndTime;
 	    private Time startTime; 
 	    private Status status;
 	    private String location;
 	    private String notes;
 	    private String updatedCvFilePath;
+		private JobSeeker jobSeeker;
+
+		private Consultant consultant;
 
 	    // Constructors
 	    public Appointment() {

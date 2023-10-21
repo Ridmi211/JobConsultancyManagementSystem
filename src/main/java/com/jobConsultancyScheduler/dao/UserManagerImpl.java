@@ -13,6 +13,7 @@ import java.util.List;
 import com.jobConsultancyScheduler.dao.dbUtils.DbDriverManager;
 import com.jobConsultancyScheduler.dao.dbUtils.DbDriverManagerFactory;
 import com.jobConsultancyScheduler.model.AccessRight;
+import com.jobConsultancyScheduler.model.RegistrationStatus;
 import com.jobConsultancyScheduler.model.User;
 
 public class UserManagerImpl implements UserManager {
@@ -28,40 +29,91 @@ public class UserManagerImpl implements UserManager {
 		
 		return driverManager.getConnection(); 
 	}
+	/*
+	 * @Override
+	 */
+	/*
+	 * public boolean addUser(User user) throws SQLException, ClassNotFoundException
+	 * { Connection connection = getConnection();
+	 * 
+	 * 
+	 * String query =
+	 * "INSERT INTO user(`name`,`phoneNumber`,`email`, `password`,`birthdate`,`gender`,`occupation`,`country`,`educationalQualifications`,`specializedCountries`,`specializedJobs`,`availableDays`,`availableTimeSlots`,`accessRight`)	VALUES	(?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+	 * ;
+	 * 
+	 * PreparedStatement ps = connection.prepareStatement(query); ps.setString(1,
+	 * user.getName()); ps.setString(2, user.getPhoneNumber()); ps.setString(3,
+	 * user.getEmail()); ps.setString(4, user.getPassword()); ps.setString(5,
+	 * user.getBirthdate()); ps.setString(6, user.getGender()); ps.setString(7,
+	 * user.getOccupation()); ps.setString(8, user.getCountry()); ps.setString(9,
+	 * user.getEducationalQualifications()); ps.setString(10,
+	 * user.getSpecializedCountries()); ps.setString(11, user.getSpecializedJobs());
+	 * ps.setString(12, user.getAvailableDays()); ps.setString(13,
+	 * user.getAvailableTimeSlots()); ps.setString(14,
+	 * user.getAccessRight().toString());
+	 * 
+	 * boolean result = false;
+	 * 
+	 * if(ps.executeUpdate() > 0) result = true;
+	 * 
+	 * ps.close(); connection.close(); return result; }
+	 */
 
+	
+	
 	@Override
-	public boolean addUser(User user) throws SQLException, ClassNotFoundException {
-	Connection connection = getConnection();
-		
-		
-		String query = "INSERT INTO user(`name`,`phoneNumber`,`email`, `password`,`birthdate`,`gender`,`occupation`,`country`,`educationalQualifications`,`specializedCountries`,`specializedJobs`,`availableDays`,`availableTimeSlots`,`accessRight`)	VALUES	(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    public boolean addUser(User user) throws SQLException, ClassNotFoundException {
+        Connection connection = getConnection();
 
-		PreparedStatement ps = connection.prepareStatement(query);
-		ps.setString(1, user.getName());
-		ps.setString(2, user.getPhoneNumber());
-		ps.setString(3, user.getEmail());
-		ps.setString(4, user.getPassword());
-		ps.setString(5, user.getBirthdate());
-		ps.setString(6, user.getGender());
-		ps.setString(7, user.getOccupation());
-		ps.setString(8, user.getCountry());
-		ps.setString(9, user.getEducationalQualifications());
-		ps.setString(10, user.getSpecializedCountries());
-		ps.setString(11, user.getSpecializedJobs());
-		ps.setString(12, user.getAvailableDays());
-		ps.setString(13, user.getAvailableTimeSlots());
-		 ps.setString(14, user.getAccessRight().toString()); 
+        String query = "INSERT INTO user(`name`,`phoneNumber`,`email`, `password`,`birthdate`,`gender`,`occupation`,`country`,`educationalQualifications`,`specializedCountries`,`specializedJobs`,`availableDays`,`availableTimeSlots`,`accessRight`,`registrationStatus`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
-		boolean result = false;
-		
-		if(ps.executeUpdate() > 0)
-			result = true;		
-		
-		ps.close();
-		connection.close();		
-		return result;
-	}
+        PreparedStatement ps = connection.prepareStatement(query);
+        ps.setString(1, user.getName());
+        ps.setString(2, user.getPhoneNumber());
+        ps.setString(3, user.getEmail());
+        ps.setString(4, user.getPassword());
+        ps.setString(5, user.getBirthdate());
+        ps.setString(6, user.getGender());
+        ps.setString(7, user.getOccupation());
+        ps.setString(8, user.getCountry());
+        ps.setString(9, user.getEducationalQualifications());
+        ps.setString(10, user.getSpecializedCountries());
+        ps.setString(11, user.getSpecializedJobs());
+        ps.setString(12, user.getAvailableDays());
+        ps.setString(13, user.getAvailableTimeSlots());
+        ps.setString(14, user.getAccessRight().toString());
+        ps.setString(15, user.getRegistrationStatus().toString()); // Set registration status to PENDING for new registrations
 
+        boolean result = false;
+
+        if (ps.executeUpdate() > 0)
+            result = true;
+
+        ps.close();
+        connection.close();
+        return result;
+    }
+
+    // Add a method to update the registration status for a user
+    public boolean updateRegistrationStatus(int userId, RegistrationStatus status) throws SQLException, ClassNotFoundException {
+        Connection connection = getConnection();
+
+        String query = "UPDATE user SET registrationStatus = ? WHERE userId = ?";
+
+        PreparedStatement ps = connection.prepareStatement(query);
+        ps.setString(1, status.toString());
+        ps.setInt(2, userId);
+
+        boolean result = false;
+
+        if (ps.executeUpdate() > 0)
+            result = true;
+
+        ps.close();
+        connection.close();
+        return result;
+    }
+    
 	@Override
 	public boolean editUser(User user) throws SQLException, ClassNotFoundException {
 		Connection connection = getConnection();
@@ -144,6 +196,7 @@ public class UserManagerImpl implements UserManager {
 		        user.setSpecializedJobs(rs.getString("specializedJobs"));
 		        user.setAvailableDays(rs.getString("availableDays"));
 		        user.setAvailableTimeSlots(rs.getString("availableTimeSlots"));
+		      
 		        
 		}
 		
@@ -171,6 +224,7 @@ public class UserManagerImpl implements UserManager {
 //			user.setPhoneNumber(rs.getString("phoneNumber"));
 			user.setEmail(rs.getString("email"));
 			 user.setAccessRight(AccessRight.valueOf(rs.getString("accessRight")));
+			 user.setRegistrationStatus(RegistrationStatus.valueOf(rs.getString("registrationStatus")));
 //			user.setBirthdate(rs.getString(" birthdate"));
 //			user.setGender(rs.getString("gender"));
 //			user.setOccupation(rs.getString("occupation"));
@@ -188,7 +242,9 @@ public class UserManagerImpl implements UserManager {
 	
 	public List<User> fetchAllConsultantUsers() throws SQLException, ClassNotFoundException {
 	    Connection connection = getConnection();
-	    String query = "SELECT * FROM user WHERE accessRight = 'ROLE_CONSULTANT'";
+	    String query = "SELECT * FROM user WHERE accessRight = 'ROLE_CONSULTANT'AND registrationStatus = 'APPROVED'";
+
+
 	    Statement st = connection.createStatement();
 	    
 	    List<User> consultantUsers = new ArrayList<>();
@@ -220,7 +276,31 @@ public class UserManagerImpl implements UserManager {
 	    return consultantUsers;
 	}
 
-	
+	public List<User> fetchPendingUsers() throws SQLException, ClassNotFoundException {
+	    Connection connection = getConnection();
+	    String query = "SELECT * FROM user WHERE registrationStatus = 'PENDING'";
+	    Statement st = connection.createStatement();
+	    
+	    List<User> consultantUsers = new ArrayList<>();
+	    
+	    ResultSet rs = st.executeQuery(query);
+	    while (rs.next()) {
+	        User user = new User();
+			user.setUserId(rs.getInt("userId"));
+			user.setName(rs.getString("name"));
+			user.setEmail(rs.getString("email"));
+			 user.setAccessRight(AccessRight.valueOf(rs.getString("accessRight")));
+			 user.setRegistrationStatus(RegistrationStatus.valueOf(rs.getString("registrationStatus")));
+
+	        consultantUsers.add(user);
+	    }
+	    
+	    st.close();
+	    connection.close();
+	    
+	    return consultantUsers;
+	}
+
 	
 	// In UserManagerImpl.java
 	@Override
@@ -252,6 +332,7 @@ public class UserManagerImpl implements UserManager {
 	        user.setAccessRight(AccessRight.valueOf(resultSet.getString("accessRight")));
 	        user.setAvailableDays(resultSet.getString("availableDays"));
 	        user.setAvailableTimeSlots(resultSet.getString("availableTimeSlots"));
+	        user.setRegistrationStatus(RegistrationStatus.valueOf(resultSet.getString("registrationStatus")));
 	    }
 
 	    preparedStatement.close();
@@ -281,6 +362,8 @@ public class UserManagerImpl implements UserManager {
 
 	    return emailExists;
 	}
+
+
 
 
 

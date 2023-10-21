@@ -21,6 +21,7 @@ public class User {
 	    private String specializedJobs;
 	    private String availableDays;
 	    private String availableTimeSlots;
+	    private RegistrationStatus registrationStatus;
 //	    private String profilePicture;
 	    
 	    private String cvPath; // Path to the CV file
@@ -35,7 +36,7 @@ public class User {
 	    public User(int userId, String name, String phoneNumber, String email, String password,
 	                String birthdate, String gender, String occupation, String country,
 	                AccessRight accessRight, String educationalQualifications,
-	                String specializedCountries, String specializedJobs,String availableDays,String availableTimeSlots, String profilePicturePath, String cvPath) {
+	                String specializedCountries, String specializedJobs,String availableDays,String availableTimeSlots, String profilePicturePath, String cvPath, RegistrationStatus registrationStatus) {
 	    	
 	        this.userId = userId;
 	        this.name = name;
@@ -53,6 +54,7 @@ public class User {
 	        this.specializedJobs = specializedJobs;
 	        this.availableDays = availableDays;
 	        this.availableTimeSlots = availableTimeSlots;
+	        this.registrationStatus = registrationStatus;
 	        
 	        this.profilePicturePath = profilePicturePath;
 	        this.cvPath = cvPath;
@@ -202,6 +204,31 @@ public class User {
 			this.availableTimeSlots = availableTimeSlots;
 		}
 	    
+		  public RegistrationStatus getRegistrationStatus() {
+		        return registrationStatus;
+		    }
+
+		    public void setRegistrationStatus(RegistrationStatus registrationStatus) {
+		        this.registrationStatus = registrationStatus;
+		    }
+		    
+		    
+			/*
+			 * public enum RegistrationStatus { PENDING("Pending"), // Registration is
+			 * pending admin review APPROVED("Approved"), // Registration has been approved
+			 * REJECTED("Rejected"); // Registration has been rejected
+			 * 
+			 * private final String displayName;
+			 * 
+			 * RegistrationStatus(String displayName) { this.displayName = displayName; }
+			 * 
+			 * public String getDisplayName() { return displayName; } }
+			 */
+   
+		    
 
 
 	}
+
+
+

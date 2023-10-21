@@ -627,9 +627,9 @@ p {
 </div>
  
   <section class="page-contain">
-    <a href="/patients/list" class="data-card">
+    <a href="getuser?useractiontype=pending" class="data-card">
       <h3>12 </h3>
-      <h4> Ongoing<br> Appointments</h4>
+      <h4> Pending<br> Registrations</h4>
       
     
       <!-- <p>Manage registered patients</p> -->
@@ -644,7 +644,7 @@ p {
     </a>
     <a href="/admins/all" class="data-card">
       <h3> 25</h3>
-      <h4> completed <br>Appointments</h4>
+      <h4> New <br>Appointments</h4>
       <!-- <p>Manage Registered Pharmacists</p> -->
       <span class="link-text">
         View All 
@@ -657,7 +657,7 @@ p {
     </a>
     <a href="/admins/all" class="data-card">
       <h3> 11</h3>
-      <h4> Registered <br>Job<br>  Consultants</h4>
+      <h4> New <br>Messages</h4>
       <!-- <p>Manage Registered Pharmacists</p> -->
       <span class="link-text">
         View All 
@@ -668,9 +668,9 @@ p {
         </svg>
       </span>
     </a>
-    <a href="/prescriptions/list" class="data-card">
+    <a href="getuser?useractiontype=all" class="data-card">
       <h3>13</h3>
-      <h4> Registered <br>Job<br> seekers</h4>
+      <h4> Registered <br>Users</h4>
       <!-- <p>Manage Issued Prescriptions</p> -->
       <span class="link-text">
         View All 

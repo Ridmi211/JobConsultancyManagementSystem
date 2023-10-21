@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.jobConsultancyScheduler.model.AccessRight;
+import com.jobConsultancyScheduler.model.RegistrationStatus;
 import com.jobConsultancyScheduler.model.User;
 import com.jobConsultancyScheduler.service.UserService;
 
@@ -38,22 +39,15 @@ public class UserController extends HttpServlet {
 
 		String useractiontype = request.getParameter("useractiontype");
 
-//		if (useractiontype.equals("single")) {
-//			fetchSingleUser(request, response);
-//		}else if (useractiontype.equals("view")) {
-//			viewUser(request, response); 
-//		}else
-//			fetchAllUsers(request, response);
-//		}
-
-
 	    if (useractiontype.equals("single")) {
 	        fetchSingleUser(request, response);
 	    } else if (useractiontype.equals("view")) {
 	        viewUser(request, response);
 	    } else if (useractiontype.equals("consultants")) {
-	        fetchConsultantUsers(request, response); // Add this condition to fetch consultant users
-	    } else {
+	        fetchConsultantUsers(request, response); 
+	    }  else if (useractiontype.equals("pending")) {
+	        fetchPendingUsers(request, response); 
+	    }else {
 	        fetchAllUsers(request, response);
 	    }
 	}
@@ -74,7 +68,12 @@ public class UserController extends HttpServlet {
 			viewUser(request, response); 
 		} else if (useractiontype.equals("delete")) {
 			deleteUser(request, response);
+		}else if (useractiontype.equals("approve")) {
+		    approveUser(request, response);
+		} else if (useractiontype.equals("reject")) {
+		    rejectUser(request, response);
 		}
+
 	}
 
 	private void viewUser(HttpServletRequest request, HttpServletResponse response)
@@ -98,7 +97,31 @@ public class UserController extends HttpServlet {
 	    }
 	}
 
-	
+	/*
+	 * private void loginUser(HttpServletRequest request, HttpServletResponse
+	 * response) throws ServletException, IOException { String email =
+	 * request.getParameter("email"); String password =
+	 * request.getParameter("password");
+	 * 
+	 * try { User user = getUserService().fetchUserByEmail(email);
+	 * 
+	 * if (user != null) { // Retrieve the hashed password from the database String
+	 * storedHashedPassword = user.getPassword();
+	 * 
+	 * // Hash the entered password using the same salt and algorithm String
+	 * enteredHashedPassword = hashPassword(password);
+	 * 
+	 * if (enteredHashedPassword != null &&
+	 * enteredHashedPassword.equals(storedHashedPassword)) { HttpSession session =
+	 * request.getSession(); session.setAttribute("user", user);
+	 * response.sendRedirect("home.jsp"); } else {
+	 * request.setAttribute("loginError", "Invalid email or password");
+	 * RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+	 * rd.forward(request, response); } } else { request.setAttribute("loginError",
+	 * "Invalid email or password"); RequestDispatcher rd =
+	 * request.getRequestDispatcher("login.jsp"); rd.forward(request, response); } }
+	 * catch (ClassNotFoundException | SQLException e) { e.printStackTrace(); } }
+	 */
 	private void loginUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    String email = request.getParameter("email");
 	    String password = request.getParameter("password");
@@ -107,13 +130,24 @@ public class UserController extends HttpServlet {
 	        User user = getUserService().fetchUserByEmail(email);
 
 	        if (user != null) {
-	            // Retrieve the hashed password from the database
-	            String storedHashedPassword = user.getPassword();
+	            if (AccessRight.ROLE_CONSULTANT.getDisplayName().equals(user.getAccessRight().getDisplayName())) {
+	                if (RegistrationStatus.PENDING.equals(user.getRegistrationStatus())) {
+	                    request.setAttribute("loginError", "Consultant registration is pending approval.");
+	                    RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+	                    rd.forward(request, response);
+	                    return; // Exit the method to prevent forwarding to the home page
+	                } else if (RegistrationStatus.REJECTED.equals(user.getRegistrationStatus())) {
+	                    request.setAttribute("loginError", "Consultant registration has been rejected.");
+	                    RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+	                    rd.forward(request, response);
+	                    return; // Exit the method to prevent forwarding to the home page
+	                }
+	            }
 
 	            // Hash the entered password using the same salt and algorithm
 	            String enteredHashedPassword = hashPassword(password);
 
-	            if (enteredHashedPassword != null && enteredHashedPassword.equals(storedHashedPassword)) {
+	            if (enteredHashedPassword != null && enteredHashedPassword.equals(user.getPassword())) {
 	                HttpSession session = request.getSession();
 	                session.setAttribute("user", user);
 	                response.sendRedirect("home.jsp");
@@ -132,9 +166,80 @@ public class UserController extends HttpServlet {
 	    }
 	}
 
-	private void addUser(HttpServletRequest request, HttpServletResponse response)
-	        throws ServletException, IOException {
+	
+	
+	
+	
+	/*
+	 * private void addUser(HttpServletRequest request, HttpServletResponse
+	 * response) throws ServletException, IOException {
+	 * 
+	 * clearMessage();
+	 * 
+	 * User user = new User();
+	 * 
+	 * user.setName(request.getParameter("name"));
+	 * user.setPhoneNumber(request.getParameter("telephone"));
+	 * user.setEmail(request.getParameter("email"));
+	 * 
+	 * String plainPassword = request.getParameter("password");
+	 * 
+	 * if (plainPassword == null || plainPassword.isEmpty()) { // Password is null
+	 * or empty, return an error message message =
+	 * "Password cannot be null or empty."; request.setAttribute("feebackMessage",
+	 * message); RequestDispatcher rd =
+	 * request.getRequestDispatcher("add-user.jsp"); rd.forward(request, response);
+	 * return; // Exit the method, do not proceed with adding the user }
+	 * 
+	 * String hashedPassword = hashPassword(plainPassword);
+	 * user.setPassword(hashedPassword);
+	 * 
+	 * user.setBirthdate(request.getParameter("birthdate"));
+	 * user.setGender(request.getParameter("gender"));
+	 * user.setOccupation(request.getParameter("jobtype"));
+	 * user.setCountry(request.getParameter("country"));
+	 * user.setAccessRight(AccessRight.valueOf(request.getParameter("usertype")));
+	 * user.setEducationalQualifications(request.getParameter(
+	 * "educationalQualifications"));
+	 * user.setSpecializedCountries(request.getParameter("specializedCountries"));
+	 * user.setSpecializedJobs(request.getParameter("specializedJobs"));
+	 * 
+	 * 
+	 * 
+	 * 
+	 * String[] selectedAvailableDays = request.getParameterValues("availableDays");
+	 * String[] selectedAvailableTimeSlots =
+	 * request.getParameterValues("availableTimeSlots");
+	 * 
+	 * 
+	 * if (selectedAvailableDays != null && selectedAvailableTimeSlots != null) {
+	 * 
+	 * String availableDays = String.join(",", selectedAvailableDays); String
+	 * availableTimeSlots = String.join(",", selectedAvailableTimeSlots);
+	 * 
+	 * 
+	 * user.setAvailableDays(availableDays);
+	 * user.setAvailableTimeSlots(availableTimeSlots); } else {
+	 * 
+	 * user.setAvailableDays(""); user.setAvailableTimeSlots(""); }
+	 * 
+	 * 
+	 * 
+	 * try {
+	 * 
+	 * if (getUserService().isEmailAlreadyExists(user.getEmail())) { message =
+	 * "User with the same email already exists!"; } else { boolean savedUser =
+	 * getUserService().addUser(user); if (savedUser) { message =
+	 * "The user has been successfully added!"; } else { message =
+	 * "Failed to add the user!"; } } } catch (ClassNotFoundException | SQLException
+	 * e) { message = "Operation failed! " + e.getMessage(); }
+	 * 
+	 * request.setAttribute("feebackMessage", message); RequestDispatcher rd =
+	 * request.getRequestDispatcher("add-user.jsp"); rd.forward(request, response);
+	 * }
+	 */
 
+	private void addUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    clearMessage();
 
 	    User user = new User();
@@ -142,7 +247,6 @@ public class UserController extends HttpServlet {
 	    user.setName(request.getParameter("name"));
 	    user.setPhoneNumber(request.getParameter("telephone"));
 	    user.setEmail(request.getParameter("email"));
-
 	    String plainPassword = request.getParameter("password");
 
 	    if (plainPassword == null || plainPassword.isEmpty()) {
@@ -161,37 +265,69 @@ public class UserController extends HttpServlet {
 	    user.setGender(request.getParameter("gender"));
 	    user.setOccupation(request.getParameter("jobtype"));
 	    user.setCountry(request.getParameter("country"));
-	    user.setAccessRight(AccessRight.valueOf(request.getParameter("usertype")));
+	    
+	    // Check if the user is a consultant (usertype "CONSULTANT") and set registrationStatus accordingly
+//	    if (AccessRight.ROLE_CONSULTANT.equals(AccessRight.valueOf(request.getParameter("usertype")))) {
+//	        user.setAccessRight(AccessRight.ROLE_CONSULTANT);
+//	        user.setRegistrationStatus(RegistrationStatus.PENDING);
+//	    } else {
+//	        user.setAccessRight(AccessRight.ROLE_USER);
+//	        user.setRegistrationStatus(RegistrationStatus.APPROVED); // Other users are approved by default
+//	    }
+	    
+	    if (AccessRight.ROLE_ADMIN.equals(AccessRight.valueOf(request.getParameter("usertype")))) {
+	    	System.out.println("User type from request: " + request.getParameter("usertype"));
+
+	        user.setAccessRight(AccessRight.ROLE_ADMIN);
+	        user.setRegistrationStatus(RegistrationStatus.APPROVED); // Administrators are approved by default
+	    } else if (AccessRight.ROLE_CONSULTANT.equals(AccessRight.valueOf(request.getParameter("usertype")))) {
+	    	System.out.println("User type from request: " + request.getParameter("usertype"));
+
+	    	  user.setAccessRight(AccessRight.ROLE_CONSULTANT);
+	        user.setRegistrationStatus(RegistrationStatus.PENDING);
+	    } else {
+	    	System.out.println("User type from request: " + request.getParameter("usertype"));
+
+	        user.setAccessRight(AccessRight.ROLE_USER);
+	        user.setRegistrationStatus(RegistrationStatus.APPROVED); // Other users are approved by default
+	    }
+
+//	    if ("ROLE_ADMIN".equals(request.getParameter("usertype"))) {
+//	        user.setAccessRight(AccessRight.ROLE_ADMIN);
+//	        user.setRegistrationStatus(RegistrationStatus.APPROVED);
+//	    } else if ("ROLE_CONSULTANT".equals(request.getParameter("usertype"))) {
+//	        user.setAccessRight(AccessRight.ROLE_CONSULTANT);
+//	        user.setRegistrationStatus(RegistrationStatus.PENDING);
+//	    } else {
+//	        user.setAccessRight(AccessRight.ROLE_USER);
+//	        user.setRegistrationStatus(RegistrationStatus.APPROVED);
+//	    }
+
+
+
 	    user.setEducationalQualifications(request.getParameter("educationalQualifications"));
 	    user.setSpecializedCountries(request.getParameter("specializedCountries"));
 	    user.setSpecializedJobs(request.getParameter("specializedJobs"));
 	    
-	
+	    // Other user attributes...
 	    
-	 // In your addUser and editUser methods, retrieve the values of available days and time slots
-	    String[] selectedAvailableDays = request.getParameterValues("availableDays");
-	    String[] selectedAvailableTimeSlots = request.getParameterValues("availableTimeSlots");
-
-	    // Check for null before processing
-	    if (selectedAvailableDays != null && selectedAvailableTimeSlots != null) {
-	        // Convert the selected values to a comma-separated string
-	        String availableDays = String.join(",", selectedAvailableDays);
-	        String availableTimeSlots = String.join(",", selectedAvailableTimeSlots);
-
-	        // Set the values in the User object
-	        user.setAvailableDays(availableDays);
-	        user.setAvailableTimeSlots(availableTimeSlots);
-	    } else {
-	        // Handle the case when no checkboxes were selected
-	        user.setAvailableDays("");
-	        user.setAvailableTimeSlots("");
-	    }
-
-	    // Now you can proceed with setting the remaining data
-	    // ...
-
+		  String[] selectedAvailableDays = request.getParameterValues("availableDays");
+		  String[] selectedAvailableTimeSlots =
+		  request.getParameterValues("availableTimeSlots");
+		  
+		 
+		  if (selectedAvailableDays != null && selectedAvailableTimeSlots != null) {
+		  
+		  String availableDays = String.join(",", selectedAvailableDays); String
+		  availableTimeSlots = String.join(",", selectedAvailableTimeSlots);
+		  
+		  
+		  user.setAvailableDays(availableDays);
+		  user.setAvailableTimeSlots(availableTimeSlots); } else {
+		  
+		  user.setAvailableDays(""); user.setAvailableTimeSlots(""); }
+		  
 	    try {
-	        // Check if the email already exists in the database
 	        if (getUserService().isEmailAlreadyExists(user.getEmail())) {
 	            message = "User with the same email already exists!";
 	        } else {
@@ -212,12 +348,11 @@ public class UserController extends HttpServlet {
 	}
 
 
-
 	private String hashPassword(String plainPassword) {
-		byte[] salt = generateSalt(); // Generate a random salt
-		int iterations = 10000; // You can adjust the number of iterations according to your security
-								// requirements
-		int keyLength = 256; // Key length in bits
+		byte[] salt = generateSalt(); 
+		int iterations = 10000; 
+								
+		int keyLength = 256; 
 
 		// Hash the password using PBKDF2
 		char[] passwordChars = plainPassword.toCharArray();
@@ -233,16 +368,15 @@ public class UserController extends HttpServlet {
 
 			return Base64.getEncoder().encodeToString(combined);
 		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-			e.printStackTrace(); // Handle the exception properly in your application
+			e.printStackTrace(); 
 			return null;
 		}
 	}
 
 	private byte[] generateSalt() {
-		// Generate a random salt for password hashing
-		byte[] salt = new byte[16]; // You can adjust the salt length as needed
-		// Generate the salt using a secure random number generator
-		// Example: SecureRandom.getInstanceStrong().nextBytes(salt);
+	
+		byte[] salt = new byte[16]; 
+		
 		return salt;
 	}
 
@@ -262,13 +396,13 @@ public class UserController extends HttpServlet {
 	    user.setOccupation(request.getParameter("occupation"));
 	    user.setCountry(request.getParameter("country"));
 
-	    /////only for consultant
+
 	    user.setEducationalQualifications(request.getParameter("educationalQualifications"));
 	    user.setSpecializedCountries(request.getParameter("specializedCountries"));
 	    user.setSpecializedJobs(request.getParameter("specializedJobs"));
 	    user.setAccessRight(AccessRight.valueOf(request.getParameter("accessRight")));
 
-	    // Retrieve the values of available days and time slots
+
 	    String[] selectedAvailableDays = request.getParameterValues("availableDays");
 	    String[] selectedAvailableTimeSlots = request.getParameterValues("availableTimeSlots");
 
@@ -395,26 +529,66 @@ public class UserController extends HttpServlet {
 		    rd.forward(request, response);
 		}
 
+	
+	private void fetchPendingUsers(HttpServletRequest request, HttpServletResponse response)
+		    throws ServletException, IOException {
+
+		    clearMessage();
+
+		    List<User> pendingUsers = new ArrayList<User>();
+		    try {
+		    	pendingUsers = getUserService().fetchPendingUsers(); // Use the new method to fetch consultant users
+
+		        if (!(pendingUsers.size() > 0)) {
+		            message = "No consultant users found!";
+		        }
+		    } catch (ClassNotFoundException | SQLException e) {
+		        message = e.getMessage();
+		    }
+
+		    request.setAttribute("pendingUsers", pendingUsers); // Use a different attribute name for consultant users
+		    request.setAttribute("feebackMessage", message);
+
+		    RequestDispatcher rd = request.getRequestDispatcher("view-pending-users.jsp"); // Use a different JSP page
+		    rd.forward(request, response);
+		}
+
+	
+	private void approveUser(HttpServletRequest request, HttpServletResponse response)
+	        throws ServletException, IOException {
+	    int userId = Integer.parseInt(request.getParameter("userId"));
+	    try {
+	        if (getUserService().approveUser(userId)) {
+	            message = "User has been approved!";
+	        } else {
+	            message = "Failed to approve the user!";
+	        }
+	    } catch (ClassNotFoundException | SQLException e) {
+	        message = "Operation failed! " + e.getMessage();
+	    }
+	    request.setAttribute("feebackMessage", message);
+	    RequestDispatcher rd = request.getRequestDispatcher("view-pending-users.jsp");
+	    rd.forward(request, response);
+	}
+
+	private void rejectUser(HttpServletRequest request, HttpServletResponse response)
+	        throws ServletException, IOException {
+	    int userId = Integer.parseInt(request.getParameter("userId"));
+	    try {
+	        if (getUserService().rejectUser(userId)) {
+	            message = "User has been rejected!";
+	        } else {
+	            message = "Failed to reject the user!";
+	        }
+	    } catch (ClassNotFoundException | SQLException e) {
+	        message = "Operation failed! " + e.getMessage();
+	    }
+	    request.setAttribute("feebackMessage", message);
+	    RequestDispatcher rd = request.getRequestDispatcher("view-pending-users.jsp");
+	    rd.forward(request, response);
+	}
 
 	private void clearMessage() {
 		message = "";
 	}
 }
-
-//	/**
-//	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-//	 */
-//	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		// TODO Auto-generated method stub
-//		response.getWriter().append("Served at: ").append(request.getContextPath());
-//	}
-//
-//	/**
-//	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-//	 */
-//	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		// TODO Auto-generated method stub
-//		doGet(request, response);
-//	}
-//
-//}
