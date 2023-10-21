@@ -68,7 +68,12 @@ public class UserController extends HttpServlet {
 			viewUser(request, response); 
 		} else if (useractiontype.equals("delete")) {
 			deleteUser(request, response);
+		}else if (useractiontype.equals("approve")) {
+		    approveUser(request, response);
+		} else if (useractiontype.equals("reject")) {
+		    rejectUser(request, response);
 		}
+
 	}
 
 	private void viewUser(HttpServletRequest request, HttpServletResponse response)
@@ -547,6 +552,41 @@ public class UserController extends HttpServlet {
 		    RequestDispatcher rd = request.getRequestDispatcher("view-pending-users.jsp"); // Use a different JSP page
 		    rd.forward(request, response);
 		}
+
+	
+	private void approveUser(HttpServletRequest request, HttpServletResponse response)
+	        throws ServletException, IOException {
+	    int userId = Integer.parseInt(request.getParameter("userId"));
+	    try {
+	        if (getUserService().approveUser(userId)) {
+	            message = "User has been approved!";
+	        } else {
+	            message = "Failed to approve the user!";
+	        }
+	    } catch (ClassNotFoundException | SQLException e) {
+	        message = "Operation failed! " + e.getMessage();
+	    }
+	    request.setAttribute("feebackMessage", message);
+	    RequestDispatcher rd = request.getRequestDispatcher("view-pending-users.jsp");
+	    rd.forward(request, response);
+	}
+
+	private void rejectUser(HttpServletRequest request, HttpServletResponse response)
+	        throws ServletException, IOException {
+	    int userId = Integer.parseInt(request.getParameter("userId"));
+	    try {
+	        if (getUserService().rejectUser(userId)) {
+	            message = "User has been rejected!";
+	        } else {
+	            message = "Failed to reject the user!";
+	        }
+	    } catch (ClassNotFoundException | SQLException e) {
+	        message = "Operation failed! " + e.getMessage();
+	    }
+	    request.setAttribute("feebackMessage", message);
+	    RequestDispatcher rd = request.getRequestDispatcher("view-pending-users.jsp");
+	    rd.forward(request, response);
+	}
 
 	private void clearMessage() {
 		message = "";

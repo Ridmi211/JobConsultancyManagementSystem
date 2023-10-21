@@ -798,8 +798,8 @@ User user = (User) session.getAttribute("user");
       <div class="container d-flex justify-content-center p-0 m-0">       
 
         <div class="header-text pt-2" >
-          <p>Software Engineering Undergarduate</p>
-          <h2>Hi, I'm <span>Ridmi Yatigammana </span> <br> from Sri Lanka</h2>
+          <p>Live your dream</p>
+          <h2>Hi, njgjt <span>jjtjyhjthyjthy</span> <br> ntnjhtnh nitnitn</h2>
          <a href="getuser?useractiontype=consultants" class="btn">Book Appointment</a>
         </div>
         

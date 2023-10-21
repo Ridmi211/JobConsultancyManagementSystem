@@ -5,8 +5,7 @@ import java.util.Date;
 public class Appointment {
 	
 	    private int appointmentId;
-	    private JobSeeker jobSeeker; // Reference to the User model for the job seeker
-	    private Consultant consultant; // Reference to the Consultant model for the consultant
+	   // Reference to the Consultant model for the consultant
 	    private Date scheduledDateAndTime;
 	    private Time startTime; 
 	    private Status status;
@@ -22,8 +21,8 @@ public class Appointment {
 	    public Appointment(int appointmentId, JobSeeker jobSeeker, Consultant consultant, Date scheduledDateAndTime,
 	                       Time startTime, Status status, String location, String notes, String updatedCvFilePath) {
 	        this.appointmentId = appointmentId;
-	        this.jobSeeker = jobSeeker;
-	        this.consultant = consultant;
+//	        this.jobSeeker = jobSeeker;
+//	        this.consultant = consultant;
 	        this.scheduledDateAndTime = scheduledDateAndTime;
 	        this.startTime = startTime;
 	        this.status = status;
@@ -41,21 +40,21 @@ public class Appointment {
 	        this.appointmentId = appointmentId;
 	    }
 
-	    public JobSeeker getJobSeeker() {
-	        return jobSeeker;
-	    }
-
-	    public void setJobSeeker(JobSeeker jobSeeker) {
-	        this.jobSeeker = jobSeeker;
-	    }
-
-	    public Consultant getConsultant() {
-	        return consultant;
-	    }
-
-	    public void setConsultant(Consultant consultant) {
-	        this.consultant = consultant;
-	    }
+//	    public JobSeeker getJobSeeker() {
+//	        return jobSeeker;
+//	    }
+//
+//	    public void setJobSeeker(JobSeeker jobSeeker) {
+//	        this.jobSeeker = jobSeeker;
+//	    }
+//
+//	    public Consultant getConsultant() {
+//	        return consultant;
+//	    }
+//
+//	    public void setConsultant(Consultant consultant) {
+//	        this.consultant = consultant;
+//	    }
 
 	    public Date getScheduledDateAndTime() {
 	        return scheduledDateAndTime;

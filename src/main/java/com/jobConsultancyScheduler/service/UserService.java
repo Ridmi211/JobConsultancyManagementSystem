@@ -65,6 +65,14 @@ public class UserService implements UserManager {
         return getUserManager().updateRegistrationStatus(userId, status);
     }
 
+    public boolean approveUser(int userId) throws ClassNotFoundException, SQLException {
+        return getUserManager().updateRegistrationStatus(userId, RegistrationStatus.APPROVED);
+    }
+
+    public boolean rejectUser(int userId) throws ClassNotFoundException, SQLException {
+        return getUserManager().updateRegistrationStatus(userId, RegistrationStatus.REJECTED);
+    }
+
 //	public List<User> fetchAllPendingUsers() {
 //		// TODO Auto-generated method stub
 //		return null;
