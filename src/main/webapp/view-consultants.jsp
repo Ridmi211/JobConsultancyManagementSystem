@@ -1260,7 +1260,9 @@ if (selectedJob != null && !selectedJob.isEmpty()) { // Add this condition
                                 </ul>
                             </div>
                      
-                          <button class="btn primary"><i class="fa-solid fa-calendar-plus"></i>&nbsp;Book Now </button>
+                          <button  class="btn primary"><i class="fa-solid fa-calendar-plus"></i>&nbsp;Book Now </button>
+           <!--                 <li ><a href="add-appointment.jsp"><i class="fa fa-user-circle" aria-hidden="true" ></i>&nbsp;&nbsp; Login</a></li>  -->
+                           <!-- <a href="add-user.jsp"  class="btn primary"><i class="fa-solid fa-calendar-plus"></i>&nbsp;Book Now</a> -->
                         </div>
                       </div>
                      

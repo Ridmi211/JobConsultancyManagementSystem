@@ -5,34 +5,31 @@ import java.util.Date;
 public class Appointment {
 	
 	    private int appointmentId;
-	   
-	   // Reference to the Consultant model for the consultant
-	    private Date scheduledDateAndTime;
-	    private Time startTime; 
+	  
+		private int consultantId;
+		private int seekerId;
+		private String consultantName;
+		private String seekerName;
+		
+	    private String scheduledDate;
+	    private String startTime; 
 	    private Status status;
 	    private String location;
 	    private String notes;
-	    private String updatedCvFilePath;
-		private JobSeeker jobSeeker;
-
-		private Consultant consultant;
+	  
 
 	    // Constructors
 	    public Appointment() {
 	        // Default constructor
 	    }
 
-	    public Appointment(int appointmentId, JobSeeker jobSeeker, Consultant consultant, Date scheduledDateAndTime,
-	                       Time startTime, Status status, String location, String notes, String updatedCvFilePath) {
+	    public Appointment(int appointmentId, JobSeeker jobSeeker, Consultant consultant,
+	                       String startTime, Status status, String location, String notes, String updatedCvFilePath) {
 	        this.appointmentId = appointmentId;
-	        this.jobSeeker = jobSeeker;
-	        this.consultant = consultant;
-	        this.scheduledDateAndTime = scheduledDateAndTime;
 	        this.startTime = startTime;
 	        this.status = status;
 	        this.location = location;
 	        this.notes = notes;
-	        this.updatedCvFilePath = updatedCvFilePath; 
 	    }
 
 	    // Getter and Setter methods for attributes
@@ -40,39 +37,12 @@ public class Appointment {
 	        return appointmentId;
 	    }
 
-	    public void setAppointmentId(int appointmentId) {
-	        this.appointmentId = appointmentId;
-	    }
 
-	    public JobSeeker getJobSeeker() {
-	        return jobSeeker;
-	    }
-
-	    public void setJobSeeker(JobSeeker jobSeeker) {
-	        this.jobSeeker = jobSeeker;
-	    }
-
-	    public Consultant getConsultant() {
-	        return consultant;
-	    }
-
-	    public void setConsultant(Consultant consultant) {
-	        this.consultant = consultant;
-	    }
-
-	    public Date getScheduledDateAndTime() {
-	        return scheduledDateAndTime;
-	    }
-
-	    public void setScheduledDateAndTime(Date scheduledDateAndTime) {
-	        this.scheduledDateAndTime = scheduledDateAndTime;
-	    }
-
-	    public Time getStartTime() {
+	    public String getStartTime() {
 	        return startTime;
 	    }
 
-	    public void setStartTime(Time startTime) {
+	    public void setStartTime(String startTime) {
 	        this.startTime = startTime;
 	    }
 
@@ -100,19 +70,66 @@ public class Appointment {
 	        this.notes = notes;
 	    }
 	    
-	    public String getUpdatedCvFilePath() {
-	        return updatedCvFilePath;
-	    }
-
-	    public void setUpdatedCvFilePath(String updatedCvFilePath) {
-	        this.updatedCvFilePath = updatedCvFilePath;
-	    }
+	  
 	    
-	    public enum Status {
+	    public int getConsultantId() {
+			return consultantId;
+		}
+
+		public void setConsultantId(int consultantId) {
+			this.consultantId = consultantId;
+		}
+
+
+
+		public int getSeekerId() {
+			return seekerId;
+		}
+
+		public void setSeekerId(int seekerId) {
+			this.seekerId = seekerId;
+		}
+
+
+
+		public String getConsultantName() {
+			return consultantName;
+		}
+
+		public void setConsultantName(String consultantName) {
+			this.consultantName = consultantName;
+		}
+
+
+
+		public String getSeekerName() {
+			return seekerName;
+		}
+
+		public void setSeekerName(String seekerName) {
+			this.seekerName = seekerName;
+		}
+
+
+
+		public String getScheduledDate() {
+			return scheduledDate;
+		}
+
+		public void setScheduledDate(String scheduledDate) {
+			this.scheduledDate = scheduledDate;
+		}
+
+
+
+		public enum Status {
 	        REQUESTED("Requested"),
-	        CONFIRMED("Confirmed"),
+	        ADMIN_CONFIRMED("Admin Confirmed"),
+	        CON_CONFIRMED("Consultant Confirmed"),
+	        CON_REJECTED("Rejected"),
 	        COMPLETED("Completed"),
-	        CANCELLED("Cancelled");
+	        SEEKER_CANCELLED("Seeker Cancelled"),
+	    	ADMIN_CANCELLED(" Admin Cancelled");
 
 	        private final String displayName;
 
