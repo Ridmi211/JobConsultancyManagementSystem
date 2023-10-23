@@ -693,6 +693,10 @@ User user = (User) session.getAttribute("user");
     <span>Dashboard</span>
   </a>
 
+  <a href="book-consultant-new.jsp" >
+    <i class="fas fa-qrcode"></i>
+    <span>book</span>
+  </a>
 <a href="getuser?useractiontype=consultants" >
     <i class="fas fa-qrcode"></i>
     <span>Consultants</span>
