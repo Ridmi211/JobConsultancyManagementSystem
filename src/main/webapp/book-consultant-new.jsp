@@ -789,7 +789,7 @@ button.primary {
 	color: white;
 	font-family: Montserrat, sans-serif;
 	font-weight: 500;
-	padding: 10px 25px;
+	padding: 10px 5px;
 }
 
 button.primary.ghost {
@@ -926,7 +926,7 @@ button.primary.ghost {
 
 input[type="text"] {
     width: 100%;
-    padding: 10px;
+    padding: 5px;
     margin: 5px 0;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -1058,20 +1058,13 @@ User user = (User) session.getAttribute("user");
 %>
     
 <div class="row p-5 pb-0 m-0 mt-5" style="text-align: center;">
-    <!-- <div class="p-0 m-0 d-flex align-items-end d-flex justify-content-center" id="header" style="background-image: url(https://remodelerplatform.blob.core.windows.net/wwwsolarmaxtechcom/gallery/original/b1954715-acfa-42f4-8c83-6de06a836d44.jpg);"  >
-  
-      <div class="container d-flex justify-content-center p-0 m-0">       
-
-        <div class="header-text pt-2 " > -->
+    
       
          <h2> Check out our availability and book the date and time that works for you</h2>
          
         
        
-        <!-- </div>
         
-      </div>
-    </div> -->
   </div>
   
  
@@ -1111,8 +1104,8 @@ User user = (User) session.getAttribute("user");
                         </ul>
                     </div>
                     <div class="countries">
-                        <h6><%= consultant.getSpecializedCountries() %></h6>
-                        <ul>
+                        <h6>Specialized Countries</h6>
+                       <ul id="availableCountriesList">
                             <%
                                 String specializedCountries = consultant.getSpecializedCountries();
                                 if (specializedCountries != null && !specializedCountries.isEmpty()) {
@@ -1128,7 +1121,7 @@ User user = (User) session.getAttribute("user");
                     </div>
                     <div class="skills">
                         <h6>Specialized Jobs</h6>
-                        <ul>
+                        <ul id="availableJobsList">
                             <%
                                 String specializedJobs = consultant.getSpecializedJobs();
                                 if (specializedJobs != null && !specializedJobs.isEmpty()) {
@@ -1146,7 +1139,7 @@ User user = (User) session.getAttribute("user");
                 <div class="layer">
                     <div class="days">
                         <h6>Available Days</h6>
-                        <ul>
+                       <ul id="availableDaysList">
                             <%
                                 String availableDays = consultant.getAvailableDays();
                                 if (availableDays != null && !availableDays.isEmpty()) {
@@ -1162,7 +1155,7 @@ User user = (User) session.getAttribute("user");
                     </div>
                     <div class="days">
                         <h6>Available Time Slots</h6>
-                        <ul>
+                        <ul id="availableTimeSlotsList">
                             <%
                                 String availableTimeSlots = consultant.getAvailableTimeSlots();
                                 if (availableTimeSlots != null && !availableTimeSlots.isEmpty()) {
@@ -1195,26 +1188,26 @@ User user = (User) session.getAttribute("user");
                                 <div class="row mb-1 mt-1">Select Time</div>
 
                                 <div class="row">  
-                                    <select name="time" id="time" required>
-                                        <option value="10:00 AM">10:00 AM</option>
-                                        <option value="1:00 PM">1:00 PM</option>
+                                   <select name="time" id="time" required>
+                                      
                                        
                                     </select>
                                     
                                 
                                 </div>
                                 <div class="row mb-1 mt-3">Select the country</div>
-                                <div class="row">   <select name="time" id="time" >
-                                    <option value="10:00 AM">10:00 AM</option>
-                                    <option value="1:00 PM">1:00 PM</option>
+                                <div class="row">  
+                                <select name="country" id="country" required>
+                                  
                                    
                                 </select></div>
                                 <div class="row mb-1 mt-3">Select the job</div>
-                                <div class="row">   <select name="time" id="time" >
-                                    <option value="10:00 AM">10:00 AM</option>
-                                    <option value="1:00 PM">1:00 PM</option>
+                                <div class="row">  
+                               <select name="job" id="job" required>
+                                   
                                    
                                 </select></div>
+                                
                                 <div class="row mb-1 mt-3">Add your qualifications so we can help you better</div>
                                 <div class="row" >    <textarea style="height: 100px;"></textarea> </div>
                              
@@ -1270,32 +1263,8 @@ User user = (User) session.getAttribute("user");
 
         
         <!-- ------------------------------contact-------------------------------- -->
-        <div id="contact" ">
-            <div class="container">
-                <div class="row" style=" margin-top: 100px;">
-                    <div class="contact-left">
-                        <h1 class="sub-title margin-top: 50px;">Contact Us</h1>
-                        <p><i class="fa-solid fa-paper-plane"></i> ridmiyatigammana@gmail.com</p>
-                        <p><i class="fa-solid fa-square-phone"></i> (+94)71-954 3823</p>
-                        <div class="social-icons">
-                            <a href="https://www.linkedin.com/in/ridmi-yatigammana-b42383214/"><i
-                                    class="fa-brands fa-linkedin"></i></a>
-                            <a href="https://github.com/Ridmi211"><i class="fa-brands fa-github"></i></a>
-                            <a href="https://www.instagram.com/ridmi_y_y/"><i class="fa-brands fa-instagram"></i></a>
-                        </div>
-                        <a href="images/Resume- Ridmi Yatigammana.pdf" download class="btn btn2">Download CV</a>
-                    </div>
-                    <div class="contact-right">
-                        <form name="submit-to-google-sheet">
-                            <input type="text" name="Name" placeholder="Your Name" required>
-                            <input type="email" name="email" placeholder="Your Email" required>
-                            <textarea name="Message" rows="6" placeholder="Your Message"></textarea>
-                            <button type="submit" class="btn btn2">Submit</button>
-                        </form>
-                        <span id="msg"></span>
-                    </div>
-                </div>
-            </div>
+     
+          
 
             <div class="copyright">
                 <p> Copyright © Ridmi. Made with <i class="fa-solid fa-heart"></i> by Easy Tutorials</p>
@@ -1306,7 +1275,7 @@ User user = (User) session.getAttribute("user");
         <!-- --------------------javascript-------------------------- -->
 
 
-        <script>
+      <!--   <script>
             // Get the date input element
             const dateInput = document.getElementById("date");
     
@@ -1328,8 +1297,110 @@ User user = (User) session.getAttribute("user");
                     dateInput.setCustomValidity("Consultant is not available on " + currentDay);
                 }
             });
-        </script>
+        </script> -->
 
+
+
+<script>
+    // Get the date input element
+    const dateInput = document.getElementById("date");
+
+    // Initialize availableDays as an empty array
+    let availableDays = [];
+
+    // Replace this with your consultant's available days
+    // This code will populate availableDays from the HTML list
+    const availableDaysList = document.getElementById("availableDaysList");
+    const availableDaysItems = availableDaysList.getElementsByTagName("li");
+    
+    for (let i = 0; i < availableDaysItems.length; i++) {
+        availableDays.push(availableDaysItems[i].textContent.trim());
+    }
+
+    dateInput.addEventListener("input", function() {
+        // Get the selected date
+        const selectedDate = dateInput.value;
+
+        // Get the current day of the week (e.g., "Monday")
+        const currentDay = new Date(selectedDate).toLocaleDateString('en-US', { weekday: 'long' });
+
+        if (availableDays.includes(currentDay)) {
+            // The selected date is available
+            dateInput.setCustomValidity(""); // Clear any custom validation messages
+        } else {
+            // The selected date is unavailable
+            dateInput.setCustomValidity("Consultant is not available on " + currentDay);
+        }
+    });
+</script>
+
+
+<script>
+    // Get the time select element
+    const timeSelect = document.getElementById("time");
+
+    // Initialize availableTimeSlots as an empty array
+    let availableTimeSlots = [];
+
+    // Replace this with your consultant's available time slots
+    // This code will populate availableTimeSlots from the HTML list
+    const availableTimeSlotsList = document.getElementById("availableTimeSlotsList");
+    const availableTimeSlotsItems = availableTimeSlotsList.getElementsByTagName("li");
+
+    for (let i = 0; i < availableTimeSlotsItems.length; i++) {
+        availableTimeSlots.push(availableTimeSlotsItems[i].textContent.trim());
+    }
+
+    // Populate the select options
+    availableTimeSlots.forEach((timeSlot) => {
+        const option = document.createElement("option");
+        option.value = timeSlot;
+        option.textContent = timeSlot;
+        timeSelect.appendChild(option);
+    });
+</script>
+
+
+<script>
+    // Get the country and job select elements
+    const countrySelect = document.getElementById("country");
+    const jobSelect = document.getElementById("job");
+
+    // Initialize arrays for available countries and jobs
+    let availableCountries = [];
+    let availableJobs = [];
+
+    // Replace this with your consultant's available countries and jobs
+    // This code will populate availableCountries and availableJobs from the HTML lists
+    const availableCountriesList = document.getElementById("availableCountriesList");
+    const availableCountriesItems = availableCountriesList.getElementsByTagName("li");
+    const availableJobsList = document.getElementById("availableJobsList");
+    const availableJobsItems = availableJobsList.getElementsByTagName("li");
+
+    for (let i = 0; i < availableCountriesItems.length; i++) {
+        availableCountries.push(availableCountriesItems[i].textContent.trim());
+    }
+
+    for (let i = 0; i < availableJobsItems.length; i++) {
+        availableJobs.push(availableJobsItems[i].textContent.trim());
+    }
+
+    // Populate the select options for country
+    availableCountries.forEach((country) => {
+        const option = document.createElement("option");
+        option.value = country;
+        option.textContent = country;
+        countrySelect.appendChild(option);
+    });
+
+    // Populate the select options for job
+    availableJobs.forEach((job) => {
+        const option = document.createElement("option");
+        option.value = job;
+        option.textContent = job;
+        jobSelect.appendChild(option);
+    });
+</script>
 
 </body>
 
