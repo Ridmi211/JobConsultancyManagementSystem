@@ -1181,9 +1181,7 @@ User user = (User) session.getAttribute("user");
                                 <div class="row mb-1 ">Select a Date</div>
                                 <div class="row">  
                                     <input type="date" id="date" name="date" required> </div>
-                                      <!-- <input type="date" name="birthdate" id="birthdate" required>
                                    
-                                <label for="date">Select a Date:</label> -->
 
                                 <div class="row mb-1 mt-1">Select Time</div>
 
