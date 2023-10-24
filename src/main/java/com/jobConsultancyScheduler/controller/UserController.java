@@ -43,6 +43,9 @@ public class UserController extends HttpServlet {
 	        fetchSingleUser(request, response);
 	    } else if (useractiontype.equals("view")) {
 	        viewUser(request, response);
+	    } else if (useractiontype.equals("viewConsultant")) {
+	        viewConsultant(request, response);
+	    
 	    } else if (useractiontype.equals("consultants")) {
 	        fetchConsultantUsers(request, response); 
 	    }  else if (useractiontype.equals("pending")) {
@@ -60,6 +63,9 @@ public class UserController extends HttpServlet {
 
 		if (useractiontype.equals("login")) {
 			loginUser(request, response);
+		} else if (useractiontype.equals("viewConsultant")) {
+		    viewConsultant(request, response);
+		
 		} else if (useractiontype.equals("add")) {
 			addUser(request, response);
 		} else if (useractiontype.equals("edit")) {
@@ -76,6 +82,27 @@ public class UserController extends HttpServlet {
 
 	}
 
+	
+	private void viewConsultant(HttpServletRequest request, HttpServletResponse response)
+	        throws ServletException, IOException {
+	    int userId = Integer.parseInt(request.getParameter("userId"));
+	    try {
+	        User consultant = getUserService().fetchSingleUser(userId); // Replace with your actual data retrieval logic for consultants
+	        if (consultant.getUserId() > 0) {
+	            request.setAttribute("consultant", consultant);
+	            RequestDispatcher rd = request.getRequestDispatcher("book-consultant-new.jsp"); // Create a JSP page for displaying consultant details
+	            rd.forward(request, response);
+	        } else {
+	            request.setAttribute("message", "No consultant found!");
+	            RequestDispatcher rd = request.getRequestDispatcher("consultants-list.jsp"); // Provide the appropriate JSP for the list of consultants
+	            rd.forward(request, response);
+	        }
+	    } catch (ClassNotFoundException | SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
+
+	
 	private void viewUser(HttpServletRequest request, HttpServletResponse response)
 	        throws ServletException, IOException {
 	    int userId = Integer.parseInt(request.getParameter("userId"));
@@ -97,31 +124,7 @@ public class UserController extends HttpServlet {
 	    }
 	}
 
-	/*
-	 * private void loginUser(HttpServletRequest request, HttpServletResponse
-	 * response) throws ServletException, IOException { String email =
-	 * request.getParameter("email"); String password =
-	 * request.getParameter("password");
-	 * 
-	 * try { User user = getUserService().fetchUserByEmail(email);
-	 * 
-	 * if (user != null) { // Retrieve the hashed password from the database String
-	 * storedHashedPassword = user.getPassword();
-	 * 
-	 * // Hash the entered password using the same salt and algorithm String
-	 * enteredHashedPassword = hashPassword(password);
-	 * 
-	 * if (enteredHashedPassword != null &&
-	 * enteredHashedPassword.equals(storedHashedPassword)) { HttpSession session =
-	 * request.getSession(); session.setAttribute("user", user);
-	 * response.sendRedirect("home.jsp"); } else {
-	 * request.setAttribute("loginError", "Invalid email or password");
-	 * RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
-	 * rd.forward(request, response); } } else { request.setAttribute("loginError",
-	 * "Invalid email or password"); RequestDispatcher rd =
-	 * request.getRequestDispatcher("login.jsp"); rd.forward(request, response); } }
-	 * catch (ClassNotFoundException | SQLException e) { e.printStackTrace(); } }
-	 */
+	
 	private void loginUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    String email = request.getParameter("email");
 	    String password = request.getParameter("password");

@@ -1,11 +1,9 @@
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-       <%@ taglib prefix="tag" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="java.util.List" %>
+    <%@ taglib prefix="tag" uri="http://java.sun.com/jsp/jstl/core"%>
     <%@ page import="com.jobConsultancyScheduler.model.User" %>
     <%@ page import="com.jobConsultancyScheduler.model.AccessRight" %>
-    
-<%@ page import="java.util.ArrayList" %>
 
 <!DOCTYPE html>
 <html>
@@ -791,7 +789,7 @@ button.primary {
 	color: white;
 	font-family: Montserrat, sans-serif;
 	font-weight: 500;
-	padding: 10px 25px;
+	padding: 10px 5px;
 }
 
 button.primary.ghost {
@@ -928,7 +926,7 @@ button.primary.ghost {
 
 input[type="text"] {
     width: 100%;
-    padding: 10px;
+    padding: 5px;
     margin: 5px 0;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -947,7 +945,7 @@ input[type="text"] {
         <i class="fas fa-times" id="cancel"></i>
       </label>
 
-<%
+ <%
 // Get the user object from the session
 User user = (User) session.getAttribute("user");
 %>
@@ -1041,13 +1039,12 @@ User user = (User) session.getAttribute("user");
         <li><a href="#portfolio">Projects</a></li>
         <li><a href="#contact">Contact</a></li>
         
-          <% if (user != null) { %>
+       
           
-    <li ><a href="view-profile.jsp"><i class="fa fa-user-circle" aria-hidden="true" ></i>&nbsp;&nbsp; <%= user.getName() %></a></li> 
+    <li ><a href="view-profile.jsp"><i class="fa fa-user-circle" aria-hidden="true" ></i>&nbsp;&nbsp; name</a></li> 
     
-  <% } else { %>
     <li ><a href="login.jsp"><i class="fa fa-user-circle" aria-hidden="true" ></i>&nbsp;&nbsp; Login</a></li> 
-  <% } %>
+
          
          <i class="fas fa-solid fa-xmark" onclick="closemenu()"> </i>
     </ul>
@@ -1055,291 +1052,219 @@ User user = (User) session.getAttribute("user");
    
     <i class="fas fa-solid fa-bars" onclick="openmenu()"></i>
   </nav>
-    
-<div class="row p-0 m-0">
-    <div class="p-0 m-0 d-flex align-items-end d-flex justify-content-center" id="header" style="background-image: url(https://remodelerplatform.blob.core.windows.net/wwwsolarmaxtechcom/gallery/original/b1954715-acfa-42f4-8c83-6de06a836d44.jpg);"  >
   
-      <div class="container d-flex justify-content-center p-0 m-0">       
-
-        <div class="header-text pt-2 " >
+  <%
+    User consultant = (User) request.getAttribute("consultant");
+%>
+    
+<div class="row p-5 pb-0 m-0 mt-5" style="text-align: center;">
+    
       
-          <h1>Choose your dream path with our experienced</h1> <h2> Consultation panel</h2>
+         <h2> Check out our availability and book the date and time that works for you</h2>
          
         
        
-        </div>
         
-      </div>
-    </div>
   </div>
   
-  <!-- <div class="row mt-5">
-   <div class="col-2"> </div>
-   <div class="col-3">  <label for="filterCountry">Select a Country:</label>
-    <select id="filterCountry" name="jobtype">
-        <option value="">All</option>
-        <option value="Canada">Canada</option>
-        <option value="Australia">Australia</option>
-        <option value="USA">USA</option>
-        <option value="Russia">Russia</option>
-        Add more countries as needed
-    </select></div>
-    <div class="col-3"> <label for="filterJob">Select a Job:</label>
-    <select id="filterJob">
-        <option value="">All</option>
-        <option value="Job1">Job 1</option>
-        <option value="Job2">Job 2</option>
-        <option value="adad">adad</option>
-        Add more job options as needed
-    </select></div>
-     <div class="col-1">    <button onclick="applyFilter()">Apply Filter</button></div>
-  <div class="col-3"> </div>
-  
-  </div> -->
-  
-  
-  <div class="row mt-5" style="color:#3f2e59;">
-     <div class="col-2"> </div>
-    <div class="col-3">
-        <label for="filterCountry">Filter by Country:</label>
-        <input type="text" id="filterCountry" placeholder="Enter country" name="filterCountry">
-    </div>
-    <div class="col-3">
-        <label for="filterJob">Filter by Job:</label>
-        <input type="text" id="filterJob" name="filterJob" placeholder="Enter job">
-    </div>
-    <div class="col-2">
-        <button class="btn mt-4" onclick="applyFilter()">Apply Filter</button>
-    </div>
-    <div class="col-2"> </div>
-</div>
+ 
+
   
    
         <!-- ---------------------------------------Consultants--------------------------------------------------------------------- -->
 
-<%
-String selectedCountry = request.getParameter("filterCountry");
-String selectedJob = request.getParameter("filterJob"); // Add this line
-
-List<User> consultantUsers = (List<User>) request.getAttribute("consultantUsers");
-
-List<User> filteredConsultants = new ArrayList<User>();
-if (selectedCountry != null && !selectedCountry.isEmpty()) {
-    for (User user2 : consultantUsers) {
-        String specializedCountries = user2.getSpecializedCountries();
-        if (specializedCountries != null) {
-            String[] countries = specializedCountries.split(", ");
-            for (String country : countries) {
-                if (country.equals(selectedCountry)) {
-                    filteredConsultants.add(user2);
-                    break; // No need to check further if country is found
-                }
-            }
-        }
-    }
-} else {
-    // No country selected, show all consultants
-    filteredConsultants = consultantUsers;
-}
-
-if (selectedJob != null && !selectedJob.isEmpty()) { // Add this condition
-    List<User> jobFilteredConsultants = new ArrayList<User>();
-    for (User user2 : filteredConsultants) {
-        String specializedJobs = user2.getSpecializedJobs();
-        if (specializedJobs != null) {
-            String[] jobs = specializedJobs.split(", ");
-            for (String job : jobs) {
-                if (job.equals(selectedJob)) {
-                    jobFilteredConsultants.add(user2);
-                    break; // No need to check further if job is found
-                }
-            }
-        }
-    }
-    filteredConsultants = jobFilteredConsultants; // Update filtered consultants with job filter
-}
-%>
 
 
-        <div class="row p-0 pb-5  " style="margin-left: 140px; margin-top:30px;">
+
+        <div class="row p-0 p-5  " style="margin-left: 140px; margin-top:0px;">
         
-            <div class="container">
-                <div class="row">
-                             
-                 
-                    <% for (User user2 : filteredConsultants) { %>
-                  <div class="col-sm mb-5">
-                   
-                  <div class="work">
-                        <div class="card-container">
-                            <span class="pro">PRO</span>
-                            <img class="round" src="https://randomuser.me/api/portraits/women/79.jpg" alt="user" />
-                           <br> <div class="name"> <%= user2.getName() %>  </div>
-                            <h6> <%= user2.getOccupation() %></h6>
-                             <div class="qualifications">
-                               
-                                <ul>
-                                      <%
-                                        String educationalQualifications = user2.getEducationalQualifications();
-                                        if (educationalQualifications != null && !educationalQualifications.isEmpty()) {
-                                            String[] edus = educationalQualifications.split(",");
-                                            for (String edu : edus) {
-                                    %>
-                                    <li><%= edu.trim() %></li>
-                                    <%
-                                            }
-                                        }
-                                    %>
-                                </ul>
-                            </div>
-                             <div class="countries">
-                               <%--  <h6>   <%= user.getSpecializedCountries() %></h6> --%>
-                                <ul>
-                                      <%
-                                        String specializedCountries = user2.getSpecializedCountries();
-                                        if (specializedCountries != null && !specializedCountries.isEmpty()) {
-                                            String[] countries = specializedCountries.split(",");
-                                            for (String country : countries) {
-                                    %>
-                                    <li><%= country.trim() %></li>
-                                    <%
-                                            }
-                                        }
-                                    %>
-                                </ul>
-                            </div>
-                            <div class="skills">
-                                <h6>Specialized Jobs</h6>
-                                <ul>
-                                      <%
-                                        String specializedJobs = user2.getSpecializedJobs();
-                                        if (specializedJobs != null && !specializedJobs.isEmpty()) {
-                                            String[] jobs = specializedJobs.split(",");
-                                            for (String job : jobs) {
-                                    %>
-                                    <li><%= job.trim() %></li>
-                                    <%
-                                            }
-                                        }
-                                    %>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="layer">
-                            <div class="days">
-                                <h6>  Available Days</h6>
-                                <ul>
-                                     <%
-                                        String availableDays = user2.getAvailableDays();
-                                        if (availableDays != null && !availableDays.isEmpty()) {
-                                            String[] days = availableDays.split(",");
-                                            for (String day : days) {
-                                    %>
-                                    <li><%= day.trim() %></li>
-                                    <%
-                                            }
-                                        }
-                                    %>
-                                </ul>
-                            </div>
-                            <div class="days">
-                                <h6>Available Time Slots</h6>
-                                 <ul>
-                                   
-                                     <%
-                                        String availableTimeSlots = user2.getAvailableTimeSlots();
-                                        if (availableTimeSlots != null && !availableTimeSlots.isEmpty()) {
-                                            String[] timeSlots = availableTimeSlots.split(",");
-                                            for (String timeSlot : timeSlots) {
-                                    %>
-                                    <li><%= timeSlot.trim() %></li>
-                                    <%
-                                            }
-                                        }
-                                    %>
-                                </ul>
-                            </div>
-                     <!-- 
-                          <button  class="btn primary"><i class="fa-solid fa-calendar-plus"></i>&nbsp;Book Now </button> -->
-                          
- <%--                          
-        <form action="usermanager" method="post">
-    <input type="hidden" name="userId" value="${user2.userId}">
-    <input type="hidden" name="useractiontype" value="viewConsultant">
-    <button type="submit" class="btn btn-primary">View</button>
-</form> --%>
- <form action="usermanager" method="post">
-    <input type="hidden" name="userId" value="<%= String.valueOf(user2.getUserId()).trim() %>">
-    <input type="hidden" name="useractiontype" value="viewConsultant">
-    <button type="submit" class="btn btn-primary">View</button>
-</form> 
-
-                         <%-- <a href="UserController?useractiontype=viewConsultant&userId=<%= user2.getUserId() %>">View Consultant</a>
- --%>
-                          
-                       <%--    <a href="book-consultant-new.jsp?userId=<%= user2.getUserId() %>" class="btn primary">
-    <i class="fa-solid fa-calendar-plus"></i>&nbsp;Book Now --%>
-</a>
-                          
-                          
-                          
-           <!--                 <li ><a href="add-appointment.jsp"><i class="fa fa-user-circle" aria-hidden="true" ></i>&nbsp;&nbsp; Login</a></li>  -->
-                           <!-- <a href="add-user.jsp"  class="btn primary"><i class="fa-solid fa-calendar-plus"></i>&nbsp;Book Now</a> -->
-                        </div>
-                      </div>
-                     
-                  </div>
-                   <% } %>
+           <div class="container">
+    <div class="row">
+        <div class="col-sm mb-5">
+            <div class="work">
+                <div class="card-container">
+                    <span class="pro">PRO</span>
+                    <img class="round" src="https://randomuser.me/api/portraits/women/79.jpg" alt="user" />
+                    <br>
+                    <div class="name"><%= consultant.getName() %></div>
+                    <h6><%= consultant.getOccupation() %></h6>
+                    <div class="qualifications">
+                        <ul>
+                            <%
+                                String educationalQualifications = consultant.getEducationalQualifications();
+                                if (educationalQualifications != null && !educationalQualifications.isEmpty()) {
+                                    String[] edus = educationalQualifications.split(",");
+                                    for (String edu : edus) {
+                            %>
+                            <li><%= edu.trim() %></li>
+                            <%
+                                    }
+                                }
+                            %>
+                        </ul>
+                    </div>
+                    <div class="countries">
+                        <h6>Specialized Countries</h6>
+                       <ul id="availableCountriesList">
+                            <%
+                                String specializedCountries = consultant.getSpecializedCountries();
+                                if (specializedCountries != null && !specializedCountries.isEmpty()) {
+                                    String[] countries = specializedCountries.split(",");
+                                    for (String country : countries) {
+                            %>
+                            <li><%= country.trim() %></li>
+                            <%
+                                    }
+                                }
+                            %>
+                        </ul>
+                    </div>
+                    <div class="skills">
+                        <h6>Specialized Jobs</h6>
+                        <ul id="availableJobsList">
+                            <%
+                                String specializedJobs = consultant.getSpecializedJobs();
+                                if (specializedJobs != null && !specializedJobs.isEmpty()) {
+                                    String[] jobs = specializedJobs.split(",");
+                                    for (String job : jobs) {
+                            %>
+                            <li><%= job.trim() %></li>
+                            <%
+                                    }
+                                }
+                            %>
+                        </ul>
+                    </div>
                 </div>
-              </div>
+                <div class="layer">
+                    <div class="days">
+                        <h6>Available Days</h6>
+                       <ul id="availableDaysList">
+                            <%
+                                String availableDays = consultant.getAvailableDays();
+                                if (availableDays != null && !availableDays.isEmpty()) {
+                                    String[] days = availableDays.split(",");
+                                    for (String day : days) {
+                            %>
+                            <li><%= day.trim() %></li>
+                            <%
+                                    }
+                                }
+                            %>
+                        </ul>
+                    </div>
+                    <div class="days">
+                        <h6>Available Time Slots</h6>
+                        <ul id="availableTimeSlotsList">
+                            <%
+                                String availableTimeSlots = consultant.getAvailableTimeSlots();
+                                if (availableTimeSlots != null && !availableTimeSlots.isEmpty()) {
+                                    String[] timeSlots = availableTimeSlots.split(",");
+                                    for (String timeSlot : timeSlots) {
+                            %>
+                            <li><%= timeSlot.trim() %></li>
+                            <%
+                                    }
+                                }
+                            %>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
+  
+
+
+                              <div class="col-sm mb-5 p-5 m-5 mt-0 pt-1">
+                                <div class="row"> 
+                                <form action="AddAppointmentServlet" method="post">
+                                <div class="row mb-1 ">Select a Date</div>
+                                <div class="row">  
+                                    <input type="date" id="date" name="date" required> </div>
+                                      <!-- <input type="date" name="birthdate" id="birthdate" required>
+                                   
+                                <label for="date">Select a Date:</label> -->
+
+                                <div class="row mb-1 mt-1">Select Time</div>
+
+                                <div class="row">  
+                                   <select name="time" id="time" required>
+                                      
+                                       
+                                    </select>
+                                    
+                                
+                                </div>
+                                <div class="row mb-1 mt-3">Select the country</div>
+                                <div class="row">  
+                                <select name="country" id="country" required>
+                                  
+                                   
+                                </select></div>
+                                <div class="row mb-1 mt-3">Select the job</div>
+                                <div class="row">  
+                               <select name="job" id="job" required>
+                                   
+                                   
+                                </select></div>
+                                
+                                <div class="row mb-1 mt-3">Add your qualifications so we can help you better</div>
+                                <div class="row" >    <textarea style="height: 100px;"></textarea> </div>
+                             
+                                <input type="submit" value="Add Appointment">
+    </form>
+                            </div>
+
+                        </div>
+
+                              <div class="col-sm mb-5 p-5  mt-0 pt-1">
+                              Your booking details are as follows
+                              <div class="card-container mt-2" >
+                              <div  style=" padding-left: 30px; text-align: left;line-height: 2.5rem">
+                               
+                                   <li > Name:Ridmi yatigammana  </li>
+                                   <li >Email: ridmi.y@gmail.com </li>
+                                   <li >Consultant:jhjh jhjhj</li>
+                                   <li >Selected job:jhjh jhjhj</li>
+                                   <li>Selected country:jhjh jhjhj</li>
+                                   
+                              </div>
+                                                                  
+                                            
+                                              <div class="skills" style=" padding-left: 30px; ">
+                                                <li class="pb-2">Selected date and time</li>
+                                                <ul style="padding-left: 30px;">
+                                                    <li>10/20/2023 </li>
+                                                  
+                                                  <li>10.00am </li>
+                                              
+                                                   </ul>
+                                            </div>
+
+                                            <div class="countries">
+                                                <!-- <h6>  Country you need help with</h6>  -->
+                                                <ul>
+                                                    
+                                                    <li> Confirm Booking</li>
+                                                   
+                                                
+                                                </ul>
+                                               
+                                         </div>
+                               </div>
+                                          
+                           </div>
+                              </div>
+                         
+         
 <!--bnbnbnbnbnbnb  -->
 
 
 
-
-<div class="p-0 m-0 d-flex align-items-center services justify-content-center" id="about-us" style="height:60vh;color: #5b4a6b; font-size: 2.5rem; background-image: url(https://images.unsplash.com/photo-1474127773417-aec7504236d2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aWN5JTIwbW91bnRhaW58ZW58MHx8MHx8fDA%3D&w=1000&q=80); position: relative;">
-  <div style="text-align: center; z-index: 1;">
-  <div class="p-0 m-0 " style=" background-color: #f9f2fc; height:40vh;color: #5b4a6b; font-size: 2.5rem;">
-            <div class="row pt-5 font-weight-bold p-0 m-0" style="text-align: center;margin-top:100px;">
-                <h1 style="margin-top: 70px;"> <b> Start your global work adventure</b> </h1>
-            </div>
-            <div class="m-0 services justify-content-center">
-
-                <a href="add-user.jsp" class="btn btn2 mb-5">Register Now</a>
-            </div>
-
-        </div>
-  </div>
-</div>
         
         <!-- ------------------------------contact-------------------------------- -->
-        <div id="contact">
-            <div class="container">
-                <div class="row" style=" margin-top: 100px;">
-                    <div class="contact-left">
-                        <h1 class="sub-title margin-top: 50px;">Contact Us</h1>
-                        <p><i class="fa-solid fa-paper-plane"></i> ridmiyatigammana@gmail.com</p>
-                        <p><i class="fa-solid fa-square-phone"></i> (+94)71-954 3823</p>
-                        <div class="social-icons">
-                            <a href="https://www.linkedin.com/in/ridmi-yatigammana-b42383214/"><i
-                                    class="fa-brands fa-linkedin"></i></a>
-                            <a href="https://github.com/Ridmi211"><i class="fa-brands fa-github"></i></a>
-                            <a href="https://www.instagram.com/ridmi_y_y/"><i class="fa-brands fa-instagram"></i></a>
-                        </div>
-                        <a href="images/Resume- Ridmi Yatigammana.pdf" download class="btn btn2">Download CV</a>
-                    </div>
-                    <div class="contact-right">
-                        <form name="submit-to-google-sheet">
-                            <input type="text" name="Name" placeholder="Your Name" required>
-                            <input type="email" name="email" placeholder="Your Email" required>
-                            <textarea name="Message" rows="6" placeholder="Your Message"></textarea>
-                            <button type="submit" class="btn btn2">Submit</button>
-                        </form>
-                        <span id="msg"></span>
-                    </div>
-                </div>
-            </div>
+     
+          
 
             <div class="copyright">
                 <p> Copyright © Ridmi. Made with <i class="fa-solid fa-heart"></i> by Easy Tutorials</p>
@@ -1348,144 +1273,134 @@ if (selectedJob != null && !selectedJob.isEmpty()) { // Add this condition
         </div>
 
         <!-- --------------------javascript-------------------------- -->
-<script>
-  /*   function applyFilter() {
-        // Get the selected country and job from the dropdowns
-        var selectedCountry = document.getElementById("filterCountry").value;
-        var selectedJob = document.getElementById("filterJob").value;
 
-        // Loop through the consultants and display only those who match the selected criteria
-        var consultants = document.querySelectorAll(".work");
-        consultants.forEach(function(consultant) {
-            var countries = consultant.querySelector(".countries");
-            var countryList = countries.querySelector("ul");
 
-            var jobs = consultant.querySelector(".skills"); // Assuming you have an element for displaying jobs
-            var jobList = jobs.querySelector("ul");
-
-            // Check if the selectedCountry and selectedJob are in the respective lists
-            if (
-                (selectedCountry === "All" || countryList.textContent.includes(selectedCountry)) &&
-                (selectedJob === "All" || jobList.textContent.includes(selectedJob))
-            ) {
-                consultant.style.display = "block";
-            } else {
-                consultant.style.display = "none";
-            }
-        });
-    } */
+      <!--   <script>
+            // Get the date input element
+            const dateInput = document.getElementById("date");
     
-    function applyFilter() {
-        // Get the values entered by the user in the text input fields
-        var selectedCountry = document.getElementById("filterCountry").value;
-        var selectedJob = document.getElementById("filterJob").value;
+            // Replace this with your consultant's available days
+            const availableDays = ["Monday", "Tuesday", "Wednesday"]; // Example available days
+    
+            dateInput.addEventListener("input", function() {
+                // Get the selected date
+                const selectedDate = dateInput.value;
+    
+                // Get the current day of the week (e.g., "Monday")
+                const currentDay = new Date(selectedDate).toLocaleDateString('en-US', { weekday: 'long' });
+    
+                if (availableDays.includes(currentDay)) {
+                    // The selected date is available
+                    dateInput.setCustomValidity(""); // Clear any custom validation messages
+                } else {
+                    // The selected date is unavailable
+                    dateInput.setCustomValidity("Consultant is not available on " + currentDay);
+                }
+            });
+        </script> -->
 
-        // Loop through the consultants and display only those that match the filter criteria
-        var consultants = document.querySelectorAll(".work");
-        consultants.forEach(function (consultant) {
-            var countries = consultant.querySelector(".countries");
-            var countriesText = countries.textContent.toLowerCase();
 
-            var jobs = consultant.querySelector(".skills");
-            var jobsText = jobs.textContent.toLowerCase();
 
-            // Check if the user input is found in the consultant's countries or jobs
-            if (
-                (selectedCountry === "" || countriesText.includes(selectedCountry.toLowerCase())) &&
-                (selectedJob === "" || jobsText.includes(selectedJob.toLowerCase()))
-            ) {
-                consultant.style.display = "block";
-            } else {
-                consultant.style.display = "none";
-            }
-        });
+<script>
+    // Get the date input element
+    const dateInput = document.getElementById("date");
+
+    // Initialize availableDays as an empty array
+    let availableDays = [];
+
+    // Replace this with your consultant's available days
+    // This code will populate availableDays from the HTML list
+    const availableDaysList = document.getElementById("availableDaysList");
+    const availableDaysItems = availableDaysList.getElementsByTagName("li");
+    
+    for (let i = 0; i < availableDaysItems.length; i++) {
+        availableDays.push(availableDaysItems[i].textContent.trim());
     }
 
+    dateInput.addEventListener("input", function() {
+        // Get the selected date
+        const selectedDate = dateInput.value;
+
+        // Get the current day of the week (e.g., "Monday")
+        const currentDay = new Date(selectedDate).toLocaleDateString('en-US', { weekday: 'long' });
+
+        if (availableDays.includes(currentDay)) {
+            // The selected date is available
+            dateInput.setCustomValidity(""); // Clear any custom validation messages
+        } else {
+            // The selected date is unavailable
+            dateInput.setCustomValidity("Consultant is not available on " + currentDay);
+        }
+    });
 </script>
 
 
+<script>
+    // Get the time select element
+    const timeSelect = document.getElementById("time");
 
-        <script>
+    // Initialize availableTimeSlots as an empty array
+    let availableTimeSlots = [];
 
-            var tablinks = document.getElementsByClassName("tab-links");
-            var tabcontents = document.getElementsByClassName("tab-contents");
-            function opentab(tabname) {
-                for (tablink of tablinks) {
-                    tablink.classList.remove("active-link");
-                }
-                for (tabcontent of tabcontents) {
-                    tabcontent.classList.remove("active-tab");
-                }
-                event.currentTarget.classList.add("active-link");
-                document.getElementById(tabname).classList.add("active-tab");
+    // Replace this with your consultant's available time slots
+    // This code will populate availableTimeSlots from the HTML list
+    const availableTimeSlotsList = document.getElementById("availableTimeSlotsList");
+    const availableTimeSlotsItems = availableTimeSlotsList.getElementsByTagName("li");
 
-            }
-        </script>
+    for (let i = 0; i < availableTimeSlotsItems.length; i++) {
+        availableTimeSlots.push(availableTimeSlotsItems[i].textContent.trim());
+    }
 
-        <script>
-            var sidemenu = document.getElementById("sidemenu");
-
-            function openmenu() {
-                sidemenu.style.right = "0"
-            }
-
-            function closemenu() {
-                sidemenu.style.right = "-200px"
-            }
+    // Populate the select options
+    availableTimeSlots.forEach((timeSlot) => {
+        const option = document.createElement("option");
+        option.value = timeSlot;
+        option.textContent = timeSlot;
+        timeSelect.appendChild(option);
+    });
+</script>
 
 
+<script>
+    // Get the country and job select elements
+    const countrySelect = document.getElementById("country");
+    const jobSelect = document.getElementById("job");
 
+    // Initialize arrays for available countries and jobs
+    let availableCountries = [];
+    let availableJobs = [];
 
+    // Replace this with your consultant's available countries and jobs
+    // This code will populate availableCountries and availableJobs from the HTML lists
+    const availableCountriesList = document.getElementById("availableCountriesList");
+    const availableCountriesItems = availableCountriesList.getElementsByTagName("li");
+    const availableJobsList = document.getElementById("availableJobsList");
+    const availableJobsItems = availableJobsList.getElementsByTagName("li");
 
-        </script>
+    for (let i = 0; i < availableCountriesItems.length; i++) {
+        availableCountries.push(availableCountriesItems[i].textContent.trim());
+    }
 
-        <script>
-            const scriptURL = 'https://script.google.com/macros/s/AKfycbwjcx0iILVo5hybLY6R97WYDrv3PQ7RoVLotpwiMk7FAUS7EPA5Ajsnsw6sr7zWa1V6/exec'
-            const form = document.forms['submit-to-google-sheet']
-            const msg = document.getElementById("msg")
+    for (let i = 0; i < availableJobsItems.length; i++) {
+        availableJobs.push(availableJobsItems[i].textContent.trim());
+    }
 
-            form.addEventListener('submit', e => {
-                e.preventDefault()
-                fetch(scriptURL, { method: 'POST', body: new FormData(form) })
-                    .then(response => {
-                        msg.innerHTML = "Message sent successfully"
-                        setTimeout(function () {
-                            msg.innerHTML = ""
-                        }, 5000)
-                        form.reset()
-                    })
+    // Populate the select options for country
+    availableCountries.forEach((country) => {
+        const option = document.createElement("option");
+        option.value = country;
+        option.textContent = country;
+        countrySelect.appendChild(option);
+    });
 
-
-                    .catch(error => console.error('Error!', error.message))
-            })
-        </script>
-        <!-- chart-js -->
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-
-        <script>
-            const ctx = document.getElementById('myChart');
-
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-                    datasets: [{
-                        label: '# of Votes',
-                        data: [12, 19, 3, 5, 2, 3],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-        </script>
-
+    // Populate the select options for job
+    availableJobs.forEach((job) => {
+        const option = document.createElement("option");
+        option.value = job;
+        option.textContent = job;
+        jobSelect.appendChild(option);
+    });
+</script>
 
 </body>
 
