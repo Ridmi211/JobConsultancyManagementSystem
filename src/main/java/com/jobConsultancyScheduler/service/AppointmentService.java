@@ -45,6 +45,11 @@ public class AppointmentService {
 		public List<Appointment> fetchAllAppointments() throws ClassNotFoundException, SQLException {
 			return getAppointmentManager().fetchAllAppointments();
 		}
+
+		public Appointment getAppointmentById(int appointmentId) {
+			// TODO Auto-generated method stub
+			return null;
+		}
 	}
 
 

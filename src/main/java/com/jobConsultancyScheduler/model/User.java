@@ -8,29 +8,22 @@ public class User {
 	    private String name;
 	    private String phoneNumber;
 	    private String email;
-	    private String password; // Hashed password
+	    private String password;
 	    private String birthdate;
 	    private String gender;
 	    private String occupation;
 	    private String country;
-	    private AccessRight accessRight; // Use the AccessRight enumeration
-	    
-	    
+	    private AccessRight accessRight; 
 	    private String educationalQualifications;
 	    private String specializedCountries;
 	    private String specializedJobs;
 	    private String availableDays;
 	    private String availableTimeSlots;
 	    private RegistrationStatus registrationStatus;
-//	    private String profilePicture;
-	    
-	    private String cvPath; // Path to the CV file
-	    private String profilePicturePath; // Path to the profile picture file
+	    private String cvPath;
+	    private String profilePicturePath; 
 
-
-	    // Constructors
 	    public User() {
-	        // Default constructor
 	    }
 
 	    public User(int userId, String name, String phoneNumber, String email, String password,
@@ -47,20 +40,17 @@ public class User {
 	        this.gender = gender;
 	        this.occupation = occupation;
 	        this.country = country;
-	        this.accessRight = accessRight;
-	        
+	        this.accessRight = accessRight;	        
 	        this.educationalQualifications = educationalQualifications;
 	        this.specializedCountries = specializedCountries;
 	        this.specializedJobs = specializedJobs;
 	        this.availableDays = availableDays;
 	        this.availableTimeSlots = availableTimeSlots;
-	        this.registrationStatus = registrationStatus;
-	        
+	        this.registrationStatus = registrationStatus;	        
 	        this.profilePicturePath = profilePicturePath;
 	        this.cvPath = cvPath;
 	    }
 
-	    // Getter and Setter methods for attributes
 	    public int getUserId() {
 	        return userId;
 	    }
@@ -142,8 +132,7 @@ public class User {
 	    }
 	    
 	    public boolean checkPassword(String enteredPassword) {
-	        // Compare enteredPassword with this.password (hashed password)
-	        return enteredPassword.equals(this.password); // Update this line accordingly
+	        return enteredPassword.equals(this.password);
 	    }
 	    
 //	    For consultants
@@ -204,30 +193,14 @@ public class User {
 			this.availableTimeSlots = availableTimeSlots;
 		}
 	    
-		  public RegistrationStatus getRegistrationStatus() {
+		 public RegistrationStatus getRegistrationStatus() {
 		        return registrationStatus;
+		}
+
+		 public void setRegistrationStatus(RegistrationStatus registrationStatus) {
+		     this.registrationStatus = registrationStatus;
 		    }
-
-		    public void setRegistrationStatus(RegistrationStatus registrationStatus) {
-		        this.registrationStatus = registrationStatus;
-		    }
-		    
-		    
-			/*
-			 * public enum RegistrationStatus { PENDING("Pending"), // Registration is
-			 * pending admin review APPROVED("Approved"), // Registration has been approved
-			 * REJECTED("Rejected"); // Registration has been rejected
-			 * 
-			 * private final String displayName;
-			 * 
-			 * RegistrationStatus(String displayName) { this.displayName = displayName; }
-			 * 
-			 * public String getDisplayName() { return displayName; } }
-			 */
-   
-		    
-
-
+		 
 	}
 
 

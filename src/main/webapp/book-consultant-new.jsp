@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     <%@ taglib prefix="tag" uri="http://java.sun.com/jsp/jstl/core"%>
+    
     <%@ page import="com.jobConsultancyScheduler.model.User" %>
     <%@ page import="com.jobConsultancyScheduler.model.AccessRight" %>
 
@@ -1177,44 +1178,116 @@ User user = (User) session.getAttribute("user");
 
                               <div class="col-sm mb-5 p-5 m-5 mt-0 pt-1">
                                 <div class="row"> 
-                                <form action="AddAppointmentServlet" method="post">
-                                <div class="row mb-1 ">Select a Date</div>
-                                <div class="row">  
-                                    <input type="date" id="date" name="date" required> </div>
-                                   
+                           <form  action="appointmentManager" method="post">
+         <h4>Job<span>Consultancy</span></h4>
+        <p>${feebackMessage}</p>
+            <!-- Add the hidden input fields for consultantId and seekerId -->
+            <input type="hidden" name="consultantId" value="<%= consultant.getUserId() %>">
+            <input type="hidden" name="seekerId" value="<%= user.getUserId() %>">
 
-                                <div class="row mb-1 mt-1">Select Time</div>
+            <div class="row mb-1">Select a Date</div>
+            <div class="row">
+                <input type="date" id="date" name="date" required>
+            </div>
 
-                                <div class="row">  
-                                   <select name="time" id="time" required>
-                                      
-                                       
-                                    </select>
-                                    
-                                
-                                </div>
-                                <div class="row mb-1 mt-3">Select the country</div>
-                                <div class="row">  
-                                <select name="country" id="country" required>
-                                  
-                                   
-                                </select></div>
-                                <div class="row mb-1 mt-3">Select the job</div>
-                                <div class="row">  
-                               <select name="job" id="job" required>
-                                   
-                                   
-                                </select></div>
-                                
-                                <div class="row mb-1 mt-3">Add your qualifications so we can help you better</div>
-                                <div class="row" >    <textarea style="height: 100px;"></textarea> </div>
-                             
-                                <input type="submit" value="Add Appointment">
-    </form>
+            <div class="row mb-1 mt-1">Select Time</div>
+            <div class="row">
+                <select name="time" id="time" required>
+                    <!-- Add time options here -->
+                </select>
+            </div>
+
+            <div class="row mb-1 mt-3">Select the country</div>
+            <div class="row">
+                <select name="country" id="country" required>
+                    <!-- Add country options here -->
+                </select>
+            </div>
+
+            <div class="row mb-1 mt-3">Select the job</div>
+            <div class="row">
+                <select name="job" id="job" required>
+                    <!-- Add job options here -->
+                </select>
+            </div>
+
+            <div class="row mb-1 mt-3">Add your qualifications so we can help you better</div>
+            <div class="row">
+                <textarea name="notes" style="height: 100px" required></textarea>
+            </div>
+
+           <!--  <input type="submit" value="Add Appointment"> -->
+           
+             
+        <div>
+                 
+          <input type="hidden" name="appactiontype" value="addAppointment"/>
+          <button style="position:relative;left:0%; " class="btn1" type="submit">Create User</button>
+        </div>
+        </form>
                             </div>
 
                         </div>
+                        
+                        
+                        
+                     <%--    
+                        
+                        <div class="col-sm mb-5 p-5 m-5 mt-0 pt-1">
+    <div class="row">
+    <!--     <form action="AddAppointmentServlet" method="post"> -->
+        
+        <form name="form1" class="box" action="appointmentManager" method="post">
+         <h4>Job<span>Consultancy</span></h4>
+        <p>${feebackMessage}</p>
+            <!-- Add the hidden input fields for consultantId and seekerId -->
+            <input type="hidden" name="consultantId" value="<%= consultant.getUserId() %>">
+            <input type="hidden" name="seekerId" value="<%= session.getAttribute("userId") %>">
 
+            <div class="row mb-1">Select a Date</div>
+            <div class="row">
+                <input type="date" id="date" name="date" required>
+            </div>
+
+            <div class="row mb-1 mt-1">Select Time</div>
+            <div class="row">
+                <select name="time" id="time" required>
+                    <!-- Add time options here -->
+                </select>
+            </div>
+
+            <div class="row mb-1 mt-3">Select the country</div>
+            <div class="row">
+                <select name="country" id="country" required>
+                    <!-- Add country options here -->
+                </select>
+            </div>
+
+            <div class="row mb-1 mt-3">Select the job</div>
+            <div class="row">
+                <select name="job" id="job" required>
+                    <!-- Add job options here -->
+                </select>
+            </div>
+
+            <div class="row mb-1 mt-3">Add your qualifications so we can help you better</div>
+            <div class="row">
+                <textarea name="notes" style="height: 100px" required></textarea>
+            </div>
+
+           <!--  <input type="submit" value="Add Appointment"> -->
+           
+             
+        <div>
+                 
+          <input type="hidden" name="useractiontype" value="addAppointment"/>
+          <button style="position:relative;left:0%; " class="btn1" type="submit">Create User</button>
+        </div>
+        </form>
+    </div>
+</div>
+                        
+ --%>
                               <div class="col-sm mb-5 p-5  mt-0 pt-1">
                               Your booking details are as follows
                               <div class="card-container mt-2" >

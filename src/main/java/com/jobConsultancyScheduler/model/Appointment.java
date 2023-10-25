@@ -4,13 +4,11 @@ import java.util.Date;
 
 public class Appointment {
 	
-	    private int appointmentId;
-	  
+	    private int appointmentId;	  
 		private int consultantId;
 		private int seekerId;
-		private String consultantName;
-		private String seekerName;
-		
+		private String country;
+		private String job;		
 	    private String scheduledDate;
 	    private String startTime; 
 	    private Status status;
@@ -92,25 +90,6 @@ public class Appointment {
 
 
 
-		public String getConsultantName() {
-			return consultantName;
-		}
-
-		public void setConsultantName(String consultantName) {
-			this.consultantName = consultantName;
-		}
-
-
-
-		public String getSeekerName() {
-			return seekerName;
-		}
-
-		public void setSeekerName(String seekerName) {
-			this.seekerName = seekerName;
-		}
-
-
 
 		public String getScheduledDate() {
 			return scheduledDate;
@@ -118,6 +97,26 @@ public class Appointment {
 
 		public void setScheduledDate(String scheduledDate) {
 			this.scheduledDate = scheduledDate;
+		}
+
+
+
+		public String getCountry() {
+			return country;
+		}
+
+		public void setCountry(String country) {
+			this.country = country;
+		}
+
+
+
+		public String getJob() {
+			return job;
+		}
+
+		public void setJob(String job) {
+			this.job = job;
 		}
 
 
