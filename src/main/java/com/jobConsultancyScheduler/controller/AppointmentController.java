@@ -106,7 +106,7 @@ public class AppointmentController extends HttpServlet {
 	        }
 
 	        request.setAttribute("feebackMessage", message);
-	        RequestDispatcher rd = request.getRequestDispatcher("book-consultant.jsp");
+	        RequestDispatcher rd = request.getRequestDispatcher("feedback-message.jsp");
 	        rd.forward(request, response);
 	    }
 
@@ -137,7 +137,7 @@ public class AppointmentController extends HttpServlet {
 	        }
 
 	        request.setAttribute("feebackMessage", message);
-	        RequestDispatcher rd = request.getRequestDispatcher("edit-appointment.jsp"); // Replace with your target page
+	        RequestDispatcher rd = request.getRequestDispatcher("edit-apxcxpointment.jsp"); // Replace with your target page
 	        rd.forward(request, response);
 	    }
 

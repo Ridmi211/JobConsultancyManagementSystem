@@ -5,6 +5,16 @@
     
     <%@ page import="com.jobConsultancyScheduler.model.User" %>
     <%@ page import="com.jobConsultancyScheduler.model.AccessRight" %>
+    
+    <%
+User user = (User) session.getAttribute("user");
+// Check if the user is logged in
+if (session.getAttribute("user") == null) {
+    // Redirect the user to a login page or display an error message
+    response.sendRedirect("login.jsp");
+    return; // Stop processing the current page
+}
+%>
 
 <!DOCTYPE html>
 <html>
@@ -946,10 +956,10 @@ input[type="text"] {
         <i class="fas fa-times" id="cancel"></i>
       </label>
 
- <%
+<%--  <%
 // Get the user object from the session
 User user = (User) session.getAttribute("user");
-%>
+%> --%>
 
 <div class="sidebar">
   <header>Menu</header>
@@ -1178,9 +1188,11 @@ User user = (User) session.getAttribute("user");
 
                               <div class="col-sm mb-5 p-5 m-5 mt-0 pt-1">
                                 <div class="row"> 
-                           <form  action="appointmentManager" method="post">
+                <!--            <form  action="appointmentManager" method="post"> -->
+                           <form action="appointmentManager" method="post" id="bookingForm">
+                           
          <h4>Job<span>Consultancy</span></h4>
-        <p>${feebackMessage}</p>
+       
             <!-- Add the hidden input fields for consultantId and seekerId -->
             <input type="hidden" name="consultantId" value="<%= consultant.getUserId() %>">
             <input type="hidden" name="seekerId" value="<%= user.getUserId() %>">
@@ -1222,7 +1234,7 @@ User user = (User) session.getAttribute("user");
         <div>
                  
           <input type="hidden" name="appactiontype" value="addAppointment"/>
-          <button style="position:relative;left:0%; " class="btn1" type="submit">Create User</button>
+          <button style="position:relative;left:0%; " class="btn1" type="submit">Book</button>
         </div>
         </form>
                             </div>
@@ -1231,73 +1243,19 @@ User user = (User) session.getAttribute("user");
                         
                         
                         
-                     <%--    
-                        
-                        <div class="col-sm mb-5 p-5 m-5 mt-0 pt-1">
-    <div class="row">
-    <!--     <form action="AddAppointmentServlet" method="post"> -->
-        
-        <form name="form1" class="box" action="appointmentManager" method="post">
-         <h4>Job<span>Consultancy</span></h4>
-        <p>${feebackMessage}</p>
-            <!-- Add the hidden input fields for consultantId and seekerId -->
-            <input type="hidden" name="consultantId" value="<%= consultant.getUserId() %>">
-            <input type="hidden" name="seekerId" value="<%= session.getAttribute("userId") %>">
+                   
+         <div class="col-sm mb-5 p-5 mt-0 pt-1" id="bookingDetailsCard">
 
-            <div class="row mb-1">Select a Date</div>
-            <div class="row">
-                <input type="date" id="date" name="date" required>
-            </div>
-
-            <div class="row mb-1 mt-1">Select Time</div>
-            <div class="row">
-                <select name="time" id="time" required>
-                    <!-- Add time options here -->
-                </select>
-            </div>
-
-            <div class="row mb-1 mt-3">Select the country</div>
-            <div class="row">
-                <select name="country" id="country" required>
-                    <!-- Add country options here -->
-                </select>
-            </div>
-
-            <div class="row mb-1 mt-3">Select the job</div>
-            <div class="row">
-                <select name="job" id="job" required>
-                    <!-- Add job options here -->
-                </select>
-            </div>
-
-            <div class="row mb-1 mt-3">Add your qualifications so we can help you better</div>
-            <div class="row">
-                <textarea name="notes" style="height: 100px" required></textarea>
-            </div>
-
-           <!--  <input type="submit" value="Add Appointment"> -->
-           
-             
-        <div>
-                 
-          <input type="hidden" name="useractiontype" value="addAppointment"/>
-          <button style="position:relative;left:0%; " class="btn1" type="submit">Create User</button>
-        </div>
-        </form>
-    </div>
-</div>
-                        
- --%>
-                              <div class="col-sm mb-5 p-5  mt-0 pt-1">
                               Your booking details are as follows
                               <div class="card-container mt-2" >
                               <div  style=" padding-left: 30px; text-align: left;line-height: 2.5rem">
                                
-                                   <li > Name:Ridmi yatigammana  </li>
-                                   <li >Email: ridmi.y@gmail.com </li>
-                                   <li >Consultant:jhjh jhjhj</li>
-                                   <li >Selected job:jhjh jhjhj</li>
-                                   <li>Selected country:jhjh jhjhj</li>
+                                   <li > Name : <%= user.getName() %>  </li>
+                                   <li >Email : <%= user.getEmail() %> </li>
+                                   <li >Consultant :<%= consultant.getName() %></li>
+                                   <li >Selected job : None</li>
+                                   <li>Selected country : None</li>
+                                   <li>Notes : None</li>
                                    
                               </div>
                                                                   
@@ -1305,21 +1263,20 @@ User user = (User) session.getAttribute("user");
                                               <div class="skills" style=" padding-left: 30px; ">
                                                 <li class="pb-2">Selected date and time</li>
                                                 <ul style="padding-left: 30px;">
-                                                    <li>10/20/2023 </li>
+                                                    <li>None </li>
                                                   
-                                                  <li>10.00am </li>
+                                                  <li>None </li>
                                               
                                                    </ul>
                                             </div>
 
                                             <div class="countries">
                                                 <!-- <h6>  Country you need help with</h6>  -->
-                                                <ul>
+                                         
                                                     
-                                                    <li> Confirm Booking</li>
-                                                   
+                                                                                                   
                                                 
-                                                </ul>
+                                             
                                                
                                          </div>
                                </div>
@@ -1345,6 +1302,102 @@ User user = (User) session.getAttribute("user");
 
         <!-- --------------------javascript-------------------------- -->
 
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Get references to the form and the booking details card
+        const form = document.getElementById("bookingForm");
+        const bookingDetailsCard = document.getElementById("bookingDetailsCard");
+
+        // Add a submit event listener to the form
+        form.addEventListener("submit", function (e) {
+            e.preventDefault(); // Prevent the form from submitting
+
+            // Get form input values
+            const date = form.querySelector('input[name="date"]').value;
+            const time = form.querySelector('select[name="time"]').value;
+            const country = form.querySelector('select[name="country"]').value;
+            const job = form.querySelector('select[name="job"]').value;
+            const notes = form.querySelector('textarea[name="notes"]').value;
+
+            // Build the HTML to display the data in the card
+            const bookingDetailsHTML = `
+               <%--  <div style="padding-left: 30px; text-align: left; line-height: 2.5rem">
+            	  <li > Name:<%= user.getName() %>  </li>
+                <li >Email: <%= user.getEmail() %> </li>
+                <li >Consultant:<%= consultant.getName() %></li>
+                    <li>Selected job: ${job}</li>
+                    <li>Selected country: ${country}</li>
+                </div>
+                <div style="padding-left: 30px;">
+                    <li class="pb-2">Selected date and time</li>
+                    <ul style="padding-left: 30px;">
+                        <li>${date}</li>
+                        <li>${time}</li>
+                    </ul>
+                </div> --%>
+                
+                
+                
+                
+               
+
+                                     Your booking details are as follows
+                                     <div class="card-container mt-2" >
+                                     <div  style=" padding-left: 30px; text-align: left;line-height: 2.5rem">
+                                      
+                                          <li > Name : <%= user.getName() %>  </li>
+                                          <li >Email : <%= user.getEmail() %> </li>
+                                          <li >Consultant  :<%= consultant.getName() %></li>
+                                          <li>Selected job: ${job}</li>
+                                          <li>Selected country : ${country}</li>
+                                          <li>Notes : ${notes}</li>
+                                          
+                                     </div>
+                                                                         
+                                                   
+                                                     <div class="skills" style=" padding-left: 30px; ">
+                                                       <li class="pb-2">Selected date and time</li>
+                                                       <ul style="padding-left: 30px;">
+                                                       <li>${date}</li>
+                                                       <li>${time}</li>
+                                                     
+                                                          </ul>
+                                                   </div>
+
+                                                   <div class="countries">
+                                                       <!-- <h6>  Country you need help with</h6>  -->
+                                                
+                                                       <div class="countries">
+                                                       <button id="confirmBookingButton" style="position: relative; left: 0%;" class="btn1">Confirm booking</button>
+                                                   </div>
+
+                                                    
+                                                      
+                                                </div>
+                                      </div>
+                              
+                
+            `;
+            
+            
+       
+
+            // Update the booking details card with the generated HTML
+            bookingDetailsCard.innerHTML = bookingDetailsHTML;
+
+            // Display the card (you can toggle its visibility)
+            bookingDetailsCard.style.display = "block";
+            
+            const confirmBookingButton = document.getElementById("confirmBookingButton");
+
+            // Add a click event listener to the Confirm booking button
+            confirmBookingButton.addEventListener("click", function () {
+                // Submit the form
+                form.submit();
+            });
+        });
+    });
+</script>
 
       <!--   <script>
             // Get the date input element
