@@ -50,6 +50,11 @@ public class AppointmentService {
 			// TODO Auto-generated method stub
 			return null;
 		}
+
+		public List<Appointment> fetchRequestedAppointments() throws ClassNotFoundException, SQLException {
+			// TODO Auto-generated method stub
+			return getAppointmentManager().fetchRequestedAppointments();
+		}
 	}
 
 

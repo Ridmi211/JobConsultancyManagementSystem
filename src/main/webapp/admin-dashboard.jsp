@@ -646,7 +646,7 @@ p {
         </svg>
       </span>
     </a>
-    <a href="/admins/all" class="data-card">
+    <a href="getAppointment?appactiontype=requested" class="data-card">
       <h3> 25</h3>
       <h4> New <br>Appointments</h4>
       <!-- <p>Manage Registered Pharmacists</p> -->

@@ -86,7 +86,7 @@ private Connection getConnection() throws ClassNotFoundException, SQLException {
 //	                   "INNER JOIN user s ON a.seekerId = s.userId";
 	    String query = "SELECT a.*, c.name AS consultantName, c.email AS consultantEmail, c.phoneNumber AS consultantContact, " +
 	               "s.name AS seekerName, s.email AS seekerEmail, s.phoneNumber AS seekerContact " +
-	               "FROM appointments a " +
+	               "FROM appointments a  " +
 	               "INNER JOIN user c ON a.consultantId = c.userId " +
 	               "INNER JOIN user s ON a.seekerId = s.userId";
 
@@ -100,26 +100,10 @@ private Connection getConnection() throws ClassNotFoundException, SQLException {
 	        appointment.setAppointmentId(rs.getInt("appointmentId"));
 	        appointment.setConsultantId(rs.getInt("consultantId"));
 	        appointment.setConsultantName(rs.getString("consultantName"));
-//	        appointment.setSeekerId(rs.getInt("seekerId"));
 	        appointment.setSeekerName(rs.getString("seekerName"));
 	        appointment.setScheduledDate(rs.getString("scheduledDate"));
-	        appointment.setStartTime(rs.getString("startTime"));
-	        
-			/*
-			 * appointment.setConsultantId(rs.getInt("consultantId")); //
-			 * user.setPhoneNumber(rs.getString("phoneNumber"));
-			 * appointment.setEmail(rs.getString("email"));
-			 * appointment.setAccessRight(AccessRight.valueOf(rs.getString("accessRight")));
-			 */
-			
-	        
-	        
-	        appointment.setStatus(Status.valueOf(rs.getString("status")));
-//			user.setBirthdate(rs.getString(" birthdate"));
-//			user.setGender(rs.getString("gender"));
-//			user.setOccupation(rs.getString("occupation"));
-//			user.setCountry(rs.getString("country"));
-//			user.setAccessRight(rs.getAccessRight("name"));		
+	        appointment.setStartTime(rs.getString("startTime")); 
+	        appointment.setStatus(Status.valueOf(rs.getString("status")));	
 
 			appointmentList.add(appointment);
 		}
@@ -130,4 +114,38 @@ private Connection getConnection() throws ClassNotFoundException, SQLException {
 		return appointmentList;
 	}
 
+	@Override
+	public List<Appointment> fetchRequestedAppointments() throws SQLException, ClassNotFoundException {
+	    Connection connection = getConnection();
+//	    String query = "SELECT * FROM appointments WHERE status = 'REQUESTED'";
+	    
+	    String query = "SELECT a.*, c.name AS consultantName, c.email AS consultantEmail, c.phoneNumber AS consultantContact, " +
+	               "s.name AS seekerName, s.email AS seekerEmail, s.phoneNumber AS seekerContact " +
+	               "FROM appointments a  " +
+	               "INNER JOIN user c ON a.consultantId = c.userId " +
+	               "INNER JOIN user s ON a.seekerId = s.userId " +
+	               "WHERE a.status = 'REQUESTED'";
+
+	    Statement st = connection.createStatement();
+	    
+	    List<Appointment> requestedAppointments = new ArrayList<>();
+	    
+	    ResultSet rs = st.executeQuery(query);
+	    while (rs.next()) {
+	    	Appointment appointment = new Appointment();
+	    	 appointment.setAppointmentId(rs.getInt("appointmentId"));
+		        appointment.setConsultantId(rs.getInt("consultantId"));
+		        appointment.setConsultantName(rs.getString("consultantName"));
+		        appointment.setSeekerName(rs.getString("seekerName"));
+		        appointment.setScheduledDate(rs.getString("scheduledDate"));
+		        appointment.setStartTime(rs.getString("startTime")); 
+		        appointment.setStatus(Status.valueOf(rs.getString("status")));	
+			 requestedAppointments.add(appointment);
+	    }
+	    
+	    st.close();
+	    connection.close();
+	    
+	    return requestedAppointments;
+	}
 }

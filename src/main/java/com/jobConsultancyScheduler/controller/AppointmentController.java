@@ -40,11 +40,12 @@ public class AppointmentController extends HttpServlet {
 	    protected void doGet(HttpServletRequest request, HttpServletResponse response)
 				throws ServletException, IOException {
 
-			String useractiontype = request.getParameter("appactiontype");
+			String appactiontype = request.getParameter("appactiontype");
 
-		    if (useractiontype.equals("single")) {
-		        fetchSingleAppointment(request, response);
-		   
+		    if (appactiontype.equals("single")) {
+		        fetchSingleAppointment(request, response);		   
+		    }else if (appactiontype.equals("requested")) {
+		    	fetchRequestedAppointments(request, response); 
 		    }else {
 		        fetchAllAppointments(request, response);
 		    }
@@ -62,29 +63,6 @@ public class AppointmentController extends HttpServlet {
 	            deleteAppointment(request, response);
 	        }
 	    }
-
-//	    private void addAppointment(HttpServletRequest request, HttpServletResponse response)
-//	            throws ServletException, IOException {
-//	        clearMessage();
-//
-//	        Appointment appointment = new Appointment();
-//	        // Populate appointment properties from the request parameters
-//
-//	        try {
-//	            boolean added = getAppointmentService().addAppointment(appointment);
-//	            if (added) {
-//	                message = "Appointment added successfully!";
-//	            } else {
-//	                message = "Failed to add the appointment.";
-//	            }
-//	        } catch (ClassNotFoundException | SQLException e) {
-//	            message = "Operation failed: " + e.getMessage();
-//	        }
-//
-//	        request.setAttribute("feebackMessage", message);
-//	        RequestDispatcher rd = request.getRequestDispatcher("add-appointment.jsp"); // Replace with your target page
-//	        rd.forward(request, response);
-//	    }
 
 	    
 	    private void addAppointment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -148,6 +126,64 @@ public class AppointmentController extends HttpServlet {
 
 		}	
 	    
+	    
+	    private void fetchRequestedAppointments(HttpServletRequest request, HttpServletResponse response)
+			    throws ServletException, IOException {
+
+			    clearMessage();
+
+			    List<Appointment> requestedAppointments = new ArrayList<Appointment>();
+			    try {
+			    	requestedAppointments = getAppointmentService().fetchRequestedAppointments(); 
+
+			        if (!(requestedAppointments.size() > 0)) {
+			            message = "No consultant users found!";
+			        }
+			    } catch (ClassNotFoundException | SQLException e) {
+			        message = e.getMessage();
+			    }
+
+			    request.setAttribute("requestedAppointments", requestedAppointments); 
+			    request.setAttribute("feebackMessage", message);
+
+			    RequestDispatcher rd = request.getRequestDispatcher("view-requested-appointments.jsp"); 
+			    rd.forward(request, response);
+			}
+//		
+//		private void approveUser(HttpServletRequest request, HttpServletResponse response)
+//		        throws ServletException, IOException {
+//		    int userId = Integer.parseInt(request.getParameter("userId"));
+//		    try {
+//		        if (getUserService().approveUser(userId)) {
+//		            message = "User has been approved!";
+//		        } else {
+//		            message = "Failed to approve the user!";
+//		        }
+//		    } catch (ClassNotFoundException | SQLException e) {
+//		        message = "Operation failed! " + e.getMessage();
+//		    }
+//		    request.setAttribute("feebackMessage", message);
+//		    RequestDispatcher rd = request.getRequestDispatcher("view-pending-users.jsp");
+//		    rd.forward(request, response);
+//		}
+//
+//		private void rejectUser(HttpServletRequest request, HttpServletResponse response)
+//		        throws ServletException, IOException {
+//		    int userId = Integer.parseInt(request.getParameter("userId"));
+//		    try {
+//		        if (getUserService().rejectUser(userId)) {
+//		            message = "User has been rejected!";
+//		        } else {
+//		            message = "Failed to reject the user!";
+//		        }
+//		    } catch (ClassNotFoundException | SQLException e) {
+//		        message = "Operation failed! " + e.getMessage();
+//		    }
+//		    request.setAttribute("feebackMessage", message);
+//		    RequestDispatcher rd = request.getRequestDispatcher("view-pending-users.jsp");
+//		    rd.forward(request, response);
+//		}
+//	    
 	    
 	    private void fetchSingleAppointment(HttpServletRequest request, HttpServletResponse response)
 				throws ServletException, IOException {

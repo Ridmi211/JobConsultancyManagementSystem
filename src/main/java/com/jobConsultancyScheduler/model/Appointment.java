@@ -152,12 +152,12 @@ public class Appointment {
 
 		public enum Status {
 	        REQUESTED("Requested"),
-	        ADMIN_CONFIRMED("Admin Confirmed"),
-	        CON_CONFIRMED("Consultant Confirmed"),
+	        ADMIN_CONFIRMED("Admin-Confirmed"),
+	        CON_CONFIRMED("Consultant-Confirmed"),
 	        CON_REJECTED("Rejected"),
 	        COMPLETED("Completed"),
-	        SEEKER_CANCELLED("Seeker Cancelled"),
-	    	ADMIN_CANCELLED(" Admin Cancelled");
+	        SEEKER_CANCELLED("Seeker-Cancelled"),
+	    	ADMIN_CANCELLED(" Admin-Cancelled");
 
 	        private final String displayName;
 
