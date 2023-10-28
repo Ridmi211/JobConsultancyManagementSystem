@@ -547,7 +547,11 @@ p {
     <span>Dashboard</span>
   </a>
 
-
+ <a href="getAppointment?appactiontype=all" >
+       <i class="far fa-envelope"></i>
+       <span>View All</span>
+       
+     </a>
 
   <%-- Display Events and Overview for Consultant --%>
   <% if (user != null && user.getAccessRight() == AccessRight.ROLE_CONSULTANT) { %>

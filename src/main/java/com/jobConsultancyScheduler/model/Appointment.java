@@ -6,13 +6,14 @@ public class Appointment {
 	
 	    private int appointmentId;	  
 		private int consultantId;
+		private String consultantName;
+		private String seekerName;		
 		private int seekerId;
 		private String country;
 		private String job;		
 	    private String scheduledDate;
 	    private String startTime; 
 	    private Status status;
-	    private String location;
 	    private String notes;
 	  
 
@@ -26,13 +27,17 @@ public class Appointment {
 	        this.appointmentId = appointmentId;
 	        this.startTime = startTime;
 	        this.status = status;
-	        this.location = location;
+//	        this.location = location;
 	        this.notes = notes;
 	    }
 
 	    // Getter and Setter methods for attributes
 	    public int getAppointmentId() {
 	        return appointmentId;
+	    }
+
+	    public void setAppointmentId(int appointmentId) {
+	        this.appointmentId = appointmentId;
 	    }
 
 
@@ -47,18 +52,22 @@ public class Appointment {
 	    public Status getStatus() {
 	        return status;
 	    }
+	    
+	   
 
 	    public void setStatus(Status status) {
 	        this.status = status;
 	    }
+	    
+	    
 
-	    public String getLocation() {
-	        return location;
-	    }
-
-	    public void setLocation(String location) {
-	        this.location = location;
-	    }
+//	    public String getLocation() {
+//	        return location;
+//	    }
+//
+//	    public void setLocation(String location) {
+//	        this.location = location;
+//	    }
 
 	    public String getNotes() {
 	        return notes;
@@ -117,6 +126,26 @@ public class Appointment {
 
 		public void setJob(String job) {
 			this.job = job;
+		}
+
+
+
+		public String getConsultantName() {
+			return consultantName;
+		}
+
+		public void setConsultantName(String consultantName) {
+			this.consultantName = consultantName;
+		}
+
+
+
+		public String getSeekerName() {
+			return seekerName;
+		}
+
+		public void setSeekerName(String seekerName) {
+			this.seekerName = seekerName;
 		}
 
 

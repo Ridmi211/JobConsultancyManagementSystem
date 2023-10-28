@@ -36,6 +36,19 @@ public class AppointmentController extends HttpServlet {
 	    private AppointmentService getAppointmentService() {
 	        return AppointmentService.getAppointmentService();
 	    }
+	    
+	    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+				throws ServletException, IOException {
+
+			String useractiontype = request.getParameter("appactiontype");
+
+		    if (useractiontype.equals("single")) {
+		        fetchSingleAppointment(request, response);
+		   
+		    }else {
+		        fetchAllAppointments(request, response);
+		    }
+		}
 
 	    protected void doPost(HttpServletRequest request, HttpServletResponse response)
 	            throws ServletException, IOException {
@@ -111,6 +124,52 @@ public class AppointmentController extends HttpServlet {
 	    }
 
 	    
+	    private void fetchAllAppointments(HttpServletRequest request, HttpServletResponse response)
+				throws ServletException, IOException {
+
+			clearMessage();
+
+			List<Appointment> appointmentList = new ArrayList<Appointment>();
+			try {
+				appointmentList = getAppointmentService().fetchAllAppointments();
+
+				if (!(appointmentList.size() > 0)) {
+					message = "No record found!";
+				}
+			} catch (ClassNotFoundException | SQLException e) {
+				message = e.getMessage();
+			}
+
+			request.setAttribute("appointmentList", appointmentList);
+			request.setAttribute("feebackMessage", message);
+
+			RequestDispatcher rd = request.getRequestDispatcher("view-appointment-list.jsp");
+			rd.forward(request, response);
+
+		}	
+	    
+	    
+	    private void fetchSingleAppointment(HttpServletRequest request, HttpServletResponse response)
+				throws ServletException, IOException {
+
+			clearMessage();
+
+			int appointmentId = Integer.parseInt(request.getParameter("appointmentId"));
+
+			try {
+				Appointment appointment = getAppointmentService().fetchSingleAppointment(appointmentId);
+				if (appointment.getAppointmentId() > 0) {
+					request.setAttribute("appointment", appointment);
+				} else {
+					message = "No record found!";
+				}
+			} catch (ClassNotFoundException | SQLException e) {
+				message = e.getMessage();
+			}
+			request.setAttribute("feebackMessage", message);
+			RequestDispatcher rd = request.getRequestDispatcher("search-and-update-user.jsp");
+			rd.forward(request, response);
+		}
 	    
 	    private void editAppointment(HttpServletRequest request, HttpServletResponse response)
 	            throws ServletException, IOException {

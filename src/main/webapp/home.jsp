@@ -692,7 +692,11 @@ User user = (User) session.getAttribute("user");
     <i class="fas fa-qrcode"></i>
     <span>Dashboard</span>
   </a>
-
+ <a href="getAppointment?appactiontype=all" >
+       <i class="far fa-envelope"></i>
+       <span>View All app</span>
+       
+     </a>
   <a href="book-consultant-new.jsp" >
     <i class="fas fa-qrcode"></i>
     <span>book</span>

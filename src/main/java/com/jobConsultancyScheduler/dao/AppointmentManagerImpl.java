@@ -2,12 +2,19 @@ package com.jobConsultancyScheduler.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.jobConsultancyScheduler.dao.dbUtils.DbDriverManager;
 import com.jobConsultancyScheduler.dao.dbUtils.DbDriverManagerFactory;
+import com.jobConsultancyScheduler.model.AccessRight;
 import com.jobConsultancyScheduler.model.Appointment;
+import com.jobConsultancyScheduler.model.Appointment.Status;
+import com.jobConsultancyScheduler.model.RegistrationStatus;
+import com.jobConsultancyScheduler.model.User;
 
 public class AppointmentManagerImpl implements AppointmentManager {
 
@@ -68,10 +75,59 @@ private Connection getConnection() throws ClassNotFoundException, SQLException {
 		return null;
 	}
 
+	
+	
 	@Override
 	public List<Appointment> fetchAllAppointments() throws SQLException, ClassNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+	    Connection connection = getConnection();
+//	    String query = "SELECT a.appointmentId, a.consultantId, c.name AS consultantName, a.seekerId, s.name AS seekerName " +
+//	                   "FROM appointments a " +
+//	                   "INNER JOIN user c ON a.consultantId = c.userId " +
+//	                   "INNER JOIN user s ON a.seekerId = s.userId";
+	    String query = "SELECT a.*, c.name AS consultantName, c.email AS consultantEmail, c.phoneNumber AS consultantContact, " +
+	               "s.name AS seekerName, s.email AS seekerEmail, s.phoneNumber AS seekerContact " +
+	               "FROM appointments a " +
+	               "INNER JOIN user c ON a.consultantId = c.userId " +
+	               "INNER JOIN user s ON a.seekerId = s.userId";
+
+//	    String query = "SELECT * FROM appointments";
+	    Statement st = connection.createStatement();
+	    List<Appointment> appointmentList = new ArrayList<Appointment>();
+
+	    ResultSet rs = st.executeQuery(query);
+	    while (rs.next()) {
+	        Appointment appointment = new Appointment();
+	        appointment.setAppointmentId(rs.getInt("appointmentId"));
+	        appointment.setConsultantId(rs.getInt("consultantId"));
+	        appointment.setConsultantName(rs.getString("consultantName"));
+//	        appointment.setSeekerId(rs.getInt("seekerId"));
+	        appointment.setSeekerName(rs.getString("seekerName"));
+	        appointment.setScheduledDate(rs.getString("scheduledDate"));
+	        appointment.setStartTime(rs.getString("startTime"));
+	        
+			/*
+			 * appointment.setConsultantId(rs.getInt("consultantId")); //
+			 * user.setPhoneNumber(rs.getString("phoneNumber"));
+			 * appointment.setEmail(rs.getString("email"));
+			 * appointment.setAccessRight(AccessRight.valueOf(rs.getString("accessRight")));
+			 */
+			
+	        
+	        
+	        appointment.setStatus(Status.valueOf(rs.getString("status")));
+//			user.setBirthdate(rs.getString(" birthdate"));
+//			user.setGender(rs.getString("gender"));
+//			user.setOccupation(rs.getString("occupation"));
+//			user.setCountry(rs.getString("country"));
+//			user.setAccessRight(rs.getAccessRight("name"));		
+
+			appointmentList.add(appointment);
+		}
+		
+		st.close();
+		connection.close();
+		
+		return appointmentList;
 	}
 
 }
