@@ -663,6 +663,56 @@ label #cancel{
   text-align: center;
 }
 
+/* Style for the major categories */
+/* .sidebar a {
+  text-decoration: none;
+  display: block;
+  padding: 10px;
+  color: #333;
+} */
+
+/* Style for the dropdown container */
+.sidebar .dropdown {
+  position: relative;
+
+  display: inline-block;
+}
+
+/* Style for the dropdown content (hidden by default) */
+.sidebar .dropdown-content {
+  display: none;
+  position: absolute;
+    left:100%;
+    top:10%;
+  background-color: #fff;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Show the dropdown content when hovering over the dropdown container */
+.sidebar .dropdown:hover .dropdown-content {
+  display: block;
+  
+}
+
+/* Style for the subcategory links */
+.sidebar .dropdown-content a {
+  color: #333;
+  padding: 10px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change the background color of the dropdown links on hover */
+.sidebar .dropdown-content a:hover {
+ 
+   
+    border-left: 5px solid var(--accent-color);
+  color: #fff;
+   background: linear-gradient(to left, #52d6f4, #c1b1f7);
+}
+}
 
  /*  <!-- sidebar styling end here  --> */
     </Style>
@@ -710,6 +760,16 @@ User user = (User) session.getAttribute("user");
     <i class="fas fa-qrcode"></i>
     <span>Consultants</span>
   </a>
+    <div class="dropdown">
+    <a href="consultants.jsp">
+      <i class="fas fa-qrcode"></i>
+      <span>Consultants</span>
+    </a>
+    <div class="dropdown-content">
+      <a href="consultant1.jsp">Consultant 1</a>
+      <a href="consultant2.jsp">Consultant 2</a>
+    </div>
+  </div>
 <a href="spinner.jsp" >
     <i class="fas fa-qrcode"></i>
     <span>Spinner</span>

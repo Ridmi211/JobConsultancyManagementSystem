@@ -140,6 +140,9 @@ public class UserController extends HttpServlet {
 	           String enteredHashedPassword = hashPassword(password);
 	            if (enteredHashedPassword != null && enteredHashedPassword.equals(user.getPassword())) {
 	                HttpSession session = request.getSession();
+//	                session.setAttribute("user", user);
+//	                response.sendRedirect("home.jsp");
+	                session.setMaxInactiveInterval(30 * 60);
 	                session.setAttribute("user", user);
 	                response.sendRedirect("home.jsp");
 	            } else {
