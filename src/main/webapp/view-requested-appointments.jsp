@@ -365,10 +365,62 @@ background-color
 }
 
     /*  <!-- sidebar end here  --> */
+    
+    
+    
+    /*  nav*/
+    
+      
+        nav{
+        
+            display: flex;
+            align-items: right;
+            justify-content: end;
+            flex-wrap: wrap;
+            width: 100%;
+            height: 60px;
+            background-color: #ffffff;
+            position: fixed;
+        }
+        
+        .logo{
+            width:140px;
+            }
+        
+        nav ul li {
+            display: inline-block;
+            list-style:none;
+            margin: 10px 20px;
+        }
+        
+        nav ul li a{
+            color: #000000;
+            text-decoration: none ;
+            font-size:16px;
+            position: relative;
+        }
+        
+        nav ul li a::after{ 
+            content: '';
+            width :0;
+            height:3px;
+            background:none;
+            position:absolute;
+            left:0;
+            bottom:-6px;
+            transition: 0.4s;
+        
+        }
+        
+        nav ul li a:hover::after{
+        width:100%;
+        
+        }
     </Style>
 
 </head>
 <body >
+
 
  <!-- sidebar start here  -->
    <input type="checkbox" id="check">
@@ -450,7 +502,32 @@ background-color
     </a>
   <% } %>
 </div>
+ <nav class="p-0 m-0 pt-2">
+   
+    <ul class="" id="sidemenu" >
+        <li>  <form action="appointmentManager" method="post">
+    <input type="hidden" name="appointmentId" value="${appointment.appointmentId}">
+    <input type="hidden" name="appactiontype" value="cancel"> <!-- Set the action type to "reject" -->
+    <button type="submit" class="btn btn-danger">Cancel</button>
+</form> </li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Extra-Curricular</a></li>
+        <li><a href="#portfolio">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+        
+          <% if (user != null) { %>
+          
+    <li ><a href="view-profile.jsp"><i class="fa fa-user-circle" aria-hidden="true" ></i>&nbsp;&nbsp; <%= user.getName() %></a></li> 
+    
+  <% } else { %>
+    <li ><a href="login.jsp"><i class="fa fa-user-circle" aria-hidden="true" ></i>&nbsp;&nbsp; Login</a></li> 
+  <% } %>
+         
+        
+    </ul>
+    
 
+  </nav>
 
     <h1>Registered Job Seekers </h1>
 <p style='color:magenta'>${message}</p>	
@@ -525,12 +602,12 @@ background-color
       </td>
 
  <td class="btn-column">
-<%--     <form action="appointmentManager" method="post">
-    <input type="hidden" name="appointmentId" value="${appointment.userId}">
-    <input type="hidden" name="appactiontype" value="approve"> <!-- Set the action type to "reject" -->
-    <button type="submit" class="btn btn-danger">approve</button>
+    <form action="appointmentManager" method="post">
+    <input type="hidden" name="appointmentId" value="${appointment.appointmentId}">
+    <input type="hidden" name="appactiontype" value="cancel"> <!-- Set the action type to "reject" -->
+    <button type="submit" class="btn btn-danger">Cancel</button>
 </form> 
- --%>
+ 
 </td>
        
        

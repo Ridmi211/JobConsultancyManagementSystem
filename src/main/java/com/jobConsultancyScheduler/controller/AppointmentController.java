@@ -70,8 +70,14 @@ public class AppointmentController extends HttpServlet {
 	            deleteAppointment(request, response);
 	        }else if (useractiontype.equals("approve")) {
 	        	acceptAppointmentAdmin(request, response);
-//			} else if (useractiontype.equals("reject")) {
-//				cancelAppointmentAdmin(request, response);
+			} else if (useractiontype.equals("acceptCon")) {
+				acceptAppointmentCon(request, response);
+			} else if (useractiontype.equals("rejectCon")) {
+				rejectAppointmentCon(request, response);
+			} else if (useractiontype.equals("completed")) {
+				completedAppointment(request, response);
+			} else if (useractiontype.equals("cancel")) {
+				cancelAppointmentAdmin(request, response);
 			}
 	    }
 
@@ -179,24 +185,76 @@ public class AppointmentController extends HttpServlet {
 			response.sendRedirect("getAppointment?appactiontype=requested");
 		}
 //
-//		private void cancelAppointmentAdmin(HttpServletRequest request, HttpServletResponse response)
-//		        throws ServletException, IOException {
-//		    int userId = Integer.parseInt(request.getParameter("userId"));
-//		    try {
-//		        if (getUserService().rejectUser(userId)) {
-//		            message = "User has been rejected!";
-//		        } else {
-//		            message = "Failed to reject the user!";
-//		        }
-//		    } catch (ClassNotFoundException | SQLException e) {
-//		        message = "Operation failed! " + e.getMessage();
-//		    }
-//		    request.setAttribute("feebackMessage", message);
-//		    RequestDispatcher rd = request.getRequestDispatcher("view-pending-users.jsp");
-//		    rd.forward(request, response);
-//		}
+		private void cancelAppointmentAdmin(HttpServletRequest request, HttpServletResponse response)
+		        throws ServletException, IOException {
+			 int appointmentId = Integer.parseInt(request.getParameter("appointmentId"));
+		    try {
+		        if (getAppointmentService().cancelAppointmentAdmin(appointmentId)) {
+		            message = "User has been rejected!";
+		        } else {
+		            message = "Failed to reject the user!";
+		        }
+		    } catch (ClassNotFoundException | SQLException e) {
+		        message = "Operation failed! " + e.getMessage();
+		    }
+			HttpSession session = request.getSession();
+			session.setAttribute("message", message);
+
+			response.sendRedirect("getAppointment?appactiontype=requested");
+		}
 //	    
 	    
+		private void acceptAppointmentCon(HttpServletRequest request, HttpServletResponse response)
+		        throws ServletException, IOException {
+			 int appointmentId = Integer.parseInt(request.getParameter("appointmentId"));
+		    try {
+		        if (getAppointmentService().acceptAppointmentCon(appointmentId)) {
+		            message = "User has been rejected!";
+		        } else {
+		            message = "Failed to reject the user!";
+		        }
+		    } catch (ClassNotFoundException | SQLException e) {
+		        message = "Operation failed! " + e.getMessage();
+		    }
+			HttpSession session = request.getSession();
+			session.setAttribute("message", message);
+
+			response.sendRedirect("getAppointment?appactiontype=adminRequested");
+		}
+		private void rejectAppointmentCon(HttpServletRequest request, HttpServletResponse response)
+		        throws ServletException, IOException {
+			 int appointmentId = Integer.parseInt(request.getParameter("appointmentId"));
+		    try {
+		        if (getAppointmentService().rejectAppointmentCon(appointmentId)) {
+		            message = "User has been rejected!";
+		        } else {
+		            message = "Failed to reject the user!";
+		        }
+		    } catch (ClassNotFoundException | SQLException e) {
+		        message = "Operation failed! " + e.getMessage();
+		    }
+			HttpSession session = request.getSession();
+			session.setAttribute("message", message);
+
+			response.sendRedirect("getAppointment?appactiontype=adminRequested");
+		}
+		private void completedAppointment(HttpServletRequest request, HttpServletResponse response)
+		        throws ServletException, IOException {
+			 int appointmentId = Integer.parseInt(request.getParameter("appointmentId"));
+		    try {
+		        if (getAppointmentService().completedAppointment(appointmentId)) {
+		            message = "User has been rejected!";
+		        } else {
+		            message = "Failed to reject the user!";
+		        }
+		    } catch (ClassNotFoundException | SQLException e) {
+		        message = "Operation failed! " + e.getMessage();
+		    }
+			HttpSession session = request.getSession();
+			session.setAttribute("message", message);
+
+			response.sendRedirect("getAppointment?appactiontype=adminRequested");
+		}
 	    private void fetchAdminRequestedAppointments(HttpServletRequest request, HttpServletResponse response)
 	            throws ServletException, IOException, ClassNotFoundException, SQLException {
 

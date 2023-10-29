@@ -119,12 +119,20 @@ private Connection getConnection() throws ClassNotFoundException, SQLException {
 	    Connection connection = getConnection();
 //	    String query = "SELECT * FROM appointments WHERE status = 'REQUESTED'";
 	    
+//	    String query = "SELECT a.*, c.name AS consultantName, c.email AS consultantEmail, c.phoneNumber AS consultantContact, " +
+//	               "s.name AS seekerName, s.email AS seekerEmail, s.phoneNumber AS seekerContact " +
+//	               "FROM appointments a  " +
+//	               "INNER JOIN user c ON a.consultantId = c.userId " +
+//	               "INNER JOIN user s ON a.seekerId = s.userId " +
+//	               "WHERE a.status = 'REQUESTED'";
+	    
 	    String query = "SELECT a.*, c.name AS consultantName, c.email AS consultantEmail, c.phoneNumber AS consultantContact, " +
 	               "s.name AS seekerName, s.email AS seekerEmail, s.phoneNumber AS seekerContact " +
 	               "FROM appointments a  " +
 	               "INNER JOIN user c ON a.consultantId = c.userId " +
 	               "INNER JOIN user s ON a.seekerId = s.userId " +
-	               "WHERE a.status = 'REQUESTED'";
+	               "WHERE a.status = 'REQUESTED' OR a.status = 'CON_REJECTED'";
+
 
 	    Statement st = connection.createStatement();
 	    

@@ -363,6 +363,11 @@ width:70%;
 background-color
 }
 
+.status-cell{
+background:#e8d1ff;
+border-radius:10px;
+}
+
     /*  <!-- sidebar end here  --> */
     </Style>
 
@@ -499,8 +504,9 @@ background-color
               <td class="text-center">
           ${appointment.startTime}
             </td> 
-          <td class="text-center">
-          ${appointment.status.displayName}
+          <td class="text-center status-cell" >
+          <div class=" status-cell">
+          ${appointment.status.displayName}</div>
             </td> 
               
              <%--     <td class="text-center">${user.accessRight.displayName}</td> --%>
@@ -515,21 +521,21 @@ background-color
 </td>
 
          
-        <td class="btn-column">
-<%--        <form action="usermanager" method="post">
-    <input type="hidden" name="userId" value="${user.userId}">
-    <input type="hidden" name="useractiontype" value="approve"> <!-- Set the action type to "approve" -->
-    <button type="submit" class="btn btn-success">Approve</button>
-      </form> --%>
+     <td class="btn-column">
+    <form action="appointmentManager" method="post">
+    <input type="hidden" name="appointmentId" value="${appointment.appointmentId}">
+    <input type="hidden" name="appactiontype" value="acceptCon">
+    <button type="submit" class="btn btn-success">Accept</button>
+      </form>
       </td>
 
  <td class="btn-column">
- <%--    <form action="usermanager" method="post">
-    <input type="hidden" name="userId" value="${user.userId}">
-    <input type="hidden" name="useractiontype" value="reject"> <!-- Set the action type to "reject" -->
+    <form action="appointmentManager" method="post">
+    <input type="hidden" name="appointmentId" value="${appointment.appointmentId}">
+    <input type="hidden" name="appactiontype" value="rejectCon"> <!-- Set the action type to "reject" -->
     <button type="submit" class="btn btn-danger">Reject</button>
-</form> --%>
-
+</form> 
+ 
 </td>
        
        

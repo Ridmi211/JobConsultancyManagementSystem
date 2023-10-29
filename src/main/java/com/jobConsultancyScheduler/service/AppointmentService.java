@@ -75,6 +75,25 @@ public class AppointmentService {
 		    public boolean cancelAppointmentAdmin(int appointmentId) throws ClassNotFoundException, SQLException {
 		        return getAppointmentManager().updateAppointmentStatus(appointmentId, Status.ADMIN_CANCELLED);
 		    }
+		    public boolean acceptAppointmentCon(int appointmentId) throws ClassNotFoundException, SQLException {
+		        return getAppointmentManager().updateAppointmentStatus(appointmentId, Status.CON_CONFIRMED);
+		    }
+
+		    public boolean rejectAppointmentCon(int appointmentId) throws ClassNotFoundException, SQLException {
+		        return getAppointmentManager().updateAppointmentStatus(appointmentId, Status.CON_REJECTED);
+		    }
+		    public boolean completedAppointment(int appointmentId) throws ClassNotFoundException, SQLException {
+		        return getAppointmentManager().updateAppointmentStatus(appointmentId, Status.COMPLETED);
+		    }
+		    public boolean cancelAppointmentSeeker(int appointmentId) throws ClassNotFoundException, SQLException {
+		        return getAppointmentManager().updateAppointmentStatus(appointmentId, Status.SEEKER_CANCELLED);
+		    }
+		  
+		   
+		    
+		    
+		    
+		    
 	}
 
 
