@@ -55,6 +55,16 @@ public class AppointmentService {
 			// TODO Auto-generated method stub
 			return getAppointmentManager().fetchRequestedAppointments();
 		}
+
+//		public List<Appointment> fetchAdminRequestedAppointments(int loggedInUserId) {
+//			// TODO Auto-generated method stub
+//			return getAppointmentManager().fetchAdminRequestedAppointments();
+//		}
+
+		public List<Appointment> fetchAdminRequestedAppointments(int loggedInUserId)  throws ClassNotFoundException, SQLException{
+			// TODO Auto-generated method stub
+			return getAppointmentManager().fetchAdminRequestedAppointments(loggedInUserId);
+		}
 	}
 
 

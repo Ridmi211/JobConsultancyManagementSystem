@@ -697,6 +697,11 @@ User user = (User) session.getAttribute("user");
        <span>View All app</span>
        
      </a>
+      <a href="getAppointment?appactiontype=adminRequested" >
+       <i class="far fa-envelope"></i>
+       <span>View-all-adm-req-app</span>
+       
+     </a>
   <a href="book-consultant-new.jsp" >
     <i class="fas fa-qrcode"></i>
     <span>book</span>

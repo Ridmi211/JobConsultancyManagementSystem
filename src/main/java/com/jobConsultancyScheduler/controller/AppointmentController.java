@@ -39,13 +39,20 @@ public class AppointmentController extends HttpServlet {
 	    
 	    protected void doGet(HttpServletRequest request, HttpServletResponse response)
 				throws ServletException, IOException {
-
+	    	 System.out.println( "Action :" +request.getParameter("appactiontype") );
 			String appactiontype = request.getParameter("appactiontype");
 
 		    if (appactiontype.equals("single")) {
 		        fetchSingleAppointment(request, response);		   
 		    }else if (appactiontype.equals("requested")) {
 		    	fetchRequestedAppointments(request, response); 
+		    }else if (appactiontype.equals("adminRequested")) {
+		    	try {
+					fetchAdminRequestedAppointments(request, response);
+				} catch (ClassNotFoundException | ServletException | IOException | SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} 
 		    }else {
 		        fetchAllAppointments(request, response);
 		    }
@@ -184,6 +191,45 @@ public class AppointmentController extends HttpServlet {
 //		    rd.forward(request, response);
 //		}
 //	    
+	    
+	    private void fetchAdminRequestedAppointments(HttpServletRequest request, HttpServletResponse response)
+	            throws ServletException, IOException, ClassNotFoundException, SQLException {
+
+	        clearMessage();
+
+	        HttpSession session = request.getSession();
+	        User user = (User) session.getAttribute("user"); // Assuming you store the logged-in user object in the session
+	        System.out.println("User from session: " + user);
+	        if (user == null) {
+	            message = "You are not logged in!";
+	            request.setAttribute("feebackMessage", message);
+	            RequestDispatcher rd = request.getRequestDispatcher("view-admin-requested-appointments.jsp");
+	            rd.forward(request, response);
+	            return;
+	        }
+
+	        int loggedInUserId = user.getUserId(); // Assuming userId is a property of the User class
+
+	        List<Appointment> requestedAppointments = new ArrayList<Appointment>();
+	        try {
+				requestedAppointments = getAppointmentService().fetchAdminRequestedAppointments(loggedInUserId);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			if (!(requestedAppointments.size() > 0)) {
+			    message = "No requested appointments found for the logged-in user!";
+			}
+
+	        request.setAttribute("requestedAppointments", requestedAppointments);
+	        request.setAttribute("feebackMessage", message);
+	        System.out.println( "Action :" +request.getParameter("message") );
+	        RequestDispatcher rd = request.getRequestDispatcher("view-admin-requested-appointments.jsp");
+	        rd.forward(request, response);
+	    }
+
+	    
 	    
 	    private void fetchSingleAppointment(HttpServletRequest request, HttpServletResponse response)
 				throws ServletException, IOException {
