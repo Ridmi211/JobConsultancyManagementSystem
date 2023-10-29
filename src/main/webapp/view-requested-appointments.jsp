@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1" isELIgnored="false"%>
     
+    
     <%@ taglib prefix="tag" uri="http://java.sun.com/jsp/jstl/core"%>
 
     <%@ page import="com.jobConsultancyScheduler.model.User" %>
@@ -516,20 +517,20 @@ background-color
 
          
         <td class="btn-column">
-<%--        <form action="usermanager" method="post">
-    <input type="hidden" name="userId" value="${user.userId}">
-    <input type="hidden" name="useractiontype" value="approve"> <!-- Set the action type to "approve" -->
+    <form action="appointmentManager" method="post">
+    <input type="hidden" name="appointmentId" value="${appointment.appointmentId}">
+    <input type="hidden" name="appactiontype" value="approve">
     <button type="submit" class="btn btn-success">Approve</button>
-      </form> --%>
+      </form>
       </td>
 
  <td class="btn-column">
- <%--    <form action="usermanager" method="post">
-    <input type="hidden" name="userId" value="${user.userId}">
-    <input type="hidden" name="useractiontype" value="reject"> <!-- Set the action type to "reject" -->
-    <button type="submit" class="btn btn-danger">Reject</button>
-</form> --%>
-
+<%--     <form action="appointmentManager" method="post">
+    <input type="hidden" name="appointmentId" value="${appointment.userId}">
+    <input type="hidden" name="appactiontype" value="approve"> <!-- Set the action type to "reject" -->
+    <button type="submit" class="btn btn-danger">approve</button>
+</form> 
+ --%>
 </td>
        
        

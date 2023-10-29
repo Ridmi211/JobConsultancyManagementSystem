@@ -4,6 +4,8 @@ import java.util.List;
 import com.jobConsultancyScheduler.dao.AppointmentManager;
 import com.jobConsultancyScheduler.dao.AppointmentManagerImpl;
 import com.jobConsultancyScheduler.model.Appointment;
+import com.jobConsultancyScheduler.model.Appointment.Status;
+import com.jobConsultancyScheduler.model.RegistrationStatus;
 
 public class AppointmentService {	
 		
@@ -56,15 +58,23 @@ public class AppointmentService {
 			return getAppointmentManager().fetchRequestedAppointments();
 		}
 
-//		public List<Appointment> fetchAdminRequestedAppointments(int loggedInUserId) {
-//			// TODO Auto-generated method stub
-//			return getAppointmentManager().fetchAdminRequestedAppointments();
-//		}
 
 		public List<Appointment> fetchAdminRequestedAppointments(int loggedInUserId)  throws ClassNotFoundException, SQLException{
 			// TODO Auto-generated method stub
 			return getAppointmentManager().fetchAdminRequestedAppointments(loggedInUserId);
 		}
+		
+		 public boolean updateAppointmentStatus(int appointmentId, Status status) throws SQLException, ClassNotFoundException {
+		        return getAppointmentManager().updateAppointmentStatus(appointmentId, status);
+		    }
+
+		    public boolean acceptAppointmentAdmin(int appointmentId) throws ClassNotFoundException, SQLException {
+		        return getAppointmentManager().updateAppointmentStatus(appointmentId, Status.ADMIN_CONFIRMED);
+		    }
+
+		    public boolean cancelAppointmentAdmin(int appointmentId) throws ClassNotFoundException, SQLException {
+		        return getAppointmentManager().updateAppointmentStatus(appointmentId, Status.ADMIN_CANCELLED);
+		    }
 	}
 
 

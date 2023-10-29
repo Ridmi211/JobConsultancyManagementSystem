@@ -68,7 +68,11 @@ public class AppointmentController extends HttpServlet {
 	            editAppointment(request, response);
 	        } else if (useractiontype.equals("deleteAppointment")) {
 	            deleteAppointment(request, response);
-	        }
+	        }else if (useractiontype.equals("approve")) {
+	        	acceptAppointmentAdmin(request, response);
+//			} else if (useractiontype.equals("reject")) {
+//				cancelAppointmentAdmin(request, response);
+			}
 	    }
 
 	    
@@ -157,24 +161,25 @@ public class AppointmentController extends HttpServlet {
 			    rd.forward(request, response);
 			}
 //		
-//		private void approveUser(HttpServletRequest request, HttpServletResponse response)
-//		        throws ServletException, IOException {
-//		    int userId = Integer.parseInt(request.getParameter("userId"));
-//		    try {
-//		        if (getUserService().approveUser(userId)) {
-//		            message = "User has been approved!";
-//		        } else {
-//		            message = "Failed to approve the user!";
-//		        }
-//		    } catch (ClassNotFoundException | SQLException e) {
-//		        message = "Operation failed! " + e.getMessage();
-//		    }
-//		    request.setAttribute("feebackMessage", message);
-//		    RequestDispatcher rd = request.getRequestDispatcher("view-pending-users.jsp");
-//		    rd.forward(request, response);
-//		}
+		private void acceptAppointmentAdmin(HttpServletRequest request, HttpServletResponse response)
+		        throws ServletException, IOException {
+		    int appointmentId = Integer.parseInt(request.getParameter("appointmentId"));
+		    try {
+		        if (getAppointmentService().acceptAppointmentAdmin(appointmentId)) {
+		            message = "User has been approved!";
+		        } else {
+		            message = "Failed to approve the user!";
+		        }
+		    } catch (ClassNotFoundException | SQLException e) {
+		        message = "Operation failed! " + e.getMessage();
+		    }
+			HttpSession session = request.getSession();
+			session.setAttribute("message", message);
+
+			response.sendRedirect("getAppointment?appactiontype=requested");
+		}
 //
-//		private void rejectUser(HttpServletRequest request, HttpServletResponse response)
+//		private void cancelAppointmentAdmin(HttpServletRequest request, HttpServletResponse response)
 //		        throws ServletException, IOException {
 //		    int userId = Integer.parseInt(request.getParameter("userId"));
 //		    try {

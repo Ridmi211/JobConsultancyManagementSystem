@@ -429,6 +429,7 @@ public class UserController extends HttpServlet {
 	
 	private void approveUser(HttpServletRequest request, HttpServletResponse response)
 	        throws ServletException, IOException {
+		clearMessage();
 	    int userId = Integer.parseInt(request.getParameter("userId"));
 	    try {
 	        if (getUserService().approveUser(userId)) {
@@ -439,13 +440,15 @@ public class UserController extends HttpServlet {
 	    } catch (ClassNotFoundException | SQLException e) {
 	        message = "Operation failed! " + e.getMessage();
 	    }
-	    request.setAttribute("feebackMessage", message);
-	    RequestDispatcher rd = request.getRequestDispatcher("view-pending-users.jsp");
-	    rd.forward(request, response);
+		HttpSession session = request.getSession();
+		session.setAttribute("message", message);
+
+		response.sendRedirect("getuser?useractiontype=pending");
 	}
 
 	private void rejectUser(HttpServletRequest request, HttpServletResponse response)
 	        throws ServletException, IOException {
+		clearMessage();
 	    int userId = Integer.parseInt(request.getParameter("userId"));
 	    try {
 	        if (getUserService().rejectUser(userId)) {
@@ -456,9 +459,10 @@ public class UserController extends HttpServlet {
 	    } catch (ClassNotFoundException | SQLException e) {
 	        message = "Operation failed! " + e.getMessage();
 	    }
-	    request.setAttribute("feebackMessage", message);
-	    RequestDispatcher rd = request.getRequestDispatcher("view-pending-users.jsp");
-	    rd.forward(request, response);
+		HttpSession session = request.getSession();
+		session.setAttribute("message", message);
+
+		response.sendRedirect("getuser?useractiontype=pending");
 	}
 
 	private void clearMessage() {

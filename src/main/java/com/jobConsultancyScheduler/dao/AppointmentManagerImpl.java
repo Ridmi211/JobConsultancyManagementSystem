@@ -163,7 +163,7 @@ private Connection getConnection() throws ClassNotFoundException, SQLException {
 	                   "FROM appointments a " +
 	                   "INNER JOIN user c ON a.consultantId = c.userId " +
 	                   "INNER JOIN user s ON a.seekerId = s.userId " +
-	                   "WHERE a.status = 'REQUESTED' AND a.consultantId = ?";
+	                   "WHERE a.status = 'ADMIN_CONFIRMED' AND a.consultantId = ?";
 
 	    PreparedStatement preparedStatement = connection.prepareStatement(query);
 	    preparedStatement.setInt(1, loggedInUserId);
@@ -189,7 +189,24 @@ private Connection getConnection() throws ClassNotFoundException, SQLException {
 	    return requestedAppointments;
 	}
 
-	
+	  public boolean updateAppointmentStatus(int appointmentId, Status status) throws SQLException, ClassNotFoundException {
+	        Connection connection = getConnection();
+
+	        String query = "UPDATE appointments SET Status = ? WHERE appointmentId = ?";
+
+	        PreparedStatement ps = connection.prepareStatement(query);
+	        ps.setString(1, status.toString());
+	        ps.setInt(2, appointmentId);
+
+	        boolean result = false;
+
+	        if (ps.executeUpdate() > 0)
+	            result = true;
+
+	        ps.close();
+	        connection.close();
+	        return result;
+	    }
 
 
 }

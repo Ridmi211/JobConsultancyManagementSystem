@@ -2,8 +2,8 @@ package com.jobConsultancyScheduler.dao;
 import java.sql.SQLException;
 import java.util.List;
 import com.jobConsultancyScheduler.model.Appointment;
-import com.jobConsultancyScheduler.model.RegistrationStatus;
-import com.jobConsultancyScheduler.model.User;
+import com.jobConsultancyScheduler.model.Appointment.Status;
+
 
 public interface AppointmentManager {
 	
@@ -19,13 +19,9 @@ public interface AppointmentManager {
 
 	 public List<Appointment> fetchRequestedAppointments() throws SQLException, ClassNotFoundException;
 
-//	List<Appointment> fetchAdminRequestedAppointments
-
-//	public List<Appointment> fetchAdminRequestedAppointments(int loggedInUserId) throws SQLException, ClassNotFoundException;
-
 	public List<Appointment> fetchAdminRequestedAppointments(int loggedInUserId) throws SQLException, ClassNotFoundException;
 	
-	
+	boolean updateAppointmentStatus(int appointmentId,Status status) throws SQLException, ClassNotFoundException;
 	
 	
 //	public User fetchUserByEmail(String email) throws SQLException, ClassNotFoundException;
