@@ -556,6 +556,7 @@ body{
   border-left: 5px solid transparent;
   font-family: 'Lato', sans-serif;
   transition: all .5s ease;
+  text-decoration: none;
 }
 a.active,a:hover{
   border-left: 5px solid var(--accent-color);
@@ -696,6 +697,12 @@ label #cancel{
   
 }
 
+.sidebar .dropdown:hover {
+    border-left: 5px solid var(--accent-color);
+  color: #fff;
+   background: linear-gradient(to left, #52d6f4, #c1b1f7);
+  
+}
 /* Style for the subcategory links */
 .sidebar .dropdown-content a {
   color: #333;
@@ -742,34 +749,37 @@ User user = (User) session.getAttribute("user");
     <i class="fas fa-qrcode"></i>
     <span>Dashboard</span>
   </a>
- <a href="getAppointment?appactiontype=all" >
+<!--  <a href="getAppointment?appactiontype=all" >
        <i class="far fa-envelope"></i>
        <span>View All app</span>
        
      </a>
       <a href="getAppointment?appactiontype=adminRequested" >
        <i class="far fa-envelope"></i>
-       <span>View-all-adm-req-app</span>
+       <span>adm-req-app</span>
        
-     </a>
-  <a href="book-consultant-new.jsp" >
+     </a> -->
+     
+       <div class="dropdown">
+    <a>
+      <i class="fas fa-qrcode"></i>
+      <span>Appointment</span>
+    </a>
+    <div class="dropdown-content">
+      <a href="getAppointment?appactiontype=all">View all</a>
+       <a href="getAppointment?appactiontype=requested">View new</a>
+      <a href="getAppointment?appactiontype=adminRequested">View pending</a>
+    </div>
+  </div>
+ <!--  <a href="book-consultant-new.jsp" >
     <i class="fas fa-qrcode"></i>
     <span>book</span>
-  </a>
+  </a> -->
 <a href="getuser?useractiontype=consultants" >
     <i class="fas fa-qrcode"></i>
     <span>Consultants</span>
   </a>
-    <div class="dropdown">
-    <a href="consultants.jsp">
-      <i class="fas fa-qrcode"></i>
-      <span>Consultants</span>
-    </a>
-    <div class="dropdown-content">
-      <a href="consultant1.jsp">Consultant 1</a>
-      <a href="consultant2.jsp">Consultant 2</a>
-    </div>
-  </div>
+   
 <a href="spinner.jsp" >
     <i class="fas fa-qrcode"></i>
     <span>Spinner</span>
@@ -793,11 +803,22 @@ User user = (User) session.getAttribute("user");
   <%-- Display About and Services for Admin --%>
   <% if (user != null && user.getAccessRight() == AccessRight.ROLE_ADMIN) { %>
        
-      <a href="getuser?useractiontype=all" >
+     <!--  <a href="getuser?useractiontype=all" >
        <i class="far fa-envelope"></i>
        <span>View All</span>
        
-     </a>
+     </a> -->
+     
+      <div class="dropdown">
+    <a>
+      <i class="fas fa-qrcode"></i>
+      <span>User</span>
+    </a>
+    <div class="dropdown-content">
+      <a  href="getuser?useractiontype=all" >view all</a>
+      <a  href="getuser?useractiontype=pending" >view new</a>
+    </div>
+  </div>
      
        <a  >
        <i class="far fa-envelope"></i>
