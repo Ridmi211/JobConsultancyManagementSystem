@@ -14,10 +14,22 @@ if (user == null || !user.getAccessRight().equals(AccessRight.ROLE_ADMIN)) {
 }
 %> 
  --%>
-<%
+<%-- <%
 // Check if the user is logged in and has the appropriate role
 User user = (User) session.getAttribute("user");
  if (user == null || !user.getAccessRight().equals(AccessRight.ROLE_CONSULTANT)) {
+    // Set an error message in the session
+    session.setAttribute("errorMessage", "You do not have the required access to view this page.");
+    // Redirect the user to the login page
+    response.sendRedirect("accessRightError.jsp");
+    return; // Stop processing the current page
+} 
+%> --%>
+
+<%
+// Check if the user is logged in and has the appropriate role
+User user = (User) session.getAttribute("user");
+ if (user == null || (!user.getAccessRight().equals(AccessRight.ROLE_CONSULTANT) && !user.getAccessRight().equals(AccessRight.ROLE_ADMIN))) {
     // Set an error message in the session
     session.setAttribute("errorMessage", "You do not have the required access to view this page.");
     // Redirect the user to the login page

@@ -745,10 +745,25 @@ User user = (User) session.getAttribute("user");
     <i class="fas fa-qrcode"></i>
     <span>Home</span>
   </a>
-  <a href="admin-dashboard.jsp" >
+ <!--  <a href="admin-dashboard.jsp" >
     <i class="fas fa-qrcode"></i>
     <span>Dashboard</span>
-  </a>
+  </a> -->
+  
+  
+  
+       
+      <div class="dropdown">
+    <a>
+      <i class="fas fa-qrcode"></i>
+      <span>Dashboard</span>
+    </a>
+    <div class="dropdown-content">
+      <a  href="admin-dashboard.jsp" >Admin</a>
+      <a  href="dashboard-consultant.jsp" >Consultant</a>
+    </div>
+  </div>
+  
 <!--  <a href="getAppointment?appactiontype=all" >
        <i class="far fa-envelope"></i>
        <span>View All app</span>

@@ -515,11 +515,11 @@ background-color
 
             
             <td class="btn-column">
-  <%--   <form onsubmit="return confirmDelete();" action="usermanager" method="post">								
-        <input type="hidden" name="userId" value="${user.userId}">
-        <input type="hidden" name="useractiontype" value="delete">
+  <form onsubmit="return confirmDelete();" action="appointmentManager" method="post">								
+        <input type="hidden" name="appointmentId" value="${appointment.appointmentId}">
+        <input type="hidden" name="appactiontype" value="deleteAppointment">
         <button type="submit" class="btn btn-danger">Delete</button>
-    </form> --%>
+    </form> 
 </td>
             
           </tr>

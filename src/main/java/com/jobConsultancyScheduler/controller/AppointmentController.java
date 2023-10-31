@@ -361,10 +361,10 @@ public class AppointmentController extends HttpServlet {
 	        } catch (ClassNotFoundException | SQLException e) {
 	            message = "Operation failed: " + e.getMessage();
 	        }
+	    	HttpSession session = request.getSession();
+			session.setAttribute("message", message);
 
-	        request.setAttribute("feebackMessage", message);
-	        RequestDispatcher rd = request.getRequestDispatcher("delete-appointment.jsp"); // Replace with your target page
-	        rd.forward(request, response);
+			response.sendRedirect("getAppointment?appactiontype=all");
 	    }
 	
 

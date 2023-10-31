@@ -65,8 +65,21 @@ private Connection getConnection() throws ClassNotFoundException, SQLException {
 
 	@Override
 	public boolean deleteAppointment(int appointmentId) throws SQLException, ClassNotFoundException {
-		// TODO Auto-generated method stub
-		return false;
+		Connection connection = getConnection();
+		String query= "DELETE FROM appointments WHERE appointmentId=?";
+		
+		PreparedStatement ps = connection.prepareStatement(query);
+		
+		ps.setInt(1, appointmentId);
+		boolean result =false;
+		
+		if(ps.executeUpdate()>0) {
+			result = true;
+			}			
+		ps.close();
+		connection.close();
+		
+		return result;
 	}
 
 	@Override
