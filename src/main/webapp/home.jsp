@@ -795,6 +795,10 @@ User user = (User) session.getAttribute("user");
     <span>Consultants</span>
   </a>
    
+   <a href="getAppointment?appactiontype=appointmentBySeekerId" >
+    <i class="fas fa-qrcode"></i>
+    <span>My Appointments</span>
+  </a>
 <a href="spinner.jsp" >
     <i class="fas fa-qrcode"></i>
     <span>Spinner</span>
