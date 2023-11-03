@@ -27,6 +27,10 @@
   	<url-pattern>/appointmentManager</url-pattern>
   </servlet-mapping>
    <servlet-mapping>
+  	<servlet-name>AppointmentController</servlet-name>
+  	<url-pattern>/getAppointment</url-pattern>
+  </servlet-mapping>
+   <servlet-mapping>
    	<servlet-name>UserController</servlet-name>
    	<url-pattern>/usermanager</url-pattern>
    </servlet-mapping>

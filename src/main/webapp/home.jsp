@@ -556,6 +556,7 @@ body{
   border-left: 5px solid transparent;
   font-family: 'Lato', sans-serif;
   transition: all .5s ease;
+  text-decoration: none;
 }
 a.active,a:hover{
   border-left: 5px solid var(--accent-color);
@@ -663,6 +664,62 @@ label #cancel{
   text-align: center;
 }
 
+/* Style for the major categories */
+/* .sidebar a {
+  text-decoration: none;
+  display: block;
+  padding: 10px;
+  color: #333;
+} */
+
+/* Style for the dropdown container */
+.sidebar .dropdown {
+  position: relative;
+
+  display: inline-block;
+}
+
+/* Style for the dropdown content (hidden by default) */
+.sidebar .dropdown-content {
+  display: none;
+  position: absolute;
+    left:100%;
+    top:10%;
+  background-color: #fff;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Show the dropdown content when hovering over the dropdown container */
+.sidebar .dropdown:hover .dropdown-content {
+  display: block;
+  
+}
+
+.sidebar .dropdown:hover {
+    border-left: 5px solid var(--accent-color);
+  color: #fff;
+   background: linear-gradient(to left, #52d6f4, #c1b1f7);
+  
+}
+/* Style for the subcategory links */
+.sidebar .dropdown-content a {
+  color: #333;
+  padding: 10px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change the background color of the dropdown links on hover */
+.sidebar .dropdown-content a:hover {
+ 
+   
+    border-left: 5px solid var(--accent-color);
+  color: #fff;
+   background: linear-gradient(to left, #52d6f4, #c1b1f7);
+}
+}
 
  /*  <!-- sidebar styling end here  --> */
     </Style>
@@ -688,19 +745,56 @@ User user = (User) session.getAttribute("user");
     <i class="fas fa-qrcode"></i>
     <span>Home</span>
   </a>
-  <a href="admin-dashboard.jsp" >
+ <!--  <a href="admin-dashboard.jsp" >
     <i class="fas fa-qrcode"></i>
     <span>Dashboard</span>
-  </a>
-
-  <a href="book-consultant-new.jsp" >
+  </a> -->
+  
+  
+  
+       
+      <div class="dropdown">
+    <a>
+      <i class="fas fa-qrcode"></i>
+      <span>Dashboard</span>
+    </a>
+    <div class="dropdown-content">
+      <a  href="admin-dashboard.jsp" >Admin</a>
+      <a  href="dashboard-consultant.jsp" >Consultant</a>
+    </div>
+  </div>
+  
+<!--  <a href="getAppointment?appactiontype=all" >
+       <i class="far fa-envelope"></i>
+       <span>View All app</span>
+       
+     </a>
+      <a href="getAppointment?appactiontype=adminRequested" >
+       <i class="far fa-envelope"></i>
+       <span>adm-req-app</span>
+       
+     </a> -->
+     
+       <div class="dropdown">
+    <a>
+      <i class="fas fa-qrcode"></i>
+      <span>Appointment</span>
+    </a>
+    <div class="dropdown-content">
+      <a href="getAppointment?appactiontype=all">View all</a>
+       <a href="getAppointment?appactiontype=requested">View new</a>
+      <a href="getAppointment?appactiontype=adminRequested">View pending</a>
+    </div>
+  </div>
+ <!--  <a href="book-consultant-new.jsp" >
     <i class="fas fa-qrcode"></i>
     <span>book</span>
-  </a>
+  </a> -->
 <a href="getuser?useractiontype=consultants" >
     <i class="fas fa-qrcode"></i>
     <span>Consultants</span>
   </a>
+   
 <a href="spinner.jsp" >
     <i class="fas fa-qrcode"></i>
     <span>Spinner</span>
@@ -724,11 +818,22 @@ User user = (User) session.getAttribute("user");
   <%-- Display About and Services for Admin --%>
   <% if (user != null && user.getAccessRight() == AccessRight.ROLE_ADMIN) { %>
        
-      <a href="getuser?useractiontype=all" >
+     <!--  <a href="getuser?useractiontype=all" >
        <i class="far fa-envelope"></i>
        <span>View All</span>
        
-     </a>
+     </a> -->
+     
+      <div class="dropdown">
+    <a>
+      <i class="fas fa-qrcode"></i>
+      <span>User</span>
+    </a>
+    <div class="dropdown-content">
+      <a  href="getuser?useractiontype=all" >view all</a>
+      <a  href="getuser?useractiontype=pending" >view new</a>
+    </div>
+  </div>
      
        <a  >
        <i class="far fa-envelope"></i>

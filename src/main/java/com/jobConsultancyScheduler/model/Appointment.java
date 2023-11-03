@@ -4,20 +4,54 @@ import java.util.Date;
 
 public class Appointment {
 	
-	    private int appointmentId;
-	  
+	    private int appointmentId;	  
 		private int consultantId;
-		private int seekerId;
 		private String consultantName;
-		private String seekerName;
-		
+		private String seekerName;		
+		private int seekerId;
+		private String country;
+		private String job;		
 	    private String scheduledDate;
 	    private String startTime; 
 	    private Status status;
-	    private String location;
 	    private String notes;
 	  
+	    private String seekerEmail;
+	    private String seekerPhoneNumber;
+	    private String seekerJob;
+	    private String seekerCountry;
 
+	    public String getSeekerEmail() {
+	        return seekerEmail;
+	    }
+
+	    public void setSeekerEmail(String seekerEmail) {
+	        this.seekerEmail = seekerEmail;
+	    }
+
+	    public String getSeekerPhoneNumber() {
+	        return seekerPhoneNumber;
+	    }
+
+	    public void setSeekerPhoneNumber(String seekerPhoneNumber) {
+	        this.seekerPhoneNumber = seekerPhoneNumber;
+	    }
+
+	    public String getSeekerJob() {
+	        return seekerJob;
+	    }
+
+	    public void setSeekerJob(String seekerJob) {
+	        this.seekerJob = seekerJob;
+	    }
+
+	    public String getSeekerCountry() {
+	        return seekerCountry;
+	    }
+
+	    public void setSeekerCountry(String seekerCountry) {
+	        this.seekerCountry = seekerCountry;
+	    }
 	    // Constructors
 	    public Appointment() {
 	        // Default constructor
@@ -28,13 +62,21 @@ public class Appointment {
 	        this.appointmentId = appointmentId;
 	        this.startTime = startTime;
 	        this.status = status;
-	        this.location = location;
+//	        this.location = location;
 	        this.notes = notes;
 	    }
 
 	    // Getter and Setter methods for attributes
+	    
+	    
+	    
+	 
 	    public int getAppointmentId() {
 	        return appointmentId;
+	    }
+
+	    public void setAppointmentId(int appointmentId) {
+	        this.appointmentId = appointmentId;
 	    }
 
 
@@ -49,18 +91,22 @@ public class Appointment {
 	    public Status getStatus() {
 	        return status;
 	    }
+	    
+	   
 
 	    public void setStatus(Status status) {
 	        this.status = status;
 	    }
+	    
+	    
 
-	    public String getLocation() {
-	        return location;
-	    }
-
-	    public void setLocation(String location) {
-	        this.location = location;
-	    }
+//	    public String getLocation() {
+//	        return location;
+//	    }
+//
+//	    public void setLocation(String location) {
+//	        this.location = location;
+//	    }
 
 	    public String getNotes() {
 	        return notes;
@@ -92,6 +138,37 @@ public class Appointment {
 
 
 
+
+		public String getScheduledDate() {
+			return scheduledDate;
+		}
+
+		public void setScheduledDate(String scheduledDate) {
+			this.scheduledDate = scheduledDate;
+		}
+
+
+
+		public String getCountry() {
+			return country;
+		}
+
+		public void setCountry(String country) {
+			this.country = country;
+		}
+
+
+
+		public String getJob() {
+			return job;
+		}
+
+		public void setJob(String job) {
+			this.job = job;
+		}
+
+
+
 		public String getConsultantName() {
 			return consultantName;
 		}
@@ -112,24 +189,14 @@ public class Appointment {
 
 
 
-		public String getScheduledDate() {
-			return scheduledDate;
-		}
-
-		public void setScheduledDate(String scheduledDate) {
-			this.scheduledDate = scheduledDate;
-		}
-
-
-
 		public enum Status {
 	        REQUESTED("Requested"),
-	        ADMIN_CONFIRMED("Admin Confirmed"),
-	        CON_CONFIRMED("Consultant Confirmed"),
+	        ADMIN_CONFIRMED("Admin-Confirmed"),
+	        CON_CONFIRMED("Consultant-Confirmed"),
 	        CON_REJECTED("Rejected"),
 	        COMPLETED("Completed"),
-	        SEEKER_CANCELLED("Seeker Cancelled"),
-	    	ADMIN_CANCELLED(" Admin Cancelled");
+	        SEEKER_CANCELLED("Seeker-Cancelled"),
+	    	ADMIN_CANCELLED(" Admin-Cancelled");
 
 	        private final String displayName;
 
@@ -141,6 +208,11 @@ public class Appointment {
 	            return displayName;
 	        }
 	    }
+
+
+
+	
+		
 	}
 
 

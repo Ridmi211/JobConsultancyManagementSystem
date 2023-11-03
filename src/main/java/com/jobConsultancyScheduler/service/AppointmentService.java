@@ -4,6 +4,8 @@ import java.util.List;
 import com.jobConsultancyScheduler.dao.AppointmentManager;
 import com.jobConsultancyScheduler.dao.AppointmentManagerImpl;
 import com.jobConsultancyScheduler.model.Appointment;
+import com.jobConsultancyScheduler.model.Appointment.Status;
+import com.jobConsultancyScheduler.model.RegistrationStatus;
 
 public class AppointmentService {	
 		
@@ -38,13 +40,60 @@ public class AppointmentService {
 			return getAppointmentManager().deleteAppointment(appointmentCode);
 		}
 		
-		public Appointment fetchSingleAppointment(int appointmentCode) throws ClassNotFoundException, SQLException {
-			return getAppointmentManager().fetchSingleAppointment(appointmentCode);
+		public Appointment fetchSingleAppointment(int appointmentId) throws ClassNotFoundException, SQLException {
+			return getAppointmentManager().fetchSingleAppointment(appointmentId);
 		}
 		
 		public List<Appointment> fetchAllAppointments() throws ClassNotFoundException, SQLException {
 			return getAppointmentManager().fetchAllAppointments();
 		}
+
+		public Appointment getAppointmentById(int appointmentId) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public List<Appointment> fetchRequestedAppointments() throws ClassNotFoundException, SQLException {
+			// TODO Auto-generated method stub
+			return getAppointmentManager().fetchRequestedAppointments();
+		}
+
+
+		public List<Appointment> fetchAdminRequestedAppointments(int loggedInUserId)  throws ClassNotFoundException, SQLException{
+			// TODO Auto-generated method stub
+			return getAppointmentManager().fetchAdminRequestedAppointments(loggedInUserId);
+		}
+		
+		 public boolean updateAppointmentStatus(int appointmentId, Status status) throws SQLException, ClassNotFoundException {
+		        return getAppointmentManager().updateAppointmentStatus(appointmentId, status);
+		    }
+
+		    public boolean acceptAppointmentAdmin(int appointmentId) throws ClassNotFoundException, SQLException {
+		        return getAppointmentManager().updateAppointmentStatus(appointmentId, Status.ADMIN_CONFIRMED);
+		    }
+
+		    public boolean cancelAppointmentAdmin(int appointmentId) throws ClassNotFoundException, SQLException {
+		        return getAppointmentManager().updateAppointmentStatus(appointmentId, Status.ADMIN_CANCELLED);
+		    }
+		    public boolean acceptAppointmentCon(int appointmentId) throws ClassNotFoundException, SQLException {
+		        return getAppointmentManager().updateAppointmentStatus(appointmentId, Status.CON_CONFIRMED);
+		    }
+
+		    public boolean rejectAppointmentCon(int appointmentId) throws ClassNotFoundException, SQLException {
+		        return getAppointmentManager().updateAppointmentStatus(appointmentId, Status.CON_REJECTED);
+		    }
+		    public boolean completedAppointment(int appointmentId) throws ClassNotFoundException, SQLException {
+		        return getAppointmentManager().updateAppointmentStatus(appointmentId, Status.COMPLETED);
+		    }
+		    public boolean cancelAppointmentSeeker(int appointmentId) throws ClassNotFoundException, SQLException {
+		        return getAppointmentManager().updateAppointmentStatus(appointmentId, Status.SEEKER_CANCELLED);
+		    }
+		  
+		   
+		    
+		    
+		    
+		    
 	}
 
 

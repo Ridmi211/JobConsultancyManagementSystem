@@ -7,6 +7,9 @@
     
 <%@ page import="java.util.ArrayList" %>
 
+
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -947,10 +950,10 @@ input[type="text"] {
         <i class="fas fa-times" id="cancel"></i>
       </label>
 
-<%
+ <%
 // Get the user object from the session
 User user = (User) session.getAttribute("user");
-%>
+%> 
 
 <div class="sidebar">
   <header>Menu</header>

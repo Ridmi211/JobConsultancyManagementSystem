@@ -19,8 +19,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.jobConsultancyScheduler.model.AccessRight;
+import com.jobConsultancyScheduler.model.Appointment;
+import com.jobConsultancyScheduler.model.Appointment.Status;
 import com.jobConsultancyScheduler.model.RegistrationStatus;
 import com.jobConsultancyScheduler.model.User;
+import com.jobConsultancyScheduler.service.AppointmentService;
 import com.jobConsultancyScheduler.service.UserService;
 
 /**
@@ -30,346 +33,370 @@ public class AppointmentController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	String message = "";
 
-	private UserService getUserService() {
-		return UserService.getUserService();
-	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-
-		String appointactiontype = request.getParameter("appointactiontype");
-
-	    if (appointactiontype.equals("single")) {
-	        fetchSingleUser(request, response);
-	    } else if (appointactiontype.equals("view")) {
-//	    	viewAppointment(request, response);
-//	    } else if (appointactiontype.equals("consultants")) {
-//	        fetchConsultantUsers(request, response); 
-//	    }  else if (appointactiontype.equals("pending")) {
-//	        fetchPendingUsers(request, response); 
-//	    }else {
-	        fetchAllUsers(request, response);
+	    private AppointmentService getAppointmentService() {
+	        return AppointmentService.getAppointmentService();
 	    }
-	}
-
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
- System.out.println( "Useraction"+request.getParameter("appointactiontype") );
-		String appointactiontype = request.getParameter("appointactiontype");
-
-		 if (appointactiontype.equals("add")) {
-			addUser(request, response);
-		} else if (appointactiontype.equals("edit")) {
-			editUser(request, response);
-//		}else if (appointactiontype.equals("viewAppointment")) {
-//			viewAppointment(request, response); 
-		} else if (appointactiontype.equals("delete")) {
-			deleteUser(request, response);
-//		}else if (appointactiontype.equals("approve")) {
-//		    approveUser(request, response);
-//		} else if (appointactiontype.equals("reject")) {
-//		    rejectUser(request, response);
+	    
+	    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+				throws ServletException, IOException {
+	    	 System.out.println( "Action :" +request.getParameter("appactiontype") );
+			String appactiontype = request.getParameter("appactiontype");
+			  if (appactiontype.equals("singleAppointment")) {
+			        fetchSingleAppointment(request, response);
+			    } else if (appactiontype.equals("view")) {
+			        viewAppointment(request, response);		   
+		    }else if (appactiontype.equals("requested")) {
+		    	fetchRequestedAppointments(request, response); 
+		    }else if (appactiontype.equals("adminRequested")) {
+		    	try {
+					fetchAdminRequestedAppointments(request, response);
+				} catch (ClassNotFoundException | ServletException | IOException | SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} 
+		    }else {
+		        fetchAllAppointments(request, response);
+		    }
 		}
 
-	}
+	    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+	            throws ServletException, IOException {
+	        String appactiontype = request.getParameter("appactiontype");
 
-//	private void viewAppointment(HttpServletRequest request, HttpServletResponse response)
-//	        throws ServletException, IOException {
-//	    int userId = Integer.parseInt(request.getParameter("userId"));
-//	    System.out.println("Reached the 'viewUser' method.");
-//
-//	    try {
-//	        User user = getUserService().fetchSingleUser(userId);
-//	        if (user.getUserId() > 0) {
-//	            request.setAttribute("user", user);
-//	            RequestDispatcher rd = request.getRequestDispatcher("update-profile.jsp");
-//	            rd.forward(request, response);
-//	        } else {
-//	            request.setAttribute("message", "No user found!");
-//	            RequestDispatcher rd = request.getRequestDispatcher("user-list.jsp");
-//	            rd.forward(request, response);
-//	        }
-//	    } catch (ClassNotFoundException | SQLException e) {
-//	        e.printStackTrace();
-//	    }
-//	}
+	        if (appactiontype.equals("addAppointment")) {
+	            addAppointment(request, response);
+	        } else if (appactiontype.equals("editAppointment")) {
+	            editAppointment(request, response);
+	        } else if (appactiontype.equals("deleteAppointment")) {
+	            deleteAppointment(request, response);
+	        }else if (appactiontype.equals("approve")) {
+	        	acceptAppointmentAdmin(request, response);
+			} else if (appactiontype.equals("acceptCon")) {
+				acceptAppointmentCon(request, response);
+			} else if (appactiontype.equals("rejectCon")) {
+				rejectAppointmentCon(request, response);
+		    } else if (appactiontype.equals("view")) {
+		        viewAppointment(request, response);
+			} else if (appactiontype.equals("completed")) {
+				completedAppointment(request, response);
+			} else if (appactiontype.equals("cancel")) {
+				cancelAppointmentAdmin(request, response);
+			}
+	    }
 
-
-
-	private void addUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	    clearMessage();
-
-	    User user = new User();
-
-	    user.setName(request.getParameter("name"));
-	    user.setPhoneNumber(request.getParameter("telephone"));
-	    user.setEmail(request.getParameter("email"));
-	 
-
-	    user.setBirthdate(request.getParameter("birthdate"));
-	    user.setGender(request.getParameter("gender"));
-	    user.setOccupation(request.getParameter("jobtype"));
-	    user.setCountry(request.getParameter("country"));
-
-	 
-	        user.setAccessRight(AccessRight.ROLE_USER);
-	        user.setRegistrationStatus(RegistrationStatus.APPROVED); // Other users are approved by default
-	 
-
-
-	    user.setEducationalQualifications(request.getParameter("educationalQualifications"));
-	    user.setSpecializedCountries(request.getParameter("specializedCountries"));
-	    user.setSpecializedJobs(request.getParameter("specializedJobs"));
 	    
-	    // Other user attributes...
-	    
-		  String[] selectedAvailableDays = request.getParameterValues("availableDays");
-		  String[] selectedAvailableTimeSlots =
-		  request.getParameterValues("availableTimeSlots");
-		  
-		 
-		  if (selectedAvailableDays != null && selectedAvailableTimeSlots != null) {
-		  
-		  String availableDays = String.join(",", selectedAvailableDays); String
-		  availableTimeSlots = String.join(",", selectedAvailableTimeSlots);
-		  
-		  
-		  user.setAvailableDays(availableDays);
-		  user.setAvailableTimeSlots(availableTimeSlots); } else {
-		  
-		  user.setAvailableDays(""); user.setAvailableTimeSlots(""); }
-		  
-	    try {
-	        if (getUserService().isEmailAlreadyExists(user.getEmail())) {
-	            message = "User with the same email already exists!";
-	        } else {
-	            boolean savedUser = getUserService().addUser(user);
-	            if (savedUser) {
-	                message = "The user has been successfully added!";
+	    private void addAppointment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	        clearMessage();
+
+	        Appointment appointment = new Appointment();
+
+	        // Get the logged-in user's ID for the seeker
+	        int seekerId = Integer.parseInt(request.getParameter("seekerId")); // Replace with your actual code to get the logged-in user's ID
+	        appointment.setSeekerId(seekerId);
+
+	        // Get the consultant's ID from the previous page or request parameter
+	        int consultantId = Integer.parseInt(request.getParameter("consultantId"));
+	        appointment.setConsultantId(consultantId);
+
+	        appointment.setScheduledDate(request.getParameter("date"));
+	        appointment.setStartTime(request.getParameter("time"));
+	        appointment.setStatus(Appointment.Status.REQUESTED);  // Set the initial status as REQUESTED
+	        appointment.setCountry(request.getParameter("country"));
+	        appointment.setJob(request.getParameter("job"));
+	        appointment.setNotes(request.getParameter("notes"));
+
+	        try {
+	            boolean savedAppointment = getAppointmentService().addAppointment(appointment);
+	            if (savedAppointment) {
+	                message = "The appointment request has been successfully submitted!";
 	            } else {
-	                message = "Failed to add the user!";
+	                message = "Failed to submit the appointment request!";
 	            }
+	        } catch (ClassNotFoundException | SQLException e) {
+	            message = "Operation failed! " + e.getMessage();
 	        }
-	    } catch (ClassNotFoundException | SQLException e) {
-	        message = "Operation failed! " + e.getMessage();
+
+	        request.setAttribute("feebackMessage", message);
+	        RequestDispatcher rd = request.getRequestDispatcher("feedback-message.jsp");
+	        rd.forward(request, response);
 	    }
 
-	    request.setAttribute("feebackMessage", message);
-	    RequestDispatcher rd = request.getRequestDispatcher("add-user.jsp");
-	    rd.forward(request, response);
-	}
+	    
+	    private void fetchAllAppointments(HttpServletRequest request, HttpServletResponse response)
+				throws ServletException, IOException {
 
+			clearMessage();
 
+			List<Appointment> appointmentList = new ArrayList<Appointment>();
+			try {
+				appointmentList = getAppointmentService().fetchAllAppointments();
 
+				if (!(appointmentList.size() > 0)) {
+					message = "No record found!";
+				}
+			} catch (ClassNotFoundException | SQLException e) {
+				message = e.getMessage();
+			}
 
-	private void editUser(HttpServletRequest request, HttpServletResponse response)
-	        throws ServletException, IOException {
+			request.setAttribute("appointmentList", appointmentList);
+			request.setAttribute("feebackMessage", message);
 
-	    clearMessage();
+			RequestDispatcher rd = request.getRequestDispatcher("view-appointment-list.jsp");
+			rd.forward(request, response);
 
-	    User user = new User();
-	    user.setUserId(Integer.parseInt(request.getParameter("userId")));
-	    user.setName(request.getParameter("name"));
-	    user.setPhoneNumber(request.getParameter("phoneNumber"));
-	    user.setEmail(request.getParameter("email"));
-	    // user.setPassword(request.getParameter("password"));
-	    user.setBirthdate(request.getParameter("birthdate"));
-	    user.setGender(request.getParameter("gender"));
-	    user.setOccupation(request.getParameter("occupation"));
-	    user.setCountry(request.getParameter("country"));
+		}	
+	    
+	    
+	    private void fetchRequestedAppointments(HttpServletRequest request, HttpServletResponse response)
+			    throws ServletException, IOException {
 
+			    clearMessage();
 
-	    user.setEducationalQualifications(request.getParameter("educationalQualifications"));
-	    user.setSpecializedCountries(request.getParameter("specializedCountries"));
-	    user.setSpecializedJobs(request.getParameter("specializedJobs"));
-	    user.setAccessRight(AccessRight.valueOf(request.getParameter("accessRight")));
+			    List<Appointment> requestedAppointments = new ArrayList<Appointment>();
+			    try {
+			    	requestedAppointments = getAppointmentService().fetchRequestedAppointments(); 
 
+			        if (!(requestedAppointments.size() > 0)) {
+			            message = "No consultant users found!";
+			        }
+			    } catch (ClassNotFoundException | SQLException e) {
+			        message = e.getMessage();
+			    }
 
-	    String[] selectedAvailableDays = request.getParameterValues("availableDays");
-	    String[] selectedAvailableTimeSlots = request.getParameterValues("availableTimeSlots");
+			    request.setAttribute("requestedAppointments", requestedAppointments); 
+			    request.setAttribute("feebackMessage", message);
 
-	    // Check for null before processing
-	    if (selectedAvailableDays != null && selectedAvailableTimeSlots != null) {
-	        // Convert the selected values to a comma-separated string
-	        String availableDays = String.join(",", selectedAvailableDays);
-	        String availableTimeSlots = String.join(",", selectedAvailableTimeSlots);
+			    RequestDispatcher rd = request.getRequestDispatcher("view-requested-appointments.jsp"); 
+			    rd.forward(request, response);
+			}
+//		
+		private void acceptAppointmentAdmin(HttpServletRequest request, HttpServletResponse response)
+		        throws ServletException, IOException {
+		    int appointmentId = Integer.parseInt(request.getParameter("appointmentId"));
+		    try {
+		        if (getAppointmentService().acceptAppointmentAdmin(appointmentId)) {
+		            message = "User has been approved!";
+		        } else {
+		            message = "Failed to approve the user!";
+		        }
+		    } catch (ClassNotFoundException | SQLException e) {
+		        message = "Operation failed! " + e.getMessage();
+		    }
+			HttpSession session = request.getSession();
+			session.setAttribute("message", message);
 
-	        // Set the values in the User object
-	        user.setAvailableDays(availableDays);
-	        user.setAvailableTimeSlots(availableTimeSlots);
-	    } else {
-	        // Handle the case when no checkboxes were selected
-	        user.setAvailableDays("");
-	        user.setAvailableTimeSlots("");
-	    }
+			response.sendRedirect("getAppointment?appactiontype=requested");
+		}
+//
+		private void cancelAppointmentAdmin(HttpServletRequest request, HttpServletResponse response)
+		        throws ServletException, IOException {
+			 int appointmentId = Integer.parseInt(request.getParameter("appointmentId"));
+		    try {
+		        if (getAppointmentService().cancelAppointmentAdmin(appointmentId)) {
+		            message = "User has been rejected!";
+		        } else {
+		            message = "Failed to reject the user!";
+		        }
+		    } catch (ClassNotFoundException | SQLException e) {
+		        message = "Operation failed! " + e.getMessage();
+		    }
+			HttpSession session = request.getSession();
+			session.setAttribute("message", message);
 
-	    try {
-	        if (getUserService().editUser(user)) {
-	            message = "The user has been successfully updated! User ID: " + user.getUserId();
-	        } else {
-	            message = "Failed to update the user! User ID: " + user.getUserId();
+			response.sendRedirect("getAppointment?appactiontype=requested");
+		}
+//	    
+	    
+		private void acceptAppointmentCon(HttpServletRequest request, HttpServletResponse response)
+		        throws ServletException, IOException {
+			 int appointmentId = Integer.parseInt(request.getParameter("appointmentId"));
+		    try {
+		        if (getAppointmentService().acceptAppointmentCon(appointmentId)) {
+		            message = "User has been rejected!";
+		        } else {
+		            message = "Failed to reject the user!";
+		        }
+		    } catch (ClassNotFoundException | SQLException e) {
+		        message = "Operation failed! " + e.getMessage();
+		    }
+			HttpSession session = request.getSession();
+			session.setAttribute("message", message);
+
+			response.sendRedirect("getAppointment?appactiontype=adminRequested");
+		}
+		private void rejectAppointmentCon(HttpServletRequest request, HttpServletResponse response)
+		        throws ServletException, IOException {
+			 int appointmentId = Integer.parseInt(request.getParameter("appointmentId"));
+		    try {
+		        if (getAppointmentService().rejectAppointmentCon(appointmentId)) {
+		            message = "User has been rejected!";
+		        } else {
+		            message = "Failed to reject the user!";
+		        }
+		    } catch (ClassNotFoundException | SQLException e) {
+		        message = "Operation failed! " + e.getMessage();
+		    }
+			HttpSession session = request.getSession();
+			session.setAttribute("message", message);
+
+			response.sendRedirect("getAppointment?appactiontype=adminRequested");
+		}
+		private void completedAppointment(HttpServletRequest request, HttpServletResponse response)
+		        throws ServletException, IOException {
+			 int appointmentId = Integer.parseInt(request.getParameter("appointmentId"));
+		    try {
+		        if (getAppointmentService().completedAppointment(appointmentId)) {
+		            message = "User has been rejected!";
+		        } else {
+		            message = "Failed to reject the user!";
+		        }
+		    } catch (ClassNotFoundException | SQLException e) {
+		        message = "Operation failed! " + e.getMessage();
+		    }
+			HttpSession session = request.getSession();
+			session.setAttribute("message", message);
+
+			response.sendRedirect("getAppointment?appactiontype=adminRequested");
+		}
+	    private void fetchAdminRequestedAppointments(HttpServletRequest request, HttpServletResponse response)
+	            throws ServletException, IOException, ClassNotFoundException, SQLException {
+
+	        clearMessage();
+
+	        HttpSession session = request.getSession();
+	        User user = (User) session.getAttribute("user"); // Assuming you store the logged-in user object in the session
+	        System.out.println("User from session: " + user);
+	        if (user == null) {
+	            message = "You are not logged in!";
+	            request.setAttribute("feebackMessage", message);
+	            RequestDispatcher rd = request.getRequestDispatcher("view-admin-requested-appointments.jsp");
+	            rd.forward(request, response);
+	            return;
 	        }
-	    } catch (ClassNotFoundException | SQLException e) {
-	        message = e.getMessage();
+
+	        int loggedInUserId = user.getUserId(); // Assuming userId is a property of the User class
+
+	        List<Appointment> requestedAppointments = new ArrayList<Appointment>();
+	        try {
+				requestedAppointments = getAppointmentService().fetchAdminRequestedAppointments(loggedInUserId);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			if (!(requestedAppointments.size() > 0)) {
+			    message = "No requested appointments found for the logged-in user!";
+			}
+
+	        request.setAttribute("requestedAppointments", requestedAppointments);
+	        request.setAttribute("feebackMessage", message);
+	        System.out.println( "Action :" +request.getParameter("message") );
+	        RequestDispatcher rd = request.getRequestDispatcher("view-admin-requested-appointments.jsp");
+	        rd.forward(request, response);
 	    }
 
-	    request.setAttribute("feebackMessage", message);
-	    RequestDispatcher rd = request.getRequestDispatcher("feedback-message.jsp");
-	    rd.forward(request, response);
-	}
+	    private void viewAppointment(HttpServletRequest request, HttpServletResponse response)
+		        throws ServletException, IOException {
+		    int appointmentId = Integer.parseInt(request.getParameter("appointmentId"));
+		    System.out.println("Reached the 'appointmentId' method.");
 
-
-	private void deleteUser(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-
-		clearMessage();
-		int userId = Integer.parseInt(request.getParameter("userId"));
-
-		try {
-			if (getUserService().deleteUser(userId)) {
-				message = "The product has been successfully deleted. Product Code: " + userId;
-			} else {
-				message = "Failed to delete the product! Product Code: " + userId;
-			}
-		} catch (ClassNotFoundException | SQLException e) {
-			message = e.getMessage();
+		    try {
+		        Appointment appointment = getAppointmentService().fetchSingleAppointment(appointmentId);
+		        if (appointment.getAppointmentId() > 0) {
+		            request.setAttribute("appointment", appointment);
+		            RequestDispatcher rd = request.getRequestDispatcher("view-and-update-appointment.jsp");
+		            rd.forward(request, response);
+		        } else {
+		            request.setAttribute("message", "No user found!");
+		            RequestDispatcher rd = request.getRequestDispatcher("user-list.jsp");
+		            rd.forward(request, response);
+		        }
+		    } catch (ClassNotFoundException | SQLException e) {
+		        e.printStackTrace();
+		    }
 		}
+	    private void fetchSingleAppointment(HttpServletRequest request, HttpServletResponse response)
+				throws ServletException, IOException {
 
-		HttpSession session = request.getSession();
-		session.setAttribute("message", message);
+			clearMessage();
 
-		response.sendRedirect("getuser?useractiontype=all");
-	}
+			int appointmentId = Integer.parseInt(request.getParameter("appointmentId"));
 
-	private void fetchSingleUser(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-
-		clearMessage();
-
-		int userId = Integer.parseInt(request.getParameter("userId"));
-
-		try {
-			User user = getUserService().fetchSingleUser(userId);
-			if (user.getUserId() > 0) {
-				request.setAttribute("user", user);
-			} else {
-				message = "No record found!";
+			try {
+				Appointment appointment = getAppointmentService().fetchSingleAppointment(appointmentId);
+				if (appointment.getAppointmentId() > 0) {
+					request.setAttribute("appointment", appointment);
+				} else {
+					message = "No record found!";
+				}
+			} catch (ClassNotFoundException | SQLException e) {
+				message = e.getMessage();
 			}
-		} catch (ClassNotFoundException | SQLException e) {
-			message = e.getMessage();
+			request.setAttribute("feebackMessage", message);
+			RequestDispatcher rd = request.getRequestDispatcher("search-and-update-user.jsp");
+			rd.forward(request, response);
 		}
-		request.setAttribute("feebackMessage", message);
-		RequestDispatcher rd = request.getRequestDispatcher("search-and-update-user.jsp");
-		rd.forward(request, response);
-	}
+	    
+	    private void editAppointment(HttpServletRequest request, HttpServletResponse response)
+	            throws ServletException, IOException {
+	    	  clearMessage();
 
-	private void fetchAllUsers(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+		        Appointment appointment = new Appointment();
 
-		clearMessage();
+		        // Get the logged-in user's ID for the seeker
+ // Replace with your actual code to get the logged-in user's ID
+		        appointment.setAppointmentId(Integer.parseInt(request.getParameter("appointmentId")));
+		        appointment.setSeekerId(Integer.parseInt(request.getParameter("seekerId")));
 
-		List<User> userList = new ArrayList<User>();
-		try {
-			userList = getUserService().fetchAllUsers();
+		        // Get the consultant's ID from the previous page or request parameter
+		      
+		        appointment.setConsultantId( Integer.parseInt(request.getParameter("consultantId")));
 
-			if (!(userList.size() > 0)) {
-				message = "No record found!";
-			}
-		} catch (ClassNotFoundException | SQLException e) {
-			message = e.getMessage();
-		}
+		        appointment.setScheduledDate(request.getParameter("scheduledDate"));
+		        appointment.setStartTime(request.getParameter("startTime"));
+		        appointment.setStatus(Status.valueOf(request.getParameter("enum-status")));  // Set the initial status as REQUESTED
+		        appointment.setCountry(request.getParameter("country"));
+		        appointment.setJob(request.getParameter("job"));
+		        appointment.setNotes(request.getParameter("notes"));
+	  	    try {
+	  	        if (getAppointmentService().editAppointment(appointment)) {
+	  	            message = "The user has been successfully updated! User ID: " + appointment.getAppointmentId();
+	  	        } else {
+	  	            message = "Failed to update the user! User ID: " + appointment.getAppointmentId();
+	  	        }
+	  	    } catch (ClassNotFoundException | SQLException e) {
+	  	        message = e.getMessage();
+	  	    }
 
-		request.setAttribute("userList", userList);
-		request.setAttribute("feebackMessage", message);
+	  	    request.setAttribute("feebackMessage", message);
+	  	    RequestDispatcher rd = request.getRequestDispatcher("feedback-message.jsp");
+	  	    rd.forward(request, response);
+	  	}
 
-		RequestDispatcher rd = request.getRequestDispatcher("view-job-seekers.jsp");
-		rd.forward(request, response);
+	    private void deleteAppointment(HttpServletRequest request, HttpServletResponse response)
+	            throws ServletException, IOException {
+	        clearMessage();
 
-	}
+	        int appointmentId = Integer.parseInt(request.getParameter("appointmentId"));
+
+	        try {
+	            boolean deleted = getAppointmentService().deleteAppointment(appointmentId);
+	            if (deleted) {
+	                message = "Appointment deleted successfully!";
+	            } else {
+	                message = "Failed to delete the appointment.";
+	            }
+	        } catch (ClassNotFoundException | SQLException e) {
+	            message = "Operation failed: " + e.getMessage();
+	        }
+	    	HttpSession session = request.getSession();
+			session.setAttribute("message", message);
+
+			response.sendRedirect("getAppointment?appactiontype=all");
+	    }
 	
-	
-//	private void fetchConsultantUsers(HttpServletRequest request, HttpServletResponse response)
-//		    throws ServletException, IOException {
-//
-//		    clearMessage();
-//
-//		    List<User> consultantUsers = new ArrayList<User>();
-//		    try {
-//		        consultantUsers = getUserService().fetchAllConsultantUsers(); // Use the new method to fetch consultant users
-//
-//		        if (!(consultantUsers.size() > 0)) {
-//		            message = "No consultant users found!";
-//		        }
-//		    } catch (ClassNotFoundException | SQLException e) {
-//		        message = e.getMessage();
-//		    }
-//
-//		    request.setAttribute("consultantUsers", consultantUsers); // Use a different attribute name for consultant users
-//		    request.setAttribute("feebackMessage", message);
-//
-//		    RequestDispatcher rd = request.getRequestDispatcher("view-consultants.jsp"); // Use a different JSP page
-//		    rd.forward(request, response);
-//		}
 
-//	
-//	private void fetchPendingUsers(HttpServletRequest request, HttpServletResponse response)
-//		    throws ServletException, IOException {
-//
-//		    clearMessage();
-//
-//		    List<User> pendingUsers = new ArrayList<User>();
-//		    try {
-//		    	pendingUsers = getUserService().fetchPendingUsers(); // Use the new method to fetch consultant users
-//
-//		        if (!(pendingUsers.size() > 0)) {
-//		            message = "No consultant users found!";
-//		        }
-//		    } catch (ClassNotFoundException | SQLException e) {
-//		        message = e.getMessage();
-//		    }
-//
-//		    request.setAttribute("pendingUsers", pendingUsers); // Use a different attribute name for consultant users
-//		    request.setAttribute("feebackMessage", message);
-//
-//		    RequestDispatcher rd = request.getRequestDispatcher("view-pending-users.jsp"); // Use a different JSP page
-//		    rd.forward(request, response);
-//		}
-//
-//	
-//	private void approveUser(HttpServletRequest request, HttpServletResponse response)
-//	        throws ServletException, IOException {
-//	    int userId = Integer.parseInt(request.getParameter("userId"));
-//	    try {
-//	        if (getUserService().approveUser(userId)) {
-//	            message = "User has been approved!";
-//	        } else {
-//	            message = "Failed to approve the user!";
-//	        }
-//	    } catch (ClassNotFoundException | SQLException e) {
-//	        message = "Operation failed! " + e.getMessage();
-//	    }
-//	    request.setAttribute("feebackMessage", message);
-//	    RequestDispatcher rd = request.getRequestDispatcher("view-pending-users.jsp");
-//	    rd.forward(request, response);
-//	}
-//
-//	private void rejectUser(HttpServletRequest request, HttpServletResponse response)
-//	        throws ServletException, IOException {
-//	    int userId = Integer.parseInt(request.getParameter("userId"));
-//	    try {
-//	        if (getUserService().rejectUser(userId)) {
-//	            message = "User has been rejected!";
-//	        } else {
-//	            message = "Failed to reject the user!";
-//	        }
-//	    } catch (ClassNotFoundException | SQLException e) {
-//	        message = "Operation failed! " + e.getMessage();
-//	    }
-//	    request.setAttribute("feebackMessage", message);
-//	    RequestDispatcher rd = request.getRequestDispatcher("view-pending-users.jsp");
-//	    rd.forward(request, response);
-//	}
 
 	private void clearMessage() {
 		message = "";
