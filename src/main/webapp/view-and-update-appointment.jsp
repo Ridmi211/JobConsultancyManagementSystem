@@ -474,6 +474,28 @@ p {
     <label for="country">status:</label>
     <input class="form-control" type="text" id="status" name="status" value="${appointment.status.displayName}"/>
    
+       <label for="consultantName">Consultant Phone consultantName:</label>
+<input class="form-control" type="text" id="consultantName" name="consultantName" value="${appointment.consultantName}"/>
+
+<label for="seekerName">Consultant Email:</label>
+<input class="form-control" type="text" id="seekerName" name="seekerName" value="${appointment.seekerName}"/>
+   
+ 
+   
+   <label for="seekerEmail">Seeker Email:</label>
+<input class="form-control" type="text" id="seekerEmail" name="seekerEmail" value="${appointment.seekerEmail}"/>
+
+<label for="seekerPhoneNumber">Seeker Phone Number:</label>
+<input class="form-control" type="text" id="seekerPhoneNumber" name="seekerPhoneNumber" value="${appointment.seekerPhoneNumber}"/>
+
+<label for="seekerJob">Seeker Job:</label>
+<input class="form-control" type="text" id="seekerJob" name="seekerJob" value="${appointment.seekerJob}"/>
+
+<label for="seekerCountry">Seeker Country:</label>
+<input class="form-control" type="text" id="seekerCountry" name="seekerCountry" value="${appointment.seekerCountry}"/>
+   
+   
+   
     <input class="form-control" type="hidden" id="status" name="enum-status" value="${appointment.status}"/>
    
     

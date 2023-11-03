@@ -16,7 +16,42 @@ public class Appointment {
 	    private Status status;
 	    private String notes;
 	  
+	    private String seekerEmail;
+	    private String seekerPhoneNumber;
+	    private String seekerJob;
+	    private String seekerCountry;
 
+	    public String getSeekerEmail() {
+	        return seekerEmail;
+	    }
+
+	    public void setSeekerEmail(String seekerEmail) {
+	        this.seekerEmail = seekerEmail;
+	    }
+
+	    public String getSeekerPhoneNumber() {
+	        return seekerPhoneNumber;
+	    }
+
+	    public void setSeekerPhoneNumber(String seekerPhoneNumber) {
+	        this.seekerPhoneNumber = seekerPhoneNumber;
+	    }
+
+	    public String getSeekerJob() {
+	        return seekerJob;
+	    }
+
+	    public void setSeekerJob(String seekerJob) {
+	        this.seekerJob = seekerJob;
+	    }
+
+	    public String getSeekerCountry() {
+	        return seekerCountry;
+	    }
+
+	    public void setSeekerCountry(String seekerCountry) {
+	        this.seekerCountry = seekerCountry;
+	    }
 	    // Constructors
 	    public Appointment() {
 	        // Default constructor
@@ -32,6 +67,10 @@ public class Appointment {
 	    }
 
 	    // Getter and Setter methods for attributes
+	    
+	    
+	    
+	 
 	    public int getAppointmentId() {
 	        return appointmentId;
 	    }
@@ -169,6 +208,11 @@ public class Appointment {
 	            return displayName;
 	        }
 	    }
+
+
+
+	
+		
 	}
 
 
