@@ -466,7 +466,7 @@ p {
     <input class="form-control" type="text" id="startTime" name="startTime" value="${appointment.startTime}"/>
   
       <label for="startTime">notes</label>
-    <textarea class="form-control" type="text" id="notes" name="notes" value="${appointment.notes}">${appointment.notes}</textarea>
+    <textarea class="form-control" style="height:100px"   type="text" id="notes" name="notes" value="${appointment.notes}">${appointment.notes}</textarea>
       <label for="gender">Gender:</label>
     <input class="form-control" type="text" id="job" name="job" value="${appointment.job}"/>
       <label for="occupation">Occupation:</label>
@@ -474,7 +474,8 @@ p {
     <label for="country">status:</label>
     <input class="form-control" type="text" id="status" name="status" value="${appointment.status.displayName}"/>
    
-    
+    <input class="form-control" type="hidden" id="status" name="enum-status" value="${appointment.status}"/>
+   
     
     
   <%--   <c:if test="${user.accessRight == 'ROLE_CONSULTANT'}">
@@ -507,7 +508,7 @@ p {
 
   
       
-				<input type="hidden" name="useractiontype" value="edit"/>
+				<input type="hidden" name="appactiontype" value="editAppointment"/>
 				
 				<button type="submit" class="btn btn-success">Update </button>	
 

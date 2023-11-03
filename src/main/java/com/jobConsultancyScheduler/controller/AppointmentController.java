@@ -20,6 +20,7 @@ import javax.servlet.http.HttpSession;
 
 import com.jobConsultancyScheduler.model.AccessRight;
 import com.jobConsultancyScheduler.model.Appointment;
+import com.jobConsultancyScheduler.model.Appointment.Status;
 import com.jobConsultancyScheduler.model.RegistrationStatus;
 import com.jobConsultancyScheduler.model.User;
 import com.jobConsultancyScheduler.service.AppointmentService;
@@ -339,32 +340,39 @@ public class AppointmentController extends HttpServlet {
 	    
 	    private void editAppointment(HttpServletRequest request, HttpServletResponse response)
 	            throws ServletException, IOException {
-	        clearMessage();
+	    	  clearMessage();
 
-	        int appointmentId = Integer.parseInt(request.getParameter("appointmentId"));
-	        Appointment appointment = getAppointmentService().getAppointmentById(appointmentId);
+		        Appointment appointment = new Appointment();
 
-	        if (appointment != null) {
-	            // Update appointment properties from the request parameters
+		        // Get the logged-in user's ID for the seeker
+ // Replace with your actual code to get the logged-in user's ID
+		        appointment.setAppointmentId(Integer.parseInt(request.getParameter("appointmentId")));
+		        appointment.setSeekerId(Integer.parseInt(request.getParameter("seekerId")));
 
-	            try {
-	                boolean updated = getAppointmentService().editAppointment(appointment);
-	                if (updated) {
-	                    message = "Appointment updated successfully!";
-	                } else {
-	                    message = "Failed to update the appointment.";
-	                }
-	            } catch (ClassNotFoundException | SQLException e) {
-	                message = "Operation failed: " + e.getMessage();
-	            }
-	        } else {
-	            message = "No appointment found with ID: " + appointmentId;
-	        }
+		        // Get the consultant's ID from the previous page or request parameter
+		      
+		        appointment.setConsultantId( Integer.parseInt(request.getParameter("consultantId")));
 
-	        request.setAttribute("feebackMessage", message);
-	        RequestDispatcher rd = request.getRequestDispatcher("edit-apxcxpointment.jsp"); // Replace with your target page
-	        rd.forward(request, response);
-	    }
+		        appointment.setScheduledDate(request.getParameter("scheduledDate"));
+		        appointment.setStartTime(request.getParameter("startTime"));
+		        appointment.setStatus(Status.valueOf(request.getParameter("enum-status")));  // Set the initial status as REQUESTED
+		        appointment.setCountry(request.getParameter("country"));
+		        appointment.setJob(request.getParameter("job"));
+		        appointment.setNotes(request.getParameter("notes"));
+	  	    try {
+	  	        if (getAppointmentService().editAppointment(appointment)) {
+	  	            message = "The user has been successfully updated! User ID: " + appointment.getAppointmentId();
+	  	        } else {
+	  	            message = "Failed to update the user! User ID: " + appointment.getAppointmentId();
+	  	        }
+	  	    } catch (ClassNotFoundException | SQLException e) {
+	  	        message = e.getMessage();
+	  	    }
+
+	  	    request.setAttribute("feebackMessage", message);
+	  	    RequestDispatcher rd = request.getRequestDispatcher("feedback-message.jsp");
+	  	    rd.forward(request, response);
+	  	}
 
 	    private void deleteAppointment(HttpServletRequest request, HttpServletResponse response)
 	            throws ServletException, IOException {

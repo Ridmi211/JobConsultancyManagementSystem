@@ -59,8 +59,27 @@ private Connection getConnection() throws ClassNotFoundException, SQLException {
 
 	@Override
 	public boolean editAppointment(Appointment appointment) throws SQLException, ClassNotFoundException {
-		// TODO Auto-generated method stub
-		return false;
+		Connection connection = getConnection();
+		String query = "UPDATE appointments SET consultantId=?,seekerId=?,scheduledDate=?,startTime=?,status=?,job=?,country=?,notes=? WHERE appointmentId=?";
+		
+		 PreparedStatement ps = connection.prepareStatement(query);
+		    ps.setInt(1, appointment.getConsultantId());
+		    ps.setInt(2, appointment.getSeekerId());
+		    ps.setString(3, appointment.getScheduledDate());
+		    ps.setString(4, appointment.getStartTime());
+		    ps.setString(5, appointment.getStatus().name());
+		    ps.setString(6, appointment.getJob());
+		    ps.setString(7, appointment.getCountry());
+		    ps.setString(8, appointment.getNotes());
+		    ps.setInt(9, appointment.getAppointmentId());
+		boolean result = false;
+		
+		if(ps.executeUpdate()>0)
+			result = true;
+		ps.close();
+		connection.close();
+		
+		return result;
 	}
 
 	@Override
