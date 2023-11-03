@@ -40,8 +40,8 @@ public class AppointmentService {
 			return getAppointmentManager().deleteAppointment(appointmentCode);
 		}
 		
-		public Appointment fetchSingleAppointment(int appointmentCode) throws ClassNotFoundException, SQLException {
-			return getAppointmentManager().fetchSingleAppointment(appointmentCode);
+		public Appointment fetchSingleAppointment(int appointmentId) throws ClassNotFoundException, SQLException {
+			return getAppointmentManager().fetchSingleAppointment(appointmentId);
 		}
 		
 		public List<Appointment> fetchAllAppointments() throws ClassNotFoundException, SQLException {

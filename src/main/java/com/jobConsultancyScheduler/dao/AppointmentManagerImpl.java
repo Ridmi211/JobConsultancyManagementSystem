@@ -84,8 +84,38 @@ private Connection getConnection() throws ClassNotFoundException, SQLException {
 
 	@Override
 	public Appointment fetchSingleAppointment(int appointmentId) throws SQLException, ClassNotFoundException {
-		// TODO Auto-generated method stub
-		return null;
+	    Connection connection = getConnection();
+	    String query = "SELECT * FROM appointments WHERE appointmentId = ?";
+	    
+	    PreparedStatement ps = connection.prepareStatement(query);
+	    ps.setInt(1, appointmentId);
+	    
+	    ResultSet rs = ps.executeQuery();
+	    
+	    Appointment appointment =new Appointment();
+	    
+	    while (rs.next()) {
+	        appointment = new Appointment();
+	        appointment.setAppointmentId(rs.getInt("appointmentId"));
+	        appointment.setConsultantId(rs.getInt("consultantId"));
+	        appointment.setSeekerId(rs.getInt("seekerId"));
+//	        appointment.setConsultantName(rs.getString("consultantName"));
+//	        appointment.setSeekerName(rs.getString("seekerName"));
+	        appointment.setScheduledDate(rs.getString("scheduledDate"));
+	        appointment.setStartTime(rs.getString("startTime"));
+	        appointment.setStatus(Status.valueOf(rs.getString("status")));
+	        appointment.setNotes(rs.getString("notes"));
+	        appointment.setJob(rs.getString("job"));
+	        appointment.setCountry(rs.getString("country"));
+	        
+	        // If there are notes in the database, add this line.
+	        // Set other appointment attributes if necessary
+	    }
+	    
+	    ps.close();
+	    connection.close();
+	    
+	    return appointment;
 	}
 
 	

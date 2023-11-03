@@ -41,9 +41,10 @@ public class AppointmentController extends HttpServlet {
 				throws ServletException, IOException {
 	    	 System.out.println( "Action :" +request.getParameter("appactiontype") );
 			String appactiontype = request.getParameter("appactiontype");
-
-		    if (appactiontype.equals("single")) {
-		        fetchSingleAppointment(request, response);		   
+			  if (appactiontype.equals("singleAppointment")) {
+			        fetchSingleAppointment(request, response);
+			    } else if (appactiontype.equals("view")) {
+			        viewAppointment(request, response);		   
 		    }else if (appactiontype.equals("requested")) {
 		    	fetchRequestedAppointments(request, response); 
 		    }else if (appactiontype.equals("adminRequested")) {
@@ -60,23 +61,25 @@ public class AppointmentController extends HttpServlet {
 
 	    protected void doPost(HttpServletRequest request, HttpServletResponse response)
 	            throws ServletException, IOException {
-	        String useractiontype = request.getParameter("appactiontype");
+	        String appactiontype = request.getParameter("appactiontype");
 
-	        if (useractiontype.equals("addAppointment")) {
+	        if (appactiontype.equals("addAppointment")) {
 	            addAppointment(request, response);
-	        } else if (useractiontype.equals("editAppointment")) {
+	        } else if (appactiontype.equals("editAppointment")) {
 	            editAppointment(request, response);
-	        } else if (useractiontype.equals("deleteAppointment")) {
+	        } else if (appactiontype.equals("deleteAppointment")) {
 	            deleteAppointment(request, response);
-	        }else if (useractiontype.equals("approve")) {
+	        }else if (appactiontype.equals("approve")) {
 	        	acceptAppointmentAdmin(request, response);
-			} else if (useractiontype.equals("acceptCon")) {
+			} else if (appactiontype.equals("acceptCon")) {
 				acceptAppointmentCon(request, response);
-			} else if (useractiontype.equals("rejectCon")) {
+			} else if (appactiontype.equals("rejectCon")) {
 				rejectAppointmentCon(request, response);
-			} else if (useractiontype.equals("completed")) {
+		    } else if (appactiontype.equals("view")) {
+		        viewAppointment(request, response);
+			} else if (appactiontype.equals("completed")) {
 				completedAppointment(request, response);
-			} else if (useractiontype.equals("cancel")) {
+			} else if (appactiontype.equals("cancel")) {
 				cancelAppointmentAdmin(request, response);
 			}
 	    }
@@ -292,8 +295,26 @@ public class AppointmentController extends HttpServlet {
 	        rd.forward(request, response);
 	    }
 
-	    
-	    
+	    private void viewAppointment(HttpServletRequest request, HttpServletResponse response)
+		        throws ServletException, IOException {
+		    int appointmentId = Integer.parseInt(request.getParameter("appointmentId"));
+		    System.out.println("Reached the 'appointmentId' method.");
+
+		    try {
+		        Appointment appointment = getAppointmentService().fetchSingleAppointment(appointmentId);
+		        if (appointment.getAppointmentId() > 0) {
+		            request.setAttribute("appointment", appointment);
+		            RequestDispatcher rd = request.getRequestDispatcher("view-and-update-appointment.jsp");
+		            rd.forward(request, response);
+		        } else {
+		            request.setAttribute("message", "No user found!");
+		            RequestDispatcher rd = request.getRequestDispatcher("user-list.jsp");
+		            rd.forward(request, response);
+		        }
+		    } catch (ClassNotFoundException | SQLException e) {
+		        e.printStackTrace();
+		    }
+		}
 	    private void fetchSingleAppointment(HttpServletRequest request, HttpServletResponse response)
 				throws ServletException, IOException {
 
