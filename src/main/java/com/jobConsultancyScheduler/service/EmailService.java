@@ -10,40 +10,32 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-public class EmailService {
+import com.jobConsultancyScheduler.model.User;
 
-	
+public class EmailService {	
 	
 	private static EmailService emailServiceObj;
 	
 	private EmailService() {
 		
-	}
+	}	
 	
-	
-	public synchronized static EmailService getEmailService() {
-		
+	public synchronized static EmailService getEmailService() {		
 		if(emailServiceObj == null) {
 			emailServiceObj = new EmailService();
-		}
-		
+		}		
 		return emailServiceObj;
 	}
 	
 	public static void sendEmail(String recipient, String subject, String messageBody) {
-	    final String username = "ridmiyatigammana@gmail.com"; // Your email address
-	    final String password = "ynxv mydc aeqg nyfe"; // Your email password
-
-	    
-//	    ynxv mydc aeqg nyfe
-//	       final String username = "ryasunthara11@gmail.com"; // Your email address
-//	    final String password = "Exoyas211#"; // Your email password
-	    
+	    final String username = "testingcodefield@gmail.com"; // Your email address
+	    final String password = "v j b y h x p q p e b x i m e d"; // Your email password
+    
 	    Properties props = new Properties();
 	    props.put("mail.smtp.auth", "true");
 	    props.put("mail.smtp.starttls.enable", "true");
-	    props.put("mail.smtp.host", "smtp.gmail.com"); // SMTP server
-	    props.put("mail.smtp.port", "587"); // SMTP port
+	    props.put("mail.smtp.host", "smtp.gmail.com"); 
+	    props.put("mail.smtp.port", "587"); 
 
 	    Session session = Session.getInstance(props, new javax.mail.Authenticator() {
 	        protected PasswordAuthentication getPasswordAuthentication() {
@@ -66,6 +58,7 @@ public class EmailService {
 	        System.out.println("Failed to send email to " + recipient);
 	    }
 	}
-
+	
+	
 
 }

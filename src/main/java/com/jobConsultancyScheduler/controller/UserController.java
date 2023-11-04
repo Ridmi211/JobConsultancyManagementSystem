@@ -142,11 +142,9 @@ public class UserController extends HttpServlet {
 	                }
 	            }
 
-	           String enteredHashedPassword = hashPassword(password);
+	           String enteredHashedPassword = UserService.hashPassword(password);
 	            if (enteredHashedPassword != null && enteredHashedPassword.equals(user.getPassword())) {
 	                HttpSession session = request.getSession();
-//	                session.setAttribute("user", user);
-//	                response.sendRedirect("home.jsp");
 	                session.setMaxInactiveInterval(30 * 60);
 	                session.setAttribute("user", user);
 	                response.sendRedirect("home.jsp");
@@ -164,6 +162,7 @@ public class UserController extends HttpServlet {
 	        e.printStackTrace();
 	    }
 	}	
+
 	
 	private void addUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    clearMessage();
@@ -172,7 +171,17 @@ public class UserController extends HttpServlet {
 
 	    user.setName(request.getParameter("name"));
 	    user.setPhoneNumber(request.getParameter("telephone"));
-	    user.setEmail(request.getParameter("email"));
+	    String email = request.getParameter("email");
+
+	    if (!UserService.isValidEmail(email)) {
+	        message = "Invalid email address. Please enter a valid email.";
+	        request.setAttribute("feebackMessage", message);
+	        RequestDispatcher rd = request.getRequestDispatcher("add-user.jsp");
+	        rd.forward(request, response);
+	        return; 
+	    }
+
+	    user.setEmail(email);
 	    String plainPassword = request.getParameter("password");
 
 	    if (plainPassword == null || plainPassword.isEmpty()) {
@@ -182,7 +191,7 @@ public class UserController extends HttpServlet {
 	        rd.forward(request, response);
 	    }
 
-	    String hashedPassword = hashPassword(plainPassword);
+	    String hashedPassword = UserService.hashPassword(plainPassword);
 	    user.setPassword(hashedPassword);
 	    user.setBirthdate(request.getParameter("birthdate"));
 	    user.setGender(request.getParameter("gender"));
@@ -190,18 +199,12 @@ public class UserController extends HttpServlet {
 	    user.setCountry(request.getParameter("country"));
 
 	    if (AccessRight.ROLE_ADMIN.equals(AccessRight.valueOf(request.getParameter("usertype")))) {
-	    	System.out.println("User type from request: " + request.getParameter("usertype"));
-
 	        user.setAccessRight(AccessRight.ROLE_ADMIN);
 	        user.setRegistrationStatus(RegistrationStatus.APPROVED); 
 	    } else if (AccessRight.ROLE_CONSULTANT.equals(AccessRight.valueOf(request.getParameter("usertype")))) {
-	    	System.out.println("User type from request: " + request.getParameter("usertype"));
-
-	    	  user.setAccessRight(AccessRight.ROLE_CONSULTANT);
+	        user.setAccessRight(AccessRight.ROLE_CONSULTANT);
 	        user.setRegistrationStatus(RegistrationStatus.PENDING);
 	    } else {
-	    	System.out.println("User type from request: " + request.getParameter("usertype"));
-
 	        user.setAccessRight(AccessRight.ROLE_USER);
 	        user.setRegistrationStatus(RegistrationStatus.APPROVED); 
 	    }
@@ -210,116 +213,70 @@ public class UserController extends HttpServlet {
 	    user.setSpecializedCountries(request.getParameter("specializedCountries"));
 	    user.setSpecializedJobs(request.getParameter("specializedJobs"));
 	    
-		  String[] selectedAvailableDays = request.getParameterValues("availableDays");
-		  String[] selectedAvailableTimeSlots =
-		  request.getParameterValues("availableTimeSlots");
-		  		 
-		  if (selectedAvailableDays != null && selectedAvailableTimeSlots != null) {
-		  
-		  String availableDays = String.join(",", selectedAvailableDays); String
-		  availableTimeSlots = String.join(",", selectedAvailableTimeSlots);
-		  		  
-		  user.setAvailableDays(availableDays);
-		  user.setAvailableTimeSlots(availableTimeSlots); } else {
-		  user.setAvailableDays(""); user.setAvailableTimeSlots(""); }
-		  
-		/*
-		 * try { if (getUserService().isEmailAlreadyExists(user.getEmail())) { message =
-		 * "User with the same email already exists!"; } else { boolean savedUser =
-		 * getUserService().addUser(user); if (savedUser) { message =
-		 * "The user has been successfully added!"; } else { message =
-		 * "Failed to add the user!"; } } } catch (ClassNotFoundException | SQLException
-		 * e) { message = "Operation failed! " + e.getMessage(); }
-		 */
-		  
-		  
-		  
-		  
-		  
-
-		    try {
-		        if (getUserService().isEmailAlreadyExists(user.getEmail())) {
-		            message = "User with the same email already exists!";
-		        } else {
-		            boolean savedUser = false;
-		            boolean emailSent = false;
-
-		            try {
-		                // Attempt to send registration email to the newly added user
-		                emailSent = sendRegistrationEmail(user);
-
-		                if (emailSent) {
-		                    savedUser = getUserService().addUser(user);
-		                }
-		            } catch (Exception e) {
-		                e.printStackTrace();
-		                emailSent = false;
-		            }
-
-		            if (emailSent && savedUser) {
-		                message = "The user has been successfully added!";
-		            } else {
-		                message = "Failed to add the user.";
-		                if (!emailSent) {
-		                    message += " There was an issue sending the registration email. Please enter a valid email.";
-		                }
-		            }
-		        }
-		    } catch (ClassNotFoundException | SQLException e) {
-		        message = "Operation failed! " + e.getMessage();
-		    }
-	    request.setAttribute("feebackMessage", message);
-	    RequestDispatcher rd = request.getRequestDispatcher("add-user.jsp");
-	    rd.forward(request, response);
-	}
-	
-	private boolean sendRegistrationEmail(User user) {
-	    String recipient = user.getEmail();
-	    String subject = "Registration Successful";
-	    String messageBody = "Dear " + user.getName() + ",\n\nYour registration was successful!";
+	    String[] selectedAvailableDays = request.getParameterValues("availableDays");
+	    String[] selectedAvailableTimeSlots = request.getParameterValues("availableTimeSlots");
+	    
+	    if (selectedAvailableDays != null && selectedAvailableTimeSlots != null) {
+	        String availableDays = String.join(",", selectedAvailableDays);
+	        String availableTimeSlots = String.join(",", selectedAvailableTimeSlots);
+	        
+	        user.setAvailableDays(availableDays);
+	        user.setAvailableTimeSlots(availableTimeSlots);
+	    } else {
+	        user.setAvailableDays("");
+	        user.setAvailableTimeSlots("");
+	    }
+	    
 	    
 	    try {
-	        EmailService.sendEmail(recipient, subject, messageBody);
-	        return true; // Email sent successfully
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        return false; // Email sending failed
+	        if (getUserService().isEmailAlreadyExists(user.getEmail())) {
+	            message = "User with the same email already exists!";
+	        } else {
+	            boolean savedUser = false;
+
+	            // Step 1: Save the user information
+	            try {
+	                savedUser = getUserService().addUser(user);
+	            } catch (Exception e) {
+	                e.printStackTrace();
+	            }
+
+	            // Step 2: Send the email after saving the user
+	            if (savedUser) {
+//	                boolean emailSent = false;
+
+	                try {
+	                    AccessRight accessRight = user.getAccessRight();
+	                    if (accessRight == AccessRight.ROLE_ADMIN || accessRight == AccessRight.ROLE_USER) {
+	                       UserService.sendRegistrationEmail(user);
+	                    } else if (accessRight == AccessRight.ROLE_CONSULTANT) {
+	                         UserService.sendConsultantRegistrationEmail(user);
+	                    }
+
+//	                    if (emailSent) {
+	                        message = "The user has been successfully added";
+//	                    } else {
+//	                        message = "The user has been successfully added, but the email could not be sent. Please check your email configuration.";
+//	                    }
+	                } catch (Exception e) {
+	                    e.printStackTrace();
+	                    message = "The user has been successfully added, but there was an error sending the email. Please check your email configuration.";
+	                }
+	            } else {
+	                message = "Failed to add the user.";
+	            }
+	        }
+	    } catch (ClassNotFoundException | SQLException e) {
+	        message = "Operation failed! " + e.getMessage();
 	    }
-	}
-	
-	
 
-	private String hashPassword(String plainPassword) {
-		byte[] salt = generateSalt(); 
-		int iterations = 10000; 
-								
-		int keyLength = 256; 
 
-		// Hash the password using PBKDF2
-		char[] passwordChars = plainPassword.toCharArray();
-		PBEKeySpec spec = new PBEKeySpec(passwordChars, salt, iterations, keyLength);
-		try {
-			SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
-			byte[] hash = skf.generateSecret(spec).getEncoded();
+    request.setAttribute("feebackMessage", message);
+    RequestDispatcher rd = request.getRequestDispatcher("add-user.jsp");
+    rd.forward(request, response);
+}
 
-			// Combine the salt and hash and encode as Base64
-			byte[] combined = new byte[salt.length + hash.length];
-			System.arraycopy(salt, 0, combined, 0, salt.length);
-			System.arraycopy(hash, 0, combined, salt.length, hash.length);
 
-			return Base64.getEncoder().encodeToString(combined);
-		} catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-			e.printStackTrace(); 
-			return null;
-		}
-	}
-
-	private byte[] generateSalt() {
-	
-		byte[] salt = new byte[16]; 
-		
-		return salt;
-	}
 
 	private void editUser(HttpServletRequest request, HttpServletResponse response)
 	        throws ServletException, IOException {
@@ -487,6 +444,8 @@ public class UserController extends HttpServlet {
 	    int userId = Integer.parseInt(request.getParameter("userId"));
 	    try {
 	        if (getUserService().approveUser(userId)) {
+	        	 User approvedUser = getUserService().fetchSingleUser(userId);
+		            UserService.sendApprovalEmail(approvedUser);
 	            message = "User has been approved!";
 	        } else {
 	            message = "Failed to approve the user!";
@@ -499,6 +458,30 @@ public class UserController extends HttpServlet {
 
 		response.sendRedirect("getuser?useractiontype=pending");
 	}
+	
+//	private void approveUser(HttpServletRequest request, HttpServletResponse response)
+//	        throws ServletException, IOException {
+//	    clearMessage();
+//	    int userId = Integer.parseInt(request.getParameter("userId"));
+//	    try {
+//	        if (getUserService().approveUser(userId)) {
+//	            // User has been approved, send an approval email
+//	            User approvedUser = getUserService().fetchSingleUser(userId);
+//	            UserService.sendApprovalEmail(approvedUser);
+//
+//	            message = "User has been approved!";
+//	        } else {
+//	            message = "Failed to approve the user!";
+//	        }
+//	    } catch (ClassNotFoundException | SQLException e) {
+//	        message = "Operation failed! " + e.getMessage();
+//	    }
+//	    HttpSession session = request.getSession();
+//	    session.setAttribute("message", message);
+//
+//	    response.sendRedirect("getuser?useractiontype=pending");
+//	}
+
 
 	private void rejectUser(HttpServletRequest request, HttpServletResponse response)
 	        throws ServletException, IOException {
