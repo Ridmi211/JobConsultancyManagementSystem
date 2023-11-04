@@ -83,15 +83,15 @@ private Connection getConnection() throws ClassNotFoundException, SQLException {
 
 	    ResultSet rs = st.executeQuery(query);
 	    while (rs.next()) {
-	        Message message = new Message();
-	        message.setMessageId(rs.getInt("messageId"));
-	        message.setMessageDate(rs.getDate("messageDate"));
-	        message.setMessangerName(rs.getString("messangerName"));
-	        message.setMessangerEmail(rs.getString("messangerEmail"));
-	        message.setMessageBody(rs.getString("messageBody"));
-	        message.setMessageStatus(MessageStatus.valueOf(rs.getString("messageStatus")));  // Assuming MessageStatus is an enum
+	        Message contact = new Message();
+	        contact.setMessageId(rs.getInt("messageId"));
+	        contact.setMessageDate(rs.getDate("messageDate"));
+	        contact.setMessangerName(rs.getString("messangerName"));
+	        contact.setMessangerEmail(rs.getString("messangerEmail"));
+	        contact.setMessageBody(rs.getString("messageBody"));
+	        contact.setMessageStatus(MessageStatus.valueOf(rs.getString("messageStatus")));  // Assuming MessageStatus is an enum
 
-	        messageList.add(message);
+	        messageList.add(contact);
 	    }
 
         st.close();

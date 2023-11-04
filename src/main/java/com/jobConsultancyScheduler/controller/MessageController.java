@@ -34,11 +34,11 @@ public class MessageController extends HttpServlet {
 				throws ServletException, IOException {
 	    	 System.out.println( "Action :" +request.getParameter("msgactiontype") );
 			String msgactiontype = request.getParameter("msgactiontype");
-			  if (msgactiontype.equals("msgList")) {			    
-				  fetchAllMessages(request, response);
-			  }
-	  }
-	
+			 
+		    	fetchAllMessages(request, response);
+		    
+		}
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	       String msgactiontype = request.getParameter("msgactiontype");
 
@@ -92,18 +92,18 @@ public class MessageController extends HttpServlet {
 
 			clearMessage();
 
-			List<Message> msgList = new ArrayList<Message>();
+			List<Message> messageList = new ArrayList<Message>();
 			try {
-				msgList = getMessageService().fetchAllMessages();
+				messageList = getMessageService().fetchAllMessages();
 
-				if (!(msgList.size() > 0)) {
+				if (!(messageList.size() > 0)) {
 					message = "No record found!";
 				}
 			} catch (ClassNotFoundException | SQLException e) {
 				message = e.getMessage();
 			}
 
-			request.setAttribute("msgList", msgList);
+			request.setAttribute("messageList", messageList);
 			request.setAttribute("feebackMessage", message);
 
 			RequestDispatcher rd = request.getRequestDispatcher("view-msg-list.jsp");

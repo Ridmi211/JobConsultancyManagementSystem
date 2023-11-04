@@ -558,27 +558,27 @@ background-color
           </tr>
         </thead>
        <!--  <tbody> -->
-        <tag:forEach var="appointment" items="${requestedAppointments}">
+        <tag:forEach var="message" items="${messageList}">
           <tr >
             <td scope="row">
             </td>
          <td class="text-center">
-           ${appointment.appointmentId}
+           ${message.messageId}
             </td>
            <td class="text-center">
-          ${appointment.consultantName}
+          ${message.messageDate}
             </td>
             <td class="text-center">
-          ${appointment.seekerName}
+          ${message.messangerName}
             </td> 
               <td class="text-center">
-          ${appointment.scheduledDate}
+          ${message.messangerEmail}
             </td> 
               <td class="text-center">
-          ${appointment.startTime}
+          ${message.messageBody}
             </td> 
           <td class="text-center">
-          ${appointment.status.displayName}
+          ${message.messageStatus}
             </td> 
               
              <%--     <td class="text-center">${user.accessRight.displayName}</td> --%>
@@ -593,9 +593,9 @@ background-color
 </td>
 
          
-        <td class="btn-column">
+<%--         <td class="btn-column">
     <form action="appointmentManager" method="post">
-    <input type="hidden" name="appointmentId" value="${appointment.appointmentId}">
+    <input type="hidden" name="appointmentId" value="${contact.appointmentId}">
     <input type="hidden" name="appactiontype" value="approve">
     <button type="submit" class="btn btn-success">Approve</button>
       </form>
@@ -608,7 +608,7 @@ background-color
     <button type="submit" class="btn btn-danger">Cancel</button>
 </form> 
  
-</td>
+</td> --%>
        
        
        
