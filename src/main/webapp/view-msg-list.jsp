@@ -416,6 +416,24 @@ background-color
         width:100%;
         
         }
+        
+/* Apply scrollbar styles to table cells with the "scroll-td" class */
+.scroll-td::-webkit-scrollbar {
+  width: 7px;
+}
+
+.scroll-td::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.scroll-td::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+.scroll-td::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
     </Style>
 
 </head>
@@ -574,8 +592,10 @@ background-color
               <td class="text-center">
           ${message.messangerEmail}
             </td> 
-              <td class="text-center">
-          ${message.messageBody}
+              <td class="text-center" >
+                <div style="max-height: 100px; overflow-x: hidden;overflow-y: auto;" class="scroll-td">  ${message.messageBody}</div>
+        
+         
             </td> 
           <td class="text-center">
           ${message.messageStatus}
@@ -592,36 +612,10 @@ background-color
 
 </td>
 
-         
-<%--         <td class="btn-column">
-    <form action="appointmentManager" method="post">
-    <input type="hidden" name="appointmentId" value="${contact.appointmentId}">
-    <input type="hidden" name="appactiontype" value="approve">
-    <button type="submit" class="btn btn-success">Approve</button>
-      </form>
-      </td>
 
- <td class="btn-column">
-    <form action="appointmentManager" method="post">
-    <input type="hidden" name="appointmentId" value="${appointment.appointmentId}">
-    <input type="hidden" name="appactiontype" value="cancel"> <!-- Set the action type to "reject" -->
-    <button type="submit" class="btn btn-danger">Cancel</button>
-</form> 
- 
-</td> --%>
        
        
-       
-    <%--               
-            <td class="btn-column">
-    <form onsubmit="" action="usermanager" method="post">								
-        <input type="hidden" name="userId" value="${user.userId}">
-        <input type="hidden" name="useractiontype" value="">
-        <button type="submit" class="btn btn-danger">Approve</button>
-    </form>
-</td>
-         
-       --%>           
+          
             <td class="btn-column">
     <form onsubmit="" action="contactManager" method="post">								
         <input type="hidden" name="messageId" value="${message.messageId}">
