@@ -598,7 +598,7 @@ background-color
          
             </td> 
           <td class="text-center">
-          ${message.messageStatus}
+          ${message.messageStatus.displayName}
             </td> 
               
              <%--     <td class="text-center">${user.accessRight.displayName}</td> --%>

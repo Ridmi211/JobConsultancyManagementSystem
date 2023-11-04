@@ -19,6 +19,7 @@ import javax.servlet.http.HttpSession;
 import com.jobConsultancyScheduler.model.AccessRight;
 import com.jobConsultancyScheduler.model.RegistrationStatus;
 import com.jobConsultancyScheduler.model.User;
+import com.jobConsultancyScheduler.service.EmailService;
 import com.jobConsultancyScheduler.service.UserService;
 
 /**
@@ -32,6 +33,10 @@ public class UserController extends HttpServlet {
 		return UserService.getUserService();
 	}
 
+	private EmailService getEmailService() {
+		return EmailService.getEmailService();
+	}
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
@@ -218,25 +223,71 @@ public class UserController extends HttpServlet {
 		  user.setAvailableTimeSlots(availableTimeSlots); } else {
 		  user.setAvailableDays(""); user.setAvailableTimeSlots(""); }
 		  
-	    try {
-	        if (getUserService().isEmailAlreadyExists(user.getEmail())) {
-	            message = "User with the same email already exists!";
-	        } else {
-	            boolean savedUser = getUserService().addUser(user);
-	            if (savedUser) {
-	                message = "The user has been successfully added!";
-	            } else {
-	                message = "Failed to add the user!";
-	            }
-	        }
-	    } catch (ClassNotFoundException | SQLException e) {
-	        message = "Operation failed! " + e.getMessage();
-	    }
+		/*
+		 * try { if (getUserService().isEmailAlreadyExists(user.getEmail())) { message =
+		 * "User with the same email already exists!"; } else { boolean savedUser =
+		 * getUserService().addUser(user); if (savedUser) { message =
+		 * "The user has been successfully added!"; } else { message =
+		 * "Failed to add the user!"; } } } catch (ClassNotFoundException | SQLException
+		 * e) { message = "Operation failed! " + e.getMessage(); }
+		 */
+		  
+		  
+		  
+		  
+		  
 
+		    try {
+		        if (getUserService().isEmailAlreadyExists(user.getEmail())) {
+		            message = "User with the same email already exists!";
+		        } else {
+		            boolean savedUser = false;
+		            boolean emailSent = false;
+
+		            try {
+		                // Attempt to send registration email to the newly added user
+		                emailSent = sendRegistrationEmail(user);
+
+		                if (emailSent) {
+		                    savedUser = getUserService().addUser(user);
+		                }
+		            } catch (Exception e) {
+		                e.printStackTrace();
+		                emailSent = false;
+		            }
+
+		            if (emailSent && savedUser) {
+		                message = "The user has been successfully added!";
+		            } else {
+		                message = "Failed to add the user.";
+		                if (!emailSent) {
+		                    message += " There was an issue sending the registration email. Please enter a valid email.";
+		                }
+		            }
+		        }
+		    } catch (ClassNotFoundException | SQLException e) {
+		        message = "Operation failed! " + e.getMessage();
+		    }
 	    request.setAttribute("feebackMessage", message);
 	    RequestDispatcher rd = request.getRequestDispatcher("add-user.jsp");
 	    rd.forward(request, response);
 	}
+	
+	private boolean sendRegistrationEmail(User user) {
+	    String recipient = user.getEmail();
+	    String subject = "Registration Successful";
+	    String messageBody = "Dear " + user.getName() + ",\n\nYour registration was successful!";
+	    
+	    try {
+	        EmailService.sendEmail(recipient, subject, messageBody);
+	        return true; // Email sent successfully
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return false; // Email sending failed
+	    }
+	}
+	
+	
 
 	private String hashPassword(String plainPassword) {
 		byte[] salt = generateSalt(); 
