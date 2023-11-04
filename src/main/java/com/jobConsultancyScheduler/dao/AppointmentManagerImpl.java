@@ -363,7 +363,47 @@ private Connection getConnection() throws ClassNotFoundException, SQLException {
 
 	    return requestedAppointments;
 	}
+	
+	
+	
+	public List<Appointment> fetchAppointmentsBySeekerId(int loggedInUserId) throws SQLException, ClassNotFoundException {
+	    Connection connection = getConnection();
+	    
+	    String query = "SELECT a.*, c.name AS consultantName, c.email AS consultantEmail, c.phoneNumber AS consultantContact, " +
+	                   "s.name AS seekerName, s.email AS seekerEmail, s.phoneNumber AS seekerContact " +
+	                   "FROM appointments a " +
+	                   "INNER JOIN user c ON a.consultantId = c.userId " +
+	                   "INNER JOIN user s ON a.seekerId = s.userId " +
+	                   "WHERE a.seekerId = ?";
+//	                   "WHERE a.seekerId = ?";
 
+	    PreparedStatement preparedStatement = connection.prepareStatement(query);
+	    preparedStatement.setInt(1, loggedInUserId);
+
+	    List<Appointment> requestedAppointments = new ArrayList<>();
+
+	    ResultSet rs = preparedStatement.executeQuery();
+	    while (rs.next()) {
+	        Appointment appointment = new Appointment();
+	        appointment.setAppointmentId(rs.getInt("appointmentId"));
+	        appointment.setConsultantId(rs.getInt("consultantId"));
+//	        appointment.setSeekerId(rs.getInt("seekerId"));
+	        appointment.setConsultantName(rs.getString("consultantName"));
+	        appointment.setSeekerName(rs.getString("seekerName"));
+	        appointment.setScheduledDate(rs.getString("scheduledDate"));
+	        appointment.setStartTime(rs.getString("startTime"));
+	        appointment.setStatus(Status.valueOf(rs.getString("status")));
+	        requestedAppointments.add(appointment);
+	    }
+
+	    preparedStatement.close();
+	    connection.close();
+
+	    return requestedAppointments;
+	}
+
+	
+	
 	  public boolean updateAppointmentStatus(int appointmentId, Status status) throws SQLException, ClassNotFoundException {
 	        Connection connection = getConnection();
 

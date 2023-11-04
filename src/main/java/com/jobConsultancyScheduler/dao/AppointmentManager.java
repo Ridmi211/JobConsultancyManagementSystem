@@ -19,6 +19,8 @@ public interface AppointmentManager {
 
 	 public List<Appointment> fetchRequestedAppointments() throws SQLException, ClassNotFoundException;
 
+	public List<Appointment> fetchAppointmentsBySeekerId(int loggedInUserId) throws SQLException, ClassNotFoundException;
+	
 	public List<Appointment> fetchAdminRequestedAppointments(int loggedInUserId) throws SQLException, ClassNotFoundException;
 	
 	boolean updateAppointmentStatus(int appointmentId,Status status) throws SQLException, ClassNotFoundException;

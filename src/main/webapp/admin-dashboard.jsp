@@ -659,7 +659,7 @@ p {
         </svg>
       </span>
     </a>
-    <a href="/admins/all" class="data-card">
+      <a href="getContact?msgactiontype" class="data-card">
       <h3> 11</h3>
       <h4> New <br>Messages</h4>
       <!-- <p>Manage Registered Pharmacists</p> -->

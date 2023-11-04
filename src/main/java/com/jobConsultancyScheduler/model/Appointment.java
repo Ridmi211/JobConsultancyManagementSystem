@@ -1,6 +1,4 @@
 package com.jobConsultancyScheduler.model;
-import java.sql.Time;
-import java.util.Date;
 
 public class Appointment {
 	
@@ -14,8 +12,7 @@ public class Appointment {
 	    private String scheduledDate;
 	    private String startTime; 
 	    private Status status;
-	    private String notes;
-	  
+	    private String notes;	  
 	    private String seekerEmail;
 	    private String seekerPhoneNumber;
 	    private String seekerJob;
@@ -52,24 +49,17 @@ public class Appointment {
 	    public void setSeekerCountry(String seekerCountry) {
 	        this.seekerCountry = seekerCountry;
 	    }
-	    // Constructors
+	    
 	    public Appointment() {
-	        // Default constructor
 	    }
 
-	    public Appointment(int appointmentId, JobSeeker jobSeeker, Consultant consultant,
+	    public Appointment(int appointmentId, 
 	                       String startTime, Status status, String location, String notes, String updatedCvFilePath) {
 	        this.appointmentId = appointmentId;
 	        this.startTime = startTime;
 	        this.status = status;
-//	        this.location = location;
 	        this.notes = notes;
-	    }
-
-	    // Getter and Setter methods for attributes
-	    
-	    
-	    
+	    } 
 	 
 	    public int getAppointmentId() {
 	        return appointmentId;
@@ -78,7 +68,6 @@ public class Appointment {
 	    public void setAppointmentId(int appointmentId) {
 	        this.appointmentId = appointmentId;
 	    }
-
 
 	    public String getStartTime() {
 	        return startTime;
@@ -90,23 +79,11 @@ public class Appointment {
 
 	    public Status getStatus() {
 	        return status;
-	    }
-	    
-	   
+	    }   
 
 	    public void setStatus(Status status) {
 	        this.status = status;
 	    }
-	    
-	    
-
-//	    public String getLocation() {
-//	        return location;
-//	    }
-//
-//	    public void setLocation(String location) {
-//	        this.location = location;
-//	    }
 
 	    public String getNotes() {
 	        return notes;
@@ -114,9 +91,7 @@ public class Appointment {
 
 	    public void setNotes(String notes) {
 	        this.notes = notes;
-	    }
-	    
-	  
+	    } 
 	    
 	    public int getConsultantId() {
 			return consultantId;
@@ -126,8 +101,6 @@ public class Appointment {
 			this.consultantId = consultantId;
 		}
 
-
-
 		public int getSeekerId() {
 			return seekerId;
 		}
@@ -135,9 +108,6 @@ public class Appointment {
 		public void setSeekerId(int seekerId) {
 			this.seekerId = seekerId;
 		}
-
-
-
 
 		public String getScheduledDate() {
 			return scheduledDate;
@@ -147,8 +117,6 @@ public class Appointment {
 			this.scheduledDate = scheduledDate;
 		}
 
-
-
 		public String getCountry() {
 			return country;
 		}
@@ -156,8 +124,6 @@ public class Appointment {
 		public void setCountry(String country) {
 			this.country = country;
 		}
-
-
 
 		public String getJob() {
 			return job;
@@ -167,8 +133,6 @@ public class Appointment {
 			this.job = job;
 		}
 
-
-
 		public String getConsultantName() {
 			return consultantName;
 		}
@@ -177,8 +141,6 @@ public class Appointment {
 			this.consultantName = consultantName;
 		}
 
-
-
 		public String getSeekerName() {
 			return seekerName;
 		}
@@ -186,8 +148,6 @@ public class Appointment {
 		public void setSeekerName(String seekerName) {
 			this.seekerName = seekerName;
 		}
-
-
 
 		public enum Status {
 	        REQUESTED("Requested"),
@@ -207,13 +167,6 @@ public class Appointment {
 	        public String getDisplayName() {
 	            return displayName;
 	        }
-	    }
-
-
-
-	
+	    }	
 		
 	}
-
-
-

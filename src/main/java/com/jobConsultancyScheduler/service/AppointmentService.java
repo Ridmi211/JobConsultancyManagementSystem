@@ -64,6 +64,11 @@ public class AppointmentService {
 			return getAppointmentManager().fetchAdminRequestedAppointments(loggedInUserId);
 		}
 		
+		
+		public List<Appointment> fetchAppointmentsBySeekerId(int loggedInUserId)  throws ClassNotFoundException, SQLException{
+			// TODO Auto-generated method stub
+			return getAppointmentManager().fetchAppointmentsBySeekerId(loggedInUserId);
+		}
 		 public boolean updateAppointmentStatus(int appointmentId, Status status) throws SQLException, ClassNotFoundException {
 		        return getAppointmentManager().updateAppointmentStatus(appointmentId, status);
 		    }

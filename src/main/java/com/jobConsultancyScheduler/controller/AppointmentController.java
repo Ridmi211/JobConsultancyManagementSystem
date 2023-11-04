@@ -48,6 +48,13 @@ public class AppointmentController extends HttpServlet {
 			        viewAppointment(request, response);		   
 		    }else if (appactiontype.equals("requested")) {
 		    	fetchRequestedAppointments(request, response); 
+		    }else if (appactiontype.equals("appointmentBySeekerId")) {
+		    	try {
+					fetchAppointmentsBySeekerId(request, response);
+				} catch (ClassNotFoundException | ServletException | IOException | SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 		    }else if (appactiontype.equals("adminRequested")) {
 		    	try {
 					fetchAdminRequestedAppointments(request, response);
@@ -259,6 +266,10 @@ public class AppointmentController extends HttpServlet {
 
 			response.sendRedirect("getAppointment?appactiontype=adminRequested");
 		}
+		
+		
+		
+		
 	    private void fetchAdminRequestedAppointments(HttpServletRequest request, HttpServletResponse response)
 	            throws ServletException, IOException, ClassNotFoundException, SQLException {
 
@@ -296,6 +307,48 @@ public class AppointmentController extends HttpServlet {
 	        rd.forward(request, response);
 	    }
 
+	    
+	    
+	    private void fetchAppointmentsBySeekerId(HttpServletRequest request, HttpServletResponse response)
+	            throws ServletException, IOException, ClassNotFoundException, SQLException {
+
+	        clearMessage();
+
+	        HttpSession session = request.getSession();
+	        User user = (User) session.getAttribute("user"); // Assuming you store the logged-in user object in the session
+	        System.out.println("User from session: " + user);
+	        if (user == null) {
+	            message = "You are not logged in!";
+	            request.setAttribute("feebackMessage", message);
+	            RequestDispatcher rd = request.getRequestDispatcher("view-admin-requested-appointments.jsp");
+	            rd.forward(request, response);
+	            return;
+	        }
+
+	        int loggedInUserId = user.getUserId(); // Assuming userId is a property of the User class
+
+	        List<Appointment> requestedAppointments = new ArrayList<Appointment>();
+	        try {
+				requestedAppointments = getAppointmentService().fetchAppointmentsBySeekerId(loggedInUserId);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			if (!(requestedAppointments.size() > 0)) {
+			    message = "No requested appointments found for the logged-in user!";
+			}
+
+	        request.setAttribute("requestedAppointments", requestedAppointments);
+	        request.setAttribute("feebackMessage", message);
+	        System.out.println( "Action : hfg hgfg"  );
+	        RequestDispatcher rd = request.getRequestDispatcher("view-admin-requested-appointments.jsp");
+	        rd.forward(request, response);
+	    }
+
+	    
+	    
+	    
 	    private void viewAppointment(HttpServletRequest request, HttpServletResponse response)
 		        throws ServletException, IOException {
 		    int appointmentId = Integer.parseInt(request.getParameter("appointmentId"));

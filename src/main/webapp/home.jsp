@@ -795,6 +795,10 @@ User user = (User) session.getAttribute("user");
     <span>Consultants</span>
   </a>
    
+   <a href="getAppointment?appactiontype=appointmentBySeekerId" >
+    <i class="fas fa-qrcode"></i>
+    <span>My Appointments</span>
+  </a>
 <a href="spinner.jsp" >
     <i class="fas fa-qrcode"></i>
     <span>Spinner</span>
@@ -1162,6 +1166,8 @@ User user = (User) session.getAttribute("user");
   </div>
 
 </div>
+
+
 <!-- ------------------------------contact-------------------------------- -->
 <div id="contact" >
   <div class="container">
@@ -1178,11 +1184,16 @@ User user = (User) session.getAttribute("user");
         <a href="images/Resume- Ridmi Yatigammana.pdf" download class="btn btn2">Download CV</a>
       </div>
       <div class="contact-right">
-      <form name="submit-to-google-sheet">
-        <input type="text" name="Name" placeholder="Your Name" required >
-        <input type="email" name="email" placeholder="Your Email"  required>
-        <textarea name="Message" rows="6" placeholder="Your Message"></textarea>
-        <button type="submit" class="btn btn2">Submit</button>
+     <form name="form1" class="box" action="contactManager" method="post" onsubmit="resetForm()">
+        <input type="text" name="messangerName" placeholder="Your Name" required >
+        <input type="text" name="messangerEmail" placeholder="Your Email"  required>
+        <textarea name="messageBody" rows="6" placeholder="Your Message"></textarea>
+       <!--  <button type="submit" class="btn btn2">Submit</button> -->
+         <div>
+                 
+          <input type="hidden" name="msgactiontype" value="addMessage"/>
+          <button  class="btn btn2" type="submit">Create User</button>
+        </div>
       </form>
       <span id="msg"></span>
     </div>
@@ -1196,6 +1207,11 @@ User user = (User) session.getAttribute("user");
 </div>
 
 <!-- --------------------javascript-------------------------- -->
+<script>
+    function resetForm() {
+        document.getElementById("form1").reset();
+    }
+</script>
 
 <script>
 
