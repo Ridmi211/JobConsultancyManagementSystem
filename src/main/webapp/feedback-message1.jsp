@@ -65,11 +65,19 @@
 
         
       </div>
-                  
-<script>
+                 
+                 <script>
   document.getElementById('backButton').addEventListener('click', function() {
-    window.history.go(-1); // This will navigate back 1 page in the browser's history.
+    window.history.go(-1); 
+    // This will navigate back 1 page in the browser's history.
   });
 </script>
+<!-- <script>
+  document.getElementById('backButton').addEventListener('click', function() {
+    window.history.go(-1); // This will navigate back 1 page in the browser's history.
+    location.reload(); // This will refresh the page.
+  });
+</script> -->
+
 	</body>
 </html>
