@@ -131,7 +131,7 @@ public class MessageController extends HttpServlet {
 	    	HttpSession session = request.getSession();
 			session.setAttribute("message", message);
 
-			response.sendRedirect("getMessage?msgactiontype=msgList");
+			response.sendRedirect("getContact?msgactiontype");
 	    }
 	
 	

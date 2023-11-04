@@ -40,8 +40,8 @@ public boolean addMessage(Message contact) throws ClassNotFoundException, SQLExc
 }
 
 
-public boolean deleteMessage(int MessageId) throws ClassNotFoundException, SQLException {
-	return getMessageManager().deleteMessage(MessageId);
+public boolean deleteMessage(int messageId) throws ClassNotFoundException, SQLException {
+	return getMessageManager().deleteMessage(messageId);
 }
 
 public List<Message> fetchAllMessages() throws ClassNotFoundException, SQLException {

@@ -61,18 +61,29 @@ private Connection getConnection() throws ClassNotFoundException, SQLException {
 	    return result;
 	}
 
-	@Override
-	public boolean deleteMessage(int messageId) throws SQLException, ClassNotFoundException {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	/*
+	 * @Override public boolean deleteMessage(int messageId) throws SQLException,
+	 * ClassNotFoundException { // TODO Auto-generated method stub return false; }
+	 */
 
 	@Override
-//	public List<Message> fetchAllMessages() throws SQLException, ClassNotFoundException {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-	
+	public boolean deleteMessage(int messageId) throws SQLException, ClassNotFoundException {
+		Connection connection = getConnection();
+		String query= "DELETE FROM messages WHERE messageId=?";
+		
+		PreparedStatement ps = connection.prepareStatement(query);
+		
+		ps.setInt(1, messageId);
+		boolean result =false;
+		
+		if(ps.executeUpdate()>0) {
+			result = true;
+			}			
+		ps.close();
+		connection.close();
+		
+		return result;
+	}
 	
 	
 	public List<Message> fetchAllMessages() throws SQLException, ClassNotFoundException {

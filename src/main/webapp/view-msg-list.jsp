@@ -621,14 +621,14 @@ background-color
     </form>
 </td>
          
-                  
+       --%>           
             <td class="btn-column">
-    <form onsubmit="" action="usermanager" method="post">								
-        <input type="hidden" name="userId" value="${user.userId}">
-        <input type="hidden" name="useractiontype" value="">
-        <button type="submit" class="btn btn-danger">Reject</button>
+    <form onsubmit="" action="contactManager" method="post">								
+        <input type="hidden" name="messageId" value="${message.messageId}">
+        <input type="hidden" name="msgactiontype" value="deleteMsg">
+        <button type="submit" class="btn btn-danger">Delete</button>
     </form>
-</td> --%>
+</td> 
             
           </tr>
         </tag:forEach>
