@@ -218,21 +218,28 @@ public class AppointmentController extends HttpServlet {
 //
 		private void cancelAppointmentAdmin(HttpServletRequest request, HttpServletResponse response)
 		        throws ServletException, IOException {
-			 int appointmentId = Integer.parseInt(request.getParameter("appointmentId"));
+		    int appointmentId = Integer.parseInt(request.getParameter("appointmentId"));
 		    try {
 		        if (getAppointmentService().cancelAppointmentAdmin(appointmentId)) {
-		            message = "User has been rejected!";
+		            // Appointment has been canceled, send a cancellation email
+		            Appointment canceledAppointment = getAppointmentService().fetchSingleAppointment(appointmentId);
+		            User consultant = getUserService().fetchSingleUser(canceledAppointment.getConsultantId());
+		            User seeker = getUserService().fetchSingleUser(canceledAppointment.getSeekerId());
+		            AppointmentService.sendAppointmentCancellationEmail(canceledAppointment, consultant, seeker);
+
+		            message = "Appointment has been canceled due to unavoidable reasons.";
 		        } else {
-		            message = "Failed to reject the user!";
+		            message = "Failed to cancel the appointment!";
 		        }
 		    } catch (ClassNotFoundException | SQLException e) {
 		        message = "Operation failed! " + e.getMessage();
 		    }
-			HttpSession session = request.getSession();
-			session.setAttribute("message", message);
+		    HttpSession session = request.getSession();
+		    session.setAttribute("message", message);
 
-			response.sendRedirect("getAppointment?appactiontype=requested");
+		    response.sendRedirect("getAppointment?appactiontype=requested");
 		}
+
 //	    
 	    
 		private void acceptAppointmentCon(HttpServletRequest request, HttpServletResponse response)
