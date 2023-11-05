@@ -480,6 +480,7 @@ border-radius:10px;
             <th scope="col" class="text-center">Status</th>
            <!--  <th scope="col">Role</th> -->
             <th scope="col">View</th>
+             <th scope="col">Complete</th>
             <th  scope="col" >Approve</th>
             <th  scope="col" >Reject</th>
           </tr>
@@ -511,12 +512,20 @@ border-radius:10px;
               
              <%--     <td class="text-center">${user.accessRight.displayName}</td> --%>
             <td class="btn-column">
-  <%--   <form action="usermanager" method="post">
-    <input type="hidden" name="userId" value="${user.userId}">
-    <input type="hidden" name="accessRight" value="${user.accessRight.displayName}">
-    <input type="hidden" name="useractiontype" value="view">
+    <form action="appointmentManager" method="post">
+    <input type="hidden" name="appointmentId" value="${appointment.appointmentId}">
+    <input type="hidden" name="appactiontype" value="view">
     <button type="submit" class="btn btn-primary">View</button>
-</form> --%>
+</form> 
+
+</td>
+
+      <td class="btn-column">
+    <form action="appointmentManager" method="post">
+    <input type="hidden" name="appointmentId" value="${appointment.appointmentId}">
+    <input type="hidden" name="appactiontype" value="completed">
+    <button type="submit" class="btn btn-primary">Complete</button>
+</form> 
 
 </td>
 

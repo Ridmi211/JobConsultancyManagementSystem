@@ -794,11 +794,8 @@ User user = (User) session.getAttribute("user");
     <i class="fas fa-qrcode"></i>
     <span>Consultants</span>
   </a>
-   
-   <a href="getAppointment?appactiontype=appointmentBySeekerId" >
-    <i class="fas fa-qrcode"></i>
-    <span>My Appointments</span>
-  </a>
+ 
+ 
 <a href="spinner.jsp" >
     <i class="fas fa-qrcode"></i>
     <span>Spinner</span>
@@ -807,16 +804,18 @@ User user = (User) session.getAttribute("user");
 
   <%-- Display Events and Overview for Consultant --%>
   <% if (user != null && user.getAccessRight() == AccessRight.ROLE_CONSULTANT) { %>
-    <a href="#">
-      <i class="fas fa-calendar"></i>
-      <span>Overview</span>
-    </a>
-    
-     <a  >
-       <i class="far fa-envelope"></i>
-       <span>Consultant</span>
-       
-     </a>
+      <a href="getAppointment?appactiontype=appointmentByConsultantId" >
+    <i class="fas fa-qrcode"></i>
+    <span>My Appoin</span>
+  </a>
+  <% } %>
+  
+   <% if (user != null && user.getAccessRight() == AccessRight.ROLE_USER) { %>
+     
+   <a href="getAppointment?appactiontype=appointmentBySeekerId" >
+    <i class="fas fa-qrcode"></i>
+    <span>My App</span>
+  </a>
   <% } %>
 
   <%-- Display About and Services for Admin --%>

@@ -70,6 +70,11 @@ public class AppointmentService {
 			// TODO Auto-generated method stub
 			return getAppointmentManager().fetchAppointmentsBySeekerId(loggedInUserId);
 		}
+		
+		public List<Appointment> fetchAppointmentsByConsultantId(int loggedInUserId) throws ClassNotFoundException, SQLException {
+			// TODO Auto-generated method stub
+			return getAppointmentManager().fetchAppointmentsByConsultantId(loggedInUserId);
+		}
 		 public boolean updateAppointmentStatus(int appointmentId, Status status) throws SQLException, ClassNotFoundException {
 		        return getAppointmentManager().updateAppointmentStatus(appointmentId, status);
 		    }
@@ -155,13 +160,11 @@ public class AppointmentService {
 		    }
 
 		    
-		    
-		    
-		    	public static void sendAppointmentCompletedEmail(Appointment appointment, User consultant, User seeker) {
-		        String subject = "Appointment Completed";
+		    public static void sendAppointmentCompletedEmail(Appointment appointment, User consultant, User seeker) {
+		        String subject = "Thank You for choosing us";
 		        String messageBody = "Dear " + seeker.getName() + ",\n\n" +
-		            "We want to express our sincere thanks for choosing our services and for completing your recent appointment with " + consultant.getName() + ".\n\n" +
-		            "Appointment Details:\n" +
+		        	"We want to express our sincere thanks for choosing our services and for completing your recent appointment with " + consultant.getName() + ".\n\n" +
+		        	"Appointment Details:\n" +
 		            "Consultant: " + consultant.getName() + "\n" +
 		            "Date: " + appointment.getScheduledDate() + "\n" +
 		            "Time: " + appointment.getStartTime() + "\n" +
@@ -169,8 +172,10 @@ public class AppointmentService {
 		            "Job: " + appointment.getJob() + "\n" +
 		            "Notes: " + appointment.getNotes() + "\n" +
 		            "\n" +
-		            "Your feedback is valuable to us. If you have any comments or suggestions regarding your experience, please share them with us by filling out our feedback form: [Google Form Link]\n\n" +
-		            "If you have any further questions or need additional assistance, please feel free to contact our support team at [Support Email Address].\n\n" +
+		            "We're eager to hear about your experience and how we can make it even better.Your feedback is invaluable to us as it guides our continuous improvement. Please take a moment to share your thoughts by filling out our feedback form: [Google Form Link]\n\n" +
+		            "Your input helps us ensure that we provide the best support on your journey to a successful career abroad. We appreciate your time and effort in making our services better for you.\n\n" +
+		            "If you have any further questions or need additional assistance, don't hesitate to contact our support team at [Support Email Address]. We're here to support you every step of the way.\n\n" +
+		            "Once again, thank you for choosing us. We're excited to continue assisting you on your path to success.\n\n" +
 		            "Best regards,\n" +
 		            "The Job Consultancy Service Team";
 
@@ -202,6 +207,8 @@ public class AppointmentService {
 
 		    	    EmailService.sendEmail(seeker.getEmail(), subject, messageBody);
 		    	}
+
+				
 
 		    	
 	}
