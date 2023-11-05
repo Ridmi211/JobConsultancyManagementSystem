@@ -310,6 +310,7 @@ public class UserController extends HttpServlet {
 
 	    try {
 	        if (getUserService().editUser(user)) {
+	        	 UserService.sendUserUpdateEmail(user);
 	            message = "The user has been successfully updated! User ID: " + user.getUserId();
 	        } else {
 	            message = "Failed to update the user! User ID: " + user.getUserId();
@@ -485,10 +486,14 @@ public class UserController extends HttpServlet {
 
 	private void rejectUser(HttpServletRequest request, HttpServletResponse response)
 	        throws ServletException, IOException {
-		clearMessage();
+	    clearMessage();
 	    int userId = Integer.parseInt(request.getParameter("userId"));
 	    try {
 	        if (getUserService().rejectUser(userId)) {
+	            // User has been rejected, send a rejection email
+	            User rejectedUser = getUserService().fetchSingleUser(userId);
+	            UserService.sendRejectionEmail(rejectedUser);
+
 	            message = "User has been rejected!";
 	        } else {
 	            message = "Failed to reject the user!";
@@ -496,11 +501,12 @@ public class UserController extends HttpServlet {
 	    } catch (ClassNotFoundException | SQLException e) {
 	        message = "Operation failed! " + e.getMessage();
 	    }
-		HttpSession session = request.getSession();
-		session.setAttribute("message", message);
+	    HttpSession session = request.getSession();
+	    session.setAttribute("message", message);
 
-		response.sendRedirect("getuser?useractiontype=pending");
+	    response.sendRedirect("getuser?useractiontype=pending");
 	}
+
 
 	private void clearMessage() {
 		message = "";

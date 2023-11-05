@@ -11,6 +11,7 @@ import javax.crypto.spec.PBEKeySpec;
 
 import com.jobConsultancyScheduler.dao.UserManager;
 import com.jobConsultancyScheduler.dao.UserManagerImpl;
+import com.jobConsultancyScheduler.model.AccessRight;
 import com.jobConsultancyScheduler.model.RegistrationStatus;
 import com.jobConsultancyScheduler.model.User;
 
@@ -239,6 +240,70 @@ public class UserService implements UserManager {
 		            "The Job Consultancy Service Team";
 
 		    EmailService.sendEmail(consultant.getEmail(), subject, messageBody);
+		}
+//
+//		public static void sendRejectionEmail(User user) {
+//		    String subject = "Registration Rejection";
+//		    String messageBody = "Dear " + user.getName() + ",\n\n" +
+//		        "We regret to inform you that your registration with [Your Job Consultancy Service] has been rejected.\n\n" +
+//		        "If you have any questions or need further information, please feel free to contact our support team at [Support Email Address].\n\n" +
+//		        "Thank you for considering our services.\n\n" +
+//		        "Best regards,\n" +
+//		        "The Job Consultancy Service Team";
+//
+//		    EmailService.sendEmail(user.getEmail(), subject, messageBody);
+//		}
+
+		public static void sendRejectionEmail(User user) {
+		    String subject = "Registration Rejection";
+		    String messageBody = "Dear " + user.getName() + ",\n\n" +
+		        "We regret to inform you that your registration with [Your Job Consultancy Service] has been rejected.\n\n" +
+		        "Rejection Reason:\n" +
+		        "Unfortunately, your registration did not meet our current requirements. We encourage you to review your profile and qualifications to better align with our consultancy's needs.\n\n" +
+		        "Suggestions for Improvement:\n" +
+		        "1. Enhance your professional qualifications and expertise in your specialization areas.\n" +
+		        "2. Update your available time slots for greater flexibility.\n" +
+		        "3. Provide more comprehensive information in your profile.\n\n" +
+		        "We appreciate your interest in joining our team and encourage you to reapply once you have made the necessary improvements. Our doors are always open to dedicated professionals like you.\n\n" +
+		        "If you have any questions or need further information, please feel free to contact our support team at [Support Email Address].\n\n" +
+		        "Thank you for considering our services, and we look forward to receiving your improved application in the future.\n\n" +
+		        "Best regards,\n" +
+		        "The Job Consultancy Service Team";
+
+		    EmailService.sendEmail(user.getEmail(), subject, messageBody);
+		}
+
+		public static void sendUserUpdateEmail(User user) {
+		    String subject = "User Profile Update Confirmation";
+		    StringBuilder messageBody = new StringBuilder("Dear " + user.getName() + ",\n\n" +
+		        "We are writing to confirm that your user profile with [Your Job Consultancy Service] has been successfully updated!\n\n" +
+		        "Updated Profile Details:\n" +
+		        "User ID: " + user.getUserId() + "\n" +
+		        "Name: " + user.getName() + "\n" +
+		        "Email: " + user.getEmail() + "\n" +
+		        "Phone Number: " + user.getPhoneNumber() + "\n" +
+		        "Birthdate: " + user.getBirthdate() + "\n" +
+		        "Gender: " + user.getGender() + "\n" +
+		        "Occupation: " + user.getOccupation() + "\n" +
+		        "Country: " + user.getCountry() + "\n");
+
+		    // Check if the user has the access right ROLE_CONSULTANT
+		    if (user.getAccessRight() == AccessRight.ROLE_CONSULTANT) {
+		        // Include the following information for consultants
+		        messageBody.append("Educational Qualifications: ").append(user.getEducationalQualifications()).append("\n");
+		        messageBody.append("Specialized Countries: ").append(user.getSpecializedCountries()).append("\n");
+		        messageBody.append("Specialized Jobs: ").append(user.getSpecializedJobs()).append("\n");
+		        messageBody.append("Access Right: ").append(user.getAccessRight()).append("\n");
+		        messageBody.append("Available Days: ").append(user.getAvailableDays()).append("\n");
+		        messageBody.append("Available Time Slots: ").append(user.getAvailableTimeSlots()).append("\n");
+		    }
+
+		    messageBody.append("\n");
+		    messageBody.append("Thank you for keeping your information up to date with us. If you have any questions or need further assistance, please feel free to contact our support team at [Support Email Address].\n\n");
+		    messageBody.append("Best regards,\n");
+		    messageBody.append("The Job Consultancy Service Team");
+
+		    EmailService.sendEmail(user.getEmail(), subject, messageBody.toString());
 		}
 
 
