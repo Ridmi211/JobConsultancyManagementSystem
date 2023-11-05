@@ -582,13 +582,12 @@ background-color
             </td> 
               
              <%--     <td class="text-center">${user.accessRight.displayName}</td> --%>
-            <td class="btn-column">
-  <%--   <form action="usermanager" method="post">
-    <input type="hidden" name="userId" value="${user.userId}">
-    <input type="hidden" name="accessRight" value="${user.accessRight.displayName}">
-    <input type="hidden" name="useractiontype" value="view">
+                 <td class="btn-column">
+    <form action="appointmentManager" method="post">
+    <input type="hidden" name="appointmentId" value="${appointment.appointmentId}">
+    <input type="hidden" name="appactiontype" value="view">
     <button type="submit" class="btn btn-primary">View</button>
-</form> --%>
+</form> 
 
 </td>
 

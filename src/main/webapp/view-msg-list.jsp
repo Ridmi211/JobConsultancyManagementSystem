@@ -598,17 +598,25 @@ background-color
          
             </td> 
           <td class="text-center">
-          ${message.messageStatus}
+          ${message.messageStatus.displayName}
             </td> 
               
              <%--     <td class="text-center">${user.accessRight.displayName}</td> --%>
             <td class="btn-column">
-  <%--   <form action="usermanager" method="post">
-    <input type="hidden" name="userId" value="${user.userId}">
-    <input type="hidden" name="accessRight" value="${user.accessRight.displayName}">
-    <input type="hidden" name="useractiontype" value="view">
-    <button type="submit" class="btn btn-primary">View</button>
+<%--  <form onsubmit="" action="contactManager" method="post">								
+    <input type="hidden" name="messageId" value="${message.messageId}">
+    <input type="hidden" name="msgactiontype" value="reply">
+    <input type="hidden" name="emailRecipient" value="${message.messangerEmail}">
+    <a href="mailto:${message.messangerEmail}?subject=Follow-up to Your Recent Message" class="btn btn-primary">Reply</a>
 </form> --%>
+
+<form onsubmit="" action="contactManager" method="post">								
+    <input type="hidden" name="messageId" value="${message.messageId}">
+    <input type="hidden" name="msgactiontype" value="reply">
+    <input type="hidden" name="emailRecipient" value="${message.messangerEmail}">
+    
+    <a href="mailto:${message.messangerEmail}?subject=Follow-up to Your Recent Message&body=Hello,${message.messangerName}%0D%0AThis is in reference to your recent message,%0D%0A${message.messageBody}%0D%0A---%0D%0AFirst,We appreciate your communication with us,%0D%0A[reply goes here]%0D%0A%0D%0A--%0D%0AThank you for reaching out to us.%0D%0ABest regards,%0D%0AThe Job Consultancy Service Team" class="btn btn-primary">Reply</a>
+</form>
 
 </td>
 

@@ -51,13 +51,47 @@ public class MessageController extends HttpServlet {
 			} 
 	}
 
+//	private void addMessage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//	    clearMessage();
+//
+//	    Message contact = new Message();
+//
+//	    // Get the message attributes from the request
+////	    contact.setMessageId(Integer.parseInt(request.getParameter("messageId")));
+//
+//	    // Automatically set the current date
+//	    Date currentDate = new Date();
+//	    contact.setMessageDate(currentDate);
+//
+//	    contact.setMessangerName(request.getParameter("messangerName"));
+//	    contact.setMessangerEmail(request.getParameter("messangerEmail"));
+//	    contact.setMessageBody(request.getParameter("messageBody"));
+//	    
+//	    // Set the initial message status
+//	    contact.setMessageStatus(MessageStatus.NEW); // Assuming MessageStatus is an enum
+//
+//	    try {
+//	        boolean savedMessage = getMessageService().addMessage(contact);
+//	        if (savedMessage) {
+//	            message = "The message has been successfully submitted!";
+//	        } else {
+//	            message = "Failed to submit the message!";
+//	        }
+//	    } catch (ClassNotFoundException | SQLException e) {
+//	        message = "Operation failed! " + e.getMessage();
+//	    }
+//
+//	    request.setAttribute("feebackMessage", message);
+//	    RequestDispatcher rd = request.getRequestDispatcher("home.jsp");
+//	    rd.forward(request, response);
+//	}
+
 	private void addMessage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    clearMessage();
 
 	    Message contact = new Message();
 
 	    // Get the message attributes from the request
-//	    contact.setMessageId(Integer.parseInt(request.getParameter("messageId")));
 
 	    // Automatically set the current date
 	    Date currentDate = new Date();
@@ -66,13 +100,15 @@ public class MessageController extends HttpServlet {
 	    contact.setMessangerName(request.getParameter("messangerName"));
 	    contact.setMessangerEmail(request.getParameter("messangerEmail"));
 	    contact.setMessageBody(request.getParameter("messageBody"));
-	    
+
 	    // Set the initial message status
 	    contact.setMessageStatus(MessageStatus.NEW); // Assuming MessageStatus is an enum
 
 	    try {
 	        boolean savedMessage = getMessageService().addMessage(contact);
 	        if (savedMessage) {
+	            // Message has been saved, send a receipt confirmation email
+	            MessageService.sendMessageReceivedEmail(contact);
 	            message = "The message has been successfully submitted!";
 	        } else {
 	            message = "Failed to submit the message!";
@@ -86,7 +122,6 @@ public class MessageController extends HttpServlet {
 	    rd.forward(request, response);
 	}
 
-	    
 	    private void fetchAllMessages(HttpServletRequest request, HttpServletResponse response)
 				throws ServletException, IOException {
 
