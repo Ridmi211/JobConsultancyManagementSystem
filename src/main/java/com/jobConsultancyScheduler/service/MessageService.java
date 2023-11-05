@@ -49,7 +49,25 @@ public List<Message> fetchAllMessages() throws ClassNotFoundException, SQLExcept
 }
 
 
- 
+public static void sendMessageReceivedEmail(Message message) {
+    String subject = "Message Received";
+    String messageBody = "Dear " + message.getMessangerName() + ",\n\n" +
+        "We have received your message and would like to confirm that it has been successfully received.\n\n" +
+        "Message Details:\n" +
+        "Date: " + message.getMessageDate() + "\n" +
+        "Name: " + message.getMessangerName() + "\n" +
+        "Email: " + message.getMessangerEmail() + "\n" +
+        "Message: " + message.getMessageBody() + "\n" +
+        "\n" +
+        "We appreciate your communication with us. Our team will review your message and respond to your inquiries or concerns as soon as possible. If you have any further questions or need immediate assistance, please contact our support team at [Support Email Address].\n\n" +
+        "Thank you for reaching out to us.\n\n" +
+        "Best regards,\n" +
+        "The Job Consultancy Service Team\n\n" +
+        "Note: This message is auto-generated.";
+
+    EmailService.sendEmail(message.getMessangerEmail(), subject, messageBody);
+}
+
    
     
     
