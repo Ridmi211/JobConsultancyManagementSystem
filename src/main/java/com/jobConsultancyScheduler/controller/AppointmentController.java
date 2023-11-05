@@ -116,6 +116,13 @@ public class AppointmentController extends HttpServlet {
 	        try {
 	            boolean savedAppointment = getAppointmentService().addAppointment(appointment);
 	            if (savedAppointment) {
+	            	
+	            	 User consultant = getUserService().fetchSingleUser(consultantId);
+	                 User seeker = getUserService().fetchSingleUser(seekerId);
+	                 
+	                 // Send the appointment confirmation email to the seeker
+	                AppointmentService.sendAppointmentConfirmationEmail(appointment, consultant, seeker);
+	            	
 	                message = "The appointment request has been successfully submitted!";
 	            } else {
 	                message = "Failed to submit the appointment request!";
@@ -130,7 +137,11 @@ public class AppointmentController extends HttpServlet {
 	    }
 
 	    
-	    private void fetchAllAppointments(HttpServletRequest request, HttpServletResponse response)
+	    private UserService getUserService() {
+			return UserService.getUserService();
+		}
+
+		private void fetchAllAppointments(HttpServletRequest request, HttpServletResponse response)
 				throws ServletException, IOException {
 
 			clearMessage();
@@ -183,6 +194,15 @@ public class AppointmentController extends HttpServlet {
 		    int appointmentId = Integer.parseInt(request.getParameter("appointmentId"));
 		    try {
 		        if (getAppointmentService().acceptAppointmentAdmin(appointmentId)) {
+		        	
+		        	 Appointment approvedAppointment = getAppointmentService().fetchSingleAppointment(appointmentId);
+		             User consultant = getUserService().fetchSingleUser(approvedAppointment.getConsultantId());
+		             User seeker = getUserService().fetchSingleUser(approvedAppointment.getSeekerId());
+//		             sendAppointmentApprovalEmail(approvedAppointment, consultant, seeker);
+
+		             // Notify the consultant about the new appointment
+		             AppointmentService.sendNewAppointmentNotificationEmail(approvedAppointment, consultant, seeker);
+
 		            message = "User has been approved!";
 		        } else {
 		            message = "Failed to approve the user!";
@@ -220,7 +240,12 @@ public class AppointmentController extends HttpServlet {
 			 int appointmentId = Integer.parseInt(request.getParameter("appointmentId"));
 		    try {
 		        if (getAppointmentService().acceptAppointmentCon(appointmentId)) {
-		            message = "User has been rejected!";
+		        	  Appointment acceptedAppointment = getAppointmentService().fetchSingleAppointment(appointmentId);
+			             User consultant = getUserService().fetchSingleUser(acceptedAppointment.getConsultantId());
+			             User seeker = getUserService().fetchSingleUser(acceptedAppointment.getSeekerId());
+			             AppointmentService.sendAppointmentAcceptedEmail(acceptedAppointment, consultant, seeker);
+
+		              message = "Appointment has been accepted!";
 		        } else {
 		            message = "Failed to reject the user!";
 		        }
@@ -232,6 +257,8 @@ public class AppointmentController extends HttpServlet {
 
 			response.sendRedirect("getAppointment?appactiontype=adminRequested");
 		}
+		
+		
 		private void rejectAppointmentCon(HttpServletRequest request, HttpServletResponse response)
 		        throws ServletException, IOException {
 			 int appointmentId = Integer.parseInt(request.getParameter("appointmentId"));

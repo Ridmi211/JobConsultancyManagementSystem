@@ -123,61 +123,13 @@ public class UserService implements UserManager {
 	}
 
 
-	
-//	  public void sendRegistrationEmail(User user) {
-//	        String subject = "Registration Confirmation";
-//	        String messageBody = "Dear " + user.getName() + ",\n\nYour registration was successful!";
-//	        EmailService.sendEmail(user.getEmail(), subject, messageBody);
-//	    }
-
-	    // Example of sending an email when updating a user
-	  public void sendUpdateEmail(User user) {
-	        String subject = "Profile Update";
-	        String messageBody = "Dear " + user.getName() + ",\n\nYour profile has been updated!";
-	        EmailService.sendEmail(user.getEmail(), subject, messageBody);
-	    }
-
 	    // Example of sending an email when deleting a user
 	  public void sendDeleteEmail(User user) {
 	        String subject = "Account Deletion";
 	        String messageBody = "Dear " + user.getName() + ",\n\nYour account has been deleted!";
 	        EmailService.sendEmail(user.getEmail(), subject, messageBody);
-	    }
-	
-//	  public boolean sendConsultantRegistrationEmail(User user) {
-//		    String subject = "Consultant Registration Confirmation";
-//		    String messageBody = "Dear " + user.getName() + ",\n\nYour consultant registration is requested. You will recieve an email once your registration is accepted!";
-//		    EmailService.sendEmail(user.getEmail(), subject, messageBody);
-//		}
-	  
-//	  public static boolean sendConsultantRegistrationEmail(User user) {
-//		    String recipient = user.getEmail();
-//		    String subject = "Consultant Registration Successful";
-//		    String messageBody = "Dear " + user.getName() + ",\n\nYour consultant registration is requested. You will recieve an email once your registration is accepted!";
-//		    
-//		    try {
-//		        EmailService.sendEmail(recipient, subject, messageBody);
-//		        return true; // Email sent successfully
-//		    } catch (Exception e) {
-//		        e.printStackTrace();
-//		        return false; // Email sending failed
-//		    }
-//		}
-	  
-//	  public static boolean sendRegistrationEmail(User user) {
-//		    String recipient = user.getEmail();
-//		    String subject = "Registration Successful";
-//		    String messageBody = "Dear " + user.getName() + ",\n\nYour registration was successful!";
-//		    
-//		    try {
-//		        EmailService.sendEmail(recipient, subject, messageBody);
-//		        return true; // Email sent successfully
-//		    } catch (Exception e) {
-//		        e.printStackTrace();
-//		        return false; // Email sending failed
-//		    }
-//		}
-	  
+	    }	
+  
 	  public static boolean sendRegistrationEmail(User user) {
 		    String subject = "Welcome to Our Job Consultancy Service";
 		    String body = "Dear " + user.getName() + ",\n\n" +
@@ -241,18 +193,6 @@ public class UserService implements UserManager {
 
 		    EmailService.sendEmail(consultant.getEmail(), subject, messageBody);
 		}
-//
-//		public static void sendRejectionEmail(User user) {
-//		    String subject = "Registration Rejection";
-//		    String messageBody = "Dear " + user.getName() + ",\n\n" +
-//		        "We regret to inform you that your registration with [Your Job Consultancy Service] has been rejected.\n\n" +
-//		        "If you have any questions or need further information, please feel free to contact our support team at [Support Email Address].\n\n" +
-//		        "Thank you for considering our services.\n\n" +
-//		        "Best regards,\n" +
-//		        "The Job Consultancy Service Team";
-//
-//		    EmailService.sendEmail(user.getEmail(), subject, messageBody);
-//		}
 
 		public static void sendRejectionEmail(User user) {
 		    String subject = "Registration Rejection";
