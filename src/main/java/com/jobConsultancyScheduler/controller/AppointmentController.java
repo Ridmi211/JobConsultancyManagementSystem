@@ -81,9 +81,11 @@ public class AppointmentController extends HttpServlet {
 				completedAppointment(request, response);
 			} else if (appactiontype.equals("cancel")) {
 				cancelAppointmentAdmin(request, response);
+			}else if (appactiontype.equals("cancel-by-seeker")) {
+				cancelAppointmentSeeker(request, response);
 			}
 	    }
-
+	    
 	    
 	    private void addAppointment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	        clearMessage();
@@ -220,6 +222,34 @@ public class AppointmentController extends HttpServlet {
 		            AppointmentService.sendAppointmentCancellationEmail(canceledAppointment, consultant, seeker);
 
 		            message = "Appointment has been canceled due to unavoidable reasons.";
+		        } else {
+		            message = "Failed to cancel the appointment!";
+		        }
+		    } catch (ClassNotFoundException | SQLException e) {
+		        message = "Operation failed! " + e.getMessage();
+		    }
+		    HttpSession session = request.getSession();
+		    session.setAttribute("message", message);
+		    
+		    request.setAttribute("feebackMessage", message);
+		    RequestDispatcher rd = request.getRequestDispatcher("feedback-message1.jsp");
+		    rd.forward(request, response);
+
+//		    response.sendRedirect("getAppointment?appactiontype=requested");
+		}
+		
+		private void cancelAppointmentSeeker(HttpServletRequest request, HttpServletResponse response)
+		        throws ServletException, IOException {
+		    int appointmentId = Integer.parseInt(request.getParameter("appointmentId"));
+		    try {
+		        if (getAppointmentService().cancelAppointmentSeeker(appointmentId)) {
+		            // Appointment has been canceled, send a cancellation email
+		            Appointment canceledAppointment = getAppointmentService().fetchSingleAppointment(appointmentId);
+		            User consultant = getUserService().fetchSingleUser(canceledAppointment.getConsultantId());
+		            User seeker = getUserService().fetchSingleUser(canceledAppointment.getSeekerId());
+		            AppointmentService.sendAppointmentCancellationBySeekerEmailToSeeker(canceledAppointment, consultant, seeker);
+		            AppointmentService.sendAppointmentCancellationBySeekerEmailToConsultant(canceledAppointment, consultant, seeker);
+		            message = "Appointment has been canceled by user.";
 		        } else {
 		            message = "Failed to cancel the appointment!";
 		        }
@@ -387,7 +417,7 @@ public class AppointmentController extends HttpServlet {
 	        if (user == null) {
 	            message = "You are not logged in!";
 	            request.setAttribute("feebackMessage", message);
-	            RequestDispatcher rd = request.getRequestDispatcher("view-admin-requested-appointments.jsp");
+	            RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
 	            rd.forward(request, response);
 	            return;
 	        }
@@ -409,7 +439,7 @@ public class AppointmentController extends HttpServlet {
 	        request.setAttribute("requestedAppointments", requestedAppointments);
 	        request.setAttribute("feebackMessage", message);
 	        System.out.println( "Action : hfg hgfg"  );
-	        RequestDispatcher rd = request.getRequestDispatcher("view-admin-requested-appointments.jsp");
+	        RequestDispatcher rd = request.getRequestDispatcher("view-seekers-appointments.jsp");
 	        rd.forward(request, response);
 	    }
 

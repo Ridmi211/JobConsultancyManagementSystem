@@ -54,10 +54,12 @@ if (session.getAttribute("user") == null) {
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<!-- <link rel="stylesheet" type="text/css" href="css/adminDashboard.css">
+ -->
 <Style>
 
+@charset "ISO-8859-1";
 
-    /*  <!-- sidebar styling start here  -->*/
 
     @media print {
             table {
@@ -74,10 +76,7 @@ if (session.getAttribute("user") == null) {
   padding: 0;
   text-decoration: none;
 }
-:root {
-  --accent-color: #fff;
-  --gradient-color: #FBFBFB;
-}
+
 body{
   display: flex;
   flex-direction: column;
@@ -88,134 +87,10 @@ body{
   background-image: linear-gradient(-45deg, #e3eefe 0%, #efddfb 100%);
 }
 
-.sidebar{
-  position: fixed;
-  width: 240px;
-  left: -240px;
-  height: 100%;
-  background-color: #fff;
-  transition: all .5s ease;
-  z-index: 5;
-}
-.sidebar header{
-  font-size: 28px;
-  color: #353535;
-  line-height: 70px;
-  text-align: center;
-  background-color: #fff;
-  user-select: none;
-  font-family: 'Lato', sans-serif;
-}
-.sidebar a{
-  display: block;
-  height: 65px;
-  width: 100%;
-  color: #353535;
-  line-height: 65px;
-  padding-left: 30px;
-  box-sizing: border-box;
-  border-left: 5px solid transparent;
-  font-family: 'Lato', sans-serif;
-  transition: all .5s ease;
-}
-a.active,a:hover{
-  border-left: 5px solid var(--accent-color);
-  color: #fff;
-   background: linear-gradient(to left, var(--accent-color), var(--gradient-color));
-}
-.sidebar a i{
-  font-size: 23px;
-  margin-right: 16px;
-}
-.sidebar a span{
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-#check{
-  display: none;
-}
-label #btn,label #cancel{
-  position: absolute;
-  left: 5px;
-  cursor: pointer;
-  color: #d6adff;
-  border-radius: 5px;
-  margin: 15px 30px;
-  font-size: 29px;
-  background-color: #e8d1ff;
-  box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
-    inset -7px -7px 10px 0px rgba(0,0,0,.1),
-   3.5px 3.5px 20px 0px rgba(0,0,0,.1),
-   2px 2px 5px 0px rgba(0,0,0,.1);
-  height: 45px;
-  width: 45px;
-  text-align: center;
-  text-shadow: 2px 2px 3px rgba(255,255,255,0.5);
-  line-height: 45px;
-  transition: all .5s ease;
-  z-index: 5px;
-}
-label #cancel{
-  opacity: 0;
-  visibility: hidden;
-}
-#check:checked ~ .sidebar{
-  left: 0;
-}
-#check:checked ~ label #btn{
-  margin-left: 245px;
-  opacity: 0;
-  visibility: hidden;
-}
-#check:checked ~ label #cancel{
-  margin-left: 245px;
-  opacity: 1;
-  visibility: visible;
-}
-@media(max-width : 860px){
-  .sidebar{
-    height: auto;
-    width: 70px;
-    left: 0;
-    margin: 100px 0;
-  }
-  header,#btn,#cancel{
-    display: none;
-  }
-  span{
-    position: absolute;
-    margin-left: 23px;
-    opacity: 0;
-    visibility: hidden;
-  }
-  .sidebar a{
-    height: 60px;
-  }
-  .sidebar a i{
-    margin-left: -10px;
-  }
-  a:hover {
-    width: 200px;
-    color: #9884e4;
-    background: inherit;
-    z-index: 5;
-    
-  }
-  .sidebar a:hover span{
-    opacity: 1;
-    visibility: visible;
-  }
-}
 
-.sidebar > a.active,.sidebar > a:hover:nth-child(even) {
-  --accent-color: #52d6f4;
-  --gradient-color: #c1b1f7;
-}
-.sidebar a.active,.sidebar > a:hover:nth-child(odd) {
-  --accent-color: #c1b1f7;
-  --gradient-color: #A890FE;
-}
 
+
+/* 
 
 .frame {
   width: 50%;
@@ -232,9 +107,9 @@ h2 {
   font-family: 'Lato', sans-serif;
   margin: 0;
   color: #a759f5;
-}
+}*/
 
-p {
+/*p {
   font-family: 'Lato', sans-serif;
   font-weight: 300;
   text-align: center;
@@ -242,7 +117,7 @@ p {
   color: #d6adff;
   margin: 0;
 }
- /*  <!-- sidebar styling end here  --> */
+   <!-- sidebar styling end here  --> 
 
 
  h1 {
@@ -252,14 +127,14 @@ p {
     margin-top: 50px;
     margin-bottom: 20px;
     text-transform: uppercase;
-  }
+  }*/
   
   /* Search bar  */
-  .navbar {
+/*  .navbar {
     margin-bottom: 20px;
     justify-content: center;
     padding: 20px;
-  }
+  }*/
   
   .form-inline {
     display: flex;
@@ -276,10 +151,7 @@ p {
     color: #1884a5;
   }
   
-  .btn-outline-success:hover {
-    background-color: #1884a5;
-    color: #fff;
-  }
+
   
   .btn-outline-success:focus,
   .btn-outline-success.focus {
@@ -522,6 +394,8 @@ p {
   }
 }
 
+    /*  <!-- sidebar styling start here  -->*/
+
     </Style>
 
 </head>
@@ -534,84 +408,9 @@ p {
       </label>
 
 
-
 <div class="sidebar">
-  <header>Menu</header>
-  <%-- Always display Dashboard --%>
-   <a href="home.jsp">
-    <i class="fas fa-qrcode"></i>
-    <span>Home</span>
-  </a>
-  <a href="admin-dashboard.jsp" >
-    <i class="fas fa-qrcode"></i>
-    <span>Dashboard</span>
-  </a>
-
- <a href="getAppointment?appactiontype=all" >
-       <i class="far fa-envelope"></i>
-       <span>View All</span>
-       
-     </a>
-
-  <%-- Display Events and Overview for Consultant --%>
-  <% if (user != null && user.getAccessRight() == AccessRight.ROLE_CONSULTANT) { %>
-    <a href="#">
-      <i class="fas fa-calendar"></i>
-      <span>Overview</span>
-    </a>
-    
-     <a  >
-       <i class="far fa-envelope"></i>
-       <span>Consultant</span>
-       
-     </a>
-  <% } %>
-
-  <%-- Display About and Services for Admin --%>
-  <% if (user != null && user.getAccessRight() == AccessRight.ROLE_ADMIN) { %>
-       
-      <a href="getuser?useractiontype=all" >
-       <i class="far fa-envelope"></i>
-       <span>View All</span>
-       
-     </a>
-     
-       <a  >
-       <i class="far fa-envelope"></i>
-       <span>Admin</span>
-       
-     </a>
-  <% } %>
-
-  <%-- Display Services for all users, regardless of role --%>
- 
-
-  <%-- Display Contact for User and Consultant --%>
-  <% if (user != null && (user.getAccessRight() == AccessRight.ROLE_USER || user.getAccessRight() == AccessRight.ROLE_CONSULTANT)) { %>
-    <a href="#">
-      <i class="far fa-envelope"></i>
-      <span>Contact</span>
-    </a>
-     <a href="view-profile.jsp">
-    <i class="fas fa-sliders-h"></i>
-    <span>Profile</span>
-  </a>
-  <% } %>
+ <jsp:include page="sidebar.jsp" />
   
-  
-    <%-- Display Login or Logout based on user status --%>
-  <% if (user != null) { %>
-    <a href="logout.jsp">
-      <i class="fas fa-stream"></i>
-      <span>Logout</span>
-    </a>
-    
-  <% } else { %>
-    <a href="login.jsp">
-      <i class="fas fa-sign-in-alt"></i>
-      <span>Login</span>
-    </a>
-  <% } %>
 </div>
 
   <!-- sidebar end here  -->  
@@ -626,7 +425,7 @@ p {
     if (user != null) {
     %>
     <h1>Welcome, <%= user.getName() %>!</h1>
-      <p>You're logged in as <%= user.getAccessRight().getDisplayName() %></p>
+      <p>You're logged in as our <%= user.getAccessRight().getDisplayName() %></p>
     <% } %>
 </div>
  

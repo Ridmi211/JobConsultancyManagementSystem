@@ -208,7 +208,48 @@ public class AppointmentService {
 		    	    EmailService.sendEmail(seeker.getEmail(), subject, messageBody);
 		    	}
 
-				
+		    	public static void sendAppointmentCancellationBySeekerEmailToSeeker(Appointment appointment, User consultant, User seeker) {
+		    	    String subject = "Appointment Cancellation";
+		    	    String messageBody = "Dear " + seeker.getName() + ",\n\n" +
+		    	        "We would like to inform you that your appointment with " + consultant.getName() + " scheduled for " + appointment.getScheduledDate() +
+		    	        " at " + appointment.getStartTime() + " has been canceled. We understand that circumstances may change, and we appreciate your prompt communication regarding this matter.\n\n" +
+		    	        "Appointment Details:\n" +
+		    	        "Consultant: " + consultant.getName() + "\n" +
+		    	        "Date: " + appointment.getScheduledDate() + "\n" +
+		    	        "Time: " + appointment.getStartTime() + "\n" +
+		    	        "Country: " + appointment.getCountry() + "\n" +
+		    	        "Job: " + appointment.getJob() + "\n" +
+		    	        "Notes: " + appointment.getNotes() + "\n" +
+		    	        "\n" +
+		    	        "If possible, could you please provide the reasons for the cancellation? Your feedback is valuable to us and will help us improve our services. You can reply to this email or contact our support team at [Support Email Address].\n\n" +
+		    	        "If you still wish to consult with " + consultant.getName() + " or reschedule your appointment, please visit our website or contact our support team. We will do our best to accommodate your preferences.\n\n" +
+		    	        "We apologize for any inconvenience this may have caused and appreciate your understanding. If you have any questions or need further assistance, feel free to reach out to our support team.\n\n" +
+		    	        "Thank you for considering our services, and we look forward to assisting you in the future.\n\n" +
+		    	        "Best regards,\n" +
+		    	        "The Job Consultancy Service Team";
+
+		    	    EmailService.sendEmail(seeker.getEmail(), subject, messageBody);
+		    	}
+
+		    	public static void sendAppointmentCancellationBySeekerEmailToConsultant(Appointment appointment, User consultant, User seeker) {
+		    	    String subject = "Appointment on " + appointment.getScheduledDate()+" Cancellation" ;
+		    	    String messageBody = "Dear " + consultant.getName() + ",\n\n" +
+		    	        "We regret to inform you that the appointment scheduled with you by " + seeker.getName() +"on"+ appointment.getScheduledDate()+ " has been canceled due to unforeseen circumstances.\n\n" +
+		    	        "Appointment Details:\n" +
+		    	        "Seeker: " + seeker.getName() + "\n" +
+		    	        "Date: " + appointment.getScheduledDate() + "\n" +
+		    	        "Time: " + appointment.getStartTime() + "\n" +
+		    	        "Country: " + appointment.getCountry() + "\n" +
+		    	        "Job: " + appointment.getJob() + "\n" +
+		    	        "Notes: " + appointment.getNotes() + "\n" +
+		    	        "\n" +
+		    	        "We understand the importance of your consultations and apologize for any inconvenience this may cause. If you have availability for additional consultations or if the seeker decides to reschedule, we will notify you promptly. Your understanding and flexibility are appreciated.\n\n" +
+		    	        "Thank you for your commitment to providing valuable consultancy services. If you have any further questions or need assistance, please do not hesitate to reach out to our support team at [Support Email Address].\n\n" +
+		    	        "Best regards,\n" +
+		    	        "The Job Consultancy Service Team";
+
+		    	    EmailService.sendEmail(consultant.getEmail(), subject, messageBody);
+		    	}
 
 		    	
 	}

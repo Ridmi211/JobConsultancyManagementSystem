@@ -461,79 +461,9 @@ h2{text-align: center;}
         <i class="fas fa-times" id="cancel"></i>
       </label>
 
-
 <div class="sidebar">
-  <header>Menu</header>
-  <%-- Always display Dashboard --%>
-   <a href="home.jsp">
-    <i class="fas fa-qrcode"></i>
-    <span>Home</span>
-  </a>
-  <a href="admin-dashboard.jsp" >
-    <i class="fas fa-qrcode"></i>
-    <span>Dashboard</span>
-  </a>
-
-
-
-  <%-- Display Events and Overview for Consultant --%>
-  <% if (user != null && user.getAccessRight() == AccessRight.ROLE_CONSULTANT) { %>
-    <a href="#">
-      <i class="fas fa-calendar"></i>
-      <span>Overview</span>
-    </a>
-    
-     <a  >
-       <i class="far fa-envelope"></i>
-       <span>Consultant</span>
-       
-     </a>
-  <% } %>
-
-  <%-- Display About and Services for Admin --%>
-  <% if (user != null && user.getAccessRight() == AccessRight.ROLE_ADMIN) { %>
-       
-      <a href="getuser?useractiontype=all"  class="active">
-       <i class="far fa-envelope"></i>
-       <span>View All</span>
-       
-     </a>
-     
-       <a  >
-       <i class="far fa-envelope"></i>
-       <span>Admin</span>
-       
-     </a>
-  <% } %>
-
-  <%-- Display Services for all users, regardless of role --%>
- 
-
-  <%-- Display Contact for User and Consultant --%>
-  <% if (user != null && (user.getAccessRight() == AccessRight.ROLE_USER || user.getAccessRight() == AccessRight.ROLE_CONSULTANT)) { %>
-    <a href="#">
-      <i class="far fa-envelope"></i>
-      <span>Contact</span>
-    </a>
-     <a href="view-profile.jsp">
-    <i class="fas fa-sliders-h"></i>
-    <span>Profile</span>
-  </a>
-  <% } %>
+ <jsp:include page="sidebar.jsp" />
   
-  
-    <%-- Display Login or Logout based on user status --%>
-  <% if (user != null) { %>
-    <a href="logout.jsp">
-      <i class="fas fa-stream"></i>
-      <span>Logout</span>
-    </a>
-  <% } else { %>
-    <a href="login.jsp">
-      <i class="fas fa-sign-in-alt"></i>
-      <span>Login</span>
-    </a>
-  <% } %>
 </div>
 
    
