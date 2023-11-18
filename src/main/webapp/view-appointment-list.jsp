@@ -148,7 +148,7 @@ User user = (User) session.getAttribute("user");
     <form action="appointmentManager" method="post">
     <input type="hidden" name="appointmentId" value="${appointment.appointmentId}">
     <input type="hidden" name="appactiontype" value="view">
-    <button type="submit" class="btn btn-primary">View</button>
+    <button type="submit" class="btn-view">View</button>
 </form> 
 
 </td>            
@@ -156,7 +156,7 @@ User user = (User) session.getAttribute("user");
   <form onsubmit="return confirmDelete();" action="appointmentManager" method="post">								
         <input type="hidden" name="appointmentId" value="${appointment.appointmentId}">
         <input type="hidden" name="appactiontype" value="deleteAppointment">
-        <button type="submit" class="btn btn-danger">Delete</button>
+        <button type="submit" class="btn-delete">Delete</button>
     </form> 
 </td>
             

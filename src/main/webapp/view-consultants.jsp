@@ -118,7 +118,6 @@
 
         .header-text {
             margin-top: 45%;
-            font-size: 22px;
         }
 
         .header-text h1 {
@@ -485,7 +484,7 @@
             padding-bottom: 10px;
             background: #1a1a1add;
             font-weight: 100;
-            margin-top: 20px;
+            margin-top: 50px;
             color: white;
 
         }
@@ -1002,29 +1001,7 @@ User user = (User) session.getAttribute("user");
     </div>
   </div>
   
-  <!-- <div class="row mt-5">
-   <div class="col-2"> </div>
-   <div class="col-3">  <label for="filterCountry">Select a Country:</label>
-    <select id="filterCountry" name="jobtype">
-        <option value="">All</option>
-        <option value="Canada">Canada</option>
-        <option value="Australia">Australia</option>
-        <option value="USA">USA</option>
-        <option value="Russia">Russia</option>
-        Add more countries as needed
-    </select></div>
-    <div class="col-3"> <label for="filterJob">Select a Job:</label>
-    <select id="filterJob">
-        <option value="">All</option>
-        <option value="Job1">Job 1</option>
-        <option value="Job2">Job 2</option>
-        <option value="adad">adad</option>
-        Add more job options as needed
-    </select></div>
-     <div class="col-1">    <button onclick="applyFilter()">Apply Filter</button></div>
-  <div class="col-3"> </div>
-  
-  </div> -->
+
   
   
   <div class="row mt-5" style="color:#3f2e59;">
@@ -1038,7 +1015,7 @@ User user = (User) session.getAttribute("user");
         <input type="text" id="filterJob" name="filterJob" placeholder="Enter job">
     </div>
     <div class="col-2">
-        <button class="btn mt-4" onclick="applyFilter()">Apply Filter</button>
+        <button class="btn-purple mt-4" onclick="applyFilter()">Apply Filter</button>
     </div>
     <div class="col-2"> </div>
 </div>
@@ -1105,7 +1082,7 @@ if (selectedJob != null && !selectedJob.isEmpty()) { // Add this condition
                             <img class="round" src="https://randomuser.me/api/portraits/women/79.jpg" alt="user" />
                            <br> <div class="name"> <%= user2.getName() %>  </div>
                             <h6> <%= user2.getOccupation() %></h6>
-                             <div class="qualifications">
+                          <%--    <div class="qualifications">
                                
                                 <ul>
                                       <%
@@ -1120,7 +1097,7 @@ if (selectedJob != null && !selectedJob.isEmpty()) { // Add this condition
                                         }
                                     %>
                                 </ul>
-                            </div>
+                            </div> --%>
                              <div class="countries">
                                <%--  <h6>   <%= user.getSpecializedCountries() %></h6> --%>
                                 <ul>
@@ -1155,7 +1132,7 @@ if (selectedJob != null && !selectedJob.isEmpty()) { // Add this condition
                             </div>
                         </div>
                         <div class="layer">
-                            <div class="days">
+                           <%--  <div class="days">
                                 <h6>  Available Days</h6>
                                 <ul>
                                      <%
@@ -1170,8 +1147,8 @@ if (selectedJob != null && !selectedJob.isEmpty()) { // Add this condition
                                         }
                                     %>
                                 </ul>
-                            </div>
-                            <div class="days">
+                            </div> --%>
+                        <%--     <div class="days">
                                 <h6>Available Time Slots</h6>
                                  <ul>
                                    
@@ -1187,7 +1164,7 @@ if (selectedJob != null && !selectedJob.isEmpty()) { // Add this condition
                                         }
                                     %>
                                 </ul>
-                            </div>
+                            </div> --%>
                      <!-- 
                           <button  class="btn primary"><i class="fa-solid fa-calendar-plus"></i>&nbsp;Book Now </button> -->
                           
@@ -1200,7 +1177,7 @@ if (selectedJob != null && !selectedJob.isEmpty()) { // Add this condition
  <form action="usermanager" method="post">
     <input type="hidden" name="userId" value="<%= String.valueOf(user2.getUserId()).trim() %>">
     <input type="hidden" name="useractiontype" value="viewConsultant">
-    <button type="submit" class="btn btn-primary">View</button>
+    <button type="submit" class="btn btn2">View</button>
 </form> 
 
                          <%-- <a href="UserController?useractiontype=viewConsultant&userId=<%= user2.getUserId() %>">View Consultant</a>

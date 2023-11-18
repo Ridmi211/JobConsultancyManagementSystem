@@ -36,7 +36,8 @@ if (session.getAttribute("user") == null) {
         href="https://static.vecteezy.com/system/resources/previews/010/430/526/non_2x/job-for-immigrants-app-icon-refugee-employment-construction-worker-finding-work-abroad-hard-hat-worker-handyman-uiux-user-interface-web-or-mobile-application-isolated-illustration-vector.jpg">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">    
+<link rel="stylesheet" type="text/css" href="css/navbar-style.css">
     <Style>
         * {
             margin: 0;
@@ -76,51 +77,7 @@ if (session.getAttribute("user") == null) {
             padding: 10px ;
         } */
 
-        nav {
-
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            width: 100%;
-            height: 60px;
-            background-color: #ffffff;
-            position: fixed;
-        }
-
-        .logo {
-            width: 140px;
-        }
-
-        nav ul li {
-            display: inline-block;
-            list-style: none;
-            margin: 10px 20px;
-        }
-
-        nav ul li a {
-            color: #000000;
-            text-decoration: none;
-            font-size: 16px;
-            position: relative;
-        }
-
-        nav ul li a::after {
-            content: '';
-            width: 0;
-            height: 3px;
-            background: #08d8ca;
-            position: absolute;
-            left: 0;
-            bottom: -6px;
-            transition: 0.4s;
-
-        }
-
-        nav ul li a:hover::after {
-            width: 100%;
-
-        }
+ 
 
         .header-text {
             margin-top: 45%;
@@ -500,40 +457,7 @@ if (session.getAttribute("user") == null) {
             color: #d6adff;
         }
 
-        /* -----css for small screen------------ */
-        nav .fas {
-            display: none;
-        }
-
-
-
-        @media only screen and (max-width:600px) {
-
-            .header-text {
-                margin-top: 100%;
-                font-size: 16px;
-            }
-
-            .header-text h1 {
-                font-size: 30px;
-            }
-
-            .sub-title {
-                font-size: 40px;
-            }
-
-            .about-col-1,
-            .about-col-2 {
-                flex-basis: 100%;
-            }
-
-            .about-col-1 {
-                margin-bottom: 30px;
-            }
-
-            .about-col-2 {
-                font-size: 14px;
-            }
+      
 
             .tab-links {
                 font-size: 16px;
@@ -567,91 +491,8 @@ if (session.getAttribute("user") == null) {
             display: block;
         }
 
-        .header-text {
-            width: 70%;
-            height: 250px;
-            background-color: #ffffff;
-            color: #000000;
-            text-align: center;
-        }
 
-        #about-us::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(190, 156, 209, 0.649);
-            /* Adjust the color and opacity as needed */
-            z-index: 0;
-            /* You can also add other styles like gradients or patterns here */
-        }
-
-        body {
-            display: flex;
-            flex-direction: column;
-            /* justify-content: center; */
-            /* align-items: center; */
-            /* width: 100vw; */
-            /* height: 100vh; */
-            /* background-image: linear-gradient(-45deg, #e3eefe 0%, #efddfb 100%); */
-        }
-
-        .sidebar {
-            position: fixed;
-            width: 240px;
-            left: -240px;
-            height: 100%;
-            background-color: #fff;
-            transition: all .5s ease;
-            z-index: 5;
-        }
-
-        .sidebar header {
-            font-size: 28px;
-            color: #353535;
-            line-height: 70px;
-            text-align: center;
-            background-color: #fff;
-            user-select: none;
-            font-family: 'Lato', sans-serif;
-        }
-
-        .sidebar a {
-            display: block;
-            height: 65px;
-            width: 100%;
-            color: #353535;
-            line-height: 65px;
-            padding-left: 30px;
-            box-sizing: border-box;
-            border-left: 5px solid transparent;
-            font-family: 'Lato', sans-serif;
-            transition: all .5s ease;
-        }
-
-        a.active,
-        a:hover {
-            border-left: 5px solid var(--accent-color);
-            color: #fff;
-            background: linear-gradient(to left, var(--accent-color), var(--gradient-color));
-        }
-
-        .sidebar a i {
-            font-size: 23px;
-            margin-right: 16px;
-        }
-
-        .sidebar a span {
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        #check {
-            display: none;
-        }
-
+    
         label #btn,
         label #cancel {
             position: absolute;
@@ -913,36 +754,37 @@ button.primary.ghost {
 
      
      
-     
-     
-.box select[name="jobtype"], .box select[name="country"] {
-  display: block;
-  margin: 5px auto;
-  background: #262e49;
-  border: 0;
-  border-radius: 5px;
-  padding: 8px 10px;
-  width: 320px;
-  outline: none;
-  color:  #a1a4ad;
-  transition: all 0.2s ease-out;
-  margin-left:22%;
-  font-size: 13px;
-}
 
-.box select[name="jobtype"]:focus {
-  border: 1px solid #79A6FE;
-  
-}
+    .btn.btn3 {
+            display: inline-block;
+             margin: 5px auto;
+            width: fit-content;
+            border: 1px solid #d6adff;
+            padding: 5px 50px;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: background 0.5s;
+            background: #d6adff;
 
-input[type="text"] {
-    width: 100%;
-    padding: 5px;
-    margin: 5px 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-       
+        }
+
+        .btn.btn3:hover {
+            background: #5b4a6b;
+            color: #ffffff;
+        }      
+        
+           form input,
+        form textarea, form select {
+            width: 100%;
+            border: 1px solid rgb(223, 179, 245);
+            outline: none;
+            background: #ffffff;
+            padding: 10px;
+            margin: 2px 0;
+            color: #6c6c6c;
+            font-size: 14px;
+            border-radius: 6px;
+        } 
         /*  <!-- sidebar styling end here  --> */
     </Style>
 
@@ -963,28 +805,27 @@ input[type="text"] {
 
  
   <!-- sidebar end here  -->  
-   <nav class="p-0 m-0 pt-2" style="z-index:10;">
-    <img src="images/logo.png" alt="logo">
-    <ul class="" id="sidemenu" >
-        <li><a href="#header">Home</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#services">Extra-Curricular</a></li>
-        <li><a href="#portfolio">Projects</a></li>
-        <li><a href="#contact">Contact</a></li>
+  <div class="row m-0 p-0">
+ <div class="col-12 m-0 p-0">
+   <nav class="p-0 m-0 ">
+    <img class="logo-img" src="" alt="logo">
+    <!-- images/navabar-logo.jpg -->
+    <ul class="" id="sidemenu" >      
         
-       
+          <% if (user != null) { %>
           
-    <li ><a href="view-profile.jsp"><i class="fa fa-user-circle" aria-hidden="true" ></i>&nbsp;&nbsp; name</a></li> 
-    
+    <li ><a href="view-profile.jsp"><i class="fa fa-user-circle" aria-hidden="true" ></i>&nbsp;&nbsp; <%= user.getName() %></a></li> 
+        <li ><a href="logout.jsp"><i class="fa fa-sign-out" aria-hidden="true" ></i>&nbsp;&nbsp;Logout</a></li> 
+  <% } else { %>
     <li ><a href="login.jsp"><i class="fa fa-user-circle" aria-hidden="true" ></i>&nbsp;&nbsp; Login</a></li> 
-
-         
-         <i class="fas fa-solid fa-xmark" onclick="closemenu()"> </i>
-    </ul>
-    
+  <% } %>        
+        
+    </ul> 
    
-    <i class="fas fa-solid fa-bars" onclick="openmenu()"></i>
+   
   </nav>
+ </div>
+  </div>
   
   <%
     User consultant = (User) request.getAttribute("consultant");
@@ -1112,8 +953,7 @@ input[type="text"] {
                                 <div class="row"> 
                 <!--            <form  action="appointmentManager" method="post"> -->
                            <form action="appointmentManager" method="post" id="bookingForm">
-                           
-         <h4>Job<span>Consultancy</span></h4>
+    
        
             <!-- Add the hidden input fields for consultantId and seekerId -->
             <input type="hidden" name="consultantId" value="<%= consultant.getUserId() %>">
@@ -1153,16 +993,13 @@ input[type="text"] {
            <!--  <input type="submit" value="Add Appointment"> -->
            
              
-        <div>
-                 
+        <div>                 
           <input type="hidden" name="appactiontype" value="addAppointment"/>
-          <button style="position:relative;left:0%; " class="btn1" type="submit">Book</button>
+          <button style="position:relative;left:0%; " class="btn btn3" type="submit">Book</button>
         </div>
         </form>
                             </div>
-
-                        </div>
-                        
+                        </div>    
                         
                         
                    
@@ -1290,7 +1127,7 @@ input[type="text"] {
                                                        <!-- <h6>  Country you need help with</h6>  -->
                                                 
                                                        <div class="countries">
-                                                       <button id="confirmBookingButton" style="position: relative; left: 0%;" class="btn1">Confirm booking</button>
+                                                       <button id="confirmBookingButton" style="position: relative; left: 0%;" class="btn btn2">Confirm booking</button>
                                                    </div>
 
                                                     

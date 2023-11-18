@@ -33,6 +33,7 @@ if (session.getAttribute("user") == null) {
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/navbar-style.css">
 <Style>
 
 
@@ -53,13 +54,9 @@ if (session.getAttribute("user") == null) {
   padding: 0;
   text-decoration: none;
 }
-:root {
-  --accent-color: #fff;
-  --gradient-color: #FBFBFB;
-}
+
 body{
-  display: flex;
-  flex-direction: column;
+ 
   /* justify-content: center; */
   align-items: center;
    width: 100vw;
@@ -67,49 +64,6 @@ body{
   background-image: linear-gradient(-45deg, #e3eefe 0%, #efddfb 100%);
 }
 
-.sidebar{
-  position: fixed;
-  width: 240px;
-  left: -240px;
-  height: 100%;
-  background-color: #fff;
-  transition: all .5s ease;
-  z-index: 5;
-}
-.sidebar header{
-  font-size: 28px;
-  color: #353535;
-  line-height: 70px;
-  text-align: center;
-  background-color: #fff;
-  user-select: none;
-  font-family: 'Lato', sans-serif;
-}
-.sidebar a{
-  display: block;
-  height: 65px;
-  width: 100%;
-  color: #353535;
-  line-height: 65px;
-  padding-left: 30px;
-  box-sizing: border-box;
-  border-left: 5px solid transparent;
-  font-family: 'Lato', sans-serif;
-  transition: all .5s ease;
-}
-a.active,a:hover{
-  border-left: 5px solid var(--accent-color);
-  color: #fff;
-   background: linear-gradient(to left, var(--accent-color), var(--gradient-color));
-}
-.sidebar a i{
-  font-size: 23px;
-  margin-right: 16px;
-}
-.sidebar a span{
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
 #check{
   display: none;
 }
@@ -369,20 +323,45 @@ p {
   
 </div>
  
+ 
+  <div class="row m-0 p-0">
+ <div class="col-12 m-0 p-0">
+   <nav class="p-0 m-0 ">
+    <img class="logo-img" src="" alt="logo">
+    <!-- images/navabar-logo.jpg -->
+    <ul class="" id="sidemenu" >      
+        
+          <% if (user != null) { %>
+          
+    <li ><a href="view-profile.jsp"><i class="fa fa-user-circle" aria-hidden="true" ></i>&nbsp;&nbsp; <%= user.getName() %></a></li> 
+        <li ><a href="logout.jsp"><i class="fa fa-sign-out" aria-hidden="true" ></i>&nbsp;&nbsp;Logout</a></li> 
+  <% } else { %>
+    <li ><a href="login.jsp"><i class="fa fa-user-circle" aria-hidden="true" ></i>&nbsp;&nbsp; Login</a></li> 
+  <% } %>        
+        
+    </ul> 
+   
+   
+  </nav>
+ </div>
+  </div>
   <!-- sidebar end here  -->  
 
-<div class="container m-0 p-0 pt-4">
-  
-    <h1>Appointment Details</h1>
-   
-<p style='color:magenta'>${feebackMessage}</p>
-		<!-- <form action="getuser">			
-				<label for="userId">Enter UserId:</label>
-				<input class="form-control" type="number" id="userId" name="userId" placeholder="Type the userId" required/>
-				<input type="hidden" name="useractiontype" value="single"/>
-				<br/>
-				<button type="submit" class="btn btn-info">Search</button>			
-			</form> -->
+ <div class="row m-0 ">
+    <div class="col-1 m-0"></div>
+    <div class="col-10 m-0 d-flex justify-content-center">
+    <div class="page-title">Update Appointment</div>
+</div>
+    <div class="col-1 m-0"></div>
+</div>
+
+<div class="row m-0 d-flex justify-content-center">
+<%-- <p style='color:magenta'>${message}</p>	 --%>
+</div>
+
+		<div class="row m-0">
+     <!-- Search abr  -->   <div class="col-1 m-0"></div>
+    <div class="col-10 m-0 d-flex justify-content-center">
 <form action="appointmentManager" method="post">	
  
     <input class="form-control" type="number" id="appointmentId" name="appointmentId"  readonly="readonly" value="${appointment.appointmentId}"/>
@@ -472,9 +451,16 @@ p {
     window.history.back(); // This will navigate back to the previous page in the browser's history.
   });
 </script>
- 
+ <script>
+function confirmUpdate() {
+    return confirm("Are you sure you want to update this user?");
+}
+</script>
  
  </form>
+  </div> 
+     <div class="col-1"></div>
+    
 </div>
 
   

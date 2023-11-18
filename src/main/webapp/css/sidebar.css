@@ -7,10 +7,46 @@
      
 
         
-   
+   nav{
+	   background-color: #fff;  
+   }
      
-        
+       .btn.btn2 {
+            display: inline-block;
+             margin: 10px auto;
+            width: fit-content;
+            border: 1px solid #d6adff;
+            padding: 14px 50px;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: background 0.5s;
+            background: #d6adff;
+
+        }
+
+        .btn.btn2:hover {
+            background: #5b4a6b;
+            color: #ffffff;
+        }   
       
+    
+     .btn-purple{
+            display: block;
+            margin: 30px auto;
+            width: fit-content;
+            border: 1px solid #d6adff;
+            padding: 14px 50px;
+            border-radius: 6px;
+            text-decoration: none;
+            color: #070707;
+            transition: background 0.5s;
+            background:none;
+        
+        }
+        
+        .btn-purple:hover{
+            background: #d6adff;
+        }
      
         /* .tab-contents{
             font-size: 14px;

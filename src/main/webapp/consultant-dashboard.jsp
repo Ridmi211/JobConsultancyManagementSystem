@@ -8,7 +8,7 @@
 <%
 // Check if the user is logged in and has the appropriate role
 User user = (User) session.getAttribute("user");
-if (user == null || !user.getAccessRight().equals(AccessRight.ROLE_ADMIN)) {
+if (user == null || !user.getAccessRight().equals(AccessRight.ROLE_CONSULTANT)) {
     // Set an error message in the session
     session.setAttribute("errorMessage", "You do not have the required access to view this page.");
     // Redirect the user to the login page
@@ -189,6 +189,15 @@ body{
      text-transform: uppercase;
 }
 
+   .page-title-2{
+           text-align: center;
+    font-size: 24px;
+    color: #7c6694;
+    margin-top: 20px;
+    margin-bottom: 20px;
+     text-transform: uppercase;
+}
+
     </Style>
 
 </head>
@@ -232,7 +241,7 @@ body{
 <div class="row m-0 ">
     <div class="col-2 m-0"></div>
     <div class="col-8 m-0 d-flex justify-content-center">
-    <div class="page-title">Admin - DASHBOARD</div>
+    <div class="page-title">Consultant - DASHBOARD</div>
 </div>
     <div class="col-2 m-0"></div>
 </div>  
@@ -277,70 +286,39 @@ body{
   <section class="page-contain">
     <a href="getuser?useractiontype=pending" class="data-card">
       <h3>12 </h3>
-      <h4> Pending<br> Registrations</h4>    
+      <h4> Pending<br> Appointments</h4>    
     
       <!-- <p>Manage registered patients</p> -->     
     </a>
     <a href="getAppointment?appactiontype=requested" class="data-card">
       <h3> 25</h3>
-      <h4> New <br>Appointments</h4>
+      <h4> Completed <br>Appointments</h4>
       <!-- <p>Manage Registered Pharmacists</p> -->     
     
     </a>
       <a href="getContact?msgactiontype" class="data-card">
       <h3> 11</h3>
-      <h4> New <br>Messages</h4>
+      <h4> Cancelled <br>Appointments</h4>
       <!-- <p>Manage Registered Pharmacists</p> -->    
     
     </a>
-    <a href="getuser?useractiontype=all" class="data-card">
-      <h3>13</h3>
-      <h4> Registered <br>Users</h4>
-      <!-- <p>Manage Issued Prescriptions</p> -->     
-    </a>
-  </section>
- 
- 
-</div>
-    <div class="col-1 m-0"></div>
-</div>  
- 
-  
- <div class="row m-0 ">
-    <div class="col-1 m-0"></div>
-    <div class="col-10 m-0 d-flex justify-content-center">
-  
+   
+   
+   
+   
+   
 
-  <section class="page-contain">
-    <a href="getuser?useractiontype=pending" class="data-card">
-      <h3>12 </h3>
-      <h4> Pending<br> Registrations</h4>    
-    
-      <!-- <p>Manage registered patients</p> -->     
-    </a>
-    <a href="getAppointment?appactiontype=requested" class="data-card">
-      <h3> 25</h3>
-      <h4> New <br>Appointments</h4>
-      <!-- <p>Manage Registered Pharmacists</p> -->     
-    
-    </a>
-      <a href="getContact?msgactiontype" class="data-card">
-      <h3> 11</h3>
-      <h4> New <br>Messages</h4>
-      <!-- <p>Manage Registered Pharmacists</p> -->    
-    
-    </a>
-    <a href="getuser?useractiontype=all" class="data-card">
-      <h3>13</h3>
-      <h4> Registered <br>Users</h4>
-      <!-- <p>Manage Issued Prescriptions</p> -->     
-    </a>
   </section>
- 
  
 </div>
     <div class="col-1 m-0"></div>
 </div>  
  
+ <div class="row m-0 ">
+    <div class="col-2 m-0"></div>
+    <div class="col-8 m-0 d-flex justify-content-center">
+    <div class="page-title-2 ">Upcoming Appointments </div>
+</div>
+    <div class="col-2 m-0"></div>
 </body>
 </html>

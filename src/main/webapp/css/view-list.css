@@ -222,15 +222,6 @@ label #cancel{
   visibility: visible;
 }
 
-.page-title{
-           text-align: center;
-    font-size: 24px;
-    color: #7c6694;
-    margin-top: 100px;
-    margin-bottom: 20px;
-     text-transform: uppercase;
-}
-
 .status-btn{
 	background-color: #d3c6e8;
 	padding: 2px;

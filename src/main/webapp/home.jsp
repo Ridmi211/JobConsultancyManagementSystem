@@ -26,8 +26,10 @@
 <link rel="stylesheet" type="text/css" href="css/navbar-style.css">
 
 <Style>
-
-
+.main-title{
+  color: #584674;
+            font-size: 60px;
+}
 
 
  /*  <!-- sidebar styling end here  --> */
@@ -77,14 +79,14 @@ User user = (User) session.getAttribute("user");
   </nav>
 <!--   nav -->
   <div class="row p-0 m-0">
-    <div class="p-0 m-0 d-flex align-items-end d-flex justify-content-center" id="header" style="background-image: url(https://chuckgarcia.com/wp-content/uploads/2017/12/bigstock-167128436.jpg);"  >
+    <div class="p-0 m-0 d-flex align-items-end d-flex justify-content-center" id="header" style="background-image: url(https://images.successstory.com/img_inspiration/Career-Development-for-Success-101:-What-You-Need-to-Know-About-Advancing-Your-Professional-Life-for-the-Better_1508758128.jpg);"  >
   
       <div class="container d-flex justify-content-center p-0 m-0">       
 
         <div class="header-text pt-2" >
-          <p>Live your dream</p>
-          <h2>Hi, njgjt <span>jjtjyhjthyjthy</span> <br> ntnjhtnh nitnitn</h2>
-         <a href="getuser?useractiontype=consultants" class="btn">Book Appointment</a>
+          <div class="mt-2" ><p>Unlock Your International Career Potential</p></div>
+          <div class="main-title">THRIVE GLOBALLY</div>
+         <a href="getuser?useractiontype=consultants" class="btn-purple" style="text-size:12px;">Schedule Your Consultation</a>
         </div>
         
       </div>
@@ -111,7 +113,7 @@ User user = (User) session.getAttribute("user");
                 I’m a great place for you to tell a story and let your
                 users know a little more about you.
           </p>
-          <a href="#" class="btn">See more</a>
+          <a href="#" class="btn-purple">See more</a>
         </div>
 
    
@@ -126,7 +128,7 @@ User user = (User) session.getAttribute("user");
                 I’m a great place for you to tell a story and let your
                   users know a little more about you.
           </p>
-          <a href="#" class="btn">See more</a>
+          <a href="#" class="btn-purple">See more</a>
         </div>
        
           <div class="m-2">
@@ -140,7 +142,7 @@ User user = (User) session.getAttribute("user");
                   I’m a great place for you to tell a story and let your
                     users know a little more about you.
             </p>
-            <a href="#" class="btn">See more</a>
+            <a href="#" class="btn-purple">See more</a>
           </div>
  
     </div>
@@ -363,7 +365,7 @@ User user = (User) session.getAttribute("user");
          <div>
                  
           <input type="hidden" name="msgactiontype" value="addMessage"/>
-          <button  class="btn btn2" type="submit">Create User</button>
+          <button  class="btn btn2" type="submit">Send</button>
         </div>
       </form>
       <span id="msg"></span>

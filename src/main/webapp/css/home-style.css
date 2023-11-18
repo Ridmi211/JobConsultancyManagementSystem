@@ -33,7 +33,6 @@
  
         .header-text{
         margin-top: 15%;
-        font-size: 22px;
         }
         .header-text h1{
             font-size: 50px;
@@ -350,16 +349,17 @@
         .contact-right form{
             width:100%;
         }
-        form input, form textarea{
+       form input,
+        form textarea {
             width: 100%;
-            border: 0;
+            border: 1px solid rgb(223, 179, 245);
             outline: none;
-            background: #262626;
+            background: #ffffff;
             padding: 15px;
             margin: 15px 0;
-            color:#000000;
+            color: #6c6c6c;
             font-size: 18px;
-            border-radius:6px;
+            border-radius: 6px;
         }
         form .btn2{
             padding: 14px 60px;
@@ -375,7 +375,7 @@
             padding: 25px 0;
             background: #262626;
             font-weight: 300;
-            margin-top: 20px;
+            margin-top: 50px;
         
         }
         .copyright i{
