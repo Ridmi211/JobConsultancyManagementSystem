@@ -54,6 +54,16 @@ public class AppointmentController extends HttpServlet {
 		    		fetchAppointmentsByConsultantId(request, response);			    	
 		    }else if (appactiontype.equals("adminRequested")) {
 		    		fetchAdminRequestedAppointments(request, response);
+		    }else if (appactiontype.equals("adminRequestedAll")) {
+		    	fetchAdminRequestedAllAppointments(request, response);
+		    }else if (appactiontype.equals("adminCompleted")) {
+		    	fetchAllCompletedAppointments(request, response);
+		    }else if (appactiontype.equals("adminRejected")) {
+		    	fetchConsultantRejectedAppointments(request, response);
+		    }else if (appactiontype.equals("seekerCancelled")) {
+		    	fetchSeekerCancelledAppointments(request, response);
+		    }else if (appactiontype.equals("conConfirmed")) {
+		    	fetchConsultantConfiremedAppointments(request, response);
 			}else {
 		        fetchAllAppointments(request, response);
 		    }
@@ -143,6 +153,7 @@ public class AppointmentController extends HttpServlet {
 			List<Appointment> appointmentList = new ArrayList<Appointment>();
 			try {
 				appointmentList = getAppointmentService().fetchAllAppointments();
+				request.setAttribute("pageTopic", "All Appointments - Admin ");
 
 				if (!(appointmentList.size() > 0)) {
 					message = "No record found!";
@@ -168,7 +179,30 @@ public class AppointmentController extends HttpServlet {
 			    List<Appointment> requestedAppointments = new ArrayList<Appointment>();
 			    try {
 			    	requestedAppointments = getAppointmentService().fetchRequestedAppointments(); 
+			    	request.setAttribute("pageTopic", "New Appointments - Admin ");
+			        if (!(requestedAppointments.size() > 0)) {
+			            message = "No consultant users found!";
+			        }
+			    } catch (ClassNotFoundException | SQLException e) {
+			        message = e.getMessage();
+			    }
 
+			    request.setAttribute("requestedAppointments", requestedAppointments); 
+			    request.setAttribute("feebackMessage", message);
+
+			    RequestDispatcher rd = request.getRequestDispatcher("view-requested-appointments.jsp"); 
+			    rd.forward(request, response);
+			}
+	    
+	    private void fetchAdminRequestedAllAppointments(HttpServletRequest request, HttpServletResponse response)
+			    throws ServletException, IOException {
+
+			    clearMessage();
+
+			    List<Appointment> requestedAppointments = new ArrayList<Appointment>();
+			    try {
+			    	requestedAppointments = getAppointmentService().fetchAdminRequestedAllAppointments(); 
+			    	request.setAttribute("pageTopic", "Pending Appointments - Admin ");
 			        if (!(requestedAppointments.size() > 0)) {
 			            message = "No consultant users found!";
 			        }
@@ -183,6 +217,101 @@ public class AppointmentController extends HttpServlet {
 			    rd.forward(request, response);
 			}
 //		
+	    
+	    
+	    
+	    private void fetchAllCompletedAppointments(HttpServletRequest request, HttpServletResponse response)
+			    throws ServletException, IOException {
+
+			    clearMessage();
+
+			    List<Appointment> requestedAppointments = new ArrayList<Appointment>();
+			    try {
+			    	requestedAppointments = getAppointmentService().fetchAllCompletedAppointments(); 
+			    	request.setAttribute("pageTopic", "Completed Appointments - Admin ");
+			        if (!(requestedAppointments.size() > 0)) {
+			            message = "No consultant users found!";
+			        }
+			    } catch (ClassNotFoundException | SQLException e) {
+			        message = e.getMessage();
+			    }
+
+			    request.setAttribute("requestedAppointments", requestedAppointments); 
+			    request.setAttribute("feebackMessage", message);
+
+			    RequestDispatcher rd = request.getRequestDispatcher("view-requested-appointments.jsp"); 
+			    rd.forward(request, response);
+			}
+	    
+	    
+	    private void fetchConsultantRejectedAppointments(HttpServletRequest request, HttpServletResponse response)
+			    throws ServletException, IOException {
+
+			    clearMessage();
+
+			    List<Appointment> requestedAppointments = new ArrayList<Appointment>();
+			    try {
+			    	requestedAppointments = getAppointmentService().fetchConsultantRejectedAppointments(); 
+			    	request.setAttribute("pageTopic", "Rejected Appointments - Admin ");
+			        if (!(requestedAppointments.size() > 0)) {
+			            message = "No consultant users found!";
+			        }
+			    } catch (ClassNotFoundException | SQLException e) {
+			        message = e.getMessage();
+			    }
+
+			    request.setAttribute("requestedAppointments", requestedAppointments); 
+			    request.setAttribute("feebackMessage", message);
+
+			    RequestDispatcher rd = request.getRequestDispatcher("view-requested-appointments.jsp"); 
+			    rd.forward(request, response);
+			}
+	    
+	    private void fetchSeekerCancelledAppointments(HttpServletRequest request, HttpServletResponse response)
+			    throws ServletException, IOException {
+
+			    clearMessage();
+
+			    List<Appointment> requestedAppointments = new ArrayList<Appointment>();
+			    try {
+			    	requestedAppointments = getAppointmentService().fetchSeekerCancelledAppointments(); 
+			    	request.setAttribute("pageTopic", "Cancelled Appointments - Admin ");
+			        if (!(requestedAppointments.size() > 0)) {
+			            message = "No consultant users found!";
+			        }
+			    } catch (ClassNotFoundException | SQLException e) {
+			        message = e.getMessage();
+			    }
+
+			    request.setAttribute("requestedAppointments", requestedAppointments); 
+			    request.setAttribute("feebackMessage", message);
+
+			    RequestDispatcher rd = request.getRequestDispatcher("view-requested-appointments.jsp"); 
+			    rd.forward(request, response);
+			}
+	    private void fetchConsultantConfiremedAppointments(HttpServletRequest request, HttpServletResponse response)
+			    throws ServletException, IOException {
+
+			    clearMessage();
+
+			    List<Appointment> requestedAppointments = new ArrayList<Appointment>();
+			    try {
+			    	requestedAppointments = getAppointmentService().fetchConsultantConfiremedAppointments(); 
+			    	request.setAttribute("pageTopic", "Ongoing Appointments - Admin ");
+			        if (!(requestedAppointments.size() > 0)) {
+			            message = "No consultant users found!";
+			        }
+			    } catch (ClassNotFoundException | SQLException e) {
+			        message = e.getMessage();
+			    }
+
+			    request.setAttribute("requestedAppointments", requestedAppointments); 
+			    request.setAttribute("feebackMessage", message);
+
+			    RequestDispatcher rd = request.getRequestDispatcher("view-requested-appointments.jsp"); 
+			    rd.forward(request, response);
+			}
+	    
 		private void acceptAppointmentAdmin(HttpServletRequest request, HttpServletResponse response)
 		        throws ServletException, IOException {
 		    int appointmentId = Integer.parseInt(request.getParameter("appointmentId"));
@@ -317,28 +446,7 @@ public class AppointmentController extends HttpServlet {
 
 //			response.sendRedirect("getAppointment?appactiontype=adminRequested");
 		}
-//		private void completedAppointment(HttpServletRequest request, HttpServletResponse response)
-//		        throws ServletException, IOException {
-//			 int appointmentId = Integer.parseInt(request.getParameter("appointmentId"));
-//		    try {
-//		        if (getAppointmentService().completedAppointment(appointmentId)) {
-//		            message = "User has been rejected!";
-//		        } else {
-//		            message = "Failed to reject the user!";
-//		        }
-//		    } catch (ClassNotFoundException | SQLException e) {
-//		        message = "Operation failed! " + e.getMessage();
-//		    }
-//			HttpSession session = request.getSession();
-//			session.setAttribute("message", message);
-//			
-//			 request.setAttribute("feebackMessage", message);
-//			    RequestDispatcher rd = request.getRequestDispatcher("feedback-message1.jsp");
-//			    rd.forward(request, response);
-//
-////			response.sendRedirect("getAppointment?appactiontype=adminRequested");
-//		}
-		
+
 		private void completedAppointment(HttpServletRequest request, HttpServletResponse response)
 		        throws ServletException, IOException {
 		    int appointmentId = Integer.parseInt(request.getParameter("appointmentId"));
@@ -384,10 +492,13 @@ public class AppointmentController extends HttpServlet {
 	        }
 
 	        int loggedInUserId = user.getUserId(); // Assuming userId is a property of the User class
-
+	        
 	        List<Appointment> requestedAppointments = new ArrayList<Appointment>();
 	        try {
+	        	
 				requestedAppointments = getAppointmentService().fetchAdminRequestedAppointments(loggedInUserId);
+				request.setAttribute("pageTopic", "Upcoming Appointments - Admin ");
+				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -423,10 +534,11 @@ public class AppointmentController extends HttpServlet {
 	        }
 
 	        int loggedInUserId = user.getUserId(); // Assuming userId is a property of the User class
-
+	        
 	        List<Appointment> requestedAppointments = new ArrayList<Appointment>();
 	        try {
 				requestedAppointments = getAppointmentService().fetchAppointmentsBySeekerId(loggedInUserId);
+				request.setAttribute("pageTopic", "My Appointments (user)");
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -441,10 +553,7 @@ public class AppointmentController extends HttpServlet {
 	        System.out.println( "Action : hfg hgfg"  );
 	        RequestDispatcher rd = request.getRequestDispatcher("view-seekers-appointments.jsp");
 	        rd.forward(request, response);
-	    }
-
-	    
-	    
+	    } 
 	    
 	    private void fetchAppointmentsByConsultantId(HttpServletRequest request, HttpServletResponse response)
 	            throws ServletException, IOException {
@@ -467,6 +576,7 @@ public class AppointmentController extends HttpServlet {
 	        List<Appointment> requestedAppointments = new ArrayList<Appointment>();
 	        try {
 				requestedAppointments = getAppointmentService().fetchAppointmentsByConsultantId(loggedInUserId);
+				request.setAttribute("pageTopic", "My Appointments (consultant)");
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

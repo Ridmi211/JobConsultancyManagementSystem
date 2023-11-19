@@ -89,7 +89,7 @@ User user = (User) session.getAttribute("user");
 <div class="row m-0 ">
     <div class="col-2 m-0"></div>
     <div class="col-8 m-0 d-flex justify-content-center">
-    <div class="page-title">My Appointments </div>
+    <div class="page-title">${pageTopic} </div>
     <!-- user appointents -->
 </div>
     <div class="col-2 m-0"></div>

@@ -101,44 +101,8 @@ private Connection getConnection() throws ClassNotFoundException, SQLException {
 		return result;
 	}
 
-//	@Override
-//	public Appointment fetchSingleAppointment(int appointmentId) throws SQLException, ClassNotFoundException {
-//	    Connection connection = getConnection();
-//	    String query = "SELECT * FROM appointments WHERE appointmentId = ?";
-//	    
-//	    PreparedStatement ps = connection.prepareStatement(query);
-//	    ps.setInt(1, appointmentId);
-//	    
-//	    ResultSet rs = ps.executeQuery();
-//	    
-//	    Appointment appointment =new Appointment();
-//	    
-//	    while (rs.next()) {
-//	        appointment = new Appointment();
-//	        appointment.setAppointmentId(rs.getInt("appointmentId"));
-//	        appointment.setConsultantId(rs.getInt("consultantId"));
-//	        appointment.setSeekerId(rs.getInt("seekerId"));
-////	        appointment.setConsultantName(rs.getString("consultantName"));
-////	        appointment.setSeekerName(rs.getString("seekerName"));
-//	        appointment.setScheduledDate(rs.getString("scheduledDate"));
-//	        appointment.setStartTime(rs.getString("startTime"));
-//	        appointment.setStatus(Status.valueOf(rs.getString("status")));
-//	        appointment.setNotes(rs.getString("notes"));
-//	        appointment.setJob(rs.getString("job"));
-//	        appointment.setCountry(rs.getString("country"));
-//	        
-//	        // If there are notes in the database, add this line.
-//	        // Set other appointment attributes if necessary
-//	    }
-//	    
-//	    ps.close();
-//	    connection.close();
-//	    
-//	    return appointment;
-//	}
-
 	
-//	
+//	fetch single appointment
 	@Override
 	public Appointment fetchSingleAppointment(int appointmentId) throws SQLException, ClassNotFoundException {
 	    Connection connection = getConnection();
@@ -171,13 +135,10 @@ private Connection getConnection() throws ClassNotFoundException, SQLException {
 	        appointment.setConsultantName(rs.getString("consultantName"));
 	        appointment.setSeekerName(rs.getString("seekerName"));
 	        appointment.setSeekerEmail(rs.getString("seekerEmail"));
-
 	        appointment.setSeekerPhoneNumber(rs.getString("seekerPhoneNumber"));
 	        appointment.setSeekerJob(rs.getString("seekerJob"));
 	        appointment.setSeekerCountry(rs.getString("seekerCountry"));
 	        
-	        // If there are notes in the database, add this line.
-	        // Set other appointment attributes if necessary
 	    }
 	    
 	    ps.close();
@@ -185,79 +146,16 @@ private Connection getConnection() throws ClassNotFoundException, SQLException {
 	    
 	    return appointment;
 	}
-	
-	
-	
-	
-//	
-//	
-//	
-//	@Override
-//	public Appointment fetchSingleAppointment(int appointmentId) throws SQLException, ClassNotFoundException {
-//	    Connection connection = getConnection();
-//	    String query = "SELECT a.*, c.name AS consultantName," +
-//	            "s.email AS seekerEmail, s.name AS seekerName, s.phoneNumber AS seekerPhoneNumber, s.job AS seekerJob, s.country AS seekerCountry " +
-//	            "FROM appointments a " +
-//	            "INNER JOIN user c ON a.consultantId = c.userId " +
-//	            "INNER JOIN user s ON a.seekerId = s.userId " +
-//	            "WHERE a.appointmentId = ?";
-//	    
-//	    PreparedStatement ps = connection.prepareStatement(query);
-//	    ps.setInt(1, appointmentId);
-//	    
-//	    ResultSet rs = ps.executeQuery();
-//	    
-//	    Appointment appointment =new Appointment();
-//	    
-//	    while (rs.next()) {
-//	        appointment = new Appointment();
-//	        appointment.setAppointmentId(rs.getInt("appointmentId"));
-//	        appointment.setConsultantId(rs.getInt("consultantId"));
-//	        appointment.setSeekerId(rs.getInt("seekerId"));
-////	        appointment.setConsultantName(rs.getString("consultantName"));
-////	        appointment.setSeekerName(rs.getString("seekerName"));
-//	        appointment.setScheduledDate(rs.getString("scheduledDate"));
-//	        appointment.setStartTime(rs.getString("startTime"));
-//	        appointment.setStatus(Status.valueOf(rs.getString("status")));
-//	        appointment.setNotes(rs.getString("notes"));
-//	        appointment.setJob(rs.getString("job"));
-//	        appointment.setCountry(rs.getString("country"));
-//	        appointment.setConsultantName(rs.getString("consultantName"));
-//	        appointment.setSeekerName(rs.getString("seekerName"));
-//	        appointment.setSeekerEmail(rs.getString("seekerEmail"));
-//	        appointment.setSeekerPhoneNumber(rs.getString("seekerPhoneNumber"));
-//	        appointment.setSeekerJob(rs.getString("seekerJob"));
-//	        appointment.setSeekerCountry(rs.getString("seekerCountry"));
-//	        
-//	        
-//	        // If there are notes in the database, add this line.
-//	        // Set other appointment attributes if necessary
-//	    }
-//	    
-//	    ps.close();
-//	    connection.close();
-//	    
-//	    return appointment;
-//	}
-//	
-	
-	
-	
-	
+		
+//	All appointments
 	@Override
 	public List<Appointment> fetchAllAppointments() throws SQLException, ClassNotFoundException {
 	    Connection connection = getConnection();
-//	    String query = "SELECT a.appointmentId, a.consultantId, c.name AS consultantName, a.seekerId, s.name AS seekerName " +
-//	                   "FROM appointments a " +
-//	                   "INNER JOIN user c ON a.consultantId = c.userId " +
-//	                   "INNER JOIN user s ON a.seekerId = s.userId";
 	    String query = "SELECT a.*, c.name AS consultantName, c.email AS consultantEmail, c.phoneNumber AS consultantContact, " +
 	               "s.name AS seekerName, s.email AS seekerEmail, s.phoneNumber AS seekerContact " +
 	               "FROM appointments a  " +
 	               "INNER JOIN user c ON a.consultantId = c.userId " +
 	               "INNER JOIN user s ON a.seekerId = s.userId";
-
-//	    String query = "SELECT * FROM appointments";
 	    Statement st = connection.createStatement();
 	    List<Appointment> appointmentList = new ArrayList<Appointment>();
 
@@ -281,30 +179,174 @@ private Connection getConnection() throws ClassNotFoundException, SQLException {
 		return appointmentList;
 	}
 
+//	Newly requested  appointments
 	@Override
 	public List<Appointment> fetchRequestedAppointments() throws SQLException, ClassNotFoundException {
-	    Connection connection = getConnection();
-//	    String query = "SELECT * FROM appointments WHERE status = 'REQUESTED'";
-	    
-//	    String query = "SELECT a.*, c.name AS consultantName, c.email AS consultantEmail, c.phoneNumber AS consultantContact, " +
-//	               "s.name AS seekerName, s.email AS seekerEmail, s.phoneNumber AS seekerContact " +
-//	               "FROM appointments a  " +
-//	               "INNER JOIN user c ON a.consultantId = c.userId " +
-//	               "INNER JOIN user s ON a.seekerId = s.userId " +
-//	               "WHERE a.status = 'REQUESTED'";
-	    
+	    Connection connection = getConnection();	    
 	    String query = "SELECT a.*, c.name AS consultantName, c.email AS consultantEmail, c.phoneNumber AS consultantContact, " +
 	               "s.name AS seekerName, s.email AS seekerEmail, s.phoneNumber AS seekerContact " +
 	               "FROM appointments a  " +
 	               "INNER JOIN user c ON a.consultantId = c.userId " +
 	               "INNER JOIN user s ON a.seekerId = s.userId " +
-	               "WHERE a.status = 'REQUESTED' OR a.status = 'CON_REJECTED'";
-
-
-	    Statement st = connection.createStatement();
+	               "WHERE a.status = 'REQUESTED'";
+	    Statement st = connection.createStatement();	    
+	    List<Appointment> requestedAppointments = new ArrayList<>();	    
+	    ResultSet rs = st.executeQuery(query);
+	    while (rs.next()) {
+	    	Appointment appointment = new Appointment();
+	    	 appointment.setAppointmentId(rs.getInt("appointmentId"));
+		        appointment.setConsultantId(rs.getInt("consultantId"));
+		        appointment.setConsultantName(rs.getString("consultantName"));
+		        appointment.setSeekerName(rs.getString("seekerName"));
+		        appointment.setScheduledDate(rs.getString("scheduledDate"));
+		        appointment.setStartTime(rs.getString("startTime")); 
+		        appointment.setStatus(Status.valueOf(rs.getString("status")));	
+			 requestedAppointments.add(appointment);
+	    }
 	    
-	    List<Appointment> requestedAppointments = new ArrayList<>();
+	    st.close();
+	    connection.close();
 	    
+	    return requestedAppointments;
+	}
+	
+//	 consultant rejected appointments
+	@Override
+	public List<Appointment> fetchConsultantRejectedAppointments() throws SQLException, ClassNotFoundException {
+	    Connection connection = getConnection();	    
+	    String query = "SELECT a.*, c.name AS consultantName, c.email AS consultantEmail, c.phoneNumber AS consultantContact, " +
+	               "s.name AS seekerName, s.email AS seekerEmail, s.phoneNumber AS seekerContact " +
+	               "FROM appointments a  " +
+	               "INNER JOIN user c ON a.consultantId = c.userId " +
+	               "INNER JOIN user s ON a.seekerId = s.userId " +
+	               "WHERE a.status = 'CON_REJECTED'";
+	    Statement st = connection.createStatement();	    
+	    List<Appointment> requestedAppointments = new ArrayList<>();	    
+	    ResultSet rs = st.executeQuery(query);
+	    while (rs.next()) {
+	    	Appointment appointment = new Appointment();
+	    	 appointment.setAppointmentId(rs.getInt("appointmentId"));
+		        appointment.setConsultantId(rs.getInt("consultantId"));
+		        appointment.setConsultantName(rs.getString("consultantName"));
+		        appointment.setSeekerName(rs.getString("seekerName"));
+		        appointment.setScheduledDate(rs.getString("scheduledDate"));
+		        appointment.setStartTime(rs.getString("startTime")); 
+		        appointment.setStatus(Status.valueOf(rs.getString("status")));	
+			 requestedAppointments.add(appointment);
+	    }
+	    
+	    st.close();
+	    connection.close();
+	    
+	    return requestedAppointments;
+	}
+	
+//	Appointments sent to consultant
+	
+	@Override
+	
+	public List<Appointment> fetchAdminRequestedAllAppointments() throws SQLException, ClassNotFoundException {
+	    Connection connection = getConnection();
+	    
+	    String query = "SELECT a.*, c.name AS consultantName, c.email AS consultantEmail, c.phoneNumber AS consultantContact, " +
+	                   "s.name AS seekerName, s.email AS seekerEmail, s.phoneNumber AS seekerContact " +
+	                   "FROM appointments a " +
+	                   "INNER JOIN user c ON a.consultantId = c.userId " +
+	                   "INNER JOIN user s ON a.seekerId = s.userId " +
+	                   "WHERE a.status = 'ADMIN_CONFIRMED'";
+	  
+	    Statement st = connection.createStatement();	    
+	    List<Appointment> requestedAppointments = new ArrayList<>();	    
+	    ResultSet rs = st.executeQuery(query);
+	    while (rs.next()) {
+	    	Appointment appointment = new Appointment();
+	    	 appointment.setAppointmentId(rs.getInt("appointmentId"));
+		        appointment.setConsultantId(rs.getInt("consultantId"));
+		        appointment.setConsultantName(rs.getString("consultantName"));
+		        appointment.setSeekerName(rs.getString("seekerName"));
+		        appointment.setScheduledDate(rs.getString("scheduledDate"));
+		        appointment.setStartTime(rs.getString("startTime")); 
+		        appointment.setStatus(Status.valueOf(rs.getString("status")));	
+			 requestedAppointments.add(appointment);
+	    }
+	    
+	    st.close();
+	    connection.close();
+	    
+	    return requestedAppointments;
+	}
+	
+	@Override
+	public List<Appointment> fetchConsultantConfiremedAppointments() throws SQLException, ClassNotFoundException {
+	    Connection connection = getConnection();	    
+	    String query = "SELECT a.*, c.name AS consultantName, c.email AS consultantEmail, c.phoneNumber AS consultantContact, " +
+	               "s.name AS seekerName, s.email AS seekerEmail, s.phoneNumber AS seekerContact " +
+	               "FROM appointments a  " +
+	               "INNER JOIN user c ON a.consultantId = c.userId " +
+	               "INNER JOIN user s ON a.seekerId = s.userId " +
+	               "WHERE a.status = 'CON_CONFIRMED'";
+	    Statement st = connection.createStatement();	    
+	    List<Appointment> requestedAppointments = new ArrayList<>();	    
+	    ResultSet rs = st.executeQuery(query);
+	    while (rs.next()) {
+	    	Appointment appointment = new Appointment();
+	    	 appointment.setAppointmentId(rs.getInt("appointmentId"));
+		        appointment.setConsultantId(rs.getInt("consultantId"));
+		        appointment.setConsultantName(rs.getString("consultantName"));
+		        appointment.setSeekerName(rs.getString("seekerName"));
+		        appointment.setScheduledDate(rs.getString("scheduledDate"));
+		        appointment.setStartTime(rs.getString("startTime")); 
+		        appointment.setStatus(Status.valueOf(rs.getString("status")));	
+			 requestedAppointments.add(appointment);
+	    }
+	    
+	    st.close();
+	    connection.close();
+	    
+	    return requestedAppointments;
+	}
+	
+	@Override
+	public List<Appointment> fetchSeekerCancelledAppointments() throws SQLException, ClassNotFoundException {
+	    Connection connection = getConnection();	    
+	    String query = "SELECT a.*, c.name AS consultantName, c.email AS consultantEmail, c.phoneNumber AS consultantContact, " +
+	               "s.name AS seekerName, s.email AS seekerEmail, s.phoneNumber AS seekerContact " +
+	               "FROM appointments a  " +
+	               "INNER JOIN user c ON a.consultantId = c.userId " +
+	               "INNER JOIN user s ON a.seekerId = s.userId " +
+	               "WHERE a.status = 'SEEKER_CANCELLED'";
+	    Statement st = connection.createStatement();	    
+	    List<Appointment> requestedAppointments = new ArrayList<>();	    
+	    ResultSet rs = st.executeQuery(query);
+	    while (rs.next()) {
+	    	Appointment appointment = new Appointment();
+	    	 appointment.setAppointmentId(rs.getInt("appointmentId"));
+		        appointment.setConsultantId(rs.getInt("consultantId"));
+		        appointment.setConsultantName(rs.getString("consultantName"));
+		        appointment.setSeekerName(rs.getString("seekerName"));
+		        appointment.setScheduledDate(rs.getString("scheduledDate"));
+		        appointment.setStartTime(rs.getString("startTime")); 
+		        appointment.setStatus(Status.valueOf(rs.getString("status")));	
+			 requestedAppointments.add(appointment);
+	    }
+	    
+	    st.close();
+	    connection.close();
+	    
+	    return requestedAppointments;
+	}
+	
+	@Override
+	public List<Appointment> fetchAllCompletedAppointments() throws SQLException, ClassNotFoundException {
+	    Connection connection = getConnection();	    
+	    String query = "SELECT a.*, c.name AS consultantName, c.email AS consultantEmail, c.phoneNumber AS consultantContact, " +
+	               "s.name AS seekerName, s.email AS seekerEmail, s.phoneNumber AS seekerContact " +
+	               "FROM appointments a  " +
+	               "INNER JOIN user c ON a.consultantId = c.userId " +
+	               "INNER JOIN user s ON a.seekerId = s.userId " +
+	               "WHERE a.status = 'COMPLETED'";
+	    Statement st = connection.createStatement();	    
+	    List<Appointment> requestedAppointments = new ArrayList<>();	    
 	    ResultSet rs = st.executeQuery(query);
 	    while (rs.next()) {
 	    	Appointment appointment = new Appointment();
@@ -325,9 +367,7 @@ private Connection getConnection() throws ClassNotFoundException, SQLException {
 	}
 	
 	
-//	admin requested appointments 
-	
-	
+//	Admin sent appointments to consultant fetch by con id 	
 	@Override
 	
 	public List<Appointment> fetchAdminRequestedAppointments(int loggedInUserId) throws SQLException, ClassNotFoundException {

@@ -362,7 +362,7 @@ p {
 		<div class="row m-0">
      <!-- Search abr  -->   <div class="col-1 m-0"></div>
     <div class="col-10 m-0 d-flex justify-content-center">
-<form action="appointmentManager" method="post">	
+<form action="appointmentManager" method="post" onsubmit="return confirmUpdate();">	
  
     <input class="form-control" type="number" id="appointmentId" name="appointmentId"  readonly="readonly" value="${appointment.appointmentId}"/>
     <label for="userIdUpdate">consultantId:</label>

@@ -73,14 +73,14 @@ body{
   display: flex;
   flex-direction: column;
   max-width: 18.75em;
-  min-height: 5.75em;
+  min-height: 2.75em;
   overflow: hidden;
   border-radius: .5em;
   text-decoration: none;
   background: white;
-  margin: 1em;
-  margin-left: 3em;
-  padding:  1.5em;
+  margin: 10px;
+  margin-left: 10px;
+  padding:  25px;
   padding-bottom: 5px;
   box-shadow: 0 1.5em 2.5em -.5em rgba(0, 0, 0, .1);
   transition: transform .45s ease, background .45s ease;
@@ -88,24 +88,36 @@ body{
 
 .data-card h3 {
   color: #2E3C40;
-  font-size: 2em;
+  font-size: 1.5em;
   font-weight: 600;
   line-height: 1;
   padding-bottom: 5px;
   margin: 0 0 0.142857143em;
   border-bottom: 2px solid #a759f5;
   transition: color .45s ease, border .45s ease;
+  text-align:center;
+}
+
+.count {
+  color: #2E3C40;
+  font-size: 3.5em;
+  font-weight: 600;
+  line-height: 1;
+  padding-bottom: 5px;
+  margin: 0 0 0.142857143em;
+  transition: color .45s ease, border .45s ease;
+  text-align:center;
 }
 
 .data-card h4 {
   color: #627084;
   text-transform: uppercase;
-  font-size: 1em;
+  font-size: 12px;
   font-weight: 700;
   /* line-height: 1; */
   line-height: 1.2;
   letter-spacing: 0.1em;
-  margin: 0 0 1.777777778em;
+  margin: 0 0 10px;
   transition: color .45s ease;
 }
 
@@ -276,27 +288,35 @@ body{
 
   <section class="page-contain">
     <a href="getuser?useractiontype=pending" class="data-card">
-      <h3>12 </h3>
+      <h3><i class="fa fa-user-plus" aria-hidden="true"></i> </h3>
+      <div class="count">12 </div>
       <h4> Pending<br> Registrations</h4>    
     
       <!-- <p>Manage registered patients</p> -->     
     </a>
     <a href="getAppointment?appactiontype=requested" class="data-card">
-      <h3> 25</h3>
+      <h3> <i class="fa fa-calendar-plus-o" aria-hidden="true"></i></h3>
       <h4> New <br>Appointments</h4>
       <!-- <p>Manage Registered Pharmacists</p> -->     
     
     </a>
       <a href="getContact?msgactiontype" class="data-card">
-      <h3> 11</h3>
+      <h3><i class="fa fa-commenting-o" aria-hidden="true"></i></i></h3>
       <h4> New <br>Messages</h4>
       <!-- <p>Manage Registered Pharmacists</p> -->    
     
     </a>
-    <a href="getuser?useractiontype=all" class="data-card">
-      <h3>13</h3>
-      <h4> Registered <br>Users</h4>
+    <a href="getAppointment?appactiontype=adminRequestedAll" class="data-card">
+      <h3><i class="fa fa-clock-o" aria-hidden="true"></i></h3>
+      <h4> pending <br>Appointments</h4>
       <!-- <p>Manage Issued Prescriptions</p> -->     
+    </a>
+     <a href="getAppointment?appactiontype=conConfirmed" class="data-card">
+      <h3><i class="fa fa-tasks" aria-hidden="true"></i></h3>
+      <h4> ongoing<br> Appointments</h4>    
+      
+    
+      <!-- <p>Manage registered patients</p> -->     
     </a>
   </section>
  
@@ -312,26 +332,33 @@ body{
   
 
   <section class="page-contain">
-    <a href="getuser?useractiontype=pending" class="data-card">
-      <h3>12 </h3>
-      <h4> Pending<br> Registrations</h4>    
+    <a href="getAppointment?appactiontype=adminCompleted" class="data-card">
+      <h3><i class="fa fa-calendar-check-o" aria-hidden="true"></i> </h3>
+       <div class="count">12 </div>
+      <h4> Completed<br> Appointments</h4>    
     
       <!-- <p>Manage registered patients</p> -->     
     </a>
-    <a href="getAppointment?appactiontype=requested" class="data-card">
-      <h3> 25</h3>
-      <h4> New <br>Appointments</h4>
+    <a href="getAppointment?appactiontype=adminRejected" class="data-card">
+      <h3> <i class="fa fa-calendar-times-o" aria-hidden="true"></i></h3>
+      <h4> Rejected <br>Appointments</h4>
       <!-- <p>Manage Registered Pharmacists</p> -->     
     
     </a>
-      <a href="getContact?msgactiontype" class="data-card">
-      <h3> 11</h3>
-      <h4> New <br>Messages</h4>
+     <a href="getAppointment?appactiontype=seekerCancelled" class="data-card">
+      <h3> <i class="fa fa-calendar-times-o" aria-hidden="true"></i></h3>
+      <h4> Cancelled <br>Appointments</h4>
+      <!-- <p>Manage Registered Pharmacists</p> -->     
+    
+    </a>
+      <a href="getAppointment?appactiontype=all" class="data-card">
+      <h3><i class="fa fa-calendar" aria-hidden="true"></i></h3>
+      <h4> All <br>Appointments</h4>
       <!-- <p>Manage Registered Pharmacists</p> -->    
     
     </a>
     <a href="getuser?useractiontype=all" class="data-card">
-      <h3>13</h3>
+      <h3><i class="fa fa-users" aria-hidden="true"></i></h3>
       <h4> Registered <br>Users</h4>
       <!-- <p>Manage Issued Prescriptions</p> -->     
     </a>

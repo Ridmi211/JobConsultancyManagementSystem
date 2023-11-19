@@ -49,16 +49,36 @@ public class AppointmentService {
 			return getAppointmentManager().fetchAllAppointments();
 		}
 
-//		public Appointment getAppointmentById(int appointmentId) {
-//			// TODO Auto-generated method stub
-//			return null;
-//		}
 
 		public List<Appointment> fetchRequestedAppointments() throws ClassNotFoundException, SQLException {
 			// TODO Auto-generated method stub
 			return getAppointmentManager().fetchRequestedAppointments();
 		}
-
+		
+		public List<Appointment> fetchAdminRequestedAllAppointments()  throws ClassNotFoundException, SQLException{
+			// TODO Auto-generated method stub
+			return getAppointmentManager().fetchAdminRequestedAllAppointments();
+		}
+		
+		public List<Appointment> fetchAllCompletedAppointments()  throws ClassNotFoundException, SQLException{
+			// TODO Auto-generated method stub
+			return getAppointmentManager().fetchAllCompletedAppointments();
+		}
+		
+		public List<Appointment> fetchConsultantRejectedAppointments()  throws ClassNotFoundException, SQLException{
+			// TODO Auto-generated method stub
+			return getAppointmentManager().fetchConsultantRejectedAppointments();
+		}
+		
+		public List<Appointment> fetchSeekerCancelledAppointments()  throws ClassNotFoundException, SQLException{
+			// TODO Auto-generated method stub
+			return getAppointmentManager().fetchSeekerCancelledAppointments();
+		}
+		
+		public List<Appointment> fetchConsultantConfiremedAppointments()  throws ClassNotFoundException, SQLException{
+			// TODO Auto-generated method stub
+			return getAppointmentManager().fetchConsultantConfiremedAppointments();
+		}
 
 		public List<Appointment> fetchAdminRequestedAppointments(int loggedInUserId)  throws ClassNotFoundException, SQLException{
 			// TODO Auto-generated method stub
