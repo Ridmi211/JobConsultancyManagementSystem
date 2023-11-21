@@ -131,6 +131,23 @@ border-radius:10px;
       border-color: #136d8f;
     }
     
+        .orange-btn{
+      background-color: rgb(255, 128, 64);
+      color: #fff;
+      border-color: rgb(255, 128, 64);
+      padding: 7px;
+      padding-left: 15px;
+      padding-right: 15px;
+      border-radius:15px;
+      text-decoration: none;
+      margin-top: 2px;
+    }
+    
+    .orange-btn:hover {
+      background-color: rgb(232, 75, 0);
+      border-color: rgb(232, 75, 0);
+    }    
+        
     .btn-accept {
       background-color: #63c45d;
       color: #fff;

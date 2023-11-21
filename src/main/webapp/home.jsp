@@ -343,7 +343,8 @@ User user = (User) session.getAttribute("user");
 
 <!-- ------------------------------contact-------------------------------- -->
 <div id="contact" >
-  <div class="container">
+ <jsp:include page="contact.jsp" />
+ <!--  <div class="container">
     <div class="row" style=" margin-top: 100px;">
       <div class="contact-left">
         <h1 class="sub-title margin-top: 50px;">Contact Us</h1>
@@ -354,14 +355,14 @@ User user = (User) session.getAttribute("user");
           <a href="https://github.com/Ridmi211"><i class="fa-brands fa-github"></i></a>
          <a href="https://www.instagram.com/ridmi_y_y/"><i class="fa-brands fa-instagram"></i></a> 
         </div>
-     <!--    <a href="images/Resume- Ridmi Yatigammana.pdf" download class="btn btn2">Download CV</a> -->
+        <a href="images/Resume- Ridmi Yatigammana.pdf" download class="btn btn2">Download CV</a>
       </div>
       <div class="contact-right">
      <form name="form1" class="box" action="contactManager" method="post" onsubmit="resetForm()">
         <input type="text" name="messangerName" placeholder="Your Name" required >
         <input type="text" name="messangerEmail" placeholder="Your Email"  required>
         <textarea name="messageBody" rows="6" placeholder="Your Message"></textarea>
-       <!--  <button type="submit" class="btn btn2">Submit</button> -->
+        <button type="submit" class="btn btn2">Submit</button>
          <div>
                  
           <input type="hidden" name="msgactiontype" value="addMessage"/>
@@ -375,7 +376,7 @@ User user = (User) session.getAttribute("user");
 
   <div class="copyright">
     <p> Copyright © Ridmi. Made with <i class="fa-solid fa-heart"></i> by Easy Tutorials</p>
-  </div>
+  </div> -->
   
 </div>
 
@@ -420,7 +421,7 @@ User user = (User) session.getAttribute("user");
 
 </script>
 
-<script>
+<!-- <script>
   const scriptURL = 'https://script.google.com/macros/s/AKfycbwjcx0iILVo5hybLY6R97WYDrv3PQ7RoVLotpwiMk7FAUS7EPA5Ajsnsw6sr7zWa1V6/exec'
   const form = document.forms['submit-to-google-sheet']
   const msg= document.getElementById("msg")
@@ -439,7 +440,7 @@ User user = (User) session.getAttribute("user");
 
       .catch(error => console.error('Error!', error.message))
   })
-</script>
+</script> -->
 <!-- chart-js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 

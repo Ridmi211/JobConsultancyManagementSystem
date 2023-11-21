@@ -46,9 +46,13 @@ public class MessageController extends HttpServlet {
 	            addMessage(request, response);
 	        } else if (msgactiontype.equals("deleteMsg")) {
 	            deleteMessage(request, response);
+	            
 //	        }else if (msgactiontype.equals("approve")) {
 //	        	replyToMessage(request, response);
-			} 
+			} else if (msgactiontype.equals("reply")) {
+			    replyToMessage(request, response);
+			}
+
 	}
 
 //	private void addMessage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -86,6 +90,29 @@ public class MessageController extends HttpServlet {
 //	    rd.forward(request, response);
 //	}
 
+	
+	private void replyToMessage(HttpServletRequest request, HttpServletResponse response)
+	        throws ServletException, IOException {
+	    clearMessage();
+
+	    int messageId = Integer.parseInt(request.getParameter("messageId"));
+
+	    try {
+	        boolean replied = getMessageService().replyToMessage(messageId);
+	        if (replied) {
+	            message = "Message status set to Replied successfully!";
+	        } else {
+	            message = "Failed to set message status to Replied.";
+	        }
+	    } catch (ClassNotFoundException | SQLException e) {
+	        message = "Operation failed: " + e.getMessage();
+	    }
+
+	    request.setAttribute("feebackMessage", message);
+	    fetchAllMessages(request, response); // Refresh the message list after updating the status
+	}
+
+	
 	private void addMessage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    clearMessage();
 

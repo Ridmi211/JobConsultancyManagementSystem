@@ -48,6 +48,12 @@ public List<Message> fetchAllMessages() throws ClassNotFoundException, SQLExcept
 	return getMessageManager().fetchAllMessages();
 }
 
+public boolean replyToMessage(int messageId) throws ClassNotFoundException, SQLException {
+    MessageManager messageManager = new MessageManagerImpl();
+    Message.MessageStatus repliedStatus = Message.MessageStatus.READ; // Assuming READ is your "Replied" status
+    return messageManager.updateMessageStatus(messageId, repliedStatus);
+}
+
 
 public static void sendMessageReceivedEmail(Message message) {
     String subject = "Message Received";

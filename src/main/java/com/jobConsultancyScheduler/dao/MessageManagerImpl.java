@@ -12,6 +12,7 @@ import com.jobConsultancyScheduler.dao.dbUtils.DbDriverManager;
 import com.jobConsultancyScheduler.dao.dbUtils.DbDriverManagerFactory;
 import com.jobConsultancyScheduler.model.Appointment;
 import com.jobConsultancyScheduler.model.Message;
+import com.jobConsultancyScheduler.model.Appointment.Status;
 import com.jobConsultancyScheduler.model.Message.MessageStatus;
 
 public class MessageManagerImpl implements MessageManager {
@@ -111,5 +112,25 @@ private Connection getConnection() throws ClassNotFoundException, SQLException {
 	    return messageList;
 	}
 
+	public boolean updateMessageStatus(int messageId, Message.MessageStatus messageStatus)
+	        throws SQLException, ClassNotFoundException {
+	    Connection connection = getConnection();
 
+	    String query = "UPDATE messages SET messageStatus = ? WHERE messageId = ?";
+
+	    PreparedStatement ps = connection.prepareStatement(query);
+	    ps.setString(1, messageStatus.name()); // Use name() to get the enum string representation
+	    ps.setInt(2, messageId);
+
+	    boolean result = false;
+
+	    if (ps.executeUpdate() > 0)
+	        result = true;
+
+	    ps.close();
+	    connection.close();
+	    return result;
+	}
+
+	
 }

@@ -31,6 +31,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/navbar-style.css">
     <Style>
         * {
             margin: 0;
@@ -70,51 +71,9 @@
             padding: 10px ;
         } */
 
-        nav {
+    
 
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            width: 100%;
-            height: 60px;
-            background-color: #ffffff;
-            position: fixed;
-        }
-
-        .logo {
-            width: 140px;
-        }
-
-        nav ul li {
-            display: inline-block;
-            list-style: none;
-            margin: 10px 20px;
-        }
-
-        nav ul li a {
-            color: #000000;
-            text-decoration: none;
-            font-size: 16px;
-            position: relative;
-        }
-
-        nav ul li a::after {
-            content: '';
-            width: 0;
-            height: 3px;
-            background: #08d8ca;
-            position: absolute;
-            left: 0;
-            bottom: -6px;
-            transition: 0.4s;
-
-        }
-
-        nav ul li a:hover::after {
-            width: 100%;
-
-        }
+   
 
         .header-text {
             margin-top: 45%;
@@ -403,7 +362,7 @@
         }
 
         /* ----------------contact------------------- */
-
+/* 
         .contact-left {
             flex-basis: 35%;
         }
@@ -439,9 +398,9 @@
         .social-icons a:hover {
             color: #d6adff;
             transform: translateY(-5px);
-        }
+        } */
 
-        .btn.btn2 {
+   /*      .btn.btn2 {
             display: inline-block;
             background: #d6adff;
 
@@ -491,7 +450,7 @@
 
         .copyright i {
             color: #d6adff;
-        }
+        } */
 
         /* -----css for small screen------------ */
         nav .fas {
@@ -960,28 +919,23 @@ User user = (User) session.getAttribute("user");
 </div>
  
   <!-- sidebar end here  -->  
-   <nav class="p-0 m-0 pt-2" style="z-index:10;">
+  <nav class="p-0 m-0 pt-0">
     <img src="images/logo.png" alt="logo">
     <ul class="" id="sidemenu" >
         <li><a href="#header">Home</a></li>
         <li><a href="#about">About</a></li>
         <li><a href="#services">Extra-Curricular</a></li>
         <li><a href="#portfolio">Projects</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li class="m-0"><a class="m-0" href="#contact">Contact</a></li>
         
-          <% if (user != null) { %>
+               <% if (user != null) { %>
           
     <li ><a href="view-profile.jsp"><i class="fa fa-user-circle" aria-hidden="true" ></i>&nbsp;&nbsp; <%= user.getName() %></a></li> 
-    
+        <li ><a href="logout.jsp"><i class="fa fa-sign-out" aria-hidden="true" ></i>&nbsp;&nbsp;Logout</a></li> 
   <% } else { %>
     <li ><a href="login.jsp"><i class="fa fa-user-circle" aria-hidden="true" ></i>&nbsp;&nbsp; Login</a></li> 
   <% } %>
-         
-         <i class="fas fa-solid fa-xmark" onclick="closemenu()"> </i>
-    </ul>
-    
-   
-    <i class="fas fa-solid fa-bars" onclick="openmenu()"></i>
+        </ul>  
   </nav>
     
 <div class="row p-0 m-0">
@@ -1221,7 +1175,8 @@ if (selectedJob != null && !selectedJob.isEmpty()) { // Add this condition
         
         <!-- ------------------------------contact-------------------------------- -->
         <div id="contact">
-            <div class="container">
+         <jsp:include page="contact.jsp" />
+          <!--   <div class="container">
                 <div class="row" style=" margin-top: 100px;">
                     <div class="contact-left">
                         <h1 class="sub-title margin-top: 50px;">Contact Us</h1>
@@ -1245,11 +1200,9 @@ if (selectedJob != null && !selectedJob.isEmpty()) { // Add this condition
                         <span id="msg"></span>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
-            <div class="copyright">
-                <p> Copyright © Ridmi. Made with <i class="fa-solid fa-heart"></i> by Easy Tutorials</p>
-            </div>
+         
 
         </div>
 

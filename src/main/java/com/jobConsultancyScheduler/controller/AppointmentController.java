@@ -62,6 +62,12 @@ public class AppointmentController extends HttpServlet {
 		    	fetchConsultantRejectedAppointments(request, response);
 		    }else if (appactiontype.equals("seekerCancelled")) {
 		    	fetchSeekerCancelledAppointments(request, response);
+		    }else if (appactiontype.equals("conComplete")) {
+		    	fetchCompletedAppointmentsByConId(request, response);
+		    }else if (appactiontype.equals("conCancelled")) {
+		    	fetchCancelledAppointmentsByConId(request, response);
+		    }else if (appactiontype.equals("conUpcoming")) {
+		    	fetchUpcomingAppointmentsByConId(request, response);
 		    }else if (appactiontype.equals("conConfirmed")) {
 		    	fetchConsultantConfiremedAppointments(request, response);
 			}else {
@@ -289,6 +295,7 @@ public class AppointmentController extends HttpServlet {
 			    RequestDispatcher rd = request.getRequestDispatcher("view-requested-appointments.jsp"); 
 			    rd.forward(request, response);
 			}
+	    
 	    private void fetchConsultantConfiremedAppointments(HttpServletRequest request, HttpServletResponse response)
 			    throws ServletException, IOException {
 
@@ -497,7 +504,7 @@ public class AppointmentController extends HttpServlet {
 	        try {
 	        	
 				requestedAppointments = getAppointmentService().fetchAdminRequestedAppointments(loggedInUserId);
-				request.setAttribute("pageTopic", "Upcoming Appointments - Admin ");
+				request.setAttribute("pageTopic", "New Appointments ");
 				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -594,6 +601,125 @@ public class AppointmentController extends HttpServlet {
 	    }
 
 	    
+	    private void fetchCompletedAppointmentsByConId(HttpServletRequest request, HttpServletResponse response)
+	            throws ServletException, IOException{
+
+	        clearMessage();
+
+	        HttpSession session = request.getSession();
+	        User user = (User) session.getAttribute("user"); // Assuming you store the logged-in user object in the session
+	        System.out.println("User from session: " + user);
+	        if (user == null) {
+	            message = "You are not logged in!";
+	            request.setAttribute("feebackMessage", message);
+	            RequestDispatcher rd = request.getRequestDispatcher("view-admin-requested-appointments.jsp");
+	            rd.forward(request, response);
+	            return;
+	        }
+
+	        int loggedInUserId = user.getUserId(); // Assuming userId is a property of the User class
+	        
+	        List<Appointment> requestedAppointments = new ArrayList<Appointment>();
+	        try {
+	        	
+				requestedAppointments = getAppointmentService().fetchCompletedAppointmentsByConId(loggedInUserId);
+				request.setAttribute("pageTopic", "Completed Appointments - Consultant ");
+				
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			if (!(requestedAppointments.size() > 0)) {
+			    message = "No requested appointments found for the logged-in user!";
+			}
+
+	        request.setAttribute("requestedAppointments", requestedAppointments);
+	        request.setAttribute("feebackMessage", message);
+	        System.out.println( "Action :" +request.getParameter("message") );
+	        RequestDispatcher rd = request.getRequestDispatcher("view-admin-requested-appointments.jsp");
+	        rd.forward(request, response);
+	    }
+	    
+	    private void fetchCancelledAppointmentsByConId(HttpServletRequest request, HttpServletResponse response)
+	            throws ServletException, IOException{
+
+	        clearMessage();
+
+	        HttpSession session = request.getSession();
+	        User user = (User) session.getAttribute("user"); // Assuming you store the logged-in user object in the session
+	        System.out.println("User from session: " + user);
+	        if (user == null) {
+	            message = "You are not logged in!";
+	            request.setAttribute("feebackMessage", message);
+	            RequestDispatcher rd = request.getRequestDispatcher("view-admin-requested-appointments.jsp");
+	            rd.forward(request, response);
+	            return;
+	        }
+
+	        int loggedInUserId = user.getUserId(); // Assuming userId is a property of the User class
+	        
+	        List<Appointment> requestedAppointments = new ArrayList<Appointment>();
+	        try {
+	        	
+				requestedAppointments = getAppointmentService().fetchCancelledAppointmentsByConId(loggedInUserId);
+				request.setAttribute("pageTopic", "Cancelled Appointments - Consultant ");
+				
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			if (!(requestedAppointments.size() > 0)) {
+			    message = "No requested appointments found for the logged-in user!";
+			}
+
+	        request.setAttribute("requestedAppointments", requestedAppointments);
+	        request.setAttribute("feebackMessage", message);
+	        System.out.println( "Action :" +request.getParameter("message") );
+	        RequestDispatcher rd = request.getRequestDispatcher("view-admin-requested-appointments.jsp");
+	        rd.forward(request, response);
+	    }
+	    
+	    private void fetchUpcomingAppointmentsByConId(HttpServletRequest request, HttpServletResponse response)
+	            throws ServletException, IOException{
+
+	        clearMessage();
+
+	        HttpSession session = request.getSession();
+	        User user = (User) session.getAttribute("user"); // Assuming you store the logged-in user object in the session
+	        System.out.println("User from session: " + user);
+	        if (user == null) {
+	            message = "You are not logged in!";
+	            request.setAttribute("feebackMessage", message);
+	            RequestDispatcher rd = request.getRequestDispatcher("view-admin-requested-appointments.jsp");
+	            rd.forward(request, response);
+	            return;
+	        }
+
+	        int loggedInUserId = user.getUserId(); // Assuming userId is a property of the User class
+	        
+	        List<Appointment> requestedAppointments = new ArrayList<Appointment>();
+	        try {
+	        	
+				requestedAppointments = getAppointmentService().fetchUpcomingAppointmentsByConId(loggedInUserId);
+				request.setAttribute("pageTopic", "Upcoming Appointments - Consultant ");
+				
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			if (!(requestedAppointments.size() > 0)) {
+			    message = "No requested appointments found for the logged-in user!";
+			}
+
+	        request.setAttribute("requestedAppointments", requestedAppointments);
+	        request.setAttribute("feebackMessage", message);
+	        System.out.println( "Action :" +request.getParameter("message") );
+	        RequestDispatcher rd = request.getRequestDispatcher("view-admin-requested-appointments.jsp");
+	        rd.forward(request, response);
+	    }
 	    
 	    
 	    private void viewAppointment(HttpServletRequest request, HttpServletResponse response)

@@ -88,24 +88,36 @@ body{
 
 .data-card h3 {
   color: #2E3C40;
-  font-size: 2em;
+  font-size: 1.5em;
   font-weight: 600;
   line-height: 1;
   padding-bottom: 5px;
   margin: 0 0 0.142857143em;
   border-bottom: 2px solid #a759f5;
   transition: color .45s ease, border .45s ease;
+  text-align:center;
+}
+
+.count {
+  color: #2E3C40;
+  font-size: 3.5em;
+  font-weight: 600;
+  line-height: 1;
+  padding-bottom: 5px;
+  margin: 0 0 0.142857143em;
+  transition: color .45s ease, border .45s ease;
+  text-align:center;
 }
 
 .data-card h4 {
   color: #627084;
   text-transform: uppercase;
-  font-size: 1em;
+  font-size: 12px;
   font-weight: 700;
   /* line-height: 1; */
   line-height: 1.2;
   letter-spacing: 0.1em;
-  margin: 0 0 1.777777778em;
+  margin: 0 0 10px;
   transition: color .45s ease;
 }
 
@@ -284,26 +296,35 @@ body{
   
 
   <section class="page-contain">
-    <a href="getuser?useractiontype=pending" class="data-card">
-      <h3>12 </h3>
-      <h4> Pending<br> Appointments</h4>    
+    <a href="getAppointment?appactiontype=adminRequested" class="data-card">
+    <h3> <i class="fa fa-calendar-plus-o" aria-hidden="true"></i></h3>
+     <div class="count">12 </div>
+      <h4> New<br> Appointments</h4>    
     
       <!-- <p>Manage registered patients</p> -->     
     </a>
-    <a href="getAppointment?appactiontype=requested" class="data-card">
-      <h3> 25</h3>
+      <a href="getAppointment?appactiontype=conUpcoming" class="data-card">
+       <h3><i class="fa fa-clock-o" aria-hidden="true"></i></h3>
+    <div class="count">12 </div>
+      <h4> Upcoming <br>Appointments</h4>
+      <!-- <p>Manage Registered Pharmacists</p> -->    
+    
+    </a>
+    <a href="getAppointment?appactiontype=conComplete" class="data-card">
+       <h3><i class="fa fa-calendar-check-o" aria-hidden="true"></i> </h3>
+       <div class="count">12 </div>
       <h4> Completed <br>Appointments</h4>
       <!-- <p>Manage Registered Pharmacists</p> -->     
     
     </a>
-      <a href="getContact?msgactiontype" class="data-card">
-      <h3> 11</h3>
+      <a href="getAppointment?appactiontype=conCancelled" class="data-card">
+      <h3> <i class="fa fa-calendar-times-o" aria-hidden="true"></i></h3>
       <h4> Cancelled <br>Appointments</h4>
       <!-- <p>Manage Registered Pharmacists</p> -->    
     
     </a>
    
-   
+    
    
    
    
@@ -320,5 +341,7 @@ body{
     <div class="page-title-2 ">Upcoming Appointments </div>
 </div>
     <div class="col-2 m-0"></div>
+    </div>
+ 
 </body>
 </html>

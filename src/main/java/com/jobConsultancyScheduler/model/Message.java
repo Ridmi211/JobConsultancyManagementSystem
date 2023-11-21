@@ -72,7 +72,7 @@ public class Message {
 	    }
 	
 	    public enum MessageStatus {
-        NEW("New Message"),
+        NEW("New"),
         READ("Replied");
 
         private final String displayName;

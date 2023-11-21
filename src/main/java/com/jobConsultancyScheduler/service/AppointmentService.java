@@ -92,9 +92,22 @@ public class AppointmentService {
 		}
 		
 		public List<Appointment> fetchAppointmentsByConsultantId(int loggedInUserId) throws ClassNotFoundException, SQLException {
-			// TODO Auto-generated method stub
-			return getAppointmentManager().fetchAppointmentsByConsultantId(loggedInUserId);
+						return getAppointmentManager().fetchAppointmentsByConsultantId(loggedInUserId);
 		}
+		
+		public List<Appointment> fetchCompletedAppointmentsByConId(int loggedInUserId) throws ClassNotFoundException, SQLException {
+			return getAppointmentManager().fetchCompletedAppointmentsByConId(loggedInUserId);
+		}
+		
+		public List<Appointment> fetchCancelledAppointmentsByConId(int loggedInUserId) throws ClassNotFoundException, SQLException {
+			return getAppointmentManager().fetchCancelledAppointmentsByConId(loggedInUserId);
+		}
+		
+		public List<Appointment> fetchUpcomingAppointmentsByConId(int loggedInUserId) throws ClassNotFoundException, SQLException {
+			return getAppointmentManager().fetchUpcomingAppointmentsByConId(loggedInUserId);
+		}
+		
+		
 		 public boolean updateAppointmentStatus(int appointmentId, Status status) throws SQLException, ClassNotFoundException {
 		        return getAppointmentManager().updateAppointmentStatus(appointmentId, status);
 		    }

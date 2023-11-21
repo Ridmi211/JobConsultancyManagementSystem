@@ -326,7 +326,7 @@ body{
 </div>  
  
   
- <div class="row m-0 ">
+ <div class="row m-0 mb-5">
     <div class="col-1 m-0"></div>
     <div class="col-10 m-0 d-flex justify-content-center">
   

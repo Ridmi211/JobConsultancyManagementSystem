@@ -95,7 +95,7 @@ User user = (User) session.getAttribute("user");
 </div>
 
 <div class="row m-0 ">
-<p style='color:magenta'>${message}</p>	
+<%-- <p style='color:magenta'>${message}</p>	 --%>
 </div>
      <!-- Search abr  -->
    
@@ -116,7 +116,7 @@ User user = (User) session.getAttribute("user");
             <th scope="col" class="text-center">Status</th>
            <!--  <th scope="col">Role</th> -->
             <th scope="col">View</th>
-             <th scope="col">Complete</th>
+             <th scope="col">Done</th>
             <th  scope="col" >Approve</th>
             <th  scope="col" >Reject</th>
           </tr>
@@ -151,7 +151,7 @@ User user = (User) session.getAttribute("user");
     <form action="appointmentManager" method="post">
     <input type="hidden" name="appointmentId" value="${appointment.appointmentId}">
     <input type="hidden" name="appactiontype" value="view">
-    <button type="submit" class="btn btn-primary">View</button>
+    <button type="submit" class="btn-view">View</button>
 </form> 
 
 </td>
@@ -160,7 +160,7 @@ User user = (User) session.getAttribute("user");
     <form action="appointmentManager" method="post">
     <input type="hidden" name="appointmentId" value="${appointment.appointmentId}">
     <input type="hidden" name="appactiontype" value="completed">
-    <button type="submit" class="btn btn-primary">Complete</button>
+    <button type="submit" class="btn-done">Done</button>
 </form> 
 
 </td>
@@ -170,7 +170,7 @@ User user = (User) session.getAttribute("user");
     <form action="appointmentManager" method="post">
     <input type="hidden" name="appointmentId" value="${appointment.appointmentId}">
     <input type="hidden" name="appactiontype" value="acceptCon">
-    <button type="submit" class="btn btn-success">Accept</button>
+    <button type="submit" class="btn-accept">Accept</button>
       </form>
       </td>
 
@@ -178,7 +178,7 @@ User user = (User) session.getAttribute("user");
     <form action="appointmentManager" method="post">
     <input type="hidden" name="appointmentId" value="${appointment.appointmentId}">
     <input type="hidden" name="appactiontype" value="rejectCon"> <!-- Set the action type to "reject" -->
-    <button type="submit" class="btn btn-danger">Reject</button>
+    <button type="submit" class="btn-delete">Reject</button>
 </form> 
  
 </td>

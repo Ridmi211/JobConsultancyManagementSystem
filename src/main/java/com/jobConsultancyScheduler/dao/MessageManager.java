@@ -3,6 +3,8 @@ package com.jobConsultancyScheduler.dao;
 import java.sql.SQLException;
 import java.util.List;
 import com.jobConsultancyScheduler.model.Message;
+import com.jobConsultancyScheduler.model.Message.MessageStatus;
+import com.jobConsultancyScheduler.model.Appointment.Status;
 
 public interface MessageManager {
 	
@@ -17,7 +19,8 @@ public interface MessageManager {
 	
 	public List<Message> fetchAllMessages() throws SQLException, ClassNotFoundException;
 
-	 
+	public boolean updateMessageStatus(int messageId, MessageStatus messageStatus) throws SQLException, ClassNotFoundException;
+
 	
 
 }

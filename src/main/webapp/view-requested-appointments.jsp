@@ -94,7 +94,7 @@ User user = (User) session.getAttribute("user");
 
 
 <div class="row m-0 ">
-<p style='color:magenta'>${message}</p>	
+<%-- <p style='color:magenta'>${message}</p>	 --%>
 </div>
 
 <!-- table -->

@@ -115,6 +115,7 @@ User user = (User) session.getAttribute("user");
             <th scope="col" class="text-center">Status</th>
            <!--  <th scope="col">Role</th> -->
             <th scope="col">Reply</th>
+            <th scope="col">Done</th>
             <th  scope="col" >Delete</th>
           </tr>
         </thead>
@@ -163,7 +164,13 @@ User user = (User) session.getAttribute("user");
 
 </td>
 
-
+  <td class="btn-column">
+    <form action="contactManager" method="post">
+    <input type="hidden" name="messageId" value="${message.messageId}">
+      <input type="hidden" name="msgactiontype" value="reply">
+    <button type="submit" class=" btn-accept">Done</button>
+      </form>
+      </td>
        
        
           

@@ -43,9 +43,10 @@ User user = (User) session.getAttribute("user");
   <%-- Always display Dashboard --%>
    <div class="normal-content">
    <a href="home.jsp"  class="active">
-    <i class="fas fa-qrcode"></i>
+    <i class="fa fa-home" aria-hidden="true"></i>
     <span>Home</span>
   </a>
+  
    </div>
  <!--  <a href="admin-dashboard.jsp" >
     <i class="fas fa-qrcode"></i>
@@ -54,17 +55,17 @@ User user = (User) session.getAttribute("user");
   
   
   
-       
+    <!--    
       <div class="dropdown">
     <a>
-      <i class="fas fa-qrcode"></i>
+     <i class="fa fa-tachometer" aria-hidden="true"></i>
       <span>Dashboard</span>
     </a>
     <div class="dropdown-content">
       <a  href="admin-dashboard.jsp" >Admin</a>
       <a  href="consultant-dashboard.jsp" >Consultant</a>
     </div>
-  </div>
+  </div> -->
   
 <!--  <a href="getAppointment?appactiontype=all" >
        <i class="far fa-envelope"></i>
@@ -76,66 +77,48 @@ User user = (User) session.getAttribute("user");
        <span>adm-req-app</span>
        
      </a> -->
-     
-       <div class="dropdown">
-    <a>
-      <i class="fas fa-qrcode"></i>
-      <span>Appointment</span>
-    </a>
-    <div class="dropdown-content">
-      <a href="getAppointment?appactiontype=all">View all</a>
-       <a href="getAppointment?appactiontype=requested">View new</a>
-      <a href="getAppointment?appactiontype=adminRequested">View pending</a>
-    </div>
-  </div>
+  
  <!--  <a href="book-consultant-new.jsp" >
     <i class="fas fa-qrcode"></i>
     <span>book</span>
   </a> -->
-  <div class="normal-content">
-<a href="getuser?useractiontype=consultants" >
-    <i class="fas fa-qrcode"></i>
-    <span>Consultants</span>
-  </a>
- </div>
- <div class="normal-content">
-<a href="spinner.jsp" >
-    <i class="fas fa-qrcode"></i>
-    <span>Spinner</span>
-  </a>
-</div>
+
 
   <%-- Display Events and Overview for Consultant --%>
   <% if (user != null && user.getAccessRight() == AccessRight.ROLE_CONSULTANT) { %>
+ 
   <div class="normal-content">
+   <a  href="consultant-dashboard.jsp" >
+      <i class="fa fa-tachometer" aria-hidden="true"></i>
+    <span>Dashboard</span>
+  </a>
       <a href="getAppointment?appactiontype=appointmentByConsultantId" >
-    <i class="fas fa-qrcode"></i>
-    <span>My Appoin</span>
+   <i class="fa fa-calendar" aria-hidden="true"></i>
+    <span>Appointments</span>
   </a>
   </div>
   <% } %>
-  
+
    <% if (user != null && user.getAccessRight() == AccessRight.ROLE_USER) { %>
      <div class="normal-content">
    <a href="getAppointment?appactiontype=appointmentBySeekerId" >
-    <i class="fas fa-qrcode"></i>
-    <span>My App</span>
+   <i class="fa fa-calendar" aria-hidden="true"></i>
+    <span>Appointments</span>
   </a>
    </div>
   <% } %>
 
   <%-- Display About and Services for Admin --%>
   <% if (user != null && user.getAccessRight() == AccessRight.ROLE_ADMIN) { %>
-       
-     <!--  <a href="getuser?useractiontype=all" >
-       <i class="far fa-envelope"></i>
-       <span>View All</span>
-       
-     </a> -->
-     
+         <div class="normal-content">
+     <a  href="admin-dashboard.jsp" >
+      <i class="fa fa-tachometer" aria-hidden="true"></i>
+    <span>Dashboard</span>
+  </a>
+      </div>
       <div class="dropdown">
     <a>
-      <i class="fas fa-qrcode"></i>
+     <i class="fa fa-users" aria-hidden="true"></i>
       <span>User</span>
     </a>
     <div class="dropdown-content">
@@ -143,34 +126,53 @@ User user = (User) session.getAttribute("user");
       <a  href="getuser?useractiontype=pending" >view new</a>
     </div>
   </div>
+  
+     
+       <div class="dropdown">
+    <a>
+      <i class="fa fa-calendar" aria-hidden="true"></i>
+      <span>Appointments</span>
+    </a>
+    <div class="dropdown-content">
+      <a href="getAppointment?appactiontype=all">View all</a>
+       <a href="getAppointment?appactiontype=requested">View new</a>
+      <a href="getAppointment?appactiontype=adminRequested">View pending</a>
+    </div>
+  </div>
     
   <% } %>
+      <div class="normal-content">
+<a href="getuser?useractiontype=consultants" >
+   <i class="fa fa-address-card" aria-hidden="true"></i>
+    <span>Consultants</span>
+  </a>
+ </div>
 
   <%-- Display Services for all users, regardless of role --%>
  
 
   <%-- Display Contact for User and Consultant --%>
   <% if (user != null && (user.getAccessRight() == AccessRight.ROLE_USER || user.getAccessRight() == AccessRight.ROLE_CONSULTANT)) { %>
-    <div class="normal-content">
-     <a href="#">
-      <i class="far fa-envelope"></i>
-      <span>Contact</span>
-    </a>
-    </div>
+  
      <div class="normal-content">
      <a href="view-profile.jsp">
-    <i class="fas fa-sliders-h"></i>
+    <i class="fa fa-user" aria-hidden="true"></i>
     <span>Profile</span>
   </a>
    </div>
   <% } %>
-  
+   <div class="normal-content">
+    <a href="contact-us-page.jsp">
+    <i class="fa fa-phone-square" aria-hidden="true"></i>
+      <span>Contact</span>
+    </a>
+     </div>
   
     <%-- Display Login or Logout based on user status --%>
   <% if (user != null) { %>
    <div class="normal-content">
     <a href="logout.jsp">
-      <i class="fas fa-stream"></i>
+     <i class="fa fa-sign-out" aria-hidden="true"></i>
       <span>Logout</span>
     </a>
      </div>
@@ -183,6 +185,13 @@ User user = (User) session.getAttribute("user");
      </div>
   <% } %>
 
+ 
+ <div class="normal-content">
+<a href="spinner.jsp" >
+    <i class="fas fa-qrcode"></i>
+    <span>Spinner</span>
+  </a>
+</div>
 
  
   <!-- sidebar end here  -->  
