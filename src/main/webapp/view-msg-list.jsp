@@ -69,7 +69,9 @@ User user = (User) session.getAttribute("user");
    <nav class="p-0 m-0 ">
     <img class="logo-img" src="" alt="logo">
     <!-- images/navabar-logo.jpg -->
-    <ul class="" id="sidemenu" >      
+    <ul class="" id="sidemenu" >  
+    <li><a href="getContact?msgactiontype=newMsg">New Messages</a></li>
+        <li><a href="getContact?msgactiontype=all">All Messages</a></li>    
         
           <% if (user != null) { %>
           

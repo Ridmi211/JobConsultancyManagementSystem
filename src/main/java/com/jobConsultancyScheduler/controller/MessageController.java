@@ -34,8 +34,9 @@ public class MessageController extends HttpServlet {
 				throws ServletException, IOException {
 	    	 System.out.println( "Action :" +request.getParameter("msgactiontype") );
 			String msgactiontype = request.getParameter("msgactiontype");
-			 
-		    	fetchAllMessages(request, response);
+			 if (msgactiontype.equals("newMsg")) {
+		            fetchNewMessages(request, response);
+		        } else fetchAllMessages(request, response);
 		    
 		}
 
@@ -149,29 +150,47 @@ public class MessageController extends HttpServlet {
 	    rd.forward(request, response);
 	}
 
-	    private void fetchAllMessages(HttpServletRequest request, HttpServletResponse response)
+	    private void fetchNewMessages(HttpServletRequest request, HttpServletResponse response)
 				throws ServletException, IOException {
-
 			clearMessage();
-
 			List<Message> messageList = new ArrayList<Message>();
 			try {
-				messageList = getMessageService().fetchAllMessages();
-
+				messageList = getMessageService().fetchAllNewMessages();
 				if (!(messageList.size() > 0)) {
 					message = "No record found!";
 				}
 			} catch (ClassNotFoundException | SQLException e) {
 				message = e.getMessage();
 			}
-
 			request.setAttribute("messageList", messageList);
 			request.setAttribute("feebackMessage", message);
-
 			RequestDispatcher rd = request.getRequestDispatcher("view-msg-list.jsp");
 			rd.forward(request, response);
+		}		    
+	    
+	    private void fetchAllMessages(HttpServletRequest request, HttpServletResponse response)
+					throws ServletException, IOException {
 
-		}	
+				clearMessage();
+
+				List<Message> messageList = new ArrayList<Message>();
+				try {
+					messageList = getMessageService().fetchAllMessages();
+
+					if (!(messageList.size() > 0)) {
+						message = "No record found!";
+					}
+				} catch (ClassNotFoundException | SQLException e) {
+					message = e.getMessage();
+				}
+
+				request.setAttribute("messageList", messageList);
+				request.setAttribute("feebackMessage", message);
+
+				RequestDispatcher rd = request.getRequestDispatcher("view-msg-list.jsp");
+				rd.forward(request, response);
+
+			}	
 	    
 	
 	    private void deleteMessage(HttpServletRequest request, HttpServletResponse response)

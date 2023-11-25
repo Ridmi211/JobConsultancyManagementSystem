@@ -132,5 +132,27 @@ private Connection getConnection() throws ClassNotFoundException, SQLException {
 	    return result;
 	}
 
+	  
+	    public List<Message> fetchMessagesByStatus(Message.MessageStatus status) throws ClassNotFoundException, SQLException {
+	        List<Message> messageList = new ArrayList<>();
+	        try (Connection connection =  getConnection();
+	        		PreparedStatement ps = connection.prepareStatement("SELECT * FROM messages WHERE messageStatus = ?")) {
+	            ps.setString(1, status.name());
+	            try (ResultSet rs = ps.executeQuery()) {
+	                while (rs.next()) {
+	                	 Message contact = new Message();
+	         	        contact.setMessageId(rs.getInt("messageId"));
+	         	        contact.setMessageDate(rs.getDate("messageDate"));
+	         	        contact.setMessangerName(rs.getString("messangerName"));
+	         	        contact.setMessangerEmail(rs.getString("messangerEmail"));
+	         	        contact.setMessageBody(rs.getString("messageBody"));
+	         	        contact.setMessageStatus(MessageStatus.valueOf(rs.getString("messageStatus")));  // Assuming MessageStatus is an enum
+
+	         	        messageList.add(contact);
+	                }
+	            }
+	        }
+	        return messageList;
+	    }
 	
 }

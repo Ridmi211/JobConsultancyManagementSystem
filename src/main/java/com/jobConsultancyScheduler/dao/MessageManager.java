@@ -21,6 +21,8 @@ public interface MessageManager {
 
 	public boolean updateMessageStatus(int messageId, MessageStatus messageStatus) throws SQLException, ClassNotFoundException;
 
-	
+    List<Message> fetchMessagesByStatus(MessageStatus messageStatus) throws ClassNotFoundException, SQLException;
+
+    
 
 }

@@ -362,7 +362,7 @@
         }
 
         /* ----------------contact------------------- */
-/* 
+
         .contact-left {
             flex-basis: 35%;
         }
@@ -398,9 +398,9 @@
         .social-icons a:hover {
             color: #d6adff;
             transform: translateY(-5px);
-        } */
+        } 
 
-   /*      .btn.btn2 {
+     .btn.btn2 {
             display: inline-block;
             background: #d6adff;
 
@@ -450,7 +450,7 @@
 
         .copyright i {
             color: #d6adff;
-        } */
+        } 
 
         /* -----css for small screen------------ */
         nav .fas {

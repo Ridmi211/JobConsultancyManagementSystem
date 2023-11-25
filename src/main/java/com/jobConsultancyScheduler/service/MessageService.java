@@ -54,6 +54,16 @@ public boolean replyToMessage(int messageId) throws ClassNotFoundException, SQLE
     return messageManager.updateMessageStatus(messageId, repliedStatus);
 }
 
+public int getNewMessagesCount() throws ClassNotFoundException, SQLException {
+    MessageManager messageManager = getMessageManager();
+    List<Message> newMessages = messageManager.fetchMessagesByStatus(Message.MessageStatus.NEW);
+    return newMessages.size();
+}
+
+public List<Message> fetchAllNewMessages() throws ClassNotFoundException, SQLException {
+    MessageManager messageManager = getMessageManager();
+    return messageManager.fetchMessagesByStatus(Message.MessageStatus.NEW);
+}
 
 public static void sendMessageReceivedEmail(Message message) {
     String subject = "Message Received";

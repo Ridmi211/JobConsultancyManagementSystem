@@ -70,6 +70,10 @@ public class AppointmentController extends HttpServlet {
 		    	fetchUpcomingAppointmentsByConId(request, response);
 		    }else if (appactiontype.equals("conConfirmed")) {
 		    	fetchConsultantConfiremedAppointments(request, response);
+				/*
+				 * }else if (appactiontype.equals("appointmentCounts")) {
+				 * setAppointmentCounts(request, response);
+				 */
 			}else {
 		        fetchAllAppointments(request, response);
 		    }
@@ -101,6 +105,38 @@ public class AppointmentController extends HttpServlet {
 				cancelAppointmentSeeker(request, response);
 			}
 	    }
+	    
+	    
+		/*
+		 * private void setAppointmentCounts(HttpServletRequest request,
+		 * HttpServletResponse response) throws ServletException, IOException { try {
+		 * System.out.println("Inside setAppointmentCounts method"); // ... existing
+		 * code ...
+		 * 
+		 * // Add the following lines to retrieve counts int totalAppointments =
+		 * getAppointmentService().getTotalAppointmentsCount(); int
+		 * completedAppointments =
+		 * getAppointmentService().getCompletedAppointmentsCount(); int
+		 * requestedAppointments =
+		 * getAppointmentService().getRequestedAppointmentsCount(); // Add more counts
+		 * as needed...
+		 * 
+		 * // Set counts as attributes in the request scope
+		 * request.setAttribute("totalAppointments", String.valueOf(totalAppointments));
+		 * System.out.println("Total Appointments: " + totalAppointments);
+		 * 
+		 * request.setAttribute("completedAppointments", completedAppointments);
+		 * System.out.println("Completed Appointments: " + completedAppointments);
+		 * request.setAttribute("requestedAppointments", requestedAppointments);
+		 * System.out.println("requestedAppointments: " + requestedAppointments); // Add
+		 * more attributes as needed...
+		 * 
+		 * System.out.println("Forwarding to JSP page with counts...");
+		 * RequestDispatcher rd = request.getRequestDispatcher("admin-dashboard.jsp");
+		 * rd.forward(request, response); } catch (ClassNotFoundException | SQLException
+		 * e) { e.printStackTrace(); // Handle exceptions appropriately in your
+		 * application } }
+		 */
 	    
 	    
 	    private void addAppointment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

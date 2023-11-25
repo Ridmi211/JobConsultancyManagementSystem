@@ -133,6 +133,53 @@ public class AppointmentService {
 		        return getAppointmentManager().updateAppointmentStatus(appointmentId, Status.SEEKER_CANCELLED);
 		    }
 		  
+//		    counts
+		    public int getTotalAppointmentsCount() throws ClassNotFoundException, SQLException {
+		        return getAppointmentManager().fetchAllAppointments().size();
+		    }
+
+		    public int getCompletedAppointmentsCount() throws ClassNotFoundException, SQLException {
+		        return getAppointmentManager().fetchAllCompletedAppointments().size();
+		    }
+		    
+		    public int getAdminRequestedAllAppointmentsCount() throws ClassNotFoundException, SQLException {
+		        return getAppointmentManager().fetchAdminRequestedAllAppointments().size();
+		    }
+		    
+		    public int getRequestedAppointmentsCount() throws ClassNotFoundException, SQLException {
+		        return getAppointmentManager().fetchRequestedAppointments().size();
+		    }
+
+		    public int getAdminRequestedAppointmentsCount(int loggedInUserId) throws ClassNotFoundException, SQLException {
+		        return getAppointmentManager().fetchAdminRequestedAppointments(loggedInUserId).size();
+		    }
+
+		    public int getConsultantConfirmedAppointmentsCount() throws ClassNotFoundException, SQLException {
+		        return getAppointmentManager().fetchConsultantConfiremedAppointments().size();
+		    }
+
+		    public int getConsultantRejectedAppointmentsCount() throws ClassNotFoundException, SQLException {
+		        return getAppointmentManager().fetchConsultantRejectedAppointments().size();
+		    }   		  
+
+		    public int getSeekerCancelledAppointmentsCount() throws ClassNotFoundException, SQLException {
+		        // Implement logic to get the count of seeker-cancelled appointments
+		        return getAppointmentManager().fetchSeekerCancelledAppointments().size();
+		    }		   
+
+		    public int getAppointmentsBySeekerIdCount(int loggedInUserId) throws ClassNotFoundException, SQLException {
+		        // Implement logic to get the count of appointments for a specific seeker
+		        return getAppointmentManager().fetchAppointmentsBySeekerId(loggedInUserId).size();
+		    }
+
+		    public int getAppointmentsByConsultantIdCount(int loggedInUserId) throws ClassNotFoundException, SQLException {
+		        // Implement logic to get the count of appointments for a specific consultant
+		        return getAppointmentManager().fetchAppointmentsByConsultantId(loggedInUserId).size();
+		    }
+		    
+		    
+		    
+		    
 		    public static void sendAppointmentConfirmationEmail(Appointment appointment, User consultant, User seeker) {
 		        String subject = "Appointment Request Received";
 		        StringBuilder messageBody = new StringBuilder("Dear " + seeker.getName() + ",\n\n" +
