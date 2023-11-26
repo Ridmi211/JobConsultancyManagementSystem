@@ -177,6 +177,17 @@ public class AppointmentService {
 		        return getAppointmentManager().fetchAppointmentsByConsultantId(loggedInUserId).size();
 		    }
 		    
+		    public int getCompletedAppointmentsByConIdCount(int loggedInUserId) throws ClassNotFoundException, SQLException {
+		        return getAppointmentManager().fetchCompletedAppointmentsByConId(loggedInUserId).size();
+		    }
+
+		    public int getCancelledAppointmentsByConIdCount(int loggedInUserId) throws ClassNotFoundException, SQLException {
+		        return getAppointmentManager().fetchCancelledAppointmentsByConId(loggedInUserId).size();
+		    }
+
+		    public int getUpcomingAppointmentsByConIdCount(int loggedInUserId) throws ClassNotFoundException, SQLException {
+		        return getAppointmentManager().fetchUpcomingAppointmentsByConId(loggedInUserId).size();
+		    }
 		    
 		    
 		    

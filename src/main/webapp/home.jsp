@@ -4,6 +4,34 @@
     <%@ taglib prefix="tag" uri="http://java.sun.com/jsp/jstl/core"%>
     <%@ page import="com.jobConsultancyScheduler.model.User" %>
     <%@ page import="com.jobConsultancyScheduler.model.AccessRight" %>
+     <%@ page import="com.jobConsultancyScheduler.service.AppointmentService" %>
+        <%@ page import="com.jobConsultancyScheduler.service.UserService" %>
+          <%@ page import="com.jobConsultancyScheduler.service.MessageService" %>
+          
+          <%
+
+
+
+  
+    	  AppointmentService appointmentService = AppointmentService.getAppointmentService();
+          UserService userService = UserService.getUserService();
+
+        int totalAppointmentsCount = appointmentService.getTotalAppointmentsCount();
+        int completedAppointmentsCount = appointmentService.getCompletedAppointmentsCount();
+        int requestedAppointmentsCount = appointmentService.getRequestedAppointmentsCount();
+        int consultantConfirmedAppointmentsCount = appointmentService.getConsultantConfirmedAppointmentsCount();
+        int consultantRejectedAppointmentsCount = appointmentService.getConsultantRejectedAppointmentsCount();
+        int seekerCancelledAppointmentsCount = appointmentService.getSeekerCancelledAppointmentsCount();
+        int adminRequestedAllAppointmentsCount =appointmentService.getAdminRequestedAllAppointmentsCount();
+        int allUserCount=userService.getAllUsersCount();
+        int pendingUserCount=userService.getPendingUsersCount();
+   
+        MessageService messageService = MessageService.getMessageService();
+        int newMessagesCount = messageService.getNewMessagesCount();
+  
+%>
+   
+    
 <!DOCTYPE html>
 <html>
 
@@ -226,10 +254,10 @@ User user = (User) session.getAttribute("user");
           
             <script>
               const data1 = {
-                labels: ['January', 'February', 'March', 'April', 'May'],
+                labels: ['hello', 'February', 'March', 'April', 'May'],
                 datasets: [{
                   label: 'Monthly Sales',
-                  data: [50, 60, 70, 65, 80],
+                  data: [<%= completedAppointmentsCount %>, <%= consultantRejectedAppointmentsCount %>, <%= totalAppointmentsCount %>, <%= newMessagesCount %>, <%= pendingUserCount %>],
                   borderColor: 'rgb(75, 192, 192)', // Line color
                   borderWidth: 2, // Line width
                   fill: false, // Do not fill the area under the line
@@ -263,12 +291,12 @@ User user = (User) session.getAttribute("user");
             </ul>
           </div> -->
           <!-- Work History  -->
-          <div class="tab-contents row" id="Languages">
+          <div class="tab-contents " id="Languages">
 
             <div style="width: 320px; height: 420px;">
               <canvas id="doughnutChart"></canvas>
             </div>
-            <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
             <script>
               const data = {
                 labels: ['Red', 'Blue', 'Yellow'],
@@ -285,7 +313,7 @@ User user = (User) session.getAttribute("user");
                 type: 'doughnut',
                 data: data
               });
-            </script> -->
+            </script> 
             
             
           </div>
@@ -454,7 +482,7 @@ User user = (User) session.getAttribute("user");
       labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
       datasets: [{
         label: '# of Votes',
-        data: [12, 19, 3, 5, 2, 3],
+        data: [<%= completedAppointmentsCount %>, <%= consultantRejectedAppointmentsCount %>, <%= totalAppointmentsCount %>, <%= newMessagesCount %>, <%= pendingUserCount %>],
         borderWidth: 1
       }]
     },

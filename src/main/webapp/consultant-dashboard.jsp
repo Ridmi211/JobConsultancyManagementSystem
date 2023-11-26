@@ -3,7 +3,8 @@
     <%@ taglib prefix="tag" uri="http://java.sun.com/jsp/jstl/core"%>
     <%@ page import="com.jobConsultancyScheduler.model.User" %>
     <%@ page import="com.jobConsultancyScheduler.model.AccessRight" %>
-    
+      <%@ page import="com.jobConsultancyScheduler.service.AppointmentService" %>
+      
 
 <%
 // Check if the user is logged in and has the appropriate role
@@ -17,8 +18,15 @@ if (user == null || !user.getAccessRight().equals(AccessRight.ROLE_CONSULTANT)) 
 }
 %>
 
-
-    
+<%
+        AppointmentService appointmentService = AppointmentService.getAppointmentService();
+        int loggedInUserId = user.getUserId();
+        int adminRequestedAppointmentsCount = appointmentService.getAdminRequestedAppointmentsCount(loggedInUserId);
+        int appointmentsByConsultantIdCount = appointmentService.getAppointmentsByConsultantIdCount(loggedInUserId);
+         int cancelledAppointmentsCount = appointmentService.getCancelledAppointmentsByConIdCount(loggedInUserId);
+        int upcomingAppointmentsCountByConId = appointmentService.getUpcomingAppointmentsByConIdCount(loggedInUserId);
+        int completedAppointmentsCountByConId = appointmentService.getCompletedAppointmentsByConIdCount(loggedInUserId);
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -298,27 +306,28 @@ body{
   <section class="page-contain">
     <a href="getAppointment?appactiontype=adminRequested" class="data-card">
     <h3> <i class="fa fa-calendar-plus-o" aria-hidden="true"></i></h3>
-     <div class="count">12 </div>
+     <div class="count"><%= adminRequestedAppointmentsCount %></div>
       <h4> New<br> Appointments</h4>    
     
       <!-- <p>Manage registered patients</p> -->     
     </a>
       <a href="getAppointment?appactiontype=conUpcoming" class="data-card">
        <h3><i class="fa fa-clock-o" aria-hidden="true"></i></h3>
-    <div class="count">12 </div>
+    <div class="count"><%= upcomingAppointmentsCountByConId %> </div>
       <h4> Upcoming <br>Appointments</h4>
       <!-- <p>Manage Registered Pharmacists</p> -->    
     
     </a>
     <a href="getAppointment?appactiontype=conComplete" class="data-card">
        <h3><i class="fa fa-calendar-check-o" aria-hidden="true"></i> </h3>
-       <div class="count">12 </div>
+       <div class="count"><%= completedAppointmentsCountByConId %> </div>
       <h4> Completed <br>Appointments</h4>
       <!-- <p>Manage Registered Pharmacists</p> -->     
     
     </a>
       <a href="getAppointment?appactiontype=conCancelled" class="data-card">
       <h3> <i class="fa fa-calendar-times-o" aria-hidden="true"></i></h3>
+      <div class="count"><%= cancelledAppointmentsCount %> </div>
       <h4> Cancelled <br>Appointments</h4>
       <!-- <p>Manage Registered Pharmacists</p> -->    
     
