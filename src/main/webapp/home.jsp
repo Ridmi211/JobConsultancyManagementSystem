@@ -7,7 +7,19 @@
      <%@ page import="com.jobConsultancyScheduler.service.AppointmentService" %>
         <%@ page import="com.jobConsultancyScheduler.service.UserService" %>
           <%@ page import="com.jobConsultancyScheduler.service.MessageService" %>
-          
+       
+       
+       <%@ page import="java.time.Year" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.jobConsultancyScheduler.dao.AppointmentManagerImpl" %>
+
+<%
+    // Instantiate the AppointmentManagerImpl or get it from your application context
+    AppointmentManagerImpl appointmentManager = new AppointmentManagerImpl();
+
+    // Get the monthly appointment counts for the current year
+    List<Integer> monthlyCounts = appointmentManager.getMonthlyAppointmentCounts();
+%>   
           <%
 
 
@@ -252,7 +264,7 @@ User user = (User) session.getAttribute("user");
               <canvas id="myLineChart"></canvas>
             </div>
           
-            <script>
+         <%--    <script>
               const data1 = {
                 labels: ['hello', 'February', 'March', 'April', 'May'],
                 datasets: [{
@@ -269,7 +281,37 @@ User user = (User) session.getAttribute("user");
                 type: 'line', // Specify the chart type as 'line'
                 data: data1
               });
-            </script>
+            </script> --%>
+            
+            <script>
+    const data1 = {
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+        datasets: [{
+            label: 'Monthly Appointments',
+            data: [<%= monthlyCounts.get(0) %>, <%= monthlyCounts.get(1) %>, <%= monthlyCounts.get(2) %>, <%= monthlyCounts.get(3) %>, <%= monthlyCounts.get(4) %>, <%= monthlyCounts.get(5) %>, <%= monthlyCounts.get(6) %>, <%= monthlyCounts.get(7) %>, <%= monthlyCounts.get(8) %>, <%= monthlyCounts.get(9) %>, <%= monthlyCounts.get(10) %>, <%= monthlyCounts.get(11) %>],
+            borderColor: 'rgb(75, 192, 192)',
+            borderWidth: 2,
+            fill: false,
+        }]
+    };
+
+    const ctx1 = document.getElementById('myLineChart').getContext('2d');
+    const myLineChart = new Chart(ctx1, {
+        type: 'line',
+        data: data1,
+        options: {
+            scales: {
+                x: {
+                    type: 'category',
+                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                },
+                y: {
+                    beginAtZero: true,
+                }
+            }
+        }
+    });
+</script>
           </div>          
           <!-- Education -->
           <div class="tab-contents" id="Education">

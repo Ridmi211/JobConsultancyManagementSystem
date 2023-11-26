@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -609,4 +610,32 @@ private Connection getConnection() throws ClassNotFoundException, SQLException {
 	    }
 
 
+	    public List<Integer> getMonthlyAppointmentCounts() throws SQLException, ClassNotFoundException {
+	        Connection connection = getConnection();
+	        List<Integer> monthlyCounts = new ArrayList<>();
+
+	        // Get the current year
+	        int currentYear = Year.now().getValue();
+
+	        // Loop through each month (January to December) and fetch the count
+	        for (int month = 1; month <= 12; month++) {
+	            String query = "SELECT COUNT(*) FROM appointments WHERE YEAR(STR_TO_DATE(scheduledDate, '%Y-%m-%d')) = ? AND MONTH(STR_TO_DATE(scheduledDate, '%Y-%m-%d')) = ?";
+
+	            try (PreparedStatement ps = connection.prepareStatement(query)) {
+	                ps.setInt(1, currentYear);
+	                ps.setInt(2, month);
+
+	                try (ResultSet rs = ps.executeQuery()) {
+	                    if (rs.next()) {
+	                        int count = rs.getInt(1);
+	                        monthlyCounts.add(count);
+	                    }
+	                }
+	            }
+	        }
+
+	        connection.close();
+	        return monthlyCounts;
+	    }
+	  
 }
