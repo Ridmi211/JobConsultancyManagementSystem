@@ -10,8 +10,62 @@
        
        
        <%@ page import="java.time.Year" %>
-<%@ page import="java.util.List" %>
+       <%@ page import="java.util.List" %>
 <%@ page import="com.jobConsultancyScheduler.dao.AppointmentManagerImpl" %>
+
+<%@ page import="com.jobConsultancyScheduler.dao.UserManagerImpl" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="java.util.stream.Collectors" %>
+
+<%@ page import="java.util.Map" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
+
+ <%@ page import="com.fasterxml.jackson.databind.ObjectMapper" %>
+<%@ page import="com.fasterxml.jackson.core.JsonProcessingException" %>
+
+<%@ page import="java.sql.SQLException" %>
+<%@ page import="java.util.HashMap" %>
+<%@ page import="com.jobConsultancyScheduler.dao.UserManagerImpl" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Arrays" %>
+<%@ page import="java.util.Iterator" %>
+<%@ page import="java.util.Map.Entry" %>
+
+<%@ page import="java.util.Calendar" %>
+<%@ page import="java.util.Date" %>
+
+<%
+    Calendar calendar = Calendar.getInstance();
+    calendar.setTime(new Date());
+    int currentYear = calendar.get(Calendar.YEAR);
+%>
+
+
+<%
+    // Instantiate the UserManagerImpl or get it from your application context
+    UserManagerImpl userManager = new UserManagerImpl();
+Map<String, List<Integer>> monthlyCountsMap = userManager.getMonthlyUserRegistrationCounts();
+List<Integer> userCounts = monthlyCountsMap.get("userCounts");
+List<Integer> consultantCounts = monthlyCountsMap.get("consultantCounts");
+    // Get the monthly user registration counts
+   
+%>
+<%
+    // Assuming you have an instance of UserManagerImpl named "userManager" available in your JSP
+  
+
+
+      /*   Map<String, List<?>> consultantCountsByCountries = userManager.getConsultantCountsBySpecializedCountries();
+        List<String> specializedCountries = (List<String>) consultantCountsByCountries.get("specializedCountries");
+        List<Integer> consultantCountsCountry = (List<Integer>) consultantCountsByCountries.get("consultantCountsCountry");
+ 
+        // Convert the lists to JSON for use in JavaScript
+      /*   ObjectMapper objectMapper = new ObjectMapper();
+        String specializedCountriesJson = objectMapper.writeValueAsString(specializedCountries);
+        String consultantCountsCountryJson = objectMapper.writeValueAsString(consultantCountsCountry);
+ */
+%>
 
 <%
     // Instantiate the AppointmentManagerImpl or get it from your application context
@@ -245,16 +299,18 @@ User user = (User) session.getAttribute("user");
     <div class="row mt-5">
       <div class="about-col-1 ">
         
-        <h1 class="mt-5 pt-5 sub-title " style="color: #5b4a6b;">Our Experts Are the Finest</h1>
+        <h1 class="mt-5 pt-5 sub-title " style="color: #5b4a6b;">Witness the vibrant growth of our community month by month in <%= currentYear %>!</h1>
         <!-- <img src="https://images.inc.com/uploaded_files/image/1920x1080/getty_468868827_970566970450047_60099.jpg" alt="user image"> -->
       </div>
       <div class="about-col-2">
-        <p>I'm a paragraph. Click here to add your own text and edit me.
+        <p>Chart below showcases the exciting journey of new users and consultants joining our platform and escalating demand for appointments. 
+        Be a part of this dynamic ecosystem and unlock countless opportunities. 
+        Join today and shape your future with us!
           <div class="tab-titles">
-            <p class="tab-links active-link" onclick="opentab('Skills')">Skills</p>
-            <p class="tab-links"onclick="opentab('Education')">Education</p>
-            <!-- <p class="tab-links"onclick="opentab('Extra-Curricular')">Extra-Curricular</p> -->
-            <p class="tab-links"onclick="opentab('Languages')">Languages</p>
+       <%--      <p class="tab-links " >Witness the vibrant growth of our community month by month in <%= currentYear %>!</p> --%>
+       <!--      <p class="tab-links"onclick="opentab('Education')">Education</p>
+            <p class="tab-links"onclick="opentab('Extra-Curricular')">Extra-Curricular</p>
+            <p class="tab-links"onclick="opentab('Languages')">Languages</p> -->
           </div>
           <!-- skills -->
           <div class="tab-contents active-tab" id="Skills">
@@ -264,24 +320,7 @@ User user = (User) session.getAttribute("user");
               <canvas id="myLineChart"></canvas>
             </div>
           
-         <%--    <script>
-              const data1 = {
-                labels: ['hello', 'February', 'March', 'April', 'May'],
-                datasets: [{
-                  label: 'Monthly Sales',
-                  data: [<%= completedAppointmentsCount %>, <%= consultantRejectedAppointmentsCount %>, <%= totalAppointmentsCount %>, <%= newMessagesCount %>, <%= pendingUserCount %>],
-                  borderColor: 'rgb(75, 192, 192)', // Line color
-                  borderWidth: 2, // Line width
-                  fill: false, // Do not fill the area under the line
-                }]
-              };
-          
-              const ctx1 = document.getElementById('myLineChart').getContext('2d');
-              const myLineChart = new Chart(ctx1, {
-                type: 'line', // Specify the chart type as 'line'
-                data: data1
-              });
-            </script> --%>
+         
             
             <script>
     const data1 = {
@@ -289,6 +328,20 @@ User user = (User) session.getAttribute("user");
         datasets: [{
             label: 'Monthly Appointments',
             data: [<%= monthlyCounts.get(0) %>, <%= monthlyCounts.get(1) %>, <%= monthlyCounts.get(2) %>, <%= monthlyCounts.get(3) %>, <%= monthlyCounts.get(4) %>, <%= monthlyCounts.get(5) %>, <%= monthlyCounts.get(6) %>, <%= monthlyCounts.get(7) %>, <%= monthlyCounts.get(8) %>, <%= monthlyCounts.get(9) %>, <%= monthlyCounts.get(10) %>, <%= monthlyCounts.get(11) %>],
+            borderColor: 'rgb(91,74,107)',
+            borderWidth: 2,
+            fill: false,
+        },
+        {
+            label: 'User Registrations',
+            data: [<%= userCounts.get(0) %>, <%= userCounts.get(1) %>, <%= userCounts.get(2) %>, <%= userCounts.get(3) %>, <%= userCounts.get(4) %>, <%= userCounts.get(5) %>, <%= userCounts.get(6) %>, <%= userCounts.get(7) %>, <%= userCounts.get(8) %>, <%= userCounts.get(9) %>, <%= userCounts.get(10) %>, <%= userCounts.get(11) %>],
+            borderColor: 'rgb(255, 99, 132)',
+            borderWidth: 2,
+            fill: false,
+        },
+        {
+            label: 'Consultant Registrations',
+            data: [<%= consultantCounts.get(0) %>, <%= consultantCounts.get(1) %>, <%= consultantCounts.get(2) %>, <%= consultantCounts.get(3) %>, <%= consultantCounts.get(4) %>, <%= consultantCounts.get(5) %>, <%= consultantCounts.get(6) %>, <%= consultantCounts.get(7) %>, <%= consultantCounts.get(8) %>, <%= consultantCounts.get(9) %>, <%= consultantCounts.get(10) %>, <%= consultantCounts.get(11) %>],
             borderColor: 'rgb(75, 192, 192)',
             borderWidth: 2,
             fill: false,
@@ -315,24 +368,39 @@ User user = (User) session.getAttribute("user");
           </div>          
           <!-- Education -->
           <div class="tab-contents" id="Education">
-           
-    <div>
-      <canvas id="myChart"></canvas>
-    </div>
-    
+          
+          
+    <!--       
+          <div>
+  <canvas id="myChart2"></canvas>
+</div>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  const ctx = document.getElementById('myChart2');
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+      datasets: [{
+        label: '# of Votes',
+        data: [12, 19, 3, 5, 2, 3],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script> -->
+</div>
  
-          </div>
-          <!-- Extra-Curricular -->
-          <!-- <div class="tab-contents" id="Extra-Curricular">
-            <ul>
-              <li><span>2018 - 2019</span><br> Senior Prefect <br>Pushpadana Girls' College. Kandy</li>
-              <li><span>2017 - 2018</span><br> Committee member of English 
-                medium unit<br>Pushpadana Girls' College. Kandy</li>
-              
-            </ul>
-          </div> -->
-          <!-- Work History  -->
           <div class="tab-contents " id="Languages">
 
             <div style="width: 320px; height: 420px;">
@@ -364,7 +432,7 @@ User user = (User) session.getAttribute("user");
 
   </div>
 </div>
-<!-- ///////////// -->
+
 
 
   <div class="p-0 m-0 " style=" background-color: #ffffff; height: 40vh;color: #5b4a6b; font-size: 2.5rem;">
@@ -414,39 +482,7 @@ User user = (User) session.getAttribute("user");
 <!-- ------------------------------contact-------------------------------- -->
 <div id="contact" >
  <jsp:include page="contact.jsp" />
- <!--  <div class="container">
-    <div class="row" style=" margin-top: 100px;">
-      <div class="contact-left">
-        <h1 class="sub-title margin-top: 50px;">Contact Us</h1>
-        <p><i class="fa-solid fa-paper-plane"></i> ridmiyatigammana@gmail.com</p>
-        <p><i class="fa-solid fa-square-phone"></i> (+94)71-954 3823</p>
-        <div class="social-icons">
-          <a href="https://www.linkedin.com/in/ridmi-yatigammana-b42383214/"><i class="fa-brands fa-linkedin"></i></a>
-          <a href="https://github.com/Ridmi211"><i class="fa-brands fa-github"></i></a>
-         <a href="https://www.instagram.com/ridmi_y_y/"><i class="fa-brands fa-instagram"></i></a> 
-        </div>
-        <a href="images/Resume- Ridmi Yatigammana.pdf" download class="btn btn2">Download CV</a>
-      </div>
-      <div class="contact-right">
-     <form name="form1" class="box" action="contactManager" method="post" onsubmit="resetForm()">
-        <input type="text" name="messangerName" placeholder="Your Name" required >
-        <input type="text" name="messangerEmail" placeholder="Your Email"  required>
-        <textarea name="messageBody" rows="6" placeholder="Your Message"></textarea>
-        <button type="submit" class="btn btn2">Submit</button>
-         <div>
-                 
-          <input type="hidden" name="msgactiontype" value="addMessage"/>
-          <button  class="btn btn2" type="submit">Send</button>
-        </div>
-      </form>
-      <span id="msg"></span>
-    </div>
-    </div>
-  </div>
-
-  <div class="copyright">
-    <p> Copyright © Ridmi. Made with <i class="fa-solid fa-heart"></i> by Easy Tutorials</p>
-  </div> -->
+ 
   
 </div>
 
@@ -457,7 +493,7 @@ User user = (User) session.getAttribute("user");
     }
 </script>
 
-<script>
+<!-- <script>
 
   var tablinks= document.getElementsByClassName("tab-links");
   var tabcontents= document.getElementsByClassName("tab-contents");
@@ -472,7 +508,7 @@ User user = (User) session.getAttribute("user");
     document.getElementById(tabname).classList.add("active-tab");
 
   }
-</script>
+</script> -->
 
 <script>
   var sidemenu=document.getElementById("sidemenu");
@@ -491,52 +527,6 @@ User user = (User) session.getAttribute("user");
 
 </script>
 
-<!-- <script>
-  const scriptURL = 'https://script.google.com/macros/s/AKfycbwjcx0iILVo5hybLY6R97WYDrv3PQ7RoVLotpwiMk7FAUS7EPA5Ajsnsw6sr7zWa1V6/exec'
-  const form = document.forms['submit-to-google-sheet']
-  const msg= document.getElementById("msg")
-
-  form.addEventListener('submit', e => {
-    e.preventDefault()
-    fetch(scriptURL, { method: 'POST', body: new FormData(form)})
-      .then(response => {
-        msg.innerHTML="Message sent successfully"
-        setTimeout(function(){
-          msg.innerHTML=""
-        },5000)
-      form.reset()
-      })
-
-
-      .catch(error => console.error('Error!', error.message))
-  })
-</script> -->
-<!-- chart-js -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-   
-<script>
-  const ctx = document.getElementById('myChart');
-
-  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-      datasets: [{
-        label: '# of Votes',
-        data: [<%= completedAppointmentsCount %>, <%= consultantRejectedAppointmentsCount %>, <%= totalAppointmentsCount %>, <%= newMessagesCount %>, <%= pendingUserCount %>],
-        borderWidth: 1
-      }]
-    },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true
-        }
-      }
-    }
-  });
-</script>
 
 
 </body>

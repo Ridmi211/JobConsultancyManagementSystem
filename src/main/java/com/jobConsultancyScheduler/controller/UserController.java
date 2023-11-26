@@ -6,6 +6,7 @@ import java.security.spec.InvalidKeySpecException;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import java.util.Base64;
+import java.util.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -168,7 +169,8 @@ public class UserController extends HttpServlet {
 	    clearMessage();
 
 	    User user = new User();
-
+	    Date currentDate = new Date();
+	    user.setRegistrationDate(currentDate);
 	    user.setName(request.getParameter("name"));
 	    user.setPhoneNumber(request.getParameter("telephone"));
 	    String email = request.getParameter("email");

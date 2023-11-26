@@ -22,6 +22,7 @@ public class User {
 	    private RegistrationStatus registrationStatus;
 	    private String cvPath;
 	    private String profilePicturePath; 
+	    private Date registrationDate;
 
 	    public User() {
 	    }
@@ -50,7 +51,13 @@ public class User {
 	        this.profilePicturePath = profilePicturePath;
 	        this.cvPath = cvPath;
 	    }
+	    public Date getRegistrationDate() {
+	        return registrationDate;
+	    }
 
+	    public void setRegistrationDate(Date registrationDate) {
+	        this.registrationDate = registrationDate;
+	    }
 	    public int getUserId() {
 	        return userId;
 	    }
