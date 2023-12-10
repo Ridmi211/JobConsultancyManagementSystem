@@ -169,7 +169,30 @@ public class UserManagerImpl implements UserManager {
         return countsMap;
     }
     
- 
+    public Map<String, Integer> getConsultantCountByCountry() throws SQLException, ClassNotFoundException {
+        Connection connection = getConnection();
+        Map<String, Integer> consultantCountByCountry = new HashMap<>();
+
+        // Fetch the countries for consultants
+        String consultantCountriesQuery = "SELECT specializedCountries FROM user WHERE accessRight = 'ROLE_CONSULTANT'";
+        try (PreparedStatement countriesPs = connection.prepareStatement(consultantCountriesQuery)) {
+            try (ResultSet countriesRs = countriesPs.executeQuery()) {
+                while (countriesRs.next()) {
+                    String countriesString = countriesRs.getString("specializedCountries");
+                    // Split the countries string based on the delimiter (assuming ',' is used)
+//                    String[] countries = countriesString.split(", ");
+                    String[] countries = countriesString.split(",\\s*");
+                    // Count the occurrences of each country
+                    for (String country : countries) {
+                        consultantCountByCountry.put(country, consultantCountByCountry.getOrDefault(country, 0) + 1);
+                    }
+                }
+            }
+        }
+
+        connection.close();
+        return consultantCountByCountry;
+    }
 
     
 	@Override
