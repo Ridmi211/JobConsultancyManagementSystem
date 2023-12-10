@@ -31,6 +31,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/navbar-style.css">
     <Style>
         * {
             margin: 0;
@@ -70,55 +71,12 @@
             padding: 10px ;
         } */
 
-        nav {
+    
 
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            width: 100%;
-            height: 60px;
-            background-color: #ffffff;
-            position: fixed;
-        }
-
-        .logo {
-            width: 140px;
-        }
-
-        nav ul li {
-            display: inline-block;
-            list-style: none;
-            margin: 10px 20px;
-        }
-
-        nav ul li a {
-            color: #000000;
-            text-decoration: none;
-            font-size: 16px;
-            position: relative;
-        }
-
-        nav ul li a::after {
-            content: '';
-            width: 0;
-            height: 3px;
-            background: #08d8ca;
-            position: absolute;
-            left: 0;
-            bottom: -6px;
-            transition: 0.4s;
-
-        }
-
-        nav ul li a:hover::after {
-            width: 100%;
-
-        }
+   
 
         .header-text {
             margin-top: 45%;
-            font-size: 22px;
         }
 
         .header-text h1 {
@@ -440,9 +398,9 @@
         .social-icons a:hover {
             color: #d6adff;
             transform: translateY(-5px);
-        }
+        } 
 
-        .btn.btn2 {
+     .btn.btn2 {
             display: inline-block;
             background: #d6adff;
 
@@ -485,14 +443,14 @@
             padding-bottom: 10px;
             background: #1a1a1add;
             font-weight: 100;
-            margin-top: 20px;
+            margin-top: 50px;
             color: white;
 
         }
 
         .copyright i {
             color: #d6adff;
-        }
+        } 
 
         /* -----css for small screen------------ */
         nav .fas {
@@ -956,107 +914,28 @@ User user = (User) session.getAttribute("user");
 %> 
 
 <div class="sidebar">
-  <header>Menu</header>
-  <%-- Always display Dashboard --%>
-   <a href="home.jsp"  class="active">
-    <i class="fas fa-qrcode"></i>
-    <span>Home</span>
-  </a>
-  <a href="admin-dashboard.jsp" >
-    <i class="fas fa-qrcode"></i>
-    <span>Dashboard</span>
-  </a>
-
-<a href="getuser?useractiontype=consultants" >
-    <i class="fas fa-qrcode"></i>
-    <span>Consultants</span>
-  </a>
-
-
-  <%-- Display Events and Overview for Consultant --%>
-  <% if (user != null && user.getAccessRight() == AccessRight.ROLE_CONSULTANT) { %>
-    <a href="#">
-      <i class="fas fa-calendar"></i>
-      <span>Overview</span>
-    </a>
-    
-     <a  >
-       <i class="far fa-envelope"></i>
-       <span>Consultant</span>
-       
-     </a>
-  <% } %>
-
-  <%-- Display About and Services for Admin --%>
-  <% if (user != null && user.getAccessRight() == AccessRight.ROLE_ADMIN) { %>
-       
-      <a href="getuser?useractiontype=all" >
-       <i class="far fa-envelope"></i>
-       <span>View All</span>
-       
-     </a>
-     
-       <a  >
-       <i class="far fa-envelope"></i>
-       <span>Admin</span>
-       
-     </a>
-  <% } %>
-
-  <%-- Display Services for all users, regardless of role --%>
- 
-
-  <%-- Display Contact for User and Consultant --%>
-  <% if (user != null && (user.getAccessRight() == AccessRight.ROLE_USER || user.getAccessRight() == AccessRight.ROLE_CONSULTANT)) { %>
-    <a href="#">
-      <i class="far fa-envelope"></i>
-      <span>Contact</span>
-    </a>
-     <a href="view-profile.jsp">
-    <i class="fas fa-sliders-h"></i>
-    <span>Profile</span>
-  </a>
-  <% } %>
+ <jsp:include page="sidebar.jsp" />
   
-  
-    <%-- Display Login or Logout based on user status --%>
-  <% if (user != null) { %>
-    <a href="logout.jsp">
-      <i class="fas fa-stream"></i>
-      <span>Logout</span>
-    </a>
-  <% } else { %>
-    <a href="login.jsp">
-      <i class="fas fa-sign-in-alt"></i>
-      <span>Login</span>
-    </a>
-  <% } %>
 </div>
-
  
   <!-- sidebar end here  -->  
-   <nav class="p-0 m-0 pt-2" style="z-index:10;">
+  <nav class="p-0 m-0 pt-0">
     <img src="images/logo.png" alt="logo">
     <ul class="" id="sidemenu" >
         <li><a href="#header">Home</a></li>
         <li><a href="#about">About</a></li>
         <li><a href="#services">Extra-Curricular</a></li>
         <li><a href="#portfolio">Projects</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li class="m-0"><a class="m-0" href="#contact">Contact</a></li>
         
-          <% if (user != null) { %>
+               <% if (user != null) { %>
           
     <li ><a href="view-profile.jsp"><i class="fa fa-user-circle" aria-hidden="true" ></i>&nbsp;&nbsp; <%= user.getName() %></a></li> 
-    
+        <li ><a href="logout.jsp"><i class="fa fa-sign-out" aria-hidden="true" ></i>&nbsp;&nbsp;Logout</a></li> 
   <% } else { %>
     <li ><a href="login.jsp"><i class="fa fa-user-circle" aria-hidden="true" ></i>&nbsp;&nbsp; Login</a></li> 
   <% } %>
-         
-         <i class="fas fa-solid fa-xmark" onclick="closemenu()"> </i>
-    </ul>
-    
-   
-    <i class="fas fa-solid fa-bars" onclick="openmenu()"></i>
+        </ul>  
   </nav>
     
 <div class="row p-0 m-0">
@@ -1076,29 +955,7 @@ User user = (User) session.getAttribute("user");
     </div>
   </div>
   
-  <!-- <div class="row mt-5">
-   <div class="col-2"> </div>
-   <div class="col-3">  <label for="filterCountry">Select a Country:</label>
-    <select id="filterCountry" name="jobtype">
-        <option value="">All</option>
-        <option value="Canada">Canada</option>
-        <option value="Australia">Australia</option>
-        <option value="USA">USA</option>
-        <option value="Russia">Russia</option>
-        Add more countries as needed
-    </select></div>
-    <div class="col-3"> <label for="filterJob">Select a Job:</label>
-    <select id="filterJob">
-        <option value="">All</option>
-        <option value="Job1">Job 1</option>
-        <option value="Job2">Job 2</option>
-        <option value="adad">adad</option>
-        Add more job options as needed
-    </select></div>
-     <div class="col-1">    <button onclick="applyFilter()">Apply Filter</button></div>
-  <div class="col-3"> </div>
-  
-  </div> -->
+
   
   
   <div class="row mt-5" style="color:#3f2e59;">
@@ -1112,7 +969,7 @@ User user = (User) session.getAttribute("user");
         <input type="text" id="filterJob" name="filterJob" placeholder="Enter job">
     </div>
     <div class="col-2">
-        <button class="btn mt-4" onclick="applyFilter()">Apply Filter</button>
+        <button class="btn-purple mt-4" onclick="applyFilter()">Apply Filter</button>
     </div>
     <div class="col-2"> </div>
 </div>
@@ -1179,7 +1036,7 @@ if (selectedJob != null && !selectedJob.isEmpty()) { // Add this condition
                             <img class="round" src="https://randomuser.me/api/portraits/women/79.jpg" alt="user" />
                            <br> <div class="name"> <%= user2.getName() %>  </div>
                             <h6> <%= user2.getOccupation() %></h6>
-                             <div class="qualifications">
+                          <%--    <div class="qualifications">
                                
                                 <ul>
                                       <%
@@ -1194,7 +1051,7 @@ if (selectedJob != null && !selectedJob.isEmpty()) { // Add this condition
                                         }
                                     %>
                                 </ul>
-                            </div>
+                            </div> --%>
                              <div class="countries">
                                <%--  <h6>   <%= user.getSpecializedCountries() %></h6> --%>
                                 <ul>
@@ -1229,7 +1086,7 @@ if (selectedJob != null && !selectedJob.isEmpty()) { // Add this condition
                             </div>
                         </div>
                         <div class="layer">
-                            <div class="days">
+                           <%--  <div class="days">
                                 <h6>  Available Days</h6>
                                 <ul>
                                      <%
@@ -1244,8 +1101,8 @@ if (selectedJob != null && !selectedJob.isEmpty()) { // Add this condition
                                         }
                                     %>
                                 </ul>
-                            </div>
-                            <div class="days">
+                            </div> --%>
+                        <%--     <div class="days">
                                 <h6>Available Time Slots</h6>
                                  <ul>
                                    
@@ -1261,7 +1118,7 @@ if (selectedJob != null && !selectedJob.isEmpty()) { // Add this condition
                                         }
                                     %>
                                 </ul>
-                            </div>
+                            </div> --%>
                      <!-- 
                           <button  class="btn primary"><i class="fa-solid fa-calendar-plus"></i>&nbsp;Book Now </button> -->
                           
@@ -1274,7 +1131,7 @@ if (selectedJob != null && !selectedJob.isEmpty()) { // Add this condition
  <form action="usermanager" method="post">
     <input type="hidden" name="userId" value="<%= String.valueOf(user2.getUserId()).trim() %>">
     <input type="hidden" name="useractiontype" value="viewConsultant">
-    <button type="submit" class="btn btn-primary">View</button>
+    <button type="submit" class="btn btn2">View</button>
 </form> 
 
                          <%-- <a href="UserController?useractiontype=viewConsultant&userId=<%= user2.getUserId() %>">View Consultant</a>
@@ -1318,7 +1175,8 @@ if (selectedJob != null && !selectedJob.isEmpty()) { // Add this condition
         
         <!-- ------------------------------contact-------------------------------- -->
         <div id="contact">
-            <div class="container">
+         <jsp:include page="contact.jsp" />
+          <!--   <div class="container">
                 <div class="row" style=" margin-top: 100px;">
                     <div class="contact-left">
                         <h1 class="sub-title margin-top: 50px;">Contact Us</h1>
@@ -1342,11 +1200,9 @@ if (selectedJob != null && !selectedJob.isEmpty()) { // Add this condition
                         <span id="msg"></span>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
-            <div class="copyright">
-                <p> Copyright © Ridmi. Made with <i class="fa-solid fa-heart"></i> by Easy Tutorials</p>
-            </div>
+         
 
         </div>
 

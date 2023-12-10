@@ -6,9 +6,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.Year;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 
 import com.jobConsultancyScheduler.dao.dbUtils.DbDriverManager;
 import com.jobConsultancyScheduler.dao.dbUtils.DbDriverManagerFactory;
@@ -65,7 +68,7 @@ public class UserManagerImpl implements UserManager {
     public boolean addUser(User user) throws SQLException, ClassNotFoundException {
         Connection connection = getConnection();
 
-        String query = "INSERT INTO user(`name`,`phoneNumber`,`email`, `password`,`birthdate`,`gender`,`occupation`,`country`,`educationalQualifications`,`specializedCountries`,`specializedJobs`,`availableDays`,`availableTimeSlots`,`accessRight`,`registrationStatus`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        String query = "INSERT INTO user(`name`,`phoneNumber`,`email`, `password`,`birthdate`,`gender`,`occupation`,`country`,`educationalQualifications`,`specializedCountries`,`specializedJobs`,`availableDays`,`availableTimeSlots`,`accessRight`,`registrationStatus`,`registrationDate`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
         PreparedStatement ps = connection.prepareStatement(query);
         ps.setString(1, user.getName());
@@ -82,7 +85,8 @@ public class UserManagerImpl implements UserManager {
         ps.setString(12, user.getAvailableDays());
         ps.setString(13, user.getAvailableTimeSlots());
         ps.setString(14, user.getAccessRight().toString());
-        ps.setString(15, user.getRegistrationStatus().toString()); // Set registration status to PENDING for new registrations
+        ps.setString(15, user.getRegistrationStatus().toString());
+        ps.setDate(16, new java.sql.Date(user.getRegistrationDate().getTime()));// Set registration status to PENDING for new registrations
 
         boolean result = false;
 
@@ -113,6 +117,83 @@ public class UserManagerImpl implements UserManager {
         connection.close();
         return result;
     }
+ 
+    
+    public Map<String, List<Integer>> getMonthlyUserRegistrationCounts() throws SQLException, ClassNotFoundException {
+        Connection connection = getConnection();
+        List<Integer> userCounts = new ArrayList<>();
+        List<Integer> consultantCounts = new ArrayList<>();
+
+        // Get the current year
+        int currentYear = Year.now().getValue();
+
+        // Loop through each month (January to December) and fetch the counts for users and consultants
+        for (int month = 1; month <= 12; month++) {
+            // Count for users
+            String userQuery = "SELECT COUNT(*) FROM user WHERE YEAR(registrationDate) = ? AND MONTH(registrationDate) = ? AND accessRight = 'ROLE_USER'";
+
+            try (PreparedStatement userPs = connection.prepareStatement(userQuery)) {
+                userPs.setInt(1, currentYear);
+                userPs.setInt(2, month);
+
+                try (ResultSet userRs = userPs.executeQuery()) {
+                    if (userRs.next()) {
+                        int userCount = userRs.getInt(1);
+                        userCounts.add(userCount);
+                    }
+                }
+            }
+
+            // Count for consultants
+            String consultantQuery = "SELECT COUNT(*) FROM user WHERE YEAR(registrationDate) = ? AND MONTH(registrationDate) = ? AND accessRight = 'ROLE_CONSULTANT'";
+
+            try (PreparedStatement consultantPs = connection.prepareStatement(consultantQuery)) {
+                consultantPs.setInt(1, currentYear);
+                consultantPs.setInt(2, month);
+
+                try (ResultSet consultantRs = consultantPs.executeQuery()) {
+                    if (consultantRs.next()) {
+                        int consultantCount = consultantRs.getInt(1);
+                        consultantCounts.add(consultantCount);
+                    }
+                }
+            }
+        }
+
+        connection.close();
+
+        // Create a Map to store both user and consultant counts
+        Map<String, List<Integer>> countsMap = new HashMap<>();
+        countsMap.put("userCounts", userCounts);
+        countsMap.put("consultantCounts", consultantCounts);
+        return countsMap;
+    }
+    
+    public Map<String, Integer> getConsultantCountByCountry() throws SQLException, ClassNotFoundException {
+        Connection connection = getConnection();
+        Map<String, Integer> consultantCountByCountry = new HashMap<>();
+
+        // Fetch the countries for consultants
+        String consultantCountriesQuery = "SELECT specializedCountries FROM user WHERE accessRight = 'ROLE_CONSULTANT'";
+        try (PreparedStatement countriesPs = connection.prepareStatement(consultantCountriesQuery)) {
+            try (ResultSet countriesRs = countriesPs.executeQuery()) {
+                while (countriesRs.next()) {
+                    String countriesString = countriesRs.getString("specializedCountries");
+                    // Split the countries string based on the delimiter (assuming ',' is used)
+//                    String[] countries = countriesString.split(", ");
+                    String[] countries = countriesString.split(",\\s*");
+                    // Count the occurrences of each country
+                    for (String country : countries) {
+                        consultantCountByCountry.put(country, consultantCountByCountry.getOrDefault(country, 0) + 1);
+                    }
+                }
+            }
+        }
+
+        connection.close();
+        return consultantCountByCountry;
+    }
+
     
 	@Override
 	public boolean editUser(User user) throws SQLException, ClassNotFoundException {

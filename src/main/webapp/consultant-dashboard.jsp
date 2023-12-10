@@ -3,17 +3,13 @@
     <%@ taglib prefix="tag" uri="http://java.sun.com/jsp/jstl/core"%>
     <%@ page import="com.jobConsultancyScheduler.model.User" %>
     <%@ page import="com.jobConsultancyScheduler.model.AccessRight" %>
-    <%@ page import="com.jobConsultancyScheduler.model.Appointment" %>
-        <%@ page import="com.jobConsultancyScheduler.service.AppointmentService" %>
-        <%@ page import="com.jobConsultancyScheduler.service.UserService" %>
-          <%@ page import="com.jobConsultancyScheduler.service.MessageService" %>
-    
-
+      <%@ page import="com.jobConsultancyScheduler.service.AppointmentService" %>
+      
 
 <%
 // Check if the user is logged in and has the appropriate role
 User user = (User) session.getAttribute("user");
-if (user == null || !user.getAccessRight().equals(AccessRight.ROLE_ADMIN)) {
+if (user == null || !user.getAccessRight().equals(AccessRight.ROLE_CONSULTANT)) {
     // Set an error message in the session
     session.setAttribute("errorMessage", "You do not have the required access to view this page.");
     // Redirect the user to the login page
@@ -23,28 +19,14 @@ if (user == null || !user.getAccessRight().equals(AccessRight.ROLE_ADMIN)) {
 %>
 
 <%
-
-
-
-  
-    	  AppointmentService appointmentService = AppointmentService.getAppointmentService();
-          UserService userService = UserService.getUserService();
-
-        int totalAppointmentsCount = appointmentService.getTotalAppointmentsCount();
-        int completedAppointmentsCount = appointmentService.getCompletedAppointmentsCount();
-        int requestedAppointmentsCount = appointmentService.getRequestedAppointmentsCount();
-        int consultantConfirmedAppointmentsCount = appointmentService.getConsultantConfirmedAppointmentsCount();
-        int consultantRejectedAppointmentsCount = appointmentService.getConsultantRejectedAppointmentsCount();
-        int seekerCancelledAppointmentsCount = appointmentService.getSeekerCancelledAppointmentsCount();
-        int adminRequestedAllAppointmentsCount =appointmentService.getAdminRequestedAllAppointmentsCount();
-        int allUserCount=userService.getAllUsersCount();
-        int pendingUserCount=userService.getPendingUsersCount();
-   
-        MessageService messageService = MessageService.getMessageService();
-        int newMessagesCount = messageService.getNewMessagesCount();
-  
+        AppointmentService appointmentService = AppointmentService.getAppointmentService();
+        int loggedInUserId = user.getUserId();
+        int adminRequestedAppointmentsCount = appointmentService.getAdminRequestedAppointmentsCount(loggedInUserId);
+        int appointmentsByConsultantIdCount = appointmentService.getAppointmentsByConsultantIdCount(loggedInUserId);
+         int cancelledAppointmentsCount = appointmentService.getCancelledAppointmentsByConIdCount(loggedInUserId);
+        int upcomingAppointmentsCountByConId = appointmentService.getUpcomingAppointmentsByConIdCount(loggedInUserId);
+        int completedAppointmentsCountByConId = appointmentService.getCompletedAppointmentsByConIdCount(loggedInUserId);
 %>
-    
 <!DOCTYPE html>
 <html>
 <head>
@@ -99,21 +81,21 @@ body{
   display: flex;
   flex-direction: column;
   max-width: 18.75em;
-  min-height: 2.75em;
+  min-height: 5.75em;
   overflow: hidden;
   border-radius: .5em;
   text-decoration: none;
   background: white;
-  margin: 10px;
-  margin-left: 10px;
-  padding:  25px;
+  margin: 1em;
+  margin-left: 3em;
+  padding:  1.5em;
   padding-bottom: 5px;
   box-shadow: 0 1.5em 2.5em -.5em rgba(0, 0, 0, .1);
   transition: transform .45s ease, background .45s ease;
 }
 
 .data-card h3 {
-   color: #627084;
+  color: #2E3C40;
   font-size: 1.5em;
   font-weight: 600;
   line-height: 1;
@@ -125,7 +107,7 @@ body{
 }
 
 .count {
-    color: #584674;
+  color: #2E3C40;
   font-size: 3.5em;
   font-weight: 600;
   line-height: 1;
@@ -192,10 +174,6 @@ body{
   color: #FFFFFF;
 }
 
-.data-card:hover .count {
-  color: #FFFFFF;
-}
-
 .data-card:hover p {
   opacity: 1;
   transform: none;
@@ -227,6 +205,15 @@ body{
     font-size: 24px;
     color: #7c6694;
     margin-top: 100px;
+    margin-bottom: 20px;
+     text-transform: uppercase;
+}
+
+   .page-title-2{
+           text-align: center;
+    font-size: 24px;
+    color: #7c6694;
+    margin-top: 20px;
     margin-bottom: 20px;
      text-transform: uppercase;
 }
@@ -274,7 +261,7 @@ body{
 <div class="row m-0 ">
     <div class="col-2 m-0"></div>
     <div class="col-8 m-0 d-flex justify-content-center">
-    <div class="page-title">Admin - DASHBOARD </div>
+    <div class="page-title">Consultant - DASHBOARD</div>
 </div>
     <div class="col-2 m-0"></div>
 </div>  
@@ -308,102 +295,62 @@ body{
     <% } %>
  
 
+
+  
  
  <div class="row m-0 ">
-    <div class="col-1 m-0"> </div>
+    <div class="col-1 m-0"></div>
     <div class="col-10 m-0 d-flex justify-content-center">
   
 
   <section class="page-contain">
-    <a href="getuser?useractiontype=pending" class="data-card">
-      <h3><i class="fa fa-user-plus" aria-hidden="true"></i> </h3>
-      <div class="count"><%= pendingUserCount %></div>
-      <h4> Pending<br> Registrations</h4>    
+    <a href="getAppointment?appactiontype=adminRequested" class="data-card">
+    <h3> <i class="fa fa-calendar-plus-o" aria-hidden="true"></i></h3>
+     <div class="count"><%= adminRequestedAppointmentsCount %></div>
+      <h4> New<br> Appointments</h4>    
     
       <!-- <p>Manage registered patients</p> -->     
     </a>
-    <a href="getAppointment?appactiontype=requested" class="data-card">
-      <h3> <i class="fa fa-calendar-plus-o" aria-hidden="true"></i></h3>
-      <div class="count"><%= requestedAppointmentsCount %> </div>
-      <h4> New <br>Appointments</h4>
-      <!-- <p>Manage Registered Pharmacists</p> -->     
-    
-    </a>
-      <a href="getContact?msgactiontype=newMsg" class="data-card">
-      <h3><i class="fa fa-commenting-o" aria-hidden="true"></i></h3>
-      <div class="count"><%= newMessagesCount %> </div>
-      <h4> New <br>Messages</h4>
+      <a href="getAppointment?appactiontype=conUpcoming" class="data-card">
+       <h3><i class="fa fa-clock-o" aria-hidden="true"></i></h3>
+    <div class="count"><%= upcomingAppointmentsCountByConId %> </div>
+      <h4> Upcoming <br>Appointments</h4>
       <!-- <p>Manage Registered Pharmacists</p> -->    
     
     </a>
-    <a href="getAppointment?appactiontype=adminRequestedAll" class="data-card">
-      <h3><i class="fa fa-clock-o" aria-hidden="true"></i></h3>
-      <div class="count"> <%=adminRequestedAllAppointmentsCount%> </div>
-      <h4> pending <br>Appointments</h4>
-      <!-- <p>Manage Issued Prescriptions</p> -->     
-    </a>
-     <a href="getAppointment?appactiontype=conConfirmed" class="data-card">
-      <h3><i class="fa fa-tasks" aria-hidden="true"></i></h3>
-      <div class="count"> <%= consultantConfirmedAppointmentsCount %> </div>
-      <h4> ongoing<br> Appointments</h4>    
-      
-    
-      <!-- <p>Manage registered patients</p> -->     
-    </a>
-  </section>
- 
- 
-</div>
-    <div class="col-1 m-0"></div>
-</div>  
- 
-  
- <div class="row m-0 mb-5">
-    <div class="col-1 m-0"></div>
-    <div class="col-10 m-0 d-flex justify-content-center">
-  
-
-  <section class="page-contain">
-    <a href="getAppointment?appactiontype=adminCompleted" class="data-card">
-      <h3><i class="fa fa-calendar-check-o" aria-hidden="true"></i> </h3>
-       <div class="count"><%= completedAppointmentsCount %> </div>
-      <h4> Completed<br> Appointments</h4>    
-    
-      <!-- <p>Manage registered patients</p> -->     
-    </a>
-    <a href="getAppointment?appactiontype=adminRejected" class="data-card">
-      <h3> <i class="fa fa-calendar-times-o" aria-hidden="true"></i></h3>
-      <div class="count"> <%= consultantRejectedAppointmentsCount %> </div>
-      <h4> Rejected <br>Appointments</h4>
+    <a href="getAppointment?appactiontype=conComplete" class="data-card">
+       <h3><i class="fa fa-calendar-check-o" aria-hidden="true"></i> </h3>
+       <div class="count"><%= completedAppointmentsCountByConId %> </div>
+      <h4> Completed <br>Appointments</h4>
       <!-- <p>Manage Registered Pharmacists</p> -->     
     
     </a>
-     <a href="getAppointment?appactiontype=seekerCancelled" class="data-card">
+      <a href="getAppointment?appactiontype=conCancelled" class="data-card">
       <h3> <i class="fa fa-calendar-times-o" aria-hidden="true"></i></h3>
-      <div class="count"><%= seekerCancelledAppointmentsCount %> </div>
+      <div class="count"><%= cancelledAppointmentsCount %> </div>
       <h4> Cancelled <br>Appointments</h4>
-      <!-- <p>Manage Registered Pharmacists</p> -->     
-    
-    </a>
-      <a href="getAppointment?appactiontype=all" class="data-card">
-      <h3><i class="fa fa-calendar" aria-hidden="true"></i></h3>
-      <div class="count"><%= totalAppointmentsCount %> </div>
-      <h4> All <br>Appointments</h4>
       <!-- <p>Manage Registered Pharmacists</p> -->    
     
     </a>
-    <a href="getuser?useractiontype=all" class="data-card">
-      <h3><i class="fa fa-users" aria-hidden="true"></i></h3>
-      <div class="count"><%= allUserCount %> </div>
-      <h4> Registered <br>Users</h4>
-      <!-- <p>Manage Issued Prescriptions</p> -->     
-    </a>
+   
+    
+   
+   
+   
+
   </section>
- 
  
 </div>
     <div class="col-1 m-0"></div>
 </div>  
+ 
+ <div class="row m-0 ">
+    <div class="col-2 m-0"></div>
+    <div class="col-8 m-0 d-flex justify-content-center">
+    <div class="page-title-2 ">Upcoming Appointments </div>
+</div>
+    <div class="col-2 m-0"></div>
+    </div>
  
 </body>
 </html>

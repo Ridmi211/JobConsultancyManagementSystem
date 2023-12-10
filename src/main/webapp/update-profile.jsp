@@ -33,248 +33,21 @@ if (session.getAttribute("user") == null) {
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="css/navbar-style.css">
 <Style>
 
-
-    /*  <!-- sidebar styling start here  -->*/
-
-    @media print {
-            table {
-                width: 100%;
-            }
-        }
-
-        @page {
-            size: A4 portrait;
-            margin: 0;
-        }
     *{
   margin: 0;
   padding: 0;
   text-decoration: none;
 }
-:root {
-  --accent-color: #fff;
-  --gradient-color: #FBFBFB;
-}
+
 body{
-  display: flex;
-  flex-direction: column;
-  /* justify-content: center; */
-  align-items: center;
-   width: 100vw;
-  height: 100vh;
+ 
   background-image: linear-gradient(-45deg, #e3eefe 0%, #efddfb 100%);
 }
 
-.sidebar{
-  position: fixed;
-  width: 240px;
-  left: -240px;
-  height: 100%;
-  background-color: #fff;
-  transition: all .5s ease;
-  z-index: 5;
-}
-.sidebar header{
-  font-size: 28px;
-  color: #353535;
-  line-height: 70px;
-  text-align: center;
-  background-color: #fff;
-  user-select: none;
-  font-family: 'Lato', sans-serif;
-}
-.sidebar a{
-  display: block;
-  height: 65px;
-  width: 100%;
-  color: #353535;
-  line-height: 65px;
-  padding-left: 30px;
-  box-sizing: border-box;
-  border-left: 5px solid transparent;
-  font-family: 'Lato', sans-serif;
-  transition: all .5s ease;
-}
-a.active,a:hover{
-  border-left: 5px solid var(--accent-color);
-  color: #fff;
-   background: linear-gradient(to left, var(--accent-color), var(--gradient-color));
-}
-.sidebar a i{
-  font-size: 23px;
-  margin-right: 16px;
-}
-.sidebar a span{
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-#check{
-  display: none;
-}
-label #btn,label #cancel{
-  position: absolute;
-  left: 5px;
-  cursor: pointer;
-  color: #d6adff;
-  border-radius: 5px;
-  margin: 15px 30px;
-  font-size: 29px;
-  background-color: #e8d1ff;
-  box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
-    inset -7px -7px 10px 0px rgba(0,0,0,.1),
-   3.5px 3.5px 20px 0px rgba(0,0,0,.1),
-   2px 2px 5px 0px rgba(0,0,0,.1);
-  height: 45px;
-  width: 45px;
-  text-align: center;
-  text-shadow: 2px 2px 3px rgba(255,255,255,0.5);
-  line-height: 45px;
-  transition: all .5s ease;
-  z-index: 5px;
-}
-label #cancel{
-  opacity: 0;
-  visibility: hidden;
-}
-#check:checked ~ .sidebar{
-  left: 0;
-}
-#check:checked ~ label #btn{
-  margin-left: 245px;
-  opacity: 0;
-  visibility: hidden;
-}
-#check:checked ~ label #cancel{
-  margin-left: 245px;
-  opacity: 1;
-  visibility: visible;
-}
-@media(max-width : 860px){
-  .sidebar{
-    height: auto;
-    width: 70px;
-    left: 0;
-    margin: 100px 0;
-  }
-  header,#btn,#cancel{
-    display: none;
-  }
-  span{
-    position: absolute;
-    margin-left: 23px;
-    opacity: 0;
-    visibility: hidden;
-  }
-  .sidebar a{
-    height: 60px;
-  }
-  .sidebar a i{
-    margin-left: -10px;
-  }
-  a:hover {
-    width: 200px;
-    color: #9884e4;
-    background: inherit;
-    z-index: 5;
-    
-  }
-  .sidebar a:hover span{
-    opacity: 1;
-    visibility: visible;
-  }
-}
 
-.sidebar > a.active,.sidebar > a:hover:nth-child(even) {
-  --accent-color: #52d6f4;
-  --gradient-color: #c1b1f7;
-}
-.sidebar a.active,.sidebar > a:hover:nth-child(odd) {
-  --accent-color: #c1b1f7;
-  --gradient-color: #A890FE;
-}
-
-
-.frame {
-  width: 50%;
-  height: 30%;
-  margin: auto;
-  text-align: center;
-}
-
-h2 {
-  position: relative;
-  text-align: center;
-  color: #353535;
-  font-size: 60px;
-  font-family: 'Lato', sans-serif;
-  margin: 0;
-  color: #a759f5;
-}
-
-p {
-  font-family: 'Lato', sans-serif;
-  font-weight: 300;
-  text-align: center;
-  font-size: 30px;
-  color: #d6adff;
-  margin: 0;
-}
- /*  <!-- sidebar styling end here  --> */
-
-
-
-
- /* page- header */
-.pageHeader {
-  position: fixed;
-  top: 60px;
-  left: 0;
-  width: 100%;
-  height: 60px;
-  background-image: linear-gradient(30deg, #44a7fd, #107fc0);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.3s ease-in-out;
-  z-index: 9995;
- 
-}
-
-.pageHeader .container {
-  display: flex;
-  justify-content: space-between; 
-  align-items: center;
-  max-width: 1200px; 
-  margin: 0 auto; 
-
-}
-
-.pageHeader .navbar-brand {
-  padding-top: 5px;
-  margin-left: 1200px; 
-  color: rgb(255, 255, 255);
-  font-size: 20px;
-}
-
-/* end of page header */ 
-
-
-.container {
-    max-width: 900px;
-    margin: 150px auto;
-    padding: 20px;
-    left: 303px;
-    
-  }
-  
-  h1 {
-    text-align: center;
-    font-size: 24px;
-    color: #1884a5;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-  }
-  
   
   .form-group {
     margin-bottom: 20px;
@@ -307,14 +80,6 @@ p {
   }
  
 
-
- /* Search bar  */
-.navbar {
-    margin-bottom: 20px;
-    justify-content: center;
-    padding: 20px;
-  }
-  
   .form-inline {
     display: flex;
     align-items: center;
@@ -364,95 +129,50 @@ p {
 
 
 <div class="sidebar">
-  <header>Menu</header>
-  <%-- Always display Dashboard --%>
-   <a href="home.jsp">
-    <i class="fas fa-qrcode"></i>
-    <span>Home</span>
-  </a>
-  <a href="admin-dashboard.jsp" >
-    <i class="fas fa-qrcode"></i>
-    <span>Dashboard</span>
-  </a>
-
-
-
-  <%-- Display Events and Overview for Consultant --%>
-  <% if (user != null && user.getAccessRight() == AccessRight.ROLE_CONSULTANT) { %>
-    <a href="#">
-      <i class="fas fa-calendar"></i>
-      <span>Overview</span>
-    </a>
-    
-     <a  >
-       <i class="far fa-envelope"></i>
-       <span>Consultant</span>
-       
-     </a>
-  <% } %>
-
-  <%-- Display About and Services for Admin --%>
-  <% if (user != null && user.getAccessRight() == AccessRight.ROLE_ADMIN) { %>
-       
-      <a href="getuser?useractiontype=all"  class="active">
-       <i class="far fa-envelope"></i>
-       <span>View All</span>
-       
-     </a>
-     
-       <a  >
-       <i class="far fa-envelope"></i>
-       <span>Admin</span>
-       
-     </a>
-  <% } %>
-
-  <%-- Display Services for all users, regardless of role --%>
- 
-
-  <%-- Display Contact for User and Consultant --%>
-  <% if (user != null && (user.getAccessRight() == AccessRight.ROLE_USER || user.getAccessRight() == AccessRight.ROLE_CONSULTANT)) { %>
-    <a href="#">
-      <i class="far fa-envelope"></i>
-      <span>Contact</span>
-    </a>
-     <a href="view-profile.jsp">
-    <i class="fas fa-sliders-h"></i>
-    <span>Profile</span>
-  </a>
-  <% } %>
+ <jsp:include page="sidebar.jsp" />
   
-  
-    <%-- Display Login or Logout based on user status --%>
-  <% if (user != null) { %>
-    <a href="logout.jsp">
-      <i class="fas fa-stream"></i>
-      <span>Logout</span>
-    </a>
-  <% } else { %>
-    <a href="login.jsp">
-      <i class="fas fa-sign-in-alt"></i>
-      <span>Login</span>
-    </a>
-  <% } %>
 </div>
 
- 
+  <div class="row m-0 p-0">
+ <div class="col-12 m-0 p-0">
+   <nav class="p-0 m-0 ">
+    <img class="logo-img" src="" alt="logo">
+    <!-- images/navabar-logo.jpg -->
+    <ul class="" id="sidemenu" >      
+        
+          <% if (user != null) { %>
+          
+    <li ><a href="view-profile.jsp"><i class="fa fa-user-circle" aria-hidden="true" ></i>&nbsp;&nbsp; <%= user.getName() %></a></li> 
+        <li ><a href="logout.jsp"><i class="fa fa-sign-out" aria-hidden="true" ></i>&nbsp;&nbsp;Logout</a></li> 
+  <% } else { %>
+    <li ><a href="login.jsp"><i class="fa fa-user-circle" aria-hidden="true" ></i>&nbsp;&nbsp; Login</a></li> 
+  <% } %>        
+        
+    </ul> 
+   
+   
+  </nav>
+ </div>
+  </div>
   <!-- sidebar end here  -->  
 
-<div class="container m-0 p-0 pt-4">
-  
-    <h1>Update Patient</h1>
-   
-<p style='color:magenta'>${feebackMessage}</p>
-		<!-- <form action="getuser">			
-				<label for="userId">Enter UserId:</label>
-				<input class="form-control" type="number" id="userId" name="userId" placeholder="Type the userId" required/>
-				<input type="hidden" name="useractiontype" value="single"/>
-				<br/>
-				<button type="submit" class="btn btn-info">Search</button>			
-			</form> -->
-<form action="usermanager" method="post">	
+
+  <div class="row m-0 ">
+    <div class="col-2 m-0"></div>
+    <div class="col-8 m-0 d-flex justify-content-center">
+    <div class="page-title">Update Profile</div>
+</div>
+    <div class="col-2 m-0"></div>
+</div>
+
+<div class="row m-0 d-flex justify-content-center">
+<%-- <p style='color:magenta'>${message}</p>	 --%>
+</div>
+
+		<div class="row m-0">
+     <!-- Search abr  -->   <div class="col-2 m-0"></div>
+    <div class="col-8 m-0 d-flex justify-content-center">
+<form action="usermanager" method="post" onsubmit="return confirmUpdate();">	
  
     <input class="form-control" type="hidden" id="accessRight" name="accessRight"  readonly="readonly" value="${user.accessRight}"/>
     <label for="userIdUpdate">User ID:</label>
@@ -493,17 +213,7 @@ p {
       <label for="availableTimeSlots">availableTimeSlotss:</label>
     <input class="form-control" type="text" id="availableTimeSlots" name="availableTimeSlots" value="${user.availableTimeSlots}"/>
 </c:if>
-     <%--  <label for="country">educational Qualifications:</label>
-    <input class="form-control" type="text" id="educationalQualifications" name="educationalQualifications" value="${user.educationalQualifications}"/>
-      <label for="country">specializedCountries:</label>
-    <input class="form-control" type="text" id="specializedCountries" name="specializedCountries" value="${user.specializedCountries}"/>
-      <label for="country">specializedJobs:</label>
-    <input class="form-control" type="text" id="specializedJobs" name="specializedJobs" value="${user.specializedJobs}"/> --%>
-    <%--  <label for="country">Registered as :</label>
-    <input class="form-control" type="text" id="accessRight" name="accessRight" readonly="readonly" value="${user.accessRight.displayName}"/>
-    
-    
-     --%>
+   
 
   
       
@@ -521,7 +231,15 @@ p {
  
  
  </form>
-</div>
+  </div> 
+     <div class="col-1"></div>
+     </div>
+
+<script>
+function confirmUpdate() {
+    return confirm("Are you sure you want to update this user?");
+}
+</script>
 
   
 </body>

@@ -49,16 +49,36 @@ public class AppointmentService {
 			return getAppointmentManager().fetchAllAppointments();
 		}
 
-//		public Appointment getAppointmentById(int appointmentId) {
-//			// TODO Auto-generated method stub
-//			return null;
-//		}
 
 		public List<Appointment> fetchRequestedAppointments() throws ClassNotFoundException, SQLException {
 			// TODO Auto-generated method stub
 			return getAppointmentManager().fetchRequestedAppointments();
 		}
-
+		
+		public List<Appointment> fetchAdminRequestedAllAppointments()  throws ClassNotFoundException, SQLException{
+			// TODO Auto-generated method stub
+			return getAppointmentManager().fetchAdminRequestedAllAppointments();
+		}
+		
+		public List<Appointment> fetchAllCompletedAppointments()  throws ClassNotFoundException, SQLException{
+			// TODO Auto-generated method stub
+			return getAppointmentManager().fetchAllCompletedAppointments();
+		}
+		
+		public List<Appointment> fetchConsultantRejectedAppointments()  throws ClassNotFoundException, SQLException{
+			// TODO Auto-generated method stub
+			return getAppointmentManager().fetchConsultantRejectedAppointments();
+		}
+		
+		public List<Appointment> fetchSeekerCancelledAppointments()  throws ClassNotFoundException, SQLException{
+			// TODO Auto-generated method stub
+			return getAppointmentManager().fetchSeekerCancelledAppointments();
+		}
+		
+		public List<Appointment> fetchConsultantConfiremedAppointments()  throws ClassNotFoundException, SQLException{
+			// TODO Auto-generated method stub
+			return getAppointmentManager().fetchConsultantConfiremedAppointments();
+		}
 
 		public List<Appointment> fetchAdminRequestedAppointments(int loggedInUserId)  throws ClassNotFoundException, SQLException{
 			// TODO Auto-generated method stub
@@ -72,9 +92,22 @@ public class AppointmentService {
 		}
 		
 		public List<Appointment> fetchAppointmentsByConsultantId(int loggedInUserId) throws ClassNotFoundException, SQLException {
-			// TODO Auto-generated method stub
-			return getAppointmentManager().fetchAppointmentsByConsultantId(loggedInUserId);
+						return getAppointmentManager().fetchAppointmentsByConsultantId(loggedInUserId);
 		}
+		
+		public List<Appointment> fetchCompletedAppointmentsByConId(int loggedInUserId) throws ClassNotFoundException, SQLException {
+			return getAppointmentManager().fetchCompletedAppointmentsByConId(loggedInUserId);
+		}
+		
+		public List<Appointment> fetchCancelledAppointmentsByConId(int loggedInUserId) throws ClassNotFoundException, SQLException {
+			return getAppointmentManager().fetchCancelledAppointmentsByConId(loggedInUserId);
+		}
+		
+		public List<Appointment> fetchUpcomingAppointmentsByConId(int loggedInUserId) throws ClassNotFoundException, SQLException {
+			return getAppointmentManager().fetchUpcomingAppointmentsByConId(loggedInUserId);
+		}
+		
+		
 		 public boolean updateAppointmentStatus(int appointmentId, Status status) throws SQLException, ClassNotFoundException {
 		        return getAppointmentManager().updateAppointmentStatus(appointmentId, status);
 		    }
@@ -100,6 +133,64 @@ public class AppointmentService {
 		        return getAppointmentManager().updateAppointmentStatus(appointmentId, Status.SEEKER_CANCELLED);
 		    }
 		  
+//		    counts
+		    public int getTotalAppointmentsCount() throws ClassNotFoundException, SQLException {
+		        return getAppointmentManager().fetchAllAppointments().size();
+		    }
+
+		    public int getCompletedAppointmentsCount() throws ClassNotFoundException, SQLException {
+		        return getAppointmentManager().fetchAllCompletedAppointments().size();
+		    }
+		    
+		    public int getAdminRequestedAllAppointmentsCount() throws ClassNotFoundException, SQLException {
+		        return getAppointmentManager().fetchAdminRequestedAllAppointments().size();
+		    }
+		    
+		    public int getRequestedAppointmentsCount() throws ClassNotFoundException, SQLException {
+		        return getAppointmentManager().fetchRequestedAppointments().size();
+		    }
+
+		    public int getAdminRequestedAppointmentsCount(int loggedInUserId) throws ClassNotFoundException, SQLException {
+		        return getAppointmentManager().fetchAdminRequestedAppointments(loggedInUserId).size();
+		    }
+
+		    public int getConsultantConfirmedAppointmentsCount() throws ClassNotFoundException, SQLException {
+		        return getAppointmentManager().fetchConsultantConfiremedAppointments().size();
+		    }
+
+		    public int getConsultantRejectedAppointmentsCount() throws ClassNotFoundException, SQLException {
+		        return getAppointmentManager().fetchConsultantRejectedAppointments().size();
+		    }   		  
+
+		    public int getSeekerCancelledAppointmentsCount() throws ClassNotFoundException, SQLException {
+		        // Implement logic to get the count of seeker-cancelled appointments
+		        return getAppointmentManager().fetchSeekerCancelledAppointments().size();
+		    }		   
+
+		    public int getAppointmentsBySeekerIdCount(int loggedInUserId) throws ClassNotFoundException, SQLException {
+		        // Implement logic to get the count of appointments for a specific seeker
+		        return getAppointmentManager().fetchAppointmentsBySeekerId(loggedInUserId).size();
+		    }
+
+		    public int getAppointmentsByConsultantIdCount(int loggedInUserId) throws ClassNotFoundException, SQLException {
+		        // Implement logic to get the count of appointments for a specific consultant
+		        return getAppointmentManager().fetchAppointmentsByConsultantId(loggedInUserId).size();
+		    }
+		    
+		    public int getCompletedAppointmentsByConIdCount(int loggedInUserId) throws ClassNotFoundException, SQLException {
+		        return getAppointmentManager().fetchCompletedAppointmentsByConId(loggedInUserId).size();
+		    }
+
+		    public int getCancelledAppointmentsByConIdCount(int loggedInUserId) throws ClassNotFoundException, SQLException {
+		        return getAppointmentManager().fetchCancelledAppointmentsByConId(loggedInUserId).size();
+		    }
+
+		    public int getUpcomingAppointmentsByConIdCount(int loggedInUserId) throws ClassNotFoundException, SQLException {
+		        return getAppointmentManager().fetchUpcomingAppointmentsByConId(loggedInUserId).size();
+		    }
+		    
+		    
+		    
 		    public static void sendAppointmentConfirmationEmail(Appointment appointment, User consultant, User seeker) {
 		        String subject = "Appointment Request Received";
 		        StringBuilder messageBody = new StringBuilder("Dear " + seeker.getName() + ",\n\n" +
@@ -208,7 +299,48 @@ public class AppointmentService {
 		    	    EmailService.sendEmail(seeker.getEmail(), subject, messageBody);
 		    	}
 
-				
+		    	public static void sendAppointmentCancellationBySeekerEmailToSeeker(Appointment appointment, User consultant, User seeker) {
+		    	    String subject = "Appointment Cancellation";
+		    	    String messageBody = "Dear " + seeker.getName() + ",\n\n" +
+		    	        "We would like to inform you that your appointment with " + consultant.getName() + " scheduled for " + appointment.getScheduledDate() +
+		    	        " at " + appointment.getStartTime() + " has been canceled. We understand that circumstances may change, and we appreciate your prompt communication regarding this matter.\n\n" +
+		    	        "Appointment Details:\n" +
+		    	        "Consultant: " + consultant.getName() + "\n" +
+		    	        "Date: " + appointment.getScheduledDate() + "\n" +
+		    	        "Time: " + appointment.getStartTime() + "\n" +
+		    	        "Country: " + appointment.getCountry() + "\n" +
+		    	        "Job: " + appointment.getJob() + "\n" +
+		    	        "Notes: " + appointment.getNotes() + "\n" +
+		    	        "\n" +
+		    	        "If possible, could you please provide the reasons for the cancellation? Your feedback is valuable to us and will help us improve our services. You can reply to this email or contact our support team at [Support Email Address].\n\n" +
+		    	        "If you still wish to consult with " + consultant.getName() + " or reschedule your appointment, please visit our website or contact our support team. We will do our best to accommodate your preferences.\n\n" +
+		    	        "We apologize for any inconvenience this may have caused and appreciate your understanding. If you have any questions or need further assistance, feel free to reach out to our support team.\n\n" +
+		    	        "Thank you for considering our services, and we look forward to assisting you in the future.\n\n" +
+		    	        "Best regards,\n" +
+		    	        "The Job Consultancy Service Team";
+
+		    	    EmailService.sendEmail(seeker.getEmail(), subject, messageBody);
+		    	}
+
+		    	public static void sendAppointmentCancellationBySeekerEmailToConsultant(Appointment appointment, User consultant, User seeker) {
+		    	    String subject = "Appointment on " + appointment.getScheduledDate()+" Cancellation" ;
+		    	    String messageBody = "Dear " + consultant.getName() + ",\n\n" +
+		    	        "We regret to inform you that the appointment scheduled with you by " + seeker.getName() +"on"+ appointment.getScheduledDate()+ " has been canceled due to unforeseen circumstances.\n\n" +
+		    	        "Appointment Details:\n" +
+		    	        "Seeker: " + seeker.getName() + "\n" +
+		    	        "Date: " + appointment.getScheduledDate() + "\n" +
+		    	        "Time: " + appointment.getStartTime() + "\n" +
+		    	        "Country: " + appointment.getCountry() + "\n" +
+		    	        "Job: " + appointment.getJob() + "\n" +
+		    	        "Notes: " + appointment.getNotes() + "\n" +
+		    	        "\n" +
+		    	        "We understand the importance of your consultations and apologize for any inconvenience this may cause. If you have availability for additional consultations or if the seeker decides to reschedule, we will notify you promptly. Your understanding and flexibility are appreciated.\n\n" +
+		    	        "Thank you for your commitment to providing valuable consultancy services. If you have any further questions or need assistance, please do not hesitate to reach out to our support team at [Support Email Address].\n\n" +
+		    	        "Best regards,\n" +
+		    	        "The Job Consultancy Service Team";
+
+		    	    EmailService.sendEmail(consultant.getEmail(), subject, messageBody);
+		    	}
 
 		    	
 	}

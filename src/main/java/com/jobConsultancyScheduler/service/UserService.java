@@ -57,6 +57,10 @@ public class UserService implements UserManager {
 		return getUserManager().fetchAllUsers();
 	}
 	
+	 public int getAllUsersCount() throws ClassNotFoundException, SQLException {
+	        return getUserManager().fetchAllUsers().size();
+	    } 
+	
 	public User fetchUserByEmail(String email) throws ClassNotFoundException, SQLException {
 	    return getUserManager().fetchUserByEmail(email);
 	}
@@ -84,6 +88,10 @@ public class UserService implements UserManager {
 	public List<User> fetchPendingUsers() throws SQLException, ClassNotFoundException {
 	    return getUserManager().fetchPendingUsers();
 	}	
+	
+	 public int getPendingUsersCount() throws ClassNotFoundException, SQLException {
+	        return getUserManager().fetchPendingUsers().size();
+	    }  
 	
 	public static boolean isValidEmail(String email) {
 	    String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";

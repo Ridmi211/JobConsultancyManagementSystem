@@ -4,8 +4,122 @@
     <%@ taglib prefix="tag" uri="http://java.sun.com/jsp/jstl/core"%>
     <%@ page import="com.jobConsultancyScheduler.model.User" %>
     <%@ page import="com.jobConsultancyScheduler.model.AccessRight" %>
+     <%@ page import="com.jobConsultancyScheduler.service.AppointmentService" %>
+        <%@ page import="com.jobConsultancyScheduler.service.UserService" %>
+          <%@ page import="com.jobConsultancyScheduler.service.MessageService" %>
+       
+       
+       <%@ page import="java.time.Year" %>
+       <%@ page import="java.util.List" %>
+<%@ page import="com.jobConsultancyScheduler.dao.AppointmentManagerImpl" %>
+
+<%@ page import="java.util.Map" %>
+<%@ page import="java.util.stream.Collectors" %>
+<%@ page import="java.util.ArrayList" %>
+
+ <%@ page import="com.fasterxml.jackson.databind.ObjectMapper" %>
+<%@ page import="com.fasterxml.jackson.core.JsonProcessingException" %>
+
+<%@ page import="java.sql.SQLException" %>
+<%@ page import="java.util.HashMap" %>
+<%@ page import="com.jobConsultancyScheduler.dao.UserManagerImpl" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.Arrays" %>
+<%@ page import="java.util.Iterator" %>
+<%@ page import="java.util.Map.Entry" %>
+
+<%@ page import="java.util.Calendar" %>
+<%@ page import="java.util.Date" %>
+<%@ page import="java.util.Iterator" %>
+<%@ page import="java.util.Set" %>
+<%@ page import="java.util.stream.Collectors" %>
+<%@ page import="java.util.stream.IntStream" %>
+<%@ page import="java.time.Year" %>
+<%@ page import="com.jobConsultancyScheduler.dao.UserManager" %>
+
+<%
+UserManagerImpl userManager = new UserManagerImpl();
+    Map<String, Integer> consultantCountByCountry = userManager.getConsultantCountByCountry();
+
+    // Extract countries and counts
+    Set<Entry<String, Integer>> entrySet = consultantCountByCountry.entrySet();
+    List<String> countries = entrySet.stream().map(Entry::getKey).collect(Collectors.toList());
+    List<Integer> counts = entrySet.stream().map(Entry::getValue).collect(Collectors.toList());
+
+    // Chart data
+    String countriesArray = "['" + String.join("', '", countries) + "']";
+    String countsArray = "[" + counts.stream().map(Object::toString).collect(Collectors.joining(", ")) + "]";
+%>
+
+<%
+    Calendar calendar = Calendar.getInstance();
+    calendar.setTime(new Date());
+    int currentYear = calendar.get(Calendar.YEAR);
+%>
+
+
+<%
+    // Instantiate the UserManagerImpl or get it from your application context
+ /*    UserManagerImpl userManager = new UserManagerImpl(); */
+Map<String, List<Integer>> monthlyCountsMap = userManager.getMonthlyUserRegistrationCounts();
+List<Integer> userCounts = monthlyCountsMap.get("userCounts");
+List<Integer> consultantCounts = monthlyCountsMap.get("consultantCounts");
+
+int totalClientsCounts = userCounts.stream().mapToInt(Integer::intValue).sum();
+int totalConsultantCounts = consultantCounts.stream().mapToInt(Integer::intValue).sum();
+
+    // Get the monthly user registration counts
+   
+%>
+<%
+    // Assuming you have an instance of UserManagerImpl named "userManager" available in your JSP
+  
+
+
+      /*   Map<String, List<?>> consultantCountsByCountries = userManager.getConsultantCountsBySpecializedCountries();
+        List<String> specializedCountries = (List<String>) consultantCountsByCountries.get("specializedCountries");
+        List<Integer> consultantCountsCountry = (List<Integer>) consultantCountsByCountries.get("consultantCountsCountry");
+ 
+        // Convert the lists to JSON for use in JavaScript
+      /*   ObjectMapper objectMapper = new ObjectMapper();
+        String specializedCountriesJson = objectMapper.writeValueAsString(specializedCountries);
+        String consultantCountsCountryJson = objectMapper.writeValueAsString(consultantCountsCountry);
+ */
+%>
+
+<%
+    // Instantiate the AppointmentManagerImpl or get it from your application context
+    AppointmentManagerImpl appointmentManager = new AppointmentManagerImpl();
+
+    // Get the monthly appointment counts for the current year
+    List<Integer> monthlyCounts = appointmentManager.getMonthlyAppointmentCounts();
+%>   
+          <%
+
+
+
+  
+    	  AppointmentService appointmentService = AppointmentService.getAppointmentService();
+          UserService userService = UserService.getUserService();
+
+        int totalAppointmentsCount = appointmentService.getTotalAppointmentsCount();
+        int completedAppointmentsCount = appointmentService.getCompletedAppointmentsCount();
+        int requestedAppointmentsCount = appointmentService.getRequestedAppointmentsCount();
+        int consultantConfirmedAppointmentsCount = appointmentService.getConsultantConfirmedAppointmentsCount();
+        int consultantRejectedAppointmentsCount = appointmentService.getConsultantRejectedAppointmentsCount();
+        int seekerCancelledAppointmentsCount = appointmentService.getSeekerCancelledAppointmentsCount();
+        int adminRequestedAllAppointmentsCount =appointmentService.getAdminRequestedAllAppointmentsCount();
+        int allUserCount=userService.getAllUsersCount();
+        int pendingUserCount=userService.getPendingUsersCount();
+   
+        MessageService messageService = MessageService.getMessageService();
+        int newMessagesCount = messageService.getNewMessagesCount();
+  
+%>
+   
+    
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
     <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
   <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
@@ -21,705 +135,20 @@
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="css/home-style.css">
+
+<link rel="stylesheet" type="text/css" href="css/navbar-style.css">
+<!-- Add this in the head section of your HTML -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+
 <Style>
-*{margin:0;
-        padding: 0;
-        font-family: 'Poppins',sans-serif;
-        box-sizing: border-box;
-        }
-        
-        html{
-            scroll-behavior: smooth;
-        }
-        
-        body{
-            /* background: #080808; */
-            color:#000000;
-        }
-        #header{
-            width: 100;
-            height: 100vh;
-            background-size: cover;
-            background-position:center  ;
-        }
-
-        #about-us{
-            width: 100;
-            height: 100vh;
-            background-size: cover;
-            background-position:center  ;
-        }
-        
-        /* .container{
-            padding: 10px ;
-        } */
-        
-        nav{
-        
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            width: 100%;
-            height: 60px;
-            background-color: #ffffff;
-            position: fixed;
-        }
-        
-        .logo{
-            width:140px;
-            }
-        
-        nav ul li {
-            display: inline-block;
-            list-style:none;
-            margin: 10px 20px;
-        }
-        
-        nav ul li a{
-            color: #000000;
-            text-decoration: none ;
-            font-size:16px;
-            position: relative;
-        }
-        
-        nav ul li a::after{ 
-            content: '';
-            width :0;
-            height:3px;
-            background:#08d8ca;
-            position:absolute;
-            left:0;
-            bottom:-6px;
-            transition: 0.4s;
-        
-        }
-        
-        nav ul li a:hover::after{
-        width:100%;
-        
-        }
-        .header-text{
-        margin-top: 15%;
-        font-size: 22px;
-        }
-        .header-text h1{
-            font-size: 50px;
-            margin-top: 20px;
-        }
-        
-        .header-text h1 span{
-            color: #08d8ca ;
-        }
-        
-        /* ------------------about ------------------------------- */
-        
-        #about{
-            padding: 80px 0;
-            color:#ababab;
-        
-        }
-        .row{
-            display:flex;
-            justify-content:space-between;
-            flex-wrap : wrap;
-        }
-        
-        .about-col-1{
-            flex-basis: 35%;
-        }
-        
-        .about-col-1 img {
-            width:100%;
-            border-radius: 15px;
-        }
-        .about-col-2{
-            flex-basis:60%;
-            text-align: justify;
-        }
-        .sub-title{
-            font-size: 50px;
-            font-weight: 600;
-            color: #000000;
-        }
-        .tab-titles{
-            display: flex;
-            margin: 20px 0 40px;
-        }
-        .tab-links{
-            margin-right: 50px;
-            font-size: 18px;
-            font-weight: 500;
-            cursor: pointer;
-            position: relative;
-        }
-        .tab-links::after{
-            content: '';
-            width: 0;
-            height: 3px;
-            background: #08d8ca;
-            position: absolute;
-            left: 0;
-            bottom: -8px;
-            transition: 0.5s;
-        }
-        
-        .tab-links.active-link::after{
-            width: 50%;
-        }
-        /* .tab-contents{
-            font-size: 14px;
-        } */
-        .tab-contents ul li{
-            list-style:none;
-            margin: 10px 0px;
-            
-        }
-        .tab-contents ul li span {
-            color: #21dbcfe3;
-            font-size: 14px;
-        }
-        
-        .tab-contents{
-            display: none;
-        }
-        
-        .tab-contents.active-tab{
-            display: block;
-        }
-        
-        /* -------------services-------------- */
-        
-        #services{
-            padding: 30px 0;  
-            height: 90vh;
-        }
-        .services{
-            display: grid;
-            grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
-            grid-gap:40px;
-            margin-top: 50px;
-        }
-        
-        .services div{
-            /* background: #262626; */
-            padding:40px;
-            font-size: 13px;
-            font-weight: 300;
-            border-radius:10px;
-            transition:background 0.5s , transform 0.5s;
-        }
-        
-        .services div i{
-            font-size: 50px;
-            margin-bottom: 30px;
-        }
-        
-        .services div h2 {
-            font-size: 30px;
-            font-weight: 500;
-            margin-bottom: 15px;
-        }
-        
-        .services div a {
-            text-decoration: none;
-            color: #000000;
-            font-size: 12px;
-            margin-top: 20px;
-            display: inline-block;
-        }
-        
-        .services div:hover{
-            /* background: #d6adff; */
-            transform: translateY(-10px);
-        }
-        
-
-
-
-        /* ///////////////// */
-
-        .services-list{
-            display: grid;
-            grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
-            grid-gap:40px;
-            margin-top: 50px;
-        }
-        
-        .services-list div{
-            background: #262626;
-            padding:40px;
-            font-size: 13px;
-            font-weight: 300;
-            border-radius:10px;
-            transition:background 0.5s , transform 0.5s;
-        }
-        
-        .services-list div i{
-            font-size: 50px;
-            margin-bottom: 30px;
-        }
-        
-        .services-list div h2 {
-            font-size: 30px;
-            font-weight: 500;
-            margin-bottom: 15px;
-        }
-        
-        .services-list div a {
-            text-decoration: none;
-            color: #000000;
-            font-size: 12px;
-            margin-top: 20px;
-            display: inline-block;
-        }
-        
-        .services-list div:hover{
-            background: #d6adff;
-            transform: translateY(-10px);
-        }
-        
-        /* ---------------portfolio------------------------- */
-        
-        #portfolio{
-            padding: 50px 0;
-        }
-        .work-list{
-            display: grid;
-            grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
-            grid-gap:40px;
-            margin-top: 50px;
-        }
-        
-        .work{
-            border-radius:10px ;
-            position:relative;
-            overflow: hidden;
-        }
-        
-        .work img{
-            width: 100%;
-            border-radius:10px ;
-            display: block;
-            transition: transform 0.5s;
-            
-        
-        }
-        .layer{
-            width: 100%;
-            height:0;
-            background: linear-gradient(rgba(0,0,0,0.6),#d6adff);
-            border-radius: 10px;
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            padding: 0 40px;
-            text-align: center;
-            font-size: 14px;
-            transition:height 0.5s;
-        
-        }
-        
-        .layer h3 {
-            font-weight: 500;
-            margin-bottom: 20px;
-        }
-        
-        .layer a {
-            margin-top: 20px;
-            color: #d6adff;
-            text-decoration: none;
-            font-size: 18px;
-            line-height: 60px;
-            background: #020202;
-            width:60px;
-            height: 60px;
-            border-radius:50% ;
-            text-align: center;
-        }
-        
-        .work:hover img{
-            transform: scale(1.1);
-        
-        }
-        
-        .work:hover .layer{
-            height: 100%
-        }
-        
-        .btn{
-            display: block;
-            margin: 50px auto;
-            width: fit-content;
-            border: 1px solid #d6adff;
-            padding: 14px 50px;
-            border-radius: 6px;
-            text-decoration: none;
-            color: #070707;
-            transition: background 0.5s;
-        
-        }
-        
-        .btn:hover{
-            background: #d6adff;
-        }
-        
-        /* ----------------contact------------------- */
-        
-        .contact-left{ 
-            flex-basis: 35%;
-        }
-        
-        .contact-right{ 
-            flex-basis: 60%;
-        }
-        .contact-left p{
-            margin-top: 30px;
-        }
-        
-        .contact-left p i{
-            color:#d6adff;
-            margin-right: 15px;
-            font-size: 25px;
-        
-        }
-        .social-icons{
-            margin-top:30px;
-        }
-        
-        .social-icons a{
-            text-decoration: none;
-            font-size: 30px;
-            margin-right: 15px;
-            color: #ababab;
-            display: inline-block;
-            transition: transform 0.5s;
-        }
-        .social-icons a:hover{
-            color: #d6adff;
-            transform: translateY(-5px);
-        }
-        
-        .btn.btn2{
-            display: inline-block;
-            background: #d6adff;
-            
-        }
-
-        .btn.btn2:hover{
-            background: #5b4a6b;
-            color: #ffffff;
-        }
-        .contact-right form{
-            width:100%;
-        }
-        form input, form textarea{
-            width: 100%;
-            border: 0;
-            outline: none;
-           /*  background: #262626; */
-            padding: 15px;
-            margin: 15px 0;
-            color:#000000;
-            font-size: 18px;
-            border-radius:6px;
-            border: 1px solid #d6adff;
-        }
-        form .btn2{
-            padding: 14px 60px;
-            font-size: 18px;
-            margin-top: 20px;
-            cursor: pointer;
-        
-        }
-        
-        .copyright{
-            width: 100%;
-            text-align: center;
-            padding: 25px 0;
-            background: #262626;
-            font-weight: 300;
-            margin-top: 20px;
-        
-        }
-        .copyright i{
-            color: #d6adff;
-        }
-        /* -----css for small screen------------ */
-        nav .fas {
-            display: none;
-        }
-        
-        @media only screen and (max-width:600px) {
-           
-            .header-text{
-                margin-top: 100%;
-                font-size: 16px;
-            }
-            .header-text h1{
-                font-size: 30px;
-            }
-
-            .sub-title{
-                font-size: 40px;
-            }
-        
-            .about-col-1, .about-col-2{
-                flex-basis: 100%;
-            }
-            .about-col-1{
-                margin-bottom:30px ;
-            }
-            .about-col-2{
-                font-size: 14px;
-            }
-            .tab-links{
-                font-size:16px ;
-                margin-right: 20px;
-            }
-            .contact-left, .contact-right{
-                flex-basis: 100%;
-            }
-            .copyright{
-                font-size: 14px;
-            }
-        
-        }
-        #msg{
-            color: #08d8ca;
-            margin-top: -40px;
-            display: block;
-        }
-
-        .header-text{
-          width: 70%;
-          height: 250px;
-          background-color: #ffffff;
-          color: #000000;
-          text-align: center;
-        }
-
-        #about-us::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(190, 156, 209, 0.649); /* Adjust the color and opacity as needed */
-  z-index: 0;
-  /* You can also add other styles like gradients or patterns here */
+.main-title{
+  color: #584674;
+            font-size: 60px;
 }
 
-
-body{
-  display: flex;
-  flex-direction: column;
-  /* justify-content: center; */
-  /* align-items: center; */
-   /* width: 100vw; */
-  /* height: 100vh; */
-  /* background-image: linear-gradient(-45deg, #e3eefe 0%, #efddfb 100%); */
-}
-
-.sidebar{
-  position: fixed;
-  width: 240px;
-  left: -240px;
-  height: 100%;
-  background-color: #fff;
-  transition: all .5s ease;
-  z-index: 5;
-}
-.sidebar header{
-  font-size: 28px;
-  color: #353535;
-  line-height: 70px;
-  text-align: center;
-  background-color: #fff;
-  user-select: none;
-  font-family: 'Lato', sans-serif;
-}
-.sidebar a{
-  display: block;
-  height: 65px;
-  width: 100%;
-  color: #353535;
-  line-height: 65px;
-  padding-left: 30px;
-  box-sizing: border-box;
-  border-left: 5px solid transparent;
-  font-family: 'Lato', sans-serif;
-  transition: all .5s ease;
-  text-decoration: none;
-}
-a.active,a:hover{
-  border-left: 5px solid var(--accent-color);
-  color: #fff;
-   background: linear-gradient(to left, var(--accent-color), var(--gradient-color));
-}
-.sidebar a i{
-  font-size: 23px;
-  margin-right: 16px;
-}
-.sidebar a span{
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-#check{
-  display: none;
-}
-label #btn,label #cancel{
-  position: absolute;
-  left: 5px;
-  cursor: pointer;
-  color: #d6adff;
-  border-radius: 5px;
-  margin: 15px 30px;
-  font-size: 29px;
-  background-color: #e8d1ff;
-  box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
-    inset -7px -7px 10px 0px rgba(0,0,0,.1),
-   3.5px 3.5px 20px 0px rgba(0,0,0,.1),
-   2px 2px 5px 0px rgba(0,0,0,.1);
-  height: 45px;
-  width: 45px;
-  text-align: center;
-  text-shadow: 2px 2px 3px rgba(255,255,255,0.5);
-  line-height: 45px;
-  transition: all .5s ease;
-  z-index: 5px;
-}
-label #cancel{
-  opacity: 0;
-  visibility: hidden;
-}
-#check:checked ~ .sidebar{
-  left: 0;
-}
-#check:checked ~ label #btn{
-  margin-left: 245px;
-  opacity: 0;
-  visibility: hidden;
-}
-#check:checked ~ label #cancel{
-  margin-left: 245px;
-  opacity: 1;
-  visibility: visible;
-}
-@media(max-width : 860px){
-  .sidebar{
-    height: auto;
-    width: 70px;
-    left: 0;
-    margin: 100px 0;
-  }
-  header,#btn,#cancel{
-    display: none;
-  }
-  span{
-    position: absolute;
-    margin-left: 23px;
-    opacity: 0;
-    visibility: hidden;
-  }
-  .sidebar a{
-    height: 60px;
-  }
-  .sidebar a i{
-    margin-left: -10px;
-  }
-  a:hover {
-    width: 200px;
-    color: #9884e4;
-    background: inherit;
-    z-index: 5;
-    
-  }
-  .sidebar a:hover span{
-    opacity: 1;
-    visibility: visible;
-  }
-}
-
-.sidebar > a.active,.sidebar > a:hover:nth-child(even) {
-  --accent-color: #52d6f4;
-  --gradient-color: #c1b1f7;
-}
-.sidebar a.active,.sidebar > a:hover:nth-child(odd) {
-  --accent-color: #c1b1f7;
-  --gradient-color: #A890FE;
-}
-
-
-.frame {
-  width: 50%;
-  height: 30%;
-  margin: auto;
-  text-align: center;
-}
-
-/* Style for the major categories */
-/* .sidebar a {
-  text-decoration: none;
-  display: block;
-  padding: 10px;
-  color: #333;
-} */
-
-/* Style for the dropdown container */
-.sidebar .dropdown {
-  position: relative;
-
-  display: inline-block;
-}
-
-/* Style for the dropdown content (hidden by default) */
-.sidebar .dropdown-content {
-  display: none;
-  position: absolute;
-    left:100%;
-    top:10%;
-  background-color: #fff;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-}
-
-/* Show the dropdown content when hovering over the dropdown container */
-.sidebar .dropdown:hover .dropdown-content {
-  display: block;
-  
-}
-
-.sidebar .dropdown:hover {
-    border-left: 5px solid var(--accent-color);
-  color: #fff;
-   background: linear-gradient(to left, #52d6f4, #c1b1f7);
-  
-}
-/* Style for the subcategory links */
-.sidebar .dropdown-content a {
-  color: #333;
-  padding: 10px;
-  text-decoration: none;
-  display: block;
-}
-
-/* Change the background color of the dropdown links on hover */
-.sidebar .dropdown-content a:hover {
- 
-   
-    border-left: 5px solid var(--accent-color);
-  color: #fff;
-   background: linear-gradient(to left, #52d6f4, #c1b1f7);
-}
-}
 
  /*  <!-- sidebar styling end here  --> */
     </Style>
@@ -739,140 +168,8 @@ User user = (User) session.getAttribute("user");
 %>
 
 <div class="sidebar">
-  <header>Menu</header>
-  <%-- Always display Dashboard --%>
-   <a href="home.jsp"  class="active">
-    <i class="fas fa-qrcode"></i>
-    <span>Home</span>
-  </a>
- <!--  <a href="admin-dashboard.jsp" >
-    <i class="fas fa-qrcode"></i>
-    <span>Dashboard</span>
-  </a> -->
+ <jsp:include page="sidebar.jsp" />
   
-  
-  
-       
-      <div class="dropdown">
-    <a>
-      <i class="fas fa-qrcode"></i>
-      <span>Dashboard</span>
-    </a>
-    <div class="dropdown-content">
-      <a  href="admin-dashboard.jsp" >Admin</a>
-      <a  href="dashboard-consultant.jsp" >Consultant</a>
-    </div>
-  </div>
-  
-<!--  <a href="getAppointment?appactiontype=all" >
-       <i class="far fa-envelope"></i>
-       <span>View All app</span>
-       
-     </a>
-      <a href="getAppointment?appactiontype=adminRequested" >
-       <i class="far fa-envelope"></i>
-       <span>adm-req-app</span>
-       
-     </a> -->
-     
-       <div class="dropdown">
-    <a>
-      <i class="fas fa-qrcode"></i>
-      <span>Appointment</span>
-    </a>
-    <div class="dropdown-content">
-      <a href="getAppointment?appactiontype=all">View all</a>
-       <a href="getAppointment?appactiontype=requested">View new</a>
-      <a href="getAppointment?appactiontype=adminRequested">View pending</a>
-    </div>
-  </div>
- <!--  <a href="book-consultant-new.jsp" >
-    <i class="fas fa-qrcode"></i>
-    <span>book</span>
-  </a> -->
-<a href="getuser?useractiontype=consultants" >
-    <i class="fas fa-qrcode"></i>
-    <span>Consultants</span>
-  </a>
- 
- 
-<a href="spinner.jsp" >
-    <i class="fas fa-qrcode"></i>
-    <span>Spinner</span>
-  </a>
-
-
-  <%-- Display Events and Overview for Consultant --%>
-  <% if (user != null && user.getAccessRight() == AccessRight.ROLE_CONSULTANT) { %>
-      <a href="getAppointment?appactiontype=appointmentByConsultantId" >
-    <i class="fas fa-qrcode"></i>
-    <span>My Appoin</span>
-  </a>
-  <% } %>
-  
-   <% if (user != null && user.getAccessRight() == AccessRight.ROLE_USER) { %>
-     
-   <a href="getAppointment?appactiontype=appointmentBySeekerId" >
-    <i class="fas fa-qrcode"></i>
-    <span>My App</span>
-  </a>
-  <% } %>
-
-  <%-- Display About and Services for Admin --%>
-  <% if (user != null && user.getAccessRight() == AccessRight.ROLE_ADMIN) { %>
-       
-     <!--  <a href="getuser?useractiontype=all" >
-       <i class="far fa-envelope"></i>
-       <span>View All</span>
-       
-     </a> -->
-     
-      <div class="dropdown">
-    <a>
-      <i class="fas fa-qrcode"></i>
-      <span>User</span>
-    </a>
-    <div class="dropdown-content">
-      <a  href="getuser?useractiontype=all" >view all</a>
-      <a  href="getuser?useractiontype=pending" >view new</a>
-    </div>
-  </div>
-     
-       <a  >
-       <i class="far fa-envelope"></i>
-       <span>Admin</span>
-       
-     </a>
-  <% } %>
-
-  <%-- Display Services for all users, regardless of role --%>
- 
-
-  <%-- Display Contact for User and Consultant --%>
-  <% if (user != null && (user.getAccessRight() == AccessRight.ROLE_USER || user.getAccessRight() == AccessRight.ROLE_CONSULTANT)) { %>
-    <a href="#">
-      <i class="far fa-envelope"></i>
-      <span>Contact</span>
-    </a>
-     <a href="view-profile.jsp">
-    <i class="fas fa-sliders-h"></i>
-    <span>Profile</span>
-  </a>
-  <% } %>
-  
-  
-    <%-- Display Login or Logout based on user status --%>
-  <% if (user != null) { %>
-    <a href="logout.jsp">
-      <i class="fas fa-stream"></i>
-      <span>Logout</span>
-    </a>
-  <% } else { %>
-    <a href="login.jsp">
-      <i class="fas fa-sign-in-alt"></i>
-      <span>Login</span>
-    </a>
-  <% } %>
 </div>
 
  
@@ -880,39 +177,34 @@ User user = (User) session.getAttribute("user");
   
   
   <!--   nav -->
-  <nav class="p-0 m-0 pt-2">
+  <nav class="p-0 m-0 pt-0">
     <img src="images/logo.png" alt="logo">
     <ul class="" id="sidemenu" >
         <li><a href="#header">Home</a></li>
         <li><a href="#about">About</a></li>
         <li><a href="#services">Extra-Curricular</a></li>
         <li><a href="#portfolio">Projects</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li class="m-0"><a class="m-0" href="#contact">Contact</a></li>
         
-          <% if (user != null) { %>
+               <% if (user != null) { %>
           
     <li ><a href="view-profile.jsp"><i class="fa fa-user-circle" aria-hidden="true" ></i>&nbsp;&nbsp; <%= user.getName() %></a></li> 
-    
+        <li ><a href="logout.jsp"><i class="fa fa-sign-out" aria-hidden="true" ></i>&nbsp;&nbsp;Logout</a></li> 
   <% } else { %>
     <li ><a href="login.jsp"><i class="fa fa-user-circle" aria-hidden="true" ></i>&nbsp;&nbsp; Login</a></li> 
   <% } %>
          
-         <i class="fas fa-solid fa-xmark" onclick="closemenu()"> </i>
-    </ul>
-    
-   
-    <i class="fas fa-solid fa-bars" onclick="openmenu()"></i>
   </nav>
 <!--   nav -->
   <div class="row p-0 m-0">
-    <div class="p-0 m-0 d-flex align-items-end d-flex justify-content-center" id="header" style="background-image: url(https://chuckgarcia.com/wp-content/uploads/2017/12/bigstock-167128436.jpg);"  >
+    <div class="p-0 m-0 d-flex align-items-end d-flex justify-content-center" id="header" style="background-image: url(https://images.successstory.com/img_inspiration/Career-Development-for-Success-101:-What-You-Need-to-Know-About-Advancing-Your-Professional-Life-for-the-Better_1508758128.jpg);"  >
   
       <div class="container d-flex justify-content-center p-0 m-0">       
 
         <div class="header-text pt-2" >
-          <p>Live your dream</p>
-          <h2>Hi, njgjt <span>jjtjyhjthyjthy</span> <br> ntnjhtnh nitnitn</h2>
-         <a href="getuser?useractiontype=consultants" class="btn">Book Appointment</a>
+          <div class="mt-2" ><p>Unlock Your International Career Potential</p></div>
+          <div class="main-title">THRIVE GLOBALLY</div>
+         <a href="getuser?useractiontype=consultants" class="btn-purple" style="text-size:12px;">Schedule Your Consultation</a>
         </div>
         
       </div>
@@ -932,43 +224,42 @@ User user = (User) session.getAttribute("user");
           <!-- <i class="fa-sharp fa-solid fa-people-group"></i> -->
           <h2>Services</h2>
           <p style="text-align: justify;">
-            I'm a paragraph.
-            Click here to add your own text and edit me.
-              It’s easy. Just click “Edit Text” or double click
-              me to add your own content and make changes to the font.
-                I’m a great place for you to tell a story and let your
-                users know a little more about you.
+           In our streamlined online appointment scheduling platform,
+             you can access expert advice for international career consultations.
+             You can effortlessly book appointments after a simple registration process,
+              providing a user-friendly experience. Once registered, you'll gain the convenience 
+              of tracking  upcoming appointments,
+            ensuring a seamless and organized approach to their international career journey.
           </p>
-          <a href="#" class="btn">See more</a>
+          <a href="#" class="btn-purple">See more</a>
         </div>
 
    
         <div class="m-2">
           <!-- <i class="fa-sharp fa-solid fa-people-group"></i> -->
-          <h2>Services</h2>
+          <h2>Consultants</h2>
           <p style="text-align: justify;">
-            I'm a paragraph.
-              Click here to add your own text and edit me.
-              It’s easy. Just click “Edit Text” or double click
-                me to add your own content and make changes to the font.
-                I’m a great place for you to tell a story and let your
-                  users know a little more about you.
+                      Discover a network of seasoned professionals ready to guide you on your
+               international career path. Our pool of consultants spans various countries and industries,
+                each bringing a wealth of expertise to address your unique needs.
+               Easily browse through profiles, explore consultant specialties,
+                and find the perfect match for your career goals.
           </p>
-          <a href="#" class="btn">See more</a>
+          <a href="#" class="btn-purple">See more</a>
         </div>
        
           <div class="m-2">
             <!-- <i class="fa-sharp fa-solid fa-people-group"></i> -->
-            <h2>Services</h2>
+            <h2>Join Us</h2>
             <p style="text-align: justify;">
-              I'm a paragraph.
-                Click here to add your own text and edit me.
-                It’s easy. Just click “Edit Text” or double click
-                  me to add your own content and make changes to the font.
-                  I’m a great place for you to tell a story and let your
-                    users know a little more about you.
+             For consultants seeking to join our dynamic network,
+              our registration process is designed with simplicity in mind.
+               By becoming a registered consultant, you gain access to a global pool of clients actively 
+               seeking your expertise. Our platform facilitates a secure and efficient payment system, 
+               ensuring that you are compensated promptly for your valuable insights and guidance.
+              Join us in shaping the future of international careers, where expertise meets opportunity.
             </p>
-            <a href="#" class="btn">See more</a>
+            <a href="#" class="btn-purple">See more</a>
           </div>
  
     </div>
@@ -979,117 +270,343 @@ User user = (User) session.getAttribute("user");
 
 <div class="p-0 m-0 d-flex align-items-center services justify-content-center" id="about-us" style="background-image: url(https://images.unsplash.com/photo-1474127773417-aec7504236d2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aWN5JTIwbW91bnRhaW58ZW58MHx8MHx8fDA%3D&w=1000&q=80); position: relative;">
   <div style="text-align: center; z-index: 1;">
-    <h1>About Us</h1>
-    <p>Software Engineering Undergraduate</p>
+     <h1>About Us</h1>
+  <div class="row">
+  <div class="col-2"> </div>
+   <div class="col-8">
+    <div>"At THE JOBS, we are passionate about empowering individuals to reach new heights in their careers 
+    on a global scale. With a dedicated team of seasoned professionals and a network of consultants spanning diverse 
+    countries and industries, we are committed to guiding you through the intricacies of the international job market.
+     Our mission is to not only connect you with exciting career opportunities but also to provide personalized strategies 
+     that align with your unique aspirations. Whether you are navigating the dynamic tech hubs of Asia, the financial districts
+      of Europe, or the vibrant landscapes of the Americas, we are here to be your trusted partners on your journey to professional 
+      success. Explore a world of possibilities with THE JOBS,
+     where your international career aspirations become a reality."</div>
+      </div>
+      <div class="col-2"> </div>
   </div>
 </div>
-
+</div>
 <!--  -->
 
-  <div class="p-0 m-0 " style=" background-color: #ffffff; height:60vh;color: #5b4a6b; font-size: 2.5rem;">
-    <!-- <div class="container m-0 p-0 pt-2" style="text-align: center;height: 70vh; background-color: #5b4a6b; width: 100%;"> -->
-<div class="row p-0 m-0 pt-5 font-weight-bold" style="text-align: center;margin-top: 50px;"> <h1> <b> We are good with numbers</b> </h1></div>
-    <div class="m-0 services justify-content-center">
-    
-      <div class="m-2 font-weight-bold" style="font-size: 5.5rem">
-        <!-- <i class="fa-sharp fa-solid fa-people-group"></i> -->
-        10 <br>
-        <span><h5>Years of Experience</h2></span>
-      
-      </div>
-     
-      <div class="m-2 font-weight-bold" style="font-size: 5.5rem">
-        <!-- <i class="fa-sharp fa-solid fa-people-group"></i> -->
-        23<br>
-        <span><h5>Qualified Experts</h2></span>
-      
-      </div>
-      <div class="m-2 font-weight-bold" style="font-size: 5.5rem">
-        <!-- <i class="fa-sharp fa-solid fa-people-group"></i> -->
-        93 <br>
-        <span><h5>Clients Every Year</h2></span>
-      
-      </div>
-      <div class="m-2 font-weight-bold" style="font-size: 5.5rem">
-        <!-- <i class="fa-sharp fa-solid fa-people-group"></i> -->
-        88<br>
-        <span><h5>Success Stories</h2></span>
-      
-      </div>
-    </div>
-
-</div>
+ 
 <!-- ////////////// -->
 
+<div class="row">
+
+ <div id="about" >
+     <h1 class="mb-5 pt-0 sub-title " style="color: #5b4a6b;text-align: center;">Our Experts are the finest!</h1>
+  <div class="container">   
+  <p>Dive into a vast network of consultants, each wielding specialized knowledge across different countries.
+   Gain a competitive edge as you tap into this global expertise, shaping your international career strategy with precision.
+    Our consultants not only provide insights into market trends but also offer cultural intelligence, helping you navigate the unique 
+    landscapes of diverse professional environments. With a commitment to personalized guidance, 
+  they collaborate with you to tailor strategies that align with your goals, ensuring a seamless transition and a flourishing global career.
+</div>
 
 
+<div class="row">
+<div class="col-2"></div>
+<div class="col-8">
+<%--  <div id="map" style="height: 500px;"></div>
+      <script>
+  const map = L.map('map').setView([0, 0], 2); // Set the initial view
+
+  // Add a tile layer (you can choose a different one)
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+  // Replace this with your actual data
+  const countriesArray = <%= countriesArray %>;
+  const countsArray = <%= countsArray %>;
+
+  // Example coordinates for countries (replace with actual coordinates)
+/*   const countryCoordinates = {
+    'Canada': [56.1304, -106.3468],
+    'Australia': [-25.2744, 133.7751],
+    'USA': [37.0902, -95.7129],
+    'Malaysia': [4.2105, 101.9758],
+  }; */
+  
+  const countryCoordinates = {
+		  'Canada': [56.1304, -106.3468],
+		  'Australia': [-25.2744, 133.7751],
+		  'USA': [37.0902, -95.7129],
+		  'Malaysia': [4.2105, 101.9758],
+		  'Germany': [51.1657, 10.4515],
+		  'Singapore': [1.3521, 103.8198],
+		  'Sweden': [60.1282, 18.6435],
+		  'Norway': [60.4720, 8.4689],
+		  'Switzerland': [46.8182, 8.2275],
+		  'United Kingdom': [55.3781, -3.4360],
+		  'Netherlands': [52.1326, 5.2913],
+		  'Denmark': [56.2639, 9.5018],
+		  'Ireland': [53.1424, -7.6921],
+		  'Japan': [36.2048, 138.2529],
+		  'South Korea': [35.9078, 127.7669],
+		  'Hong Kong': [22.3193, 114.1694],
+		  'Qatar': [25.2769, 51.5200],
+		  'United Arab Emirates': [23.4241, 53.8478],
+		  'Luxembourg': [49.8153, 6.1296],
+		  'Chile': [-35.6751, -71.5430],
+		};
 
 
+  // Loop through each country and add a marker
+  countriesArray.forEach((country, index) => {
+    const count = countsArray[index];
+    const coordinates = countryCoordinates[country];
+
+    if (coordinates) {
+      L.marker(coordinates).addTo(map)
+        .bindPopup(`<b>${country}</b><br>Consultants: ${count}`);
+    }
+  });
+</script> --%>
+
+<div id="map" style="height: 500px;"></div>
+<script>
+  const map = L.map('map').setView([0, 0], 2);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+  const countriesArray = <%= countriesArray %>;
+  const countsArray = <%= countsArray %>;
+
+  const countryCoordinates = {
+		  'Canada': [56.1304, -106.3468],
+		  'Australia': [-25.2744, 133.7751],
+		  'USA': [37.0902, -95.7129],
+		  'Malaysia': [4.2105, 101.9758],
+		  'Germany': [51.1657, 10.4515],
+		  'Singapore': [1.3521, 103.8198],
+		  'Sweden': [60.1282, 18.6435],
+		  'Norway': [60.4720, 8.4689],
+		  'Switzerland': [46.8182, 8.2275],
+		  'United Kingdom': [55.3781, -3.4360],
+		  'Netherlands': [52.1326, 5.2913],
+		  'Denmark': [56.2639, 9.5018],
+		  'Ireland': [53.1424, -7.6921],
+		  'Japan': [36.2048, 138.2529],
+		  'South Korea': [35.9078, 127.7669],
+		  'Hong Kong': [22.3193, 114.1694],
+		  'Qatar': [25.2769, 51.5200],
+		  'United Arab Emirates': [23.4241, 53.8478],
+		  'Luxembourg': [49.8153, 6.1296],
+		  'Chile': [-35.6751, -71.5430],
+		  'New Zealand': [-40.9006, 174.8860],
+		  'Italy': [41.8719, 12.5674],
+		  'Spain': [40.4637, -3.7492],
+		  'Brazil': [-14.2350, -51.9253],
+		  'India': [20.5937, 78.9629],
+		  'South Africa': [-30.5595, 22.9375],
+		  'Mexico': [23.6345, -102.5528],
+		  'China': [35.8617, 104.1954],
+		  'Russia': [61.5240, 105.3188],
+		  'Turkey': [38.9637, 35.2433],
+		  'Poland': [51.9194, 19.1451],
+		  'Finland': [61.9241, 25.7482],
+		  'Iceland': [64.9631, -19.0208],
+		};
+
+
+  countriesArray.forEach((country, index) => {
+    const count = countsArray[index];
+    const coordinates = countryCoordinates[country];
+
+    if (coordinates) {
+      const marker = L.marker(coordinates).addTo(map);
+      
+      marker.bindTooltip(`<b>${country}</b><br>Consultants: ${count}`, {
+        direction: 'top'
+      });
+
+      marker.on('mouseover', function() {
+        this.openTooltip();
+      });
+
+      marker.on('mouseout', function() {
+        this.closeTooltip();
+      });
+    }
+  });
+</script>
+
+ </div>
+ <div class="col-2"></div>
+</div>
+</div>
+</div>
   <!-------------------------------------------------- about  ----------------------------------------- -->
-<div id="about" style=" background-color:rgba(218, 186, 247, 0.195)">
+<%-- <div id="about" >
+
   <div class="container" style="height: 85vh; ">
-    <div class="row mt-5">
+    <div class="row mt-0">
+      <h1 class="mb-5 pt-0 sub-title " style="color: #5b4a6b;text-align: center;">Our Experts are the finest!</h1>
+    
+  <p>Chart below showcases the exciting journey of new users and consultants joining our platform and escalating demand for appointments. 
+        Be a part of this dynamic ecosystem and unlock countless opportunities. 
+        Join today and shape your future with us! 
       <div class="about-col-1 ">
         
-        <h1 class="mt-5 pt-5 sub-title " style="color: #5b4a6b;">Our Experts Are the Finest</h1>
-        <!-- <img src="https://images.inc.com/uploaded_files/image/1920x1080/getty_468868827_970566970450047_60099.jpg" alt="user image"> -->
+     <div style= "height:500px; width:500px;">
+  <canvas id="myChart2" ></canvas>
+</div> 
+        <!-- Add this where you want the map to be displayed -->
+
+        
+     
       </div>
+ 
+      
       <div class="about-col-2">
-        <p>I'm a paragraph. Click here to add your own text and edit me.
+       
           <div class="tab-titles">
-            <p class="tab-links active-link" onclick="opentab('Skills')">Skills</p>
-            <p class="tab-links"onclick="opentab('Education')">Education</p>
-            <!-- <p class="tab-links"onclick="opentab('Extra-Curricular')">Extra-Curricular</p> -->
-            <p class="tab-links"onclick="opentab('Languages')">Languages</p>
+     
           </div>
           <!-- skills -->
           <div class="tab-contents active-tab" id="Skills">
-            
-            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-            <div >
-              <canvas id="myLineChart"></canvas>
-            </div>
+            <div id="map" style="height: 400px;"></div>
+        <!--    <canvas id="consultantByCountryChart" width="400" height="200"></canvas> -->
+
+
           
-            <script>
-              const data1 = {
-                labels: ['January', 'February', 'March', 'April', 'May'],
-                datasets: [{
-                  label: 'Monthly Sales',
-                  data: [50, 60, 70, 65, 80],
-                  borderColor: 'rgb(75, 192, 192)', // Line color
-                  borderWidth: 2, // Line width
-                  fill: false, // Do not fill the area under the line
-                }]
-              };
-          
-              const ctx1 = document.getElementById('myLineChart').getContext('2d');
-              const myLineChart = new Chart(ctx1, {
-                type: 'line', // Specify the chart type as 'line'
-                data: data1
-              });
-            </script>
+    
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  const ctx = document.getElementById('myChart');
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: <%= countriesArray %>,
+      datasets: [{
+        label: 'Number of consultants',
+        data: <%= countsArray %>,
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script>
+
+<script>
+  const ctx = document.getElementById('myChart2');
+
+  // Function to generate a random color in rgba format
+  function randomColor() {
+    const r = Math.floor(Math.random() * 256);
+    const g = Math.floor(Math.random() * 256);
+    const b = Math.floor(Math.random() * 256);
+    return `rgba(${r},${g},${b},0.6)`;
+  }
+
+  // Replace this with your actual data
+  const countriesArray = <%= countriesArray %>;
+  const countsArray = <%= countsArray %>;
+
+  // Generate an array of random colors for each country
+  const backgroundColors = countriesArray.map(() => randomColor());
+
+  new Chart(ctx, {
+    type: 'doughnut', // Change the chart type to doughnut
+    data: {
+      labels: countriesArray,
+      datasets: [{
+        label: 'Number of consultants',
+        data: countsArray,
+        backgroundColor: backgroundColors,
+        borderWidth: 1
+      }]
+    },
+  
+  });
+</script>
+
+<script>
+  const ctx = document.getElementById('myChart');
+
+  // Function to generate a random color in rgba format
+  function randomColor() {
+    const r = Math.floor(Math.random() * 256);
+    const g = Math.floor(Math.random() * 256);
+    const b = Math.floor(Math.random() * 256);
+    return `rgba(${r},${g},${b},0.9)`;
+  }
+
+  // Replace this with your actual data
+  const countriesArray = <%= countriesArray %>;
+  const countsArray = <%= countsArray %>;
+
+  // Generate an array of random colors for each country
+  const backgroundColors = countriesArray.map(() => randomColor());
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: countriesArray,
+      datasets: [{
+        label: 'Number of consultants',
+        data: countsArray,
+        backgroundColor: backgroundColors,
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script>
+
+     <%
+    // Assuming countriesArray is an array of strings
+   
+
+    // Iterate over the array and print each element
+System.out.println(countriesArray);
+     System.out.println(countsArray);
+%>
+     <script>
+    var ctx = document.getElementById('consultantByCountryChart').getContext('2d');
+    var consultantByCountryChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: <%= countriesArray %>,
+            datasets: [{
+                label: 'Consultants by Country',
+                data: <%= countsArray %>,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
           </div>          
           <!-- Education -->
           <div class="tab-contents" id="Education">
-           
-    <div>
-      <canvas id="myChart"></canvas>
-    </div>
-    
-
+   
+</div>
  
-          </div>
-          <!-- Extra-Curricular -->
-          <!-- <div class="tab-contents" id="Extra-Curricular">
-            <ul>
-              <li><span>2018 - 2019</span><br> Senior Prefect <br>Pushpadana Girls' College. Kandy</li>
-              <li><span>2017 - 2018</span><br> Committee member of English 
-                medium unit<br>Pushpadana Girls' College. Kandy</li>
-              
-            </ul>
-          </div> -->
-          <!-- Work History  -->
-          <div class="tab-contents row" id="Languages">
+          <div class="tab-contents " id="Languages">
 
             <div style="width: 320px; height: 420px;">
               <canvas id="doughnutChart"></canvas>
@@ -1111,7 +628,7 @@ User user = (User) session.getAttribute("user");
                 type: 'doughnut',
                 data: data
               });
-            </script>
+            </script> 
             
             
           </div>
@@ -1120,158 +637,91 @@ User user = (User) session.getAttribute("user");
 
   </div>
 </div>
-<!-- ///////////// -->
 
-
-  <div class="p-0 m-0 " style=" background-color: #ffffff; height: 40vh;color: #5b4a6b; font-size: 2.5rem;">
-    <!-- <div class="container m-0 p-0 pt-2" style="text-align: center;height: 70vh; background-color: #5b4a6b; width: 100%;"> -->
-<div class="row pt-5  font-weight-bold" style="text-align: center;padding-top: 500px; "> <h1> <b> Our Partners</b> </h1></div>
-    <div class="m-0 services justify-content-center" style="margin-top: 50px;">
-      <div class="m-2 font-weight-bold" style="font-size: 2.5rem">
-        <!-- <i class="fa-sharp fa-solid fa-people-group"></i> -->
-        werewrer
-      
+ --%>
+  <!-------------------------------------------------- about  ----------------------------------------- -->
+<div id="about" style=" background-color:rgba(218, 186, 247, 0.195)">
+  <div class="container" style="height: 85vh; ">
+    <div class="row mt-2">
+      <div class="about-col-1 ">
+        
+        <h1 class="mt-5 pt-5 sub-title " style="color: #5b4a6b;">Witness the vibrant growth of our community month by month in <%= currentYear %>!</h1>
+        <!-- <img src="https://images.inc.com/uploaded_files/image/1920x1080/getty_468868827_970566970450047_60099.jpg" alt="user image"> -->
       </div>
+      <div class="about-col-2">
+        <p>Chart below showcases the exciting journey of new users and consultants joining our platform and escalating demand for appointments. 
+        Be a part of this dynamic ecosystem and unlock countless opportunities. 
+        Join today and shape your future with us!
+          <div class="tab-titles">
      
-      <div class="m-2 font-weight-bold" style="font-size: 2.5rem">
-        <!-- <i class="fa-sharp fa-solid fa-people-group"></i> -->
-        werewrer
-      
-      </div>
-      <div class="m-2 font-weight-bold" style="font-size: 2.5rem">
-        <!-- <i class="fa-sharp fa-solid fa-people-group"></i> -->
-        werewrer
-      </div>
-      <div class="m-2 font-weight-bold" style="font-size: 2.5rem">
-        <!-- <i class="fa-sharp fa-solid fa-people-group"></i> -->
-        werewrer
-      
-      </div>
-    </div>
-  <!-- </div> -->
-</div>
-<!-- ---------------------------------------services--------------------------------------------------------------------- -->
+          </div>
+          <!-- skills -->
+          <div class="tab-contents active-tab" id="Skills">
+            
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <div >
+              <canvas id="myLineChart"></canvas>
+            </div>
+          
+         
+            
+            <script>
+    const data1 = {
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+        datasets: [{
+            label: 'Monthly Appointments',
+            data: [<%= monthlyCounts.get(0) %>, <%= monthlyCounts.get(1) %>, <%= monthlyCounts.get(2) %>, <%= monthlyCounts.get(3) %>, <%= monthlyCounts.get(4) %>, <%= monthlyCounts.get(5) %>, <%= monthlyCounts.get(6) %>, <%= monthlyCounts.get(7) %>, <%= monthlyCounts.get(8) %>, <%= monthlyCounts.get(9) %>, <%= monthlyCounts.get(10) %>, <%= monthlyCounts.get(11) %>],
+            borderColor: 'rgb(91,74,107)',
+            borderWidth: 2,
+            fill: false,
+        },
+        {
+            label: 'User Registrations',
+            data: [<%= userCounts.get(0) %>, <%= userCounts.get(1) %>, <%= userCounts.get(2) %>, <%= userCounts.get(3) %>, <%= userCounts.get(4) %>, <%= userCounts.get(5) %>, <%= userCounts.get(6) %>, <%= userCounts.get(7) %>, <%= userCounts.get(8) %>, <%= userCounts.get(9) %>, <%= userCounts.get(10) %>, <%= userCounts.get(11) %>],
+            borderColor: 'rgb(255, 99, 132)',
+            borderWidth: 2,
+            fill: false,
+        },
+        {
+            label: 'Consultant Registrations',
+            data: [<%= consultantCounts.get(0) %>, <%= consultantCounts.get(1) %>, <%= consultantCounts.get(2) %>, <%= consultantCounts.get(3) %>, <%= consultantCounts.get(4) %>, <%= consultantCounts.get(5) %>, <%= consultantCounts.get(6) %>, <%= consultantCounts.get(7) %>, <%= consultantCounts.get(8) %>, <%= consultantCounts.get(9) %>, <%= consultantCounts.get(10) %>, <%= consultantCounts.get(11) %>],
+            borderColor: 'rgb(75, 192, 192)',
+            borderWidth: 2,
+            fill: false,
+        }]
+    };
 
-
-
-<!-- ----------------portfolio-------------------------------------------------- -->
-
-
-<div class="p-0 m-0 " style=" background-color: #f9f2fc; height:60vh;color: #5b4a6b; font-size: 2.5rem;">
-<div class="row pt-5 font-weight-bold p-0 m-0" style="text-align: center;margin-top:100px;"> <h1 style="margin-top: 70px;"> <b> Start your global work adventure</b> </h1></div>
-  <div class="m-0 services justify-content-center">
-  
-    <a href="add-user.jsp"  class="btn btn2">Register Now</a>
-  </div>
-
-</div>
-
-
-<!-- ------------------------------contact-------------------------------- -->
-<div id="contact" >
-  <div class="container">
-    <div class="row" style=" margin-top: 100px;">
-      <div class="contact-left">
-        <h1 class="sub-title margin-top: 50px;">Contact Us</h1>
-        <p><i class="fa-solid fa-paper-plane"></i> ridmiyatigammana@gmail.com</p>
-        <p><i class="fa-solid fa-square-phone"></i> (+94)71-954 3823</p>
-        <div class="social-icons">
-          <a href="https://www.linkedin.com/in/ridmi-yatigammana-b42383214/"><i class="fa-brands fa-linkedin"></i></a>
-          <a href="https://github.com/Ridmi211"><i class="fa-brands fa-github"></i></a>
-         <a href="https://www.instagram.com/ridmi_y_y/"><i class="fa-brands fa-instagram"></i></a> 
-        </div>
-        <a href="images/Resume- Ridmi Yatigammana.pdf" download class="btn btn2">Download CV</a>
-      </div>
-      <div class="contact-right">
-     <form name="form1" class="box" action="contactManager" method="post" onsubmit="resetForm()">
-        <input type="text" name="messangerName" placeholder="Your Name" required >
-        <input type="text" name="messangerEmail" placeholder="Your Email"  required>
-        <textarea name="messageBody" rows="6" placeholder="Your Message"></textarea>
-       <!--  <button type="submit" class="btn btn2">Submit</button> -->
-         <div>
-                 
-          <input type="hidden" name="msgactiontype" value="addMessage"/>
-          <button  class="btn btn2" type="submit">Create User</button>
-        </div>
-      </form>
-      <span id="msg"></span>
-    </div>
-    </div>
-  </div>
-
-  <div class="copyright">
-    <p> Copyright © Ridmi. Made with <i class="fa-solid fa-heart"></i> by Easy Tutorials</p>
-  </div>
-  
+    const ctx1 = document.getElementById('myLineChart').getContext('2d');
+    const myLineChart = new Chart(ctx1, {
+        type: 'line',
+        data: data1,
+        options: {
+            scales: {
+                x: {
+                    type: 'category',
+                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                },
+                y: {
+                    beginAtZero: true,
+                }
+            }
+        }
+    });
+</script>
+          </div>          
+          <!-- Education -->
+          <div class="tab-contents" id="Education">
+          
+          
+    <!--       
+          <div>
+  <canvas id="myChart2"></canvas>
 </div>
 
-<!-- --------------------javascript-------------------------- -->
-<script>
-    function resetForm() {
-        document.getElementById("form1").reset();
-    }
-</script>
-
-<script>
-
-  var tablinks= document.getElementsByClassName("tab-links");
-  var tabcontents= document.getElementsByClassName("tab-contents");
-  function opentab(tabname){
-    for(tablink of tablinks){
-      tablink.classList.remove("active-link");
-    }
-    for(tabcontent of tabcontents){
-      tabcontent.classList.remove("active-tab");
-    }
-    event.currentTarget.classList.add("active-link");
-    document.getElementById(tabname).classList.add("active-tab");
-
-  }
-</script>
-
-<script>
-  var sidemenu=document.getElementById("sidemenu");
-
-  function openmenu(){
-    sidemenu.style.right="0"
-  }
-
-  function closemenu(){
-    sidemenu.style.right="-200px"
-  }
-
-
-
-
-
-</script>
-
-<script>
-  const scriptURL = 'https://script.google.com/macros/s/AKfycbwjcx0iILVo5hybLY6R97WYDrv3PQ7RoVLotpwiMk7FAUS7EPA5Ajsnsw6sr7zWa1V6/exec'
-  const form = document.forms['submit-to-google-sheet']
-  const msg= document.getElementById("msg")
-
-  form.addEventListener('submit', e => {
-    e.preventDefault()
-    fetch(scriptURL, { method: 'POST', body: new FormData(form)})
-      .then(response => {
-        msg.innerHTML="Message sent successfully"
-        setTimeout(function(){
-          msg.innerHTML=""
-        },5000)
-      form.reset()
-      })
-
-
-      .catch(error => console.error('Error!', error.message))
-  })
-</script>
-<!-- chart-js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-   
 <script>
-  const ctx = document.getElementById('myChart');
+  const ctx = document.getElementById('myChart2');
 
   new Chart(ctx, {
     type: 'bar',
@@ -1291,7 +741,167 @@ User user = (User) session.getAttribute("user");
       }
     }
   });
+</script> -->
+</div>
+ 
+          <div class="tab-contents " id="Languages">
+
+            <div style="width: 320px; height: 420px;">
+              <canvas id="doughnutChart"></canvas>
+            </div>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script>
+              const data = {
+                labels: ['Red', 'Blue', 'Yellow'],
+                datasets: [{
+                  label: 'My First Dataset',
+                  data: [300, 50, 100],
+                  backgroundColor: ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(255, 205, 86)'],
+                  hoverOffset: 4
+                }]
+              };
+            
+              const chartContext = document.getElementById('doughnutChart').getContext('2d');
+              const myChart = new Chart(chartContext, {
+                type: 'doughnut',
+                data: data
+              });
+            </script> 
+            
+            
+          </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+<!-- <!--   <div class="p-0 m-0 " style=" background-color: #ffffff; height: 40vh;color: #5b4a6b; font-size: 2.5rem;">
+    <div class="container m-0 p-0 pt-2" style="text-align: center;height: 70vh; background-color: #5b4a6b; width: 100%;">
+<div class="row pt-5  font-weight-bold" style="text-align: center;padding-top: 500px; "> <h1> <b> Our Partners</b> </h1></div>
+    <div class="m-0 services justify-content-center" style="margin-top: 50px;">
+      <div class="m-2 font-weight-bold" style="font-size: 2.5rem">
+        <i class="fa-sharp fa-solid fa-people-group"></i>
+        werewrer
+      
+      </div>
+     
+      <div class="m-2 font-weight-bold" style="font-size: 2.5rem">
+        <i class="fa-sharp fa-solid fa-people-group"></i>
+        werewrer
+      
+      </div>
+      <div class="m-2 font-weight-bold" style="font-size: 2.5rem">
+        <i class="fa-sharp fa-solid fa-people-group"></i>
+        werewrer
+      </div>
+      <div class="m-2 font-weight-bold" style="font-size: 2.5rem">
+        <i class="fa-sharp fa-solid fa-people-group"></i>
+        werewrer
+      
+      </div>
+    </div>
+  </div>
+</div> --> 
+<!-- ---------------------------------------services--------------------------------------------------------------------- -->
+
+
+ <div class="p-0 m-0 " style=" background-color: #ffffff; height:60vh;color: #5b4a6b; font-size: 2.5rem;">
+    <!-- <div class="container m-0 p-0 pt-2" style="text-align: center;height: 70vh; background-color: #5b4a6b; width: 100%;"> -->
+<div class="row p-0 m-0 pt-5 font-weight-bold" style="text-align: center;margin-top: 50px;"> <h1> <b> We are good with numbers</b> </h1></div>
+    <div class="m-0 services justify-content-center">
+    
+      <div class="m-2 font-weight-bold" style="font-size: 5.5rem">
+        <!-- <i class="fa-sharp fa-solid fa-people-group"></i> -->
+        15+ <br>
+        <span><h5>Years of Experience</h2></span>
+      
+      </div>
+     
+      <div class="m-2 font-weight-bold" style="font-size: 5.5rem">
+        <!-- <i class="fa-sharp fa-solid fa-people-group"></i> -->
+        <%= totalConsultantCounts %>+<br>
+        <span><h5>Qualified Experts</h2></span>
+      
+      </div>
+      <div class="m-2 font-weight-bold" style="font-size: 5.5rem">
+        <!-- <i class="fa-sharp fa-solid fa-people-group"></i> -->
+        <%= totalClientsCounts %>+<br>
+        <span><h5>Happy Clients </h2></span>
+      
+      </div>
+      <div class="m-2 font-weight-bold" style="font-size: 5.5rem">
+        <!-- <i class="fa-sharp fa-solid fa-people-group"></i> -->
+        <%= completedAppointmentsCount %>+<br>
+        <span><h5>Success Stories</h2></span>
+      
+      </div>
+    </div>
+
+</div>
+<!-- ----------------portfolio-------------------------------------------------- -->
+
+
+<div class="p-0 m-0 " style=" background-color: #f9f2fc; height:60vh;color: #5b4a6b; font-size: 2.5rem;">
+<div class="row pt-5 font-weight-bold p-0 m-0" style="text-align: center;margin-top:100px;"> <h1 style="margin-top: 70px;"> <b> Start your global work adventure</b> </h1></div>
+  <div class="m-0 services justify-content-center">
+  
+    <a href="add-user.jsp"  class="btn btn2">Register Now</a>
+  </div>
+
+</div>
+
+
+<!-- ------------------------------contact-------------------------------- -->
+<div id="contact" >
+ <jsp:include page="contact.jsp" />
+ 
+  
+</div>
+
+<!-- --------------------javascript-------------------------- -->
+<script>
+    function resetForm() {
+        document.getElementById("form1").reset();
+    }
 </script>
+
+<!-- <script>
+
+  var tablinks= document.getElementsByClassName("tab-links");
+  var tabcontents= document.getElementsByClassName("tab-contents");
+  function opentab(tabname){
+    for(tablink of tablinks){
+      tablink.classList.remove("active-link");
+    }
+    for(tabcontent of tabcontents){
+      tabcontent.classList.remove("active-tab");
+    }
+    event.currentTarget.classList.add("active-link");
+    document.getElementById(tabname).classList.add("active-tab");
+
+  }
+</script> -->
+
+<script>
+  var sidemenu=document.getElementById("sidemenu");
+
+  function openmenu(){
+    sidemenu.style.right="0"
+  }
+
+  function closemenu(){
+    sidemenu.style.right="-200px"
+  }
+
+
+
+
+
+</script>
+
 
 
 </body>

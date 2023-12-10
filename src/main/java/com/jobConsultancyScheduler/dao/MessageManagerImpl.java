@@ -12,6 +12,7 @@ import com.jobConsultancyScheduler.dao.dbUtils.DbDriverManager;
 import com.jobConsultancyScheduler.dao.dbUtils.DbDriverManagerFactory;
 import com.jobConsultancyScheduler.model.Appointment;
 import com.jobConsultancyScheduler.model.Message;
+import com.jobConsultancyScheduler.model.Appointment.Status;
 import com.jobConsultancyScheduler.model.Message.MessageStatus;
 
 public class MessageManagerImpl implements MessageManager {
@@ -111,5 +112,47 @@ private Connection getConnection() throws ClassNotFoundException, SQLException {
 	    return messageList;
 	}
 
+	public boolean updateMessageStatus(int messageId, Message.MessageStatus messageStatus)
+	        throws SQLException, ClassNotFoundException {
+	    Connection connection = getConnection();
 
+	    String query = "UPDATE messages SET messageStatus = ? WHERE messageId = ?";
+
+	    PreparedStatement ps = connection.prepareStatement(query);
+	    ps.setString(1, messageStatus.name()); // Use name() to get the enum string representation
+	    ps.setInt(2, messageId);
+
+	    boolean result = false;
+
+	    if (ps.executeUpdate() > 0)
+	        result = true;
+
+	    ps.close();
+	    connection.close();
+	    return result;
+	}
+
+	  
+	    public List<Message> fetchMessagesByStatus(Message.MessageStatus status) throws ClassNotFoundException, SQLException {
+	        List<Message> messageList = new ArrayList<>();
+	        try (Connection connection =  getConnection();
+	        		PreparedStatement ps = connection.prepareStatement("SELECT * FROM messages WHERE messageStatus = ?")) {
+	            ps.setString(1, status.name());
+	            try (ResultSet rs = ps.executeQuery()) {
+	                while (rs.next()) {
+	                	 Message contact = new Message();
+	         	        contact.setMessageId(rs.getInt("messageId"));
+	         	        contact.setMessageDate(rs.getDate("messageDate"));
+	         	        contact.setMessangerName(rs.getString("messangerName"));
+	         	        contact.setMessangerEmail(rs.getString("messangerEmail"));
+	         	        contact.setMessageBody(rs.getString("messageBody"));
+	         	        contact.setMessageStatus(MessageStatus.valueOf(rs.getString("messageStatus")));  // Assuming MessageStatus is an enum
+
+	         	        messageList.add(contact);
+	                }
+	            }
+	        }
+	        return messageList;
+	    }
+	
 }
