@@ -922,10 +922,10 @@ User user = (User) session.getAttribute("user");
   <nav class="p-0 m-0 pt-0">
     <img src="images/logo.png" alt="logo">
     <ul class="" id="sidemenu" >
-        <li><a href="#header">Home</a></li>
+      <!--   <li><a href="#header">Home</a></li>
         <li><a href="#about">About</a></li>
         <li><a href="#services">Extra-Curricular</a></li>
-        <li><a href="#portfolio">Projects</a></li>
+        <li><a href="#portfolio">Projects</a></li> -->
         <li class="m-0"><a class="m-0" href="#contact">Contact</a></li>
         
                <% if (user != null) { %>

@@ -347,7 +347,7 @@ body{
  <div class="row m-0 ">
     <div class="col-2 m-0"></div>
     <div class="col-8 m-0 d-flex justify-content-center">
-    <div class="page-title-2 ">Upcoming Appointments </div>
+    <div class="page-title-2 "> </div>
 </div>
     <div class="col-2 m-0"></div>
     </div>
