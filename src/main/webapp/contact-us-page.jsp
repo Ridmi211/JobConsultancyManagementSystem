@@ -172,8 +172,8 @@ User user = (User) session.getAttribute("user");
     <div class="row" style=" margin-top: 100px;">
       <div class="contact-left">
         <h1 class="sub-title margin-top: 50px;">Contact Us</h1>
-        <p><i class="fa-solid fa-paper-plane"></i> ridmiyatigammana@gmail.com</p>
-        <p><i class="fa-solid fa-square-phone"></i> (+94)71-954 3823</p>
+        <p><i class="fa-solid fa-paper-plane"></i> jobs@gmail.com</p>
+        <p><i class="fa-solid fa-square-phone"></i> (+94)81-954 3823</p>
         <div class="social-icons">
           <a href="https://www.linkedin.com/in/ridmi-yatigammana-b42383214/"><i class="fa-brands fa-linkedin"></i></a>
           <a href="https://github.com/Ridmi211"><i class="fa-brands fa-github"></i></a>
@@ -199,7 +199,7 @@ User user = (User) session.getAttribute("user");
   </div>
 
   <div class="copyright">
-    <p> Copyright © Ridmi. Made with <i class="fa-solid fa-heart"></i> by Easy Tutorials</p>
+    <p> Copyright © 2023</p>
   </div>
   
 </div>

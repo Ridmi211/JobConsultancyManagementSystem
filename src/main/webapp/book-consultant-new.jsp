@@ -1053,10 +1053,10 @@ button.primary.ghost {
      
           
 
-            <div class="copyright">
+       <!--      <div class="copyright">
                 <p> Copyright © Ridmi. Made with <i class="fa-solid fa-heart"></i> by Easy Tutorials</p>
             </div>
-
+ -->
         </div>
 
         <!-- --------------------javascript-------------------------- -->

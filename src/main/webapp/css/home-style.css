@@ -381,6 +381,10 @@
         .copyright i{
             color: #d6adff;
         }
+        
+         .purple-icon{
+            color: #d6adff;
+        }
         /* -----css for small screen------------ */
         nav .fas {
             display: none;
