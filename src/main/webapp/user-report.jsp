@@ -44,16 +44,17 @@
 
 <%
 UserManagerImpl userManager = new UserManagerImpl();
-Map<String, Integer> consultantCountByCountry = userManager.getConsultantCountByCountry();
-
+/* Map<String, Integer> consultantCountByCountry = userManager.getConsultantCountByCountry();
+ */
 // Extract countries and counts
-Set<Entry<String, Integer>> entrySet = consultantCountByCountry.entrySet();
+/* /* Set<Entry<String, Integer>> entrySet = consultantCountByCountry.entrySet();
 List<String> countries = entrySet.stream().map(Entry::getKey).collect(Collectors.toList());
 List<Integer> counts = entrySet.stream().map(Entry::getValue).collect(Collectors.toList());
 
 // Chart data
 String countriesArray = "['" + String.join("', '", countries) + "']";
 String countsArray = "[" + counts.stream().map(Object::toString).collect(Collectors.joining(", ")) + "]";
+ */ 
 %>
 
 <%
@@ -948,33 +949,52 @@ try {
     });
 </script>
 
+<%
+try {
+    Map<String, Integer> consultantCountByCountry = userManager.getConsultantCountByCountry();
+
+    // Convert the data into JavaScript arrays
+    String labelsArray = "['" + String.join("', '", consultantCountByCountry.keySet()) + "']";
+    String dataValuesArray = "[" + String.join(", ", consultantCountByCountry.values().stream().map(String::valueOf).toArray(String[]::new)) + "]";
+%>
+
 <script>
-    var countryJobDistributionData = [20, 15, 10, 5, 50]; // Adjusted data for job distribution by countries
-    var countryJobDistributionChart = new Chart(document.getElementById('countryJobDistributionChart'), {
+    // Parse JSON data in JavaScript
+    var consultantCountByCountryData = {
+        labels: <%= labelsArray %>,
+        datasets: [{
+            data: <%= dataValuesArray %>,
+            backgroundColor: [
+                'rgba(173, 216, 230, 0.8)',
+                'rgba(144, 238, 144, 0.8)',
+                'rgba(255, 182, 193, 0.8)',
+                'rgba(240, 230, 140, 0.8)',
+                'rgba(192, 192, 192, 0.8)'
+            ]
+        }]
+    };
+
+    var ctx7 = document.getElementById('countryJobDistributionChart').getContext('2d');
+    var countryJobDistributionChart = new Chart(ctx7, {
         type: 'pie',
-        data: {
-            labels: ['USA', 'UK', 'Canada', 'Australia', 'Other'], // Updated labels with countries
-            datasets: [{
-                data: countryJobDistributionData,
-                backgroundColor: [
-                    'rgba(173, 216, 230, 0.8)',
-                    'rgba(144, 238, 144, 0.8)',
-                    'rgba(255, 182, 193, 0.8)',
-                    'rgba(240, 230, 140, 0.8)',
-                    'rgba(192, 192, 192, 0.8)'
-                ]
-            }]
-        },
+        data: consultantCountByCountryData,
         options: {
             responsive: true,
             maintainAspectRatio: false,
             title: {
                 display: true,
-                text: 'Job Distribution by Countries' // Updated chart title
+                text: 'Consultant Count by Countries'
             }
         }
     });
 </script>
+
+<%
+} catch (ClassNotFoundException | SQLException e) {
+    e.printStackTrace(); // Handle the exception appropriately in your application
+}
+%>
+
 
 
     <!--     /////////// -->
