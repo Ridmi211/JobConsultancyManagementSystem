@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import com.jobConsultancyScheduler.dao.dbUtils.DbDriverManager;
 import com.jobConsultancyScheduler.dao.dbUtils.DbDriverManagerFactory;
@@ -140,6 +141,87 @@ public class UserManagerImpl implements UserManager {
         countsMap.put("consultantCounts", consultantCounts);
         return countsMap;
     }
+    
+    public Map<String, Map<String, Object>> getJobTypeDistributionData() throws SQLException, ClassNotFoundException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = getConnection(); // Implement your getConnection() method
+
+            String query = "SELECT occupation, COUNT(*) as count FROM user GROUP BY occupation ORDER BY count DESC LIMIT 20";
+            statement = connection.prepareStatement(query);
+            resultSet = statement.executeQuery();
+
+            Map<String, Map<String, Object>> jobTypeDistributionData = new HashMap<>();
+
+			/*
+			 * while (resultSet.next()) { String occupation =
+			 * resultSet.getString("occupation"); int count = resultSet.getInt("count");
+			 * 
+			 * // Generate a random light color String color = generateRandomLightColor();
+			 * 
+			 * Map<String, Object> jobTypeInfo = new HashMap<>(); jobTypeInfo.put("count",
+			 * count); jobTypeInfo.put("color", color);
+			 * 
+			 * jobTypeDistributionData.put(occupation, jobTypeInfo); }
+			 */
+
+            int colorIndex = 0; // Index to keep track of the color to use
+
+            while (resultSet.next()) {
+                String occupation = resultSet.getString("occupation");
+                int count = resultSet.getInt("count");
+
+                // Get the color from the predefined list
+                String color = getPredefinedColor(colorIndex);
+
+                Map<String, Object> jobTypeInfo = new HashMap<>();
+                jobTypeInfo.put("count", count);
+                jobTypeInfo.put("color", color);
+
+                jobTypeDistributionData.put(occupation, jobTypeInfo);
+
+                // Increment the color index for the next iteration
+                colorIndex = (colorIndex + 1) % PREDEFINED_COLORS.size();
+            }
+            
+            return jobTypeDistributionData;
+        } finally {
+            // Close resources in the reverse order of their creation to avoid leaks
+            if (resultSet != null) resultSet.close();
+            if (statement != null) statement.close();
+            if (connection != null) connection.close();
+        }
+    }
+    
+    private static final List<String> PREDEFINED_COLORS = Arrays.asList(
+            "rgba(255, 99, 132, 0.8)",
+            "rgba(54, 162, 235, 0.8)",
+            "rgba(255, 182, 193, 0.8)",
+            "rgba(240, 230, 140, 0.8)",
+            "rgba(192, 192, 192, 0.8)"
+            // Add more colors as needed
+    );
+
+    private String getPredefinedColor(int index) {
+        // Ensure index is within bounds
+        index = index % PREDEFINED_COLORS.size();
+        return PREDEFINED_COLORS.get(index);
+    }
+    
+   
+    	private String generateRandomLightColor() {
+            Random random = new Random();
+            int red = random.nextInt(256);
+            int green = random.nextInt(256);
+            int blue = random.nextInt(256);
+
+            return String.format("rgba(%d, %d, %d, 0.8)", red, green, blue);
+        }
+    	
+    	
     
     public Map<String, Integer> getAccessRightsData() throws SQLException, ClassNotFoundException {
         Connection connection = null;

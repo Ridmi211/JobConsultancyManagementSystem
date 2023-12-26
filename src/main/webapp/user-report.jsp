@@ -27,6 +27,8 @@
 <%@ page import="java.util.Arrays"%>
 <%@ page import="java.util.Iterator"%>
 <%@ page import="java.util.Map.Entry"%>
+<%@ page import="java.awt.Color"%>
+<%@ page import="java.util.Random"%>
 
 <%@ page import="java.util.Calendar"%>
 <%@ page import="java.util.Date"%>
@@ -338,7 +340,7 @@ try {
             
                 <div class="row common-border m-0">
                     <div class="col-sm col-12 common-border pb-2 ">
-                 <canvas id="jobTypeDistributionChart" width="400" height="200"></canvas>
+                 <canvas id="jobTypeDistributionChart" width="400" height="300"></canvas>
 
                   
                       
@@ -348,8 +350,103 @@ try {
         </div>
 
    <!--      /////////// -->
-     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>   
+     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>  
+     
+     
+     
+<%
+ 
+    Map<String, Map<String, Object>> jobTypeDistributionData = userManager.getJobTypeDistributionData();
+
+    // Convert Java Map to JSON string
+    String jsonData = new ObjectMapper().writeValueAsString(jobTypeDistributionData);
+
+    // You can use jsonData in your JavaScript code
+%>
+<script>
+    console.log('<%= jsonData %>');
+</script>
   <script>
+        // Parse JSON data in JavaScript
+        var jobTypeDistributionData = JSON.parse('<%= jsonData %>');
+
+        // Extract labels, data, and colors from the JSON data
+        var labels = Object.keys(jobTypeDistributionData);
+        var data = labels.map(function (label) {
+            return jobTypeDistributionData[label].count;
+        });
+
+        // Extract dynamic colors from the JSON data
+        var colors = labels.map(function (label) {
+            return jobTypeDistributionData[label].color;
+        });
+
+        // Create a bar chart using Chart.js
+        var ctx = document.getElementById('jobTypeDistributionChart').getContext('2d');
+        var jobTypeDistributionChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: data,
+                    backgroundColor: colors
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                title: {
+                    display: true,
+                    text: 'Job Type Distribution'
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true
+                    },
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+ <%-- <script>
+        // Parse JSON data in JavaScript
+        var jobTypeDistributionData = JSON.parse('<%= jsonData %>');
+
+        // Extract labels, data, and colors from the JSON data
+        var labels = Object.keys(jobTypeDistributionData);
+        var data = labels.map(function (label) {
+            return jobTypeDistributionData[label].count;
+        });
+        var colors = labels.map(function (label) {
+            return jobTypeDistributionData[label].color;
+        });
+
+        // Create a pie chart using Chart.js
+        var ctx = document.getElementById('jobTypeDistributionChart').getContext('2d');
+        var jobTypeDistributionChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: data,
+                    backgroundColor: colors
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                title: {
+                    display: true,
+                    text: 'Job Type Distribution'
+                }
+            }
+        });
+    </script> --%>
+
+
+  <!-- <script>
     var jobTypeDistributionData = [15, 25, 20, 10, 5];
     var jobTypeDistributionChart = new Chart(document.getElementById('jobTypeDistributionChart'), {
         type: 'pie', // Change the chart type to doughnut
@@ -376,7 +473,7 @@ try {
         }
     });
 </script>
-
+ -->
 
                 
          <!--    //////////////////////// -->
@@ -786,7 +883,7 @@ try {
                 </div>
             
                 <div class="row common-border m-0">
-                    <div class="col-sm col-12 common-border pb-2 " style="height:250px">
+                    <div class="col-sm col-12 common-border pb-2 " style="height:450px">
               <canvas id="availabilityRadarChart" width="40" height="40"></canvas>
 
                       
