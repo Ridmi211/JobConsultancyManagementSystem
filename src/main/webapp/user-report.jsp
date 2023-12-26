@@ -39,6 +39,9 @@
 <%@ page import="java.time.Year"%>
 <%@ page import="com.jobConsultancyScheduler.dao.UserManager"%>
 
+<%@ page import="com.fasterxml.jackson.databind.ObjectMapper"%>
+
+
 <%
 UserManagerImpl userManager = new UserManagerImpl();
 Map<String, Integer> consultantCountByCountry = userManager.getConsultantCountByCountry();
@@ -498,32 +501,49 @@ try {
                 </div>
             </div>
         </div>
-  <script>
-        // Sample data (replace this with your actual data)
-        var ageData = {
-            labels: ['0-9', '10-19', '20-29', '30-39', '40-49', '50-59', '60+'],
-            datasets: [{
-                data: [5, 15, 25, 30, 20, 10, 5], // replace with your actual age distribution data
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.8)',
-                    'rgba(54, 162, 235, 0.8)',
-                    'rgba(255, 206, 86, 0.8)',
-                    'rgba(75, 192, 192, 0.8)',
-                    'rgba(153, 102, 255, 0.8)',
-                    'rgba(255, 159, 64, 0.8)',
-                    'rgba(192, 192, 192, 0.8)'
-                ],
-                borderWidth: 1
-            }]
-        };
+        
+<%
+   
+    Map<String, Integer> ageDistributionData = userManager.getAgeDistributionData();
 
-        // Get the canvas element
-        var ctx4 = document.getElementById('ageDistributionPieChart').getContext('2d');
+    // Convert Java Map to JSON string
+    String jsonData2 = new ObjectMapper().writeValueAsString(ageDistributionData);
+    
+    
 
-        // Create the pie chart
-        var ageDistributionPieChart = new Chart(ctx4, {
+    // You can use jsonData in your JavaScript code
+%>
+    <script>
+        // Parse JSON data in JavaScript
+        var ageDistributionData = JSON.parse('<%= jsonData2 %>');
+
+        // Extract labels, data, and colors from the JSON data
+        var labels = Object.keys(ageDistributionData);
+        var data = labels.map(function (label) {
+            return ageDistributionData[label];
+        });
+
+      
+
+        // Create a pie chart using Chart.js
+        var ctx = document.getElementById('ageDistributionPieChart').getContext('2d');
+        var ageDistributionPieChart = new Chart(ctx, {
             type: 'pie',
-            data: ageData,
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: data,
+                    backgroundColor: [
+                    	 'rgba(255, 99, 132, 0.8)', // Client color
+                         'rgba(54, 162, 235, 0.8)', // Consultant color
+                         'rgba(75, 192, 192, 0.8)', // Additional color 1
+                         'rgba(255, 205, 86, 0.8)', // Additional color 2
+                         'rgba(255, 159, 64, 0.8)', // Additional color 3
+                         'rgba(153, 102, 255, 0.8)', // Additional color 4
+                         'rgba(192, 192, 192, 0.8)' 
+                    ],
+                }]
+            },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,

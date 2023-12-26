@@ -10,6 +10,7 @@ import java.time.Year;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -197,11 +198,27 @@ public class UserManagerImpl implements UserManager {
     }
     
     private static final List<String> PREDEFINED_COLORS = Arrays.asList(
-            "rgba(255, 99, 132, 0.8)",
-            "rgba(54, 162, 235, 0.8)",
-            "rgba(255, 182, 193, 0.8)",
-            "rgba(240, 230, 140, 0.8)",
-            "rgba(192, 192, 192, 0.8)"
+    		 "rgba(255, 99, 132, 0.8)",
+    		    "rgba(54, 162, 235, 0.8)",
+    		    "rgba(255, 182, 193, 0.8)",
+    		    "rgba(240, 230, 140, 0.8)",
+    		    "rgba(192, 192, 192, 0.8)",
+    		    "rgba(255, 69, 0, 0.8)",
+    		    "rgba(0, 128, 0, 0.8)",
+    		    "rgba(255, 215, 0, 0.8)",
+    		    "rgba(70, 130, 180, 0.8)",
+    		    "rgba(128, 0, 128, 0.8)",
+    		    "rgba(128, 128, 0, 0.8)",
+    		    "rgba(0, 128, 128, 0.8)",
+    		    "rgba(165, 42, 42, 0.8)",
+    		    "rgba(0, 255, 255, 0.8)",
+    		    "rgba(0, 0, 128, 0.8)",
+    		    "rgba(255, 20, 147, 0.8)",
+    		    "rgba(0, 250, 154, 0.8)",
+    		    "rgba(255, 165, 0, 0.8)",
+    		    "rgba(255, 0, 255, 0.8)",
+    		    "rgba(128, 0, 0, 0.8)"
+            
             // Add more colors as needed
     );
 
@@ -212,16 +229,73 @@ public class UserManagerImpl implements UserManager {
     }
     
    
-    	private String generateRandomLightColor() {
-            Random random = new Random();
-            int red = random.nextInt(256);
-            int green = random.nextInt(256);
-            int blue = random.nextInt(256);
+	/*
+	 * private String generateRandomLightColor() { Random random = new Random(); int
+	 * red = random.nextInt(256); int green = random.nextInt(256); int blue =
+	 * random.nextInt(256);
+	 * 
+	 * return String.format("rgba(%d, %d, %d, 0.8)", red, green, blue); }
+	 */
+    	
+    public Map<String, Integer> getAgeDistributionData() throws SQLException, ClassNotFoundException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
 
-            return String.format("rgba(%d, %d, %d, 0.8)", red, green, blue);
+        try {
+            connection = getConnection(); // Implement your getConnection() method
+
+            String query = "SELECT COUNT(*) as count, FLOOR(DATEDIFF(CURRENT_DATE, birthdate) / 365.25 / 10) * 10 as ageRange FROM user GROUP BY ageRange ORDER BY ageRange";
+            statement = connection.prepareStatement(query);
+            resultSet = statement.executeQuery();
+
+            Map<String, Integer> ageDistributionData = new LinkedHashMap<>();
+            ageDistributionData.put("0-9", 0);
+            ageDistributionData.put("10-19", 0);
+            ageDistributionData.put("20-29", 0);
+            ageDistributionData.put("30-39", 0);
+            ageDistributionData.put("40-49", 0);
+            ageDistributionData.put("50-59", 0);
+            ageDistributionData.put("60+", 0);
+
+            while (resultSet.next()) {
+                int count = resultSet.getInt("count");
+                int ageRange = resultSet.getInt("ageRange");
+
+                // Map the age range to the corresponding label
+                String label = mapAgeRangeToLabel(ageRange);
+
+                // Update the count in the age distribution map
+                ageDistributionData.put(label, count);
+            }
+
+            return ageDistributionData;
+        } finally {
+            // Close resources in the reverse order of their creation to avoid leaks
+            if (resultSet != null) resultSet.close();
+            if (statement != null) statement.close();
+            if (connection != null) connection.close();
         }
-    	
-    	
+    }
+
+    private String mapAgeRangeToLabel(int ageRange) {
+        switch (ageRange) {
+            case 0:
+                return "0-9";
+            case 10:
+                return "10-19";
+            case 20:
+                return "20-29";
+            case 30:
+                return "30-39";
+            case 40:
+                return "40-49";
+            case 50:
+                return "50-59";
+            default:
+                return "60+";
+        }
+    }
     
     public Map<String, Integer> getAccessRightsData() throws SQLException, ClassNotFoundException {
         Connection connection = null;
