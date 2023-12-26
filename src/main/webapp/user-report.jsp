@@ -163,10 +163,12 @@ List<Integer> monthlyCounts = appointmentManager.getMonthlyAppointmentCounts();
                 </div>
             
                 <div class="row common-border m-0">
-                    <div class="col-sm col-12 common-border pb-2 ">
+                    <div class="col-sm col-10 common-border pb-2 ">
                  <canvas id="accessRightsPieChart" width="400" height="200"></canvas>
+                   </div>
+                 <div class="col-sm col-2 common-border pb-2 ">
 
-                  
+                   <div id="accessRightsCounts" class="mt-3 counts-div"></div>
                       
                     </div>
                 </div>
@@ -213,9 +215,28 @@ try {
             title: {
                 display: true,
                 text: 'User Access Rights'
-            }
+            },
+            
         }
     });
+    
+  /*   var countsElement = document.getElementById('accessRightsCounts');
+    var countsText = "<strong>Counts:</strong> ";
+    for (var i = 0; i < accessRightsData.labels.length; i++) {
+        countsText += accessRightsData.labels[i] + ": " + accessRightsData.datasets[0].data[i];
+        if (i < accessRightsData.labels.length - 1) {
+            countsText += ", ";
+        }
+    }
+    countsElement.innerHTML = countsText; */
+    
+    var countsElement = document.getElementById('accessRightsCounts');
+    var countsText = "<strong>Counts:</strong><ul>";
+    for (var i = 0; i < accessRightsData.labels.length; i++) {
+        countsText += "<li>" + accessRightsData.labels[i] + ": " + accessRightsData.datasets[0].data[i] + "</li>";
+    }
+    countsText += "</ul>";
+    countsElement.innerHTML = countsText;
 </script>
 
 <%
@@ -492,11 +513,22 @@ try {
                     </div>
                 </div>
             
-                <div class="row common-border m-0">
+               <!--  <div class="row common-border m-0">
                     <div class="col-sm col-12 common-border pb-2 " >
                       <canvas id="ageDistributionPieChart" width="400" height="200"></canvas>
 
                 
+                    </div>
+                </div> -->
+                
+                 <div class="row common-border m-0">
+                    <div class="col-sm col-10 common-border pb-2 ">
+                 <canvas id="ageDistributionPieChart" width="400" height="200"></canvas>
+                   </div>
+                 <div class="col-sm col-2 common-border pb-2 ">
+
+                   <div id="ageDistributionCounts" class="mt-3 counts-div"></div>
+                      
                     </div>
                 </div>
             </div>
@@ -553,6 +585,16 @@ try {
                 }
             }
         });
+        
+        // Display labels and counts as a list beneath the chart
+        var ageDistributionCountsElement = document.getElementById('ageDistributionCounts');
+        var ageDistributionCountsText = "<strong>Counts:</strong><ul>";
+        for (var i = 0; i < labels.length; i++) {
+            ageDistributionCountsText += "<li>" + labels[i] + ": " + data[i] + "</li>";
+        }
+        ageDistributionCountsText += "</ul>";
+        ageDistributionCountsElement.innerHTML = ageDistributionCountsText;
+
     </script>
 <!--         /////////// -->
         
