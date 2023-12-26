@@ -193,6 +193,19 @@ User user = (User) session.getAttribute("user");
   </a>
 </div>
 
+ <div class="normal-content">
+<a href="user-report.jsp" >
+    <i class="fas fa-qrcode"></i>
+    <span>User summary</span>
+  </a>
+</div>
+
+ <div class="normal-content">
+<a href="appointment-summary-report.jsp" >
+    <i class="fas fa-qrcode"></i>
+    <span>Appointment Summary</span>
+  </a>
+</div>
  
   <!-- sidebar end here  -->  
   

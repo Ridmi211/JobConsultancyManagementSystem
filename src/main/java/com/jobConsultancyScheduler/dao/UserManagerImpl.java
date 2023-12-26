@@ -32,35 +32,7 @@ public class UserManagerImpl implements UserManager {
 		
 		return driverManager.getConnection(); 
 	}
-	/*
-	 * @Override
-	 */
-	/*
-	 * public boolean addUser(User user) throws SQLException, ClassNotFoundException
-	 * { Connection connection = getConnection();
-	 * 
-	 * 
-	 * String query =
-	 * "INSERT INTO user(`name`,`phoneNumber`,`email`, `password`,`birthdate`,`gender`,`occupation`,`country`,`educationalQualifications`,`specializedCountries`,`specializedJobs`,`availableDays`,`availableTimeSlots`,`accessRight`)	VALUES	(?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
-	 * ;
-	 * 
-	 * PreparedStatement ps = connection.prepareStatement(query); ps.setString(1,
-	 * user.getName()); ps.setString(2, user.getPhoneNumber()); ps.setString(3,
-	 * user.getEmail()); ps.setString(4, user.getPassword()); ps.setString(5,
-	 * user.getBirthdate()); ps.setString(6, user.getGender()); ps.setString(7,
-	 * user.getOccupation()); ps.setString(8, user.getCountry()); ps.setString(9,
-	 * user.getEducationalQualifications()); ps.setString(10,
-	 * user.getSpecializedCountries()); ps.setString(11, user.getSpecializedJobs());
-	 * ps.setString(12, user.getAvailableDays()); ps.setString(13,
-	 * user.getAvailableTimeSlots()); ps.setString(14,
-	 * user.getAccessRight().toString());
-	 * 
-	 * boolean result = false;
-	 * 
-	 * if(ps.executeUpdate() > 0) result = true;
-	 * 
-	 * ps.close(); connection.close(); return result; }
-	 */
+	
 
 	
 	
