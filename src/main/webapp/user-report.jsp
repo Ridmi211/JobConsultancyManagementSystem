@@ -2,7 +2,7 @@
     pageEncoding="ISO-8859-1"%>
     <%@ taglib prefix="tag" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.jobConsultancyScheduler.model.User"%>
-<%@ page import="com.jobConsultancyScheduler.model.User"%>
+<%@ page import="com.jobConsultancyScheduler.model.RegistrationStatus"%>
 <%@ page import="com.jobConsultancyScheduler.model.AccessRight"%>
 <%@ page import="com.jobConsultancyScheduler.service.AppointmentService"%>
 <%@ page import="com.jobConsultancyScheduler.service.UserService"%>
@@ -163,10 +163,10 @@ List<Integer> monthlyCounts = appointmentManager.getMonthlyAppointmentCounts();
                 </div>
             
                 <div class="row common-border m-0">
-                    <div class="col-sm col-10 common-border pb-2 ">
+                    <div class="col-sm col-9 common-border pb-2 ">
                  <canvas id="accessRightsPieChart" width="400" height="200"></canvas>
                    </div>
-                 <div class="col-sm col-2 common-border pb-2 ">
+                 <div class="col-sm col-3 common-border pb-2 ">
 
                    <div id="accessRightsCounts" class="mt-3 counts-div"></div>
                       
@@ -522,10 +522,10 @@ try {
                 </div> -->
                 
                  <div class="row common-border m-0">
-                    <div class="col-sm col-10 common-border pb-2 ">
+                    <div class="col-sm col-9 common-border pb-2 m-0 p-0">
                  <canvas id="ageDistributionPieChart" width="400" height="200"></canvas>
                    </div>
-                 <div class="col-sm col-2 common-border pb-2 ">
+                 <div class="col-sm col-3 common-border pb-2 m-0 p-0">
 
                    <div id="ageDistributionCounts" class="mt-3 counts-div"></div>
                       
@@ -745,8 +745,109 @@ try {
         </div>
 
    <!--      /////////// -->
+   <%
+try {
+    Map<RegistrationStatus, Integer> registrationStatusData = userManager.getRegistrationStatusData();
+
+    // Convert the data into JavaScript arrays
+    String labelsArray = "['" + RegistrationStatus.PENDING.getDisplayName() + "', '" + RegistrationStatus.APPROVED.getDisplayName() + "', '" + RegistrationStatus.REJECTED.getDisplayName() + "']";
+    String dataValuesArray = "[" + registrationStatusData.get(RegistrationStatus.PENDING) + ", " + registrationStatusData.get(RegistrationStatus.APPROVED) + ", " + registrationStatusData.get(RegistrationStatus.REJECTED) + "]";
+%>
+
+<script>
+    // Parse JSON data in JavaScript
+    var registrationStatusData = {
+        labels: <%= labelsArray %>,
+        datasets: [{
+            data: <%= dataValuesArray %>,
+            backgroundColor: [
+                'rgba(255, 206, 86, 0.8)', // Pending color
+                'rgba(75, 192, 192, 0.8)', // Approved color
+                'rgba(255, 99, 132, 0.8)'  // Rejected color
+            ],
+            borderWidth: 1
+        }]
+    };
+
+    var ctx6 = document.getElementById('registrationStatusDoughnutChart').getContext('2d');
+    var registrationStatusDoughnutChart = new Chart(ctx6, {
+        type: 'doughnut',
+        data: registrationStatusData,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            },
+            title: {
+                display: true,
+                text: 'Consultant Registration Status'
+            }
+        }
+    });
+</script>
+
+<%
+} catch (ClassNotFoundException | SQLException e) {
+    e.printStackTrace(); // Handle the exception appropriately in your application
+}
+%>
+   
+<%--   <%
+try {
+    Map<RegistrationStatus, Integer> registrationStatusData = userManager.getRegistrationStatusData();
+
+    // Convert the data into JavaScript arrays
+    String labelsArray = "['" + RegistrationStatus.PENDING + "', '" + RegistrationStatus.APPROVED + "', '" + RegistrationStatus.REJECTED + "']";
+    String dataValuesArray = "[" + registrationStatusData.get(RegistrationStatus.PENDING) + ", " + registrationStatusData.get(RegistrationStatus.APPROVED) + ", " + registrationStatusData.get(RegistrationStatus.REJECTED) + "]";
+%>
+
+<script>
+    // Parse JSON data in JavaScript
+    var registrationStatusData = {
+        labels: <%= labelsArray %>,
+        datasets: [{
+            data: <%= dataValuesArray %>,
+            backgroundColor: [
+                'rgba(255, 206, 86, 0.8)', // Pending color
+                'rgba(75, 192, 192, 0.8)', // Approved color
+                'rgba(255, 99, 132, 0.8)'  // Rejected color
+            ],
+            borderWidth: 1
+        }]
+    };
+
+    var ctx6 = document.getElementById('registrationStatusDoughnutChart').getContext('2d');
+    var registrationStatusDoughnutChart = new Chart(ctx6, {
+        type: 'doughnut',
+        data: registrationStatusData,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            },
+            title: {
+                display: true,
+                text: 'Consultant Registration Status'
+            }
+        }
+    });
+</script>
+
+<%
+} catch (ClassNotFoundException | SQLException e) {
+    e.printStackTrace(); // Handle the exception appropriately in your application
+}
+%> --%>
+
+
         
-     <script>
+    <!--  <script>
         // Sample data (replace this with your actual data)
         var registrationStatusData = {
             labels: ['Pending', 'Approved', 'Rejected'],
@@ -782,7 +883,7 @@ try {
                 }
             }
         });
-    </script>   
+    </script>   --> 
     
      <!--    
             //////////////////////// -->

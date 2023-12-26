@@ -271,6 +271,41 @@ public class UserManagerImpl implements UserManager {
             if (connection != null) connection.close();
         }
     }
+    
+ // Implement this method in your service or DAO class
+    public Map<RegistrationStatus, Integer> getRegistrationStatusData() throws SQLException, ClassNotFoundException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = getConnection(); // Implement your getConnection() method
+
+            String query = "SELECT registrationStatus, COUNT(*) as count FROM user GROUP BY registrationStatus";
+           
+            statement = connection.prepareStatement(query);
+            resultSet = statement.executeQuery();
+
+            Map<RegistrationStatus, Integer> registrationStatusData = new HashMap<>();
+
+            while (resultSet.next()) {
+                String statusString = resultSet.getString("registrationStatus");
+                RegistrationStatus status = RegistrationStatus.valueOf(statusString.toUpperCase());
+                int count = resultSet.getInt("count");
+
+                registrationStatusData.put(status, count);
+            }
+
+            return registrationStatusData;
+        } finally {
+            // Close resources in the reverse order of their creation to avoid leaks
+            if (resultSet != null) resultSet.close();
+            if (statement != null) statement.close();
+            if (connection != null) connection.close();
+        }
+    }
+
+
     	
     public Map<String, Integer> getAgeDistributionData() throws SQLException, ClassNotFoundException {
         Connection connection = null;
