@@ -141,6 +141,36 @@ public class UserManagerImpl implements UserManager {
         return countsMap;
     }
     
+    public Map<String, Integer> getAccessRightsData() throws SQLException, ClassNotFoundException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = getConnection(); // Implement your getConnection() method
+
+            String query = "SELECT accessRight, COUNT(*) as count FROM user GROUP BY accessRight";
+            statement = connection.prepareStatement(query);
+            resultSet = statement.executeQuery();
+
+            Map<String, Integer> accessRightsData = new HashMap<>();
+
+            while (resultSet.next()) {
+                String accessRight = resultSet.getString("accessRight");
+                int count = resultSet.getInt("count");
+
+                accessRightsData.put(accessRight, count);
+            }
+
+            return accessRightsData;
+        } finally {
+            // Close resources in the reverse order of their creation to avoid leaks
+            if (resultSet != null) resultSet.close();
+            if (statement != null) statement.close();
+            if (connection != null) connection.close();
+        }
+    }
+    
     public Map<String, Integer> getConsultantCountByCountry() throws SQLException, ClassNotFoundException {
         Connection connection = getConnection();
         Map<String, Integer> consultantCountByCountry = new HashMap<>();

@@ -169,8 +169,57 @@ List<Integer> monthlyCounts = appointmentManager.getMonthlyAppointmentCounts();
         </div>
 
    <!--      /////////// -->
-        
+   <%
 
+
+try {
+    Map<String, Integer> accessRightsData = userManager.getAccessRightsData();
+
+    // Convert the data into JavaScript arrays
+/*  List<String> labelsList = accessRightsData.keySet().stream().map(String::valueOf).collect(Collectors.toList()); */
+
+    String[] customLabels = {"Client", "Consultant", "Admin"};
+    List<String> dataValuesList = accessRightsData.values().stream().map(String::valueOf).collect(Collectors.toList());
+
+    String labelsArray = "['" + String.join("', '", customLabels) + "']";
+    String dataValuesArray = "[" + String.join(", ", dataValuesList) + "]";
+%>
+   <script>
+    var accessRightsData = {
+        labels: <%= labelsArray %>,
+        datasets: [{
+            data: <%= dataValuesArray %>,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.8)', // Client color
+                'rgba(54, 162, 235, 0.8)', // Consultant color
+                'rgba(75, 192, 192, 0.8)'  // Admin color
+            ],
+            borderWidth: 1
+        }]
+    };
+
+    var ctx3 = document.getElementById('accessRightsPieChart').getContext('2d');
+    var accessRightsPieChart = new Chart(ctx3, {
+        type: 'pie',
+        data: accessRightsData,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            title: {
+                display: true,
+                text: 'User Access Rights'
+            }
+        }
+    });
+</script>
+
+<%
+} catch (ClassNotFoundException | SQLException e) {
+    e.printStackTrace(); // Handle the exception appropriately in your application
+}
+%>
+        
+<!-- 
     <script>
         // Sample data (replace this with your actual data)
         var accessRightsData = {
@@ -202,7 +251,7 @@ List<Integer> monthlyCounts = appointmentManager.getMonthlyAppointmentCounts();
                 }
             }
         });
-    </script>
+    </script> -->
         <!-- /////////////////////////////// -->
         
         
@@ -241,7 +290,7 @@ List<Integer> monthlyCounts = appointmentManager.getMonthlyAppointmentCounts();
             fill: false,
         },
         {
-            label: 'User Registrations',
+            label: 'Client Registrations',
             data: [<%=userCounts.get(0)%>, <%=userCounts.get(1)%>, <%=userCounts.get(2)%>, <%=userCounts.get(3)%>, <%=userCounts.get(4)%>, <%=userCounts.get(5)%>, <%=userCounts.get(6)%>, <%=userCounts.get(7)%>, <%=userCounts.get(8)%>, <%=userCounts.get(9)%>, <%=userCounts.get(10)%>, <%=userCounts.get(11)%>],
             borderColor: 'rgb(255, 99, 132)',
             borderWidth: 2,
