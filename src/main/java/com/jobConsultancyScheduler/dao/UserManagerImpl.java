@@ -236,6 +236,41 @@ public class UserManagerImpl implements UserManager {
 	 * 
 	 * return String.format("rgba(%d, %d, %d, 0.8)", red, green, blue); }
 	 */
+
+    public Map<String, Map<String, Integer>> getUserDemographicsData() throws SQLException, ClassNotFoundException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = getConnection(); // Implement your getConnection() method
+
+            String query = "SELECT country, gender, COUNT(*) as count FROM user GROUP BY country, gender";
+            statement = connection.prepareStatement(query);
+            resultSet = statement.executeQuery();
+
+            Map<String, Map<String, Integer>> userDemographicsData = new HashMap<>();
+
+            while (resultSet.next()) {
+                String country = resultSet.getString("country");
+                String gender = resultSet.getString("gender");
+                int count = resultSet.getInt("count");
+
+                // Create a map for the country if it doesn't exist
+                userDemographicsData.putIfAbsent(country, new HashMap<>());
+
+                // Update the count in the user demographics map
+                userDemographicsData.get(country).put(gender, count);
+            }
+
+            return userDemographicsData;
+        } finally {
+            // Close resources in the reverse order of their creation to avoid leaks
+            if (resultSet != null) resultSet.close();
+            if (statement != null) statement.close();
+            if (connection != null) connection.close();
+        }
+    }
     	
     public Map<String, Integer> getAgeDistributionData() throws SQLException, ClassNotFoundException {
         Connection connection = null;

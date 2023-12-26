@@ -583,27 +583,49 @@ try {
                 </div>
             </div>
         </div>
- <script>
-        const ctx5 = document.getElementById('userDemographicsChart').getContext('2d');
+      <%
+    Map<String, Map<String, Integer>> userDemographicsData = userManager.getUserDemographicsData();
 
-        // Sample data - replace this with actual data
-        const data = {
-            labels: ['Country A', 'Country B', 'Country C', 'Country D'],
-            datasets: [{
-                label: 'Male',
-                data: [120, 80, 100, 90],
-                backgroundColor: 'rgba(75, 192, 192, 0.7)',
-                borderWidth: 1
-            },
-            {
-                label: 'Female',
-                data: [80, 120, 90, 110],
-                backgroundColor: 'rgba(255, 99, 132, 0.7)',
-                borderWidth: 1
-            }],
-        };
+    // Convert Java Map to JSON string
+    String jsonData3 = new ObjectMapper().writeValueAsString(userDemographicsData);
 
-        const options = {
+    // You can use jsonData in your JavaScript code
+%>
+<script>
+    // Parse JSON data in JavaScript
+    var userDemographicsData = JSON.parse('<%= jsonData3 %>');
+
+    // Extract labels, data, and colors from the JSON data
+    var countries = Object.keys(userDemographicsData);
+
+    // Create datasets for Male and Female
+    var maleDataset = {
+        label: 'Male',
+        data: countries.map(function (country) {
+            return userDemographicsData[country] ? userDemographicsData[country].Male : 0;
+        }),
+        backgroundColor: 'rgba(75, 192, 192, 0.7)',
+        borderWidth: 1
+    };
+
+    var femaleDataset = {
+        label: 'Female',
+        data: countries.map(function (country) {
+            return userDemographicsData[country] ? userDemographicsData[country].Female : 0;
+        }),
+        backgroundColor: 'rgba(255, 99, 132, 0.7)',
+        borderWidth: 1
+    };
+
+    // Create a bar chart using Chart.js
+    var ctx14 = document.getElementById('userDemographicsChart').getContext('2d');
+    var userDemographicsChart = new Chart(ctx14, {
+        type: 'bar',
+        data: {
+            labels: countries,
+            datasets: [maleDataset, femaleDataset]
+        },
+        options: {
             scales: {
                 x: {
                     stacked: true,
@@ -622,14 +644,13 @@ try {
                     }
                 }
             }
-        };
+        }
+    });
+</script>
 
-        const userDemographicsChart = new Chart(ctx5, {
-            type: 'bar',
-            data: data,
-            options: options
-        });
-    </script>
+
+
+
    <!--      /////////// -->
           <!--  <div class=" card-container">
             <div class="col">
