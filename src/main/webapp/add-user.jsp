@@ -19,402 +19,13 @@
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
 		<!-- Latest compiled JavaScript -->
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>		
+	
+	<link rel="stylesheet" type="text/css" href="css/register-style.css">
+	
 	  <style>
-    @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400');
-    
-    body, html {
-      font-family: 'Source Sans Pro', sans-serif;
-      background-color: #1d243d;
-      padding: 0;
-      margin: 0;
-    }
-    
-    #particles-js {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-    }
-    
-    .container{
-      margin: 0;
-      top: 20px;
-      left: 50%;
-      position: absolute;
-      text-align: center;
-      transform: translateX(-50%);
-      background-color: rgb( 33, 41, 66 );
-      border-radius: 9px;
-      border-top: 10px solid #79a6fe;
-      border-bottom: 10px solid #8BD17C;
-      width: 600px;
-      height: 800px;
-      box-shadow: 1px 1px 108.8px 19.2px rgb(25,31,53);
-    }
-    
-    .box h4 {
-      font-family: 'Source Sans Pro', sans-serif;
-      color: #5c6bc0; 
-      font-size: 18px;
-      margin-top:40px;;
-    }
-    
-    .box h4 span {
-      color: #dfdeee;
-      font-weight: lighter;
-    }
-    
-    .box h5 {
-      font-family: 'Source Sans Pro', sans-serif;
-      font-size: 13px;
-      color: #a1a4ad;
-      letter-spacing: 1.5px;
-      margin-top: 5px;
-      margin-bottom: 20px;
-    }
-    
-    .box input[type = "text"],.box input[type = "password"] {
-      display: block;
-      margin: 10px auto;
-      background: #262e49;
-      border: 0;
-      border-radius: 5px;
-      padding: 6px 10px;
-      width: 320px;
-      outline: none;
-      color: #d6d6d6;
-          -webkit-transition: all .2s ease-out;
-        -moz-transition: all .2s ease-out;
-        -ms-transition: all .2s ease-out;
-        -o-transition: all .2s ease-out;
-        transition: all .2s ease-out;
-      
-    }
-    ::-webkit-input-placeholder {
-      color: #565f79;
-    }
-    
-    .box input[type = "text"]:focus,.box input[type = "password"]:focus {
-      border: 1px solid #79A6FE;
-      
-    }
-    
-    a{
-      color: #5c7fda;
-      text-decoration: none;
-    }
-    
-    a:hover {
-      text-decoration: underline;
-    }
-    
-     label input[type = "checkbox"] {
-      display: none; /* hide the default checkbox */
-    }
-    
-    /* style the artificial checkbox */
-    label span {
-      height: 13px;
-      width: 13px;
-      border: 2px solid #464d64;
-      border-radius: 2px;
-      display: inline-block;
-      position: relative;
-      cursor: pointer;
-      float: left;
-      left: 7.5%;
-    }
-    
-    .btn1 {
-      border:0;
-      background: #7f5feb;
-      color: #dfdeee;
-      border-radius: 100px;
-      width: 340px;
-      height: 49px;
-      font-size: 16px;
-      position: absolute;
-      top: 85%;
-      left: 8%;
-      transition: 0.3s;
-      cursor: pointer;
-    }
-    
-    .btn1:hover {
-      background: #5d33e6;
-    }
-    
-    .rmb {
-      position: absolute;
-      margin-left: -24%;
-      margin-top: 0px;
-      color: #dfdeee;
-      font-size: 13px;
-    }
-    
-    .forgetpass {
-      position: relative;
-      float: right;
-      right: 28px;
-    }
-    
-    .dnthave{
-        position: absolute;
-        top: 92%;
-        left: 29%;
-    }
-    
-    [type=checkbox]:checked + span:before {/* <-- style its checked state */
-        font-family: FontAwesome;
-        font-size: 16px;
-        content: "\f00c";
-        position: absolute;
-        top: -4px;
-        color: #896cec;
-        left: -1px;
-        width: 13px;
-    }
-    
-    .typcn {
-      position: absolute;
-      left: 339px;
-      top: 282px;
-      color: #3b476b;
-      font-size: 22px;
-      cursor: pointer;
-    }      
-    
-    .typcn.active {
-      color: #7f60eb;
-    }
-    
-    .error {
-      background: #ff3333;
-      text-align: center;
-      width: 337px;
-      height: 20px;
-      padding: 2px;
-      border: 0;
-      border-radius: 5px;
-      margin: 10px auto 10px;
-      position: absolute;
-      top: 31%;
-      left: 7.2%;
-      color: white;
-      display: none;
-    }
-    
-    .footer {
-        position: relative;
-        left: 0;
-        bottom: 0;
-        top: 605px;
-        width: 100%;
-        color: #78797d;
-        font-size: 14px;
-        text-align: center;
-    }
-    
-    .footer .fa {
-      color: #7f5feb;;
-    }
-    .gender {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0px auto;
-  gap: 50px;
-  font-size: 13px;
-}
-
-.gender label {
-  color: #a1a4ad;
-}
-.usertype {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 10px auto;
-  gap: 50px;
-  font-size: 13px;
-}
-
-.usertype label {
-  color: #a1a4ad;
-}
-
-
-/* Style the custom radio buttons */
-.gender label span {
-  height: 13px;
-  width: 13px;
-  border: 2px solid #464d64;
-  border-radius: 50%;
-  display: inline-block;
-  position: relative;
-  cursor: pointer;
-  font-family: 'Source Sans Pro', sans-serif;
-  font-size: 13px;
-  background-color: #1d243d;
-}
-.usertype label span {
-  height: 13px;
-  width: 13px;
-  border: 2px solid #464d64;
-  border-radius: 50%;
-  display: inline-block;
-  position: relative;
-  cursor: pointer;
-  font-family: 'Source Sans Pro', sans-serif;
-  font-size: 13px;
-  background-color: #1d243d;
-}
-
-/* Style the checked state of the radio buttons */
-.gender input[type="radio"]:checked + span:before {
-  content: "\f111"; /* Use a checkmark icon from FontAwesome */
-  font-family: 'Source Sans Pro', sans-serif;
-  font-size: 11px;
-  position: absolute;
-  font-size: 13px;
-
-  color: #896cec;
-}
-
-.usertype input[type="radio"]:checked + span:before {
-  content: "\f111"; /* Use a checkmark icon from FontAwesome */
-  font-family: 'Source Sans Pro', sans-serif;
-  font-size: 11px;
-  position: absolute;
-  font-size: 13px;
-
-  color: #896cec;
-}
-.box label[for="gender"]  {
-  color:  #a1a4ad;
-  display: block;
-  margin-top: 0px;
-  margin-left:22%;
-  text-align: left;
-  font-size: 13px;
-  font-family: 'Source Sans Pro', sans-serif;
   
-}
-.box label[for="usertype"]  {
-  color:  #a1a4ad;
-  display: block;
-  margin-top: 0px;
-  margin-left:22%;
-  text-align: left;
-  font-size: 13px;
-  font-family: 'Source Sans Pro', sans-serif;
   
-}
-.box label[for="birthdate"] {
-  color:  #a1a4ad;
-  display: block;
-  margin-top: 0px;
-  text-align: left;
-  margin-left:22%;
-  font-size: 13px;
-}
-
-.box input[type="date"][name="birthdate"] {
-  display: block;
-  margin: 5px auto;
-  background: #262e49;
-  border: 0;
-  border-radius: 5px;
-  padding: 6px 10px;
-  width: 320px;
-  outline: none;
-  color:  #a1a4ad;
-  transition: all 0.2s ease-out;
-}
-
-.box input[type="date"][name="birthdate"]:focus {
-  border: 1px solid #79A6FE;
-}
-
-/* Style the Telephone Input */
-.box label[for="telephone"] {
-  color:  #a1a4ad;
-  display: block;
-  margin-top: 20px;
-  text-align: left;
-  margin-left:20%;
-}
-
-.box input[type="tel"][name="telephone"] {
-  display: block;
-  margin: 5px auto;
-  background: #262e49;
-  border: 0;
-  border-radius: 5px;
-  padding: 8px 10px;
-  width: 320px;
-  outline: none;
-  color:  #a1a4ad;
-  transition: all 0.2s ease-out;
-}
-
-.box input[type="tel"][name="telephone"]:focus {
-  border: 1px solid #79A6FE;
-}
-
-/* Style the Job Type and Country Dropdowns */
-.box label[for="jobtype"], .box label[for="country"], .box label[for="usertype"] {
-  color:  #a1a4ad;
-  display: block;
-  margin-top: 10px;
-  text-align: left;
-  margin-left:22%;
-  font-size: 13px;
-}
-
-.box select[name="jobtype"], .box select[name="country"] {
-  display: block;
-  margin: 5px auto;
-  background: #262e49;
-  border: 0;
-  border-radius: 5px;
-  padding: 8px 10px;
-  width: 320px;
-  outline: none;
-  color:  #a1a4ad;
-  transition: all 0.2s ease-out;
-  margin-left:22%;
-  font-size: 13px;
-}
-
-.box select[name="jobtype"]:focus {
-  border: 1px solid #79A6FE;
-  
-}
-
-p{ color:white;
-}
-
- #feedback-container {
-    background-color: #4CAF50; 
-    color: white; 
-    padding: 10px; 
-    position: fixed; 
-    bottom: 20px; 
-    right: 20px; 
-    border-radius: 5px; 
-    opacity: 1; 
-    transition: opacity 0.5s; 
-  }
-
-  #feedback-container p {
-    margin: 0; /* Remove default margin for the <p> element */
-  }
-
-  /* Styling for the message when it's about to disappear */
-  #feedback-container.hidden {
-    opacity: 0; /* Fade out the message */
-  }
-  
+ 
   </style>
 	
 	</head>
@@ -426,7 +37,7 @@ p{ color:white;
         <h4>Job<span>Consultancy</span></h4>
         <p>${feebackMessage}</p>
         <h5>Create a new account.</h5>
-        <input type="text" name="name" placeholder="Name" id="name" autocomplete="off" required>
+       <input type="text" name="name" placeholder="Name" id="name" autocomplete="off" required>
         <input type="tel" name="telephone" id="telephone" placeholder="Phone number" required>
         <input type="text" name="email" id ="email" placeholder="Email" autocomplete="off" required>
         <i class="typcn typcn-eye" id="eye"></i>
@@ -448,21 +59,135 @@ p{ color:white;
             </label>
         </div>
           
-          <label for="jobtype">Job Type:</label>
+          <label for="jobtype">Occupation:</label>
           <select name="jobtype" id="jobtype" required>
-              <option value="Full-time">Full-time</option>
-              <option value="Part-time">Part-time</option>
-              <option value="Freelance">Freelance</option>
-              <option value="Contract">Contract</option>
+           	   <option value="Registered-Nurse">Registered Nurse</option>
+				<option value="Software-Developer">Software Developer</option>
+				<option value="Data-Scientist">Data Scientist</option>
+				<option value="Cybersecurity-Analyst">Cybersecurity Analyst</option>
+				<option value="Digital-Marketing-Manager">Digital Marketing Manager</option>
+				<option value="Healthcare-Administrator">Healthcare Administrator</option>
+				<option value="Electrician">Electrician</option>
+				<option value="Mechanical-Engineer">Mechanical Engineer</option>
+				<option value="School-Teacher">School Teacher</option>
+				<option value="Lecturer">Lecturer</option>
+				<option value="Pharmacist">Pharmacist</option>
+				<option value="Project-Manager">Project Manager</option>
+				<option value="Financial-Planner">Financial Planner</option>
+				<option value="Data-Analyst">Data Analyst</option>
+				<option value="Artificial-Intelligence-Specialist">Artificial Intelligence Specialist</option>
+				<option value="Physical-Therapist">Physical Therapist</option>
+				<option value="Environmental-Engineer">Environmental Engineer</option>
+				<option value="UX-Designer">UX Designer</option>
+				<option value="Employment-Consultant">Employment Consultant</option>
+				<option value="Career-Advisor">Career Advisor</option>
+				<option value="HR-Consultant">HR Consultant</option>
+				<option value="Talent-Acquisition-Specialist">Talent Acquisition Specialist</option>
+				<option value="Resume-Writer">Resume Writer</option>
+				<option value="Interview-Coach">Interview Coach</option>
+				<option value="Job-Placement-Specialist">Job Placement Specialist</option>
+				<option value="Career-Development-Specialist">Career Development Specialist</option>
+				<option value="Recruitment-Consultant">Recruitment Consultant</option>
+				<option value="Executive-Search-Consultant">Executive Search Consultant</option>
+				<option value="Job-Search-Strategist">Job Search Strategist</option>
+				<option value="Human-Resources-Advisor">Human Resources Advisor</option>
+				<option value="Career-Services-Coordinator">Career Services Coordinator</option>
+				<option value="College-Career-Advisor">College Career Advisor</option>
+				<option value="Outplacement-Consultant">Outplacement Consultant</option>
+				<option value="Biomedical-Engineer">Biomedical Engineer</option>
+				<option value="Content-Writer">Content Writer</option>
+				<option value="Solar-Panel-Installer">Solar Panel Installer</option>
+				<option value="Logistics-Manager">Logistics Manager</option>
+				<option value="Aeronautical-Engineer">Aeronautical Engineer</option>
+				<option value="Urban-Planner">Urban Planner</option>
+				<option value="PhD-Researcher">PhD Researcher</option>
+				<option value="Radiologic-Technologist">Radiologic Technologist</option>
+				<option value="Petroleum-Engineer">Petroleum Engineer</option>
+				<option value="Fashion-Designer">Fashion Designer</option>
+				<option value="Robotics-Engineer">Robotics Engineer</option>
+				<option value="Renewable-Energy-Technician">Renewable Energy Technician</option>
+				<option value="Chemical-Engineer">Chemical Engineer</option>
+				<option value="Market-Research-Analyst">Market Research Analyst</option>
+				<option value="Phlebotomist">Phlebotomist</option>
+				<option value="Diagnostic-Medical-Sonographer">Diagnostic Medical Sonographer</option>
+				<option value="Physical-Therapist-Assistant">Physical Therapist Assistant</option>
+				<option value="Radiation-Therapist">Radiation Therapist</option>
+				<option value="Robotics-Technician">Robotics Technician</option>
+				<option value="Forensic-Scientist">Forensic Scientist</option>
+				<option value="Geographic-Information-Systems-Analyst">Geographic Information Systems Analyst</option>
+				<option value="Air-Traffic-Controller">Air Traffic Controller</option>
+				<option value="Marine-Engineer">Marine Engineer</option>
+				<option value="Commercial-Pilot">Commercial Pilot</option>
+				<option value="Other">Other</option>
           </select>
           
-          <label for="country">Country:</label>
+          <label for="country">Residing Country:</label>
           <select name="country" id="country" required>
-              <option value="USA">USA</option>
-              <option value="Canada">Canada</option>
-              <option value="UK">UK</option>
-              <!-- Add more countries as needed -->
-          </select>
+            <option value="USA">USA</option>
+<option value="Canada">Canada</option>
+<option value="United Kingdom">United Kingdom</option>
+<option value="Australia">Australia</option>
+<option value="Germany">Germany</option>
+<option value="France">France</option>
+<option value="Sri Lanka">Sri Lanka</option>
+<option value="Spain">Spain</option>
+<option value="Italy">Italy</option>
+<option value="Netherlands">Netherlands</option>
+<option value="Sweden">Sweden</option>
+<option value="Switzerland">Switzerland</option>
+<option value="Japan">Japan</option>
+<option value="China">China</option>
+<option value="South Korea">South Korea</option>
+<option value="Brazil">Brazil</option>
+<option value="Mexico">Mexico</option>
+<option value="India">India</option>
+<option value="South Africa">South Africa</option>
+<option value="New Zealand">New Zealand</option>
+<option value="Singapore">Singapore</option>
+<option value="United Arab Emirates">United Arab Emirates</option>
+<option value="Saudi Arabia">Saudi Arabia</option>
+<option value="Qatar">Qatar</option>
+<option value="Ireland">Ireland</option>
+<option value="Norway">Norway</option>
+<option value="Denmark">Denmark</option>
+<option value="Finland">Finland</option>
+<option value="Austria">Austria</option>
+<option value="Belgium">Belgium</option>
+<option value="Greece">Greece</option>
+<option value="Portugal">Portugal</option>
+<option value="Russia">Russia</option>
+<option value="Argentina">Argentina</option>
+<option value="Chile">Chile</option>
+<option value="Peru">Peru</option>
+<option value="Colombia">Colombia</option>
+<option value="Egypt">Egypt</option>
+<option value="Kenya">Kenya</option>
+<option value="Nigeria">Nigeria</option>
+<option value="Afghanistan">Afghanistan</option>
+<option value="Bangladesh">Bangladesh</option>
+<option value="Cambodia">Cambodia</option>
+<option value="Democratic Republic of the Congo">Democratic Republic of the Congo</option>
+<option value="Ethiopia">Ethiopia</option>
+<option value="Haiti">Haiti</option>
+<option value="Honduras">Honduras</option>
+<option value="Iraq">Iraq</option>
+<option value="Laos">Laos</option>
+<option value="Mozambique">Mozambique</option>
+<option value="Nepal">Nepal</option>
+<option value="Nicaragua">Nicaragua</option>
+<option value="Pakistan">Pakistan</option>
+<option value="Rwanda">Rwanda</option>
+<option value="Sierra Leone">Sierra Leone</option>
+<option value="Somalia">Somalia</option>
+<option value="Sudan">Sudan</option>
+<option value="Syria">Syria</option>
+<option value="Yemen">Yemen</option>
+<option value="Zimbabwe">Zimbabwe</option>
+<option value="Other">Other</option>
+
+</select>
+
+        
           
           <label for="usertype">Tell us who you are?</label>
           <div class="usertype" >
@@ -477,15 +202,99 @@ p{ color:white;
             </label>
            
         </div>
+        <div id="jobConsultantQuestions" style="display: none; ">
+  <!-- Add your additional questions here -->
+
+   <p>Please fill following mandatory fields.</p>
+   
+   <input type="text" name="educationalQualifications" placeholder="Mention your qualifications for this role" id="educationalQualifications" autocomplete="off" required>
+   
+    <input type="text" name="specializedCountries" placeholder="Mention your specialized Countries" id="specializedCountries" autocomplete="off" required>
+    
+     <input type="text" name="specializedJobs" placeholder="Mention your specialized Jobs" id="specializedJobs" autocomplete="off" required>
+
+        <label for="availableDays">Available Days:</label>
+           <div class="availableDays">
+         
+<input type="checkbox" name="availableDays" value="Monday"> <label for="Monday"> Monday  </label>
+<input type="checkbox" name="availableDays" value="Tuesday"> <label for="Tuesday"> Tuesday  </label> 
+<input type="checkbox" name="availableDays" value="Wednesday"><label for="Wednesday"> Wednesday  </label>
+<input type="checkbox" name="availableDays" value="Thursday"> <label for="Thursday"> Thursday  </label><br>
+<input type="checkbox" name="availableDays" value="Friday"> <label for="Friday"> Friday  </label>
+<input type="checkbox" name="availableDays" value="Saturday"> <label for="Saturday"> Saturday  </label>
+<input type="checkbox" name="availableDays" value="Sunday"> <label for="Sunday"> Sunday  </label>
+   </div>
+        
+<label for="availableTimeSlots">Available Time Slots:</label>
+   <div class="availableTimeSlots">
+<input type="checkbox" name="availableTimeSlots" value="09.00am"> <label for="Monday"> 09.00am  </label>
+<input type="checkbox" name="availableTimeSlots" value="10.00am"><label for="Monday"> 10.00am  </label>
+<input type="checkbox" name="availableTimeSlots" value="11.00am"> <label for="Monday"> 11.00am  </label>
+<input type="checkbox" name="availableTimeSlots" value="01.00pm"> <label for="Monday"> 01.00pm  </label><br>
+<input type="checkbox" name="availableTimeSlots" value="02.00pm"><label for="Monday"> 02.00pm  </label>
+<input type="checkbox" name="availableTimeSlots" value="03.00pm"> <label for="Monday"> 03.00pm  </label>
+<input type="checkbox" name="availableTimeSlots" value="04.00pm"> <label for="Monday"> 04.00pm  </label>
+<input type="checkbox" name="availableTimeSlots" value="05.00pm"><label for="Monday"> 05.00pm  </label>
+ </div>
+</div>
+        
         <div>
                  
           <input type="hidden" name="useractiontype" value="add"/>
-          <button style="left: 21%; " class="btn1" type="submit">Create User</button>
+          <button style="position:relative;left:0%; " class="btn1" type="submit">Create User</button>
         </div>
+         <a href="login.jsp" class="dnthave"  style="position:relative;left:0%;top:1%; ">Already have an account? Login</a>
         </form>
-          <a href="login.jsp" class="dnthave">Already have an account? Login</a>
+         
     </div> 
-      
+
+
+ <script>
+  const roleRadioButtons = document.querySelectorAll('input[name="usertype"]');
+  const jobConsultantQuestions = document.getElementById('jobConsultantQuestions');
+  const form = document.forms['form1'];
+
+  // Function to show or hide additional questions based on the selected role
+  function handleRoleSelection() {
+    if (document.querySelector('input[name="usertype"]:checked').value === "ROLE_CONSULTANT") {
+      jobConsultantQuestions.style.display = 'block';
+      // Make the additional questions required for job consultants
+      document.querySelector('input[name="educationalQualifications"]').setAttribute('required', 'required');
+      document.querySelector('input[name="specializedCountries"]').setAttribute('required', 'required');
+      document.querySelector('input[name="specializedJobs"]').setAttribute('required', 'required');
+    } else {
+      jobConsultantQuestions.style.display = 'none';
+      // Remove the required attribute for the additional questions
+      document.querySelector('input[name="educationalQualifications"]').removeAttribute('required');
+      document.querySelector('input[name="specializedCountries"]').removeAttribute('required');
+      document.querySelector('input[name="specializedJobs"]').removeAttribute('required');
+    }
+  }
+
+  // Attach the handleRoleSelection function to the change event of the radio buttons
+  roleRadioButtons.forEach((radio) => {
+    radio.addEventListener('change', handleRoleSelection);
+  });
+
+  // Call handleRoleSelection initially to set the initial state
+  handleRoleSelection();
+
+  // Function to handle form submission
+  form.addEventListener('submit', function (event) {
+    if (document.querySelector('input[name="usertype"]:checked').value === "ROLE_CONSULTANT") {
+      // Check if additional questions are answered when "Job Consultant" is selected
+      const educationalQualifications = document.querySelector('input[name="educationalQualifications"]').value;
+      const specializedCountries = document.querySelector('input[name="specializedCountries"]').value;
+      const specializedJobs = document.querySelector('input[name="specializedJobs"]').value;
+
+      if (!educationalQualifications || !specializedCountries || !specializedJobs) {
+        event.preventDefault(); // Prevent form submission if additional questions are not answered
+        alert('Please answer the additional questions for Job Consultants.');
+      }
+    }
+  });
+</script>
+
  
 
 </html>
