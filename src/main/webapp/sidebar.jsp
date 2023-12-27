@@ -139,6 +139,17 @@ User user = (User) session.getAttribute("user");
       <a href="getAppointment?appactiontype=adminRequested">View pending</a>
     </div>
   </div>
+  
+      <div class="dropdown">
+    <a>
+     <i class="fa fa-bar-chart" aria-hidden="true"></i>
+      <span>Reports</span>
+    </a>
+    <div class="dropdown-content">
+      <a  href="user-report.jsp" >User</a>
+      <a  href="appointment-summary-report.jsp" >Appointments</a>
+    </div>
+  </div>
     
   <% } %>
       <div class="normal-content">
@@ -193,19 +204,16 @@ User user = (User) session.getAttribute("user");
   </a>
 </div>
 
- <div class="normal-content">
-<a href="user-report.jsp" >
-    <i class="fas fa-qrcode"></i>
-    <span>User summary</span>
-  </a>
-</div>
-
- <div class="normal-content">
-<a href="appointment-summary-report.jsp" >
-    <i class="fas fa-qrcode"></i>
-    <span>Appointment Summary</span>
-  </a>
-</div>
+    <div class="dropdown">
+    <a>
+  <i class="fa fa-bar-chart" aria-hidden="true"></i>
+      <span>Reports</span>
+    </a>
+    <div class="dropdown-content">
+      <a  href="user-report.jsp" >User</a>
+      <a  href="appointment-summary-report.jsp" >Appointments</a>
+    </div>
+  </div>
  
   <!-- sidebar end here  -->  
   
