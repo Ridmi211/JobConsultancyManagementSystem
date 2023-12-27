@@ -1,7 +1,52 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     <%@ taglib prefix="tag" uri="http://java.sun.com/jsp/jstl/core"%>
+        <%@ taglib prefix="tag" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.jobConsultancyScheduler.model.User"%>
+<%@ page import="com.jobConsultancyScheduler.model.RegistrationStatus"%>
+<%@ page import="com.jobConsultancyScheduler.model.AccessRight"%>
+<%@ page import="com.jobConsultancyScheduler.service.AppointmentService"%>
+<%@ page import="com.jobConsultancyScheduler.service.UserService"%>
+<%@ page import="com.jobConsultancyScheduler.service.MessageService"%>
+
+
+<%@ page import="java.time.Year"%>
+<%@ page import="java.util.List"%>
+<%@ page import="com.jobConsultancyScheduler.dao.AppointmentManagerImpl"%>
+
+<%@ page import="java.util.Map"%>
+<%@ page import="java.util.stream.Collectors"%>
+<%@ page import="java.util.ArrayList"%>
+
+<%@ page import="com.fasterxml.jackson.databind.ObjectMapper"%>
+<%@ page import="com.fasterxml.jackson.core.JsonProcessingException"%>
+
+<%@ page import="java.sql.SQLException"%>
+<%@ page import="java.util.HashMap"%>
+<%@ page import="com.jobConsultancyScheduler.dao.UserManagerImpl"%>
+<%@ page import="java.util.List"%>
+<%@ page import="java.util.Arrays"%>
+<%@ page import="java.util.Iterator"%>
+<%@ page import="java.util.Map.Entry"%>
+<%@ page import="java.awt.Color"%>
+<%@ page import="java.util.Random"%>
+
+<%@ page import="java.util.Calendar"%>
+<%@ page import="java.util.Date"%>
+<%@ page import="java.util.Iterator"%>
+<%@ page import="java.util.Set"%>
+<%@ page import="java.util.stream.Collectors"%>
+<%@ page import="java.util.stream.IntStream"%>
+<%@ page import="java.time.Year"%>
+<%@ page import="com.jobConsultancyScheduler.dao.UserManager"%>
+
+<%@ page import="com.fasterxml.jackson.databind.ObjectMapper"%>
+    
+<%@ page import="com.jobConsultancyScheduler.model.User"%>
+  <%@ page import="com.jobConsultancyScheduler.dao.AppointmentManagerImpl" %>
+<%@ page import="com.jobConsultancyScheduler.model.Appointment" %>
+<%@ page import="java.sql.SQLException" %>
+<%@ page import="com.jobConsultancyScheduler.model.Appointment.Status" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -73,7 +118,7 @@
         <div class=" card-container">
             <div class="col">
                 <div class=" common-border">
-                    <div class="card-title common-border">Chart title       </div>
+                    <div class="card-title common-border">Number of appointments over time     </div>
                 </div>
                 
                 <div class=" common-border">
@@ -82,14 +127,70 @@
                 </div>
             
                 <div class="row common-border m-0">
-                    <div class="col-sm col-12 common-border pb-2 " style="height:250px">
-               <canvas id="accessRightsChart" width="10" height="10"></canvas>
+                    <div class="col-sm col-12 common-border pb-2 ">
+            <canvas id="myLineChart"></canvas>
                       
                     </div>
                 </div>
             </div>
         </div>
+<%
+Calendar calendar = Calendar.getInstance();
+calendar.setTime(new Date());
+int currentYear = calendar.get(Calendar.YEAR);
+%>
 
+
+<%
+UserManagerImpl userManager = new UserManagerImpl();
+// Instantiate the UserManagerImpl or get it from your application context
+/*    UserManagerImpl userManager = new UserManagerImpl(); */
+Map<String, List<Integer>> monthlyCountsMap = userManager.getMonthlyUserRegistrationCounts();
+List<Integer> userCounts = monthlyCountsMap.get("userCounts");
+List<Integer> consultantCounts = monthlyCountsMap.get("consultantCounts");
+
+int totalClientsCounts = userCounts.stream().mapToInt(Integer::intValue).sum();
+int totalConsultantCounts = consultantCounts.stream().mapToInt(Integer::intValue).sum();
+
+// Get the monthly user registration counts
+%>
+
+<%
+// Instantiate the AppointmentManagerImpl or get it from your application context
+AppointmentManagerImpl appointmentManager = new AppointmentManagerImpl();
+
+// Get the monthly appointment counts for the current year
+List<Integer> monthlyCounts = appointmentManager.getMonthlyAppointmentCounts();
+%>
+						<script>
+    const data1 = {
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+        datasets: [{
+            label: 'Monthly Appointments',
+            data: [<%=monthlyCounts.get(0)%>, <%=monthlyCounts.get(1)%>, <%=monthlyCounts.get(2)%>, <%=monthlyCounts.get(3)%>, <%=monthlyCounts.get(4)%>, <%=monthlyCounts.get(5)%>, <%=monthlyCounts.get(6)%>, <%=monthlyCounts.get(7)%>, <%=monthlyCounts.get(8)%>, <%=monthlyCounts.get(9)%>, <%=monthlyCounts.get(10)%>, <%=monthlyCounts.get(11)%>],
+            borderColor: 'rgb(91,74,107)',
+            borderWidth: 2,
+            fill: false,
+        }]
+    };
+
+    const ctx1 = document.getElementById('myLineChart').getContext('2d');
+    const myLineChart = new Chart(ctx1, {
+        type: 'line',
+        data: data1,
+        options: {
+            scales: {
+                x: {
+                    type: 'category',
+                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                },
+                y: {
+                    beginAtZero: true,
+                }
+            }
+        }
+    });
+</script>
         ///////////
         
                
@@ -98,7 +199,142 @@
         <div class=" card-container">
             <div class="col">
                 <div class=" common-border">
-                    <div class="card-title common-border">Chart title       </div>
+                    <div class="card-title common-border"> Breakdown of appointments by status</div>
+                </div>
+                
+                <div class=" common-border">
+                    <div class="card-comment common-border">Description
+                    </div>
+                </div>
+            
+                <div class="row common-border m-0">
+                    <div class="col-sm col-9 common-border pb-2  " style="height:250px" >
+                 <canvas id="appointmentsChart" width="400" height="150"></canvas>
+                   </div>
+                 <div class="col-sm col-3 common-border pb-2 ">
+
+                   <div id="accessRightsCounts" class="mt-3 counts-div"></div>
+                      
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        ///////////
+        
+      
+
+<%
+    // Instantiate the AppointmentManagerImpl
+ 
+
+    // Call the getAppointmentStatusCounts method to get the data
+    Map<String, Integer> appointmentStatusCounts = appointmentManager.getAppointmentStatusCounts();
+%>
+       
+<script>
+    // Sample data for appointments by status
+    const appointmentData = {
+        labels: [
+            <%-- Loop through the status counts and print the display names for each status --%>
+            <%
+                Set<Entry<String, Integer>> entrySet = appointmentStatusCounts.entrySet();
+                Iterator<Entry<String, Integer>> entryIterator = entrySet.iterator();
+
+                while (entryIterator.hasNext()) {
+                    Entry<String, Integer> entry = entryIterator.next();
+                    out.print("'" + entry.getKey() + "'");
+
+                    if (entryIterator.hasNext()) {
+                        out.print(", ");
+                    }
+                }
+            %>
+        ],
+        datasets: [{
+            data: [
+                <%-- Loop through the status counts and print the counts for each status --%>
+                <%
+                    Set<Entry<String, Integer>> entrySet2 = appointmentStatusCounts.entrySet();
+                    Iterator<Entry<String, Integer>> entryIterator2 = entrySet2.iterator();
+
+                    while (entryIterator2.hasNext()) {
+                        Entry<String, Integer> entry = entryIterator2.next();
+                        out.print(entry.getValue());
+
+                        if (entryIterator2.hasNext()) {
+                            out.print(", ");
+                        }
+                    }
+                %>
+            ],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.7)',  // Requested - Red
+                'rgba(75, 192, 192, 0.7)', // Admin-Confirmed - Green
+                'rgba(255, 205, 86, 0.7)', // Consultant-Confirmed - Yellow
+                'rgba(54, 162, 235, 0.7)', // Rejected - Blue
+                'rgba(153, 102, 255, 0.7)', // Completed - Purple
+                'rgba(255, 159, 64, 0.7)',  // Seeker-Cancelled - Orange
+                'rgba(128, 128, 128, 0.7)'  // Admin-Cancelled - Gray
+            ],
+            borderWidth: 1
+        }]
+    };
+
+    // Get the canvas element and render the pie chart
+    const ctx = document.getElementById('appointmentsChart').getContext('2d');
+    const myPieChart = new Chart(ctx, {
+        type: 'pie',
+        data: appointmentData,
+        options: {
+            title: {
+                display: true,
+                text: 'Distribution of Appointments by Status'
+            }
+        }
+    });
+    
+    
+</script>
+        
+<!-- <script>
+// Sample data for appointments by status
+const appointmentData = {
+    labels: ['Requested', 'Admin-Confirmed', 'Consultant-Confirmed', 'Rejected', 'Completed', 'Seeker-Cancelled', 'Admin-Cancelled'],
+    datasets: [{
+        data: [20, 30, 15, 5, 25, 10, 5], // Replace with your actual data
+        backgroundColor: [
+            'rgba(255, 99, 132, 0.7)',  // Requested - Red
+            'rgba(75, 192, 192, 0.7)', // Admin-Confirmed - Green
+            'rgba(255, 205, 86, 0.7)', // Consultant-Confirmed - Yellow
+            'rgba(54, 162, 235, 0.7)', // Rejected - Blue
+            'rgba(153, 102, 255, 0.7)', // Completed - Purple
+            'rgba(255, 159, 64, 0.7)',  // Seeker-Cancelled - Orange
+            'rgba(128, 128, 128, 0.7)'  // Admin-Cancelled - Gray
+        ],
+        borderWidth: 1
+    }]
+};
+
+// Get the canvas element and render the pie chart
+const ctx = document.getElementById('appointmentsChart').getContext('2d');
+const myPieChart = new Chart(ctx, {
+    type: 'pie',
+    data: appointmentData,
+    options: {
+        title: {
+            display: true,
+            text: 'Distribution of Appointments by Status'
+        }
+    }
+});
+</script> -->
+        
+
+        <div class=" card-container">
+            <div class="col">
+                <div class=" common-border">
+                    <div class="card-title common-border">Distribution of appointents by country     </div>
                 </div>
                 
                 <div class=" common-border">
@@ -108,7 +344,70 @@
             
                 <div class="row common-border m-0">
                     <div class="col-sm col-12 common-border pb-2 " style="height:250px">
-              <canvas id="genderDistributionChart" width="40" height="40"></canvas>
+              <canvas id="countryAppointmentsPieChart" width="40" height="40"></canvas>
+
+                      
+                    </div>
+                </div>
+            </div>
+        </div>
+<%
+Map<String, Integer> countryAppointmentData = appointmentManager.getAppointmentCountsByCountry();
+%>
+
+<script>
+// Replace the static data with the dynamic data from your Java backend
+const dynamicCountryAppointmentData = {
+    labels: <%= new ArrayList<>(countryAppointmentData.keySet()).stream().map(country -> "'" + country + "'").collect(Collectors.joining(", ", "[", "]")) %>,
+    datasets: [{
+        data: <%= new ArrayList<>(countryAppointmentData.values()).toString() %>,
+        backgroundColor: generateRandomColors(<%= countryAppointmentData.size() %>), // Use a function to generate colors
+        borderWidth: 1
+    }]
+};
+
+function generateRandomColors(count) {
+    const colors = [];
+    for (let i = 0; i < count; i++) {
+        const color = '#' + Math.floor(Math.random()*16777215).toString(16); // Generate a random hex color
+        colors.push(color);
+    }
+    return colors;
+}
+
+// Get the canvas element and render the pie chart
+const ctxCountryPie = document.getElementById('countryAppointmentsPieChart').getContext('2d');
+const myPieChartCountry = new Chart(ctxCountryPie, {
+    type: 'pie',
+    data: dynamicCountryAppointmentData,
+    options: {
+        title: {
+            display: true,
+            text: 'Distribution of Appointments by Country'
+        }
+    }
+});
+</script>
+
+
+
+        
+            ////////////////////////
+
+        <div class=" card-container">
+            <div class="col">
+                <div class=" common-border">
+                    <div class="card-title common-border">Distribution of Appointments by Job    </div>
+                </div>
+                
+                <div class=" common-border">
+                    <div class="card-comment common-border">Description
+                    </div>
+                </div>
+            
+                <div class="row common-border m-0">
+                    <div class="col-sm col-12 common-border pb-2 " style="height:250px">
+               <canvas id="jobAppointmentsPieChart" width="400" height="400"></canvas>
                       
                     </div>
                 </div>
@@ -117,13 +416,41 @@
 
         ///////////
         
+               <%
+Map<String, Integer> jobAppointmentData = appointmentManager.getAppointmentCountsByJob();
+%>
+
+<script>
+// Replace the static data with the dynamic data from your Java backend
+const dynamicJobAppointmentData = {
+    labels: <%= new ArrayList<>(jobAppointmentData.keySet()).stream().map(job -> "'" + job + "'").collect(Collectors.joining(", ", "[", "]")) %>,
+    datasets: [{
+        data: <%= new ArrayList<>(jobAppointmentData.values()).toString() %>,
+        backgroundColor: generateRandomColors(<%= jobAppointmentData.size() %>), // Use a function to generate colors
+        borderWidth: 1
+    }]
+};
+
+// Get the canvas element and render the pie chart
+const ctxJobPie = document.getElementById('jobAppointmentsPieChart').getContext('2d');
+const myPieChartJob = new Chart(ctxJobPie, {
+    type: 'pie',
+    data: dynamicJobAppointmentData,
+    options: {
+        title: {
+            display: true,
+            text: 'Distribution of Appointments by Job'
+        }
+    }
+});
+</script>
                
             ////////////////////////
 
         <div class=" card-container">
             <div class="col">
                 <div class=" common-border">
-                    <div class="card-title common-border">Chart title       </div>
+                    <div class="card-title common-border">appointment by day DistributionBarChart     </div>
                 </div>
                 
                 <div class=" common-border">
@@ -132,53 +459,326 @@
                 </div>
             
                 <div class="row common-border m-0">
-                    <div class="col-sm col-12 common-border pb-2 " style="height:250px">
-              <canvas id="geographicalDistributionChart" width="40" height="40"></canvas>
-
+                    <div class="col-sm col-12 common-border pb-2 " style="height:350px">
+              <canvas id="appointmentsByDayChart" width="400" height="400"></canvas>
                       
                     </div>
                 </div>
             </div>
         </div>
+<%
+Map<String, Integer> appointmentsByDayData = appointmentManager.getAppointmentCountsByDay();
+%>
+
+<script>
+// Replace the static data with the dynamic data from your Java backend
+const dynamicAppointmentsByDayData = {
+    labels: <%= new ArrayList<>(appointmentsByDayData.keySet()).stream().map(day -> "'" + day + "'").collect(Collectors.joining(", ", "[", "]")) %>,
+    datasets: [{
+        label: 'Appointments',
+        data: <%= new ArrayList<>(appointmentsByDayData.values()).toString() %>,
+        backgroundColor: 'rgba(75, 192, 192, 0.7)', // Green color for all bars
+        borderWidth: 1
+    }]
+};
+
+// Get the canvas element and render the bar chart
+const ctxAppointmentsByDay = document.getElementById('appointmentsByDayChart').getContext('2d');
+const myBarChartAppointmentsByDay = new Chart(ctxAppointmentsByDay, {
+    type: 'bar',
+    data: dynamicAppointmentsByDayData,
+    options: {
+        title: {
+            display: true,
+            text: 'Distribution of Appointments by Day of the Week'
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                title: {
+                    display: true,
+                    text: 'Number of Appointments'
+                }
+            },
+            x: {
+                title: {
+                    display: true,
+                    text: 'Day of the Week'
+                }
+            }
+        }
+    }
+});
+</script>
 
         ///////////
-        <div class="">
-            <div class="page-title d-flex align-items-center align-self-center">User Registration Report</div>
-        </div>
-        <!-- Card 1  numbers -->
-        
-        
-            ////////////////////////
+<!-- <script>
+// Sample data for appointments by day of the week
+const appointmentsByDayData = {
+    labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+    datasets: [{
+        label: 'Appointments',
+        data: [10, 15, 20, 18, 25, 12, 8], // Replace with your actual data
+        backgroundColor: 'rgba(75, 192, 192, 0.7)', // Green color for all bars
+        borderWidth: 1
+    }]
+};
 
-        <div class=" card-container">
-            <div class="col">
-                <div class=" common-border">
-                    <div class="card-title common-border">Chart title       </div>
-                </div>
-                
-                <div class=" common-border">
-                    <div class="card-comment common-border">Description
-                    </div>
-                </div>
-            
-                <div class="row common-border m-0">
-                    <div class="col-sm col-12 common-border pb-2 " style="height:250px">
-               <canvas id="accessRightsChart" width="10" height="10"></canvas>
-                      
-                    </div>
-                </div>
-            </div>
-        </div>
+// Get the canvas element and render the bar chart
+const ctxAppointmentsByDay = document.getElementById('appointmentsByDayChart').getContext('2d');
+const myBarChartAppointmentsByDay = new Chart(ctxAppointmentsByDay, {
+    type: 'bar',
+    data: appointmentsByDayData,
+    options: {
+        title: {
+            display: true,
+            text: 'Distribution of Appointments by Day of the Week'
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                title: {
+                    display: true,
+                    text: 'Number of Appointments'
+                }
+            },
+            x: {
+                title: {
+                    display: true,
+                    text: 'Day of the Week'
+                }
+            }
+        }
+    }
+});
+</script> -->
+   <!--      <script>
+// Sample data for appointment distribution by day and time
+const appointmentDistributionData = {
+    labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+    datasets: [
+        {
+            label: '09.00am',
+            data: [5, 8, 10, 6, 12, 7, 4], // Replace with your actual data
+            backgroundColor: 'rgba(255, 99, 132, 0.7)', // Red
+            borderWidth: 1
+        },
+        {
+            label: '10.00am',
+            data: [3, 5, 8, 4, 10, 6, 3], // Replace with your actual data
+            backgroundColor: 'rgba(75, 192, 192, 0.7)', // Green
+            borderWidth: 1
+        },
+        {
+            label: '11.00am',
+            data: [7, 9, 12, 8, 15, 10, 5], // Replace with your actual data
+            backgroundColor: 'rgba(255, 205, 86, 0.7)', // Yellow
+            borderWidth: 1
+        },
+        {
+            label: '12.00pm',
+            data: [8, 11, 14, 9, 18, 12, 7], // Replace with your actual data
+            backgroundColor: 'rgba(54, 162, 235, 0.7)', // Blue
+            borderWidth: 1
+        },
+        {
+            label: '01.00pm',
+            data: [10, 13, 16, 12, 20, 15, 9], // Replace with your actual data
+            backgroundColor: 'rgba(153, 102, 255, 0.7)', // Purple
+            borderWidth: 1
+        },
+        {
+            label: '02.00pm',
+            data: [6, 9, 11, 8, 14, 10, 5], // Replace with your actual data
+            backgroundColor: 'rgba(255, 159, 64, 0.7)', // Orange
+            borderWidth: 1
+        },
+        {
+            label: '03.00pm',
+            data: [4, 7, 9, 6, 10, 8, 3], // Replace with your actual data
+            backgroundColor: 'rgba(128, 128, 128, 0.7)', // Gray
+            borderWidth: 1
+        },
+        {
+            label: '04.00pm',
+            data: [5, 8, 10, 7, 12, 9, 4], // Replace with your actual data
+            backgroundColor: 'rgba(0, 255, 0, 0.7)', // Green
+            borderWidth: 1
+        },
+        {
+            label: '05.00pm',
+            data: [3, 5, 7, 4, 8, 6, 2], // Replace with your actual data
+            backgroundColor: 'rgba(255, 0, 0, 0.7)', // Red
+            borderWidth: 1
+        }
+    ]
+};
 
-        ///////////
+// Get the canvas element and render the bar chart
+const ctxBar = document.getElementById('appointmentDistributionBarChart').getContext('2d');
+const myBarChart = new Chart(ctxBar, {
+    type: 'bar',
+    data: appointmentDistributionData,
+    options: {
+        title: {
+            display: true,
+            text: 'Appointment Distribution by Day and Time'
+        },
+        scales: {
+            x: {
+                stacked: true,
+                title: {
+                    display: true,
+                    text: 'Day'
+                }
+            },
+            y: {
+                stacked: true,
+                beginAtZero: true,
+                title: {
+                    display: true,
+                    text: 'Number of Appointments'
+                }
+            }
+        }
+    }
+});
+</script> -->
         
+  <%--       <%
+Map<String, Map<String, Integer>> appointmentData = appointmentManager.getAppointmentCountsByTimeAndDay();
+%>
+
+<script>
+// Replace the static data with the dynamic data from your Java backend
+const dynamicAppointmentCountData = {
+    labels: <%= new ArrayList<>(appointmentData.keySet()).stream().map(day -> "'" + day + "'").collect(Collectors.joining(", ", "[", "]")) %>,
+    datasets: [
+        <% for (String time : appointmentData.get(appointmentData.keySet().iterator().next()).keySet()) { %>
+        {
+            label: '<%= time %>',
+            data: <%= appointmentData.values().stream().map(map -> map.getOrDefault(time, 0)).collect(Collectors.toList()) %>,
+            borderColor: 'rgba(<%= (int) (Math.random() * 256) %>, <%= (int) (Math.random() * 256) %>, <%= (int) (Math.random() * 256) %>, 1)',
+            backgroundColor: 'rgba(<%= (int) (Math.random() * 256) %>, <%= (int) (Math.random() * 256) %>, <%= (int) (Math.random() * 256) %>, 0.2)',
+            pointBackgroundColor: 'rgba(<%= (int) (Math.random() * 256) %>, <%= (int) (Math.random() * 256) %>, <%= (int) (Math.random() * 256) %>, 1)'
+        },
+        <% } %>
+    ]
+};
+
+// Get the canvas element and render the radar chart
+const ctxRadar = document.getElementById('appointmentCountRadarChart').getContext('2d');
+const myRadarChart = new Chart(ctxRadar, {
+    type: 'radar',
+    data: dynamicAppointmentCountData,
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            r: {
+                suggestedMin: 0,
+                suggestedMax: 25
+            }
+        }
+    }
+});
+</script> --%>
+        
+      <!--   <script>
+// Sample data for appointment count by start time and day
+const appointmentCountData = {
+    labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+    datasets: [
+        {
+            label: '09.00am',
+            data: [5, 8, 10, 6, 12, 7, 4], // Replace with your actual data
+            borderColor: 'rgba(255, 99, 132, 1)',
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            pointBackgroundColor: 'rgba(255, 99, 132, 1)'
+        },
+        {
+            label: '10.00am',
+            data: [3, 5, 8, 4, 10, 6, 3], // Replace with your actual data
+            borderColor: 'rgba(75, 192, 192, 1)',
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            pointBackgroundColor: 'rgba(75, 192, 192, 1)'
+        },
+        {
+            label: '11.00am',
+            data: [7, 9, 12, 8, 15, 10, 5], // Replace with your actual data
+            borderColor: 'rgba(255, 205, 86, 1)',
+            backgroundColor: 'rgba(255, 205, 86, 0.2)',
+            pointBackgroundColor: 'rgba(255, 205, 86, 1)'
+        },
+        {
+            label: '12.00pm',
+            data: [8, 11, 14, 9, 18, 12, 7], // Replace with your actual data
+            borderColor: 'rgba(54, 162, 235, 1)',
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            pointBackgroundColor: 'rgba(54, 162, 235, 1)'
+        },
+        {
+            label: '01.00pm',
+            data: [10, 13, 16, 12, 20, 15, 9], // Replace with your actual data
+            borderColor: 'rgba(153, 102, 255, 1)',
+            backgroundColor: 'rgba(153, 102, 255, 0.2)',
+            pointBackgroundColor: 'rgba(153, 102, 255, 1)'
+        },
+        {
+            label: '02.00pm',
+            data: [6, 9, 11, 8, 14, 10, 5], // Replace with your actual data
+            borderColor: 'rgba(255, 159, 64, 1)',
+            backgroundColor: 'rgba(255, 159, 64, 0.2)',
+            pointBackgroundColor: 'rgba(255, 159, 64, 1)'
+        },
+        {
+            label: '03.00pm',
+            data: [4, 7, 9, 6, 10, 8, 3], // Replace with your actual data
+            borderColor: 'rgba(128, 128, 128, 1)',
+            backgroundColor: 'rgba(128, 128, 128, 0.2)',
+            pointBackgroundColor: 'rgba(128, 128, 128, 1)'
+        },
+        {
+            label: '04.00pm',
+            data: [5, 8, 10, 7, 12, 9, 4], // Replace with your actual data
+            borderColor: 'rgba(0, 255, 0, 1)',
+            backgroundColor: 'rgba(0, 255, 0, 0.2)',
+            pointBackgroundColor: 'rgba(0, 255, 0, 1)'
+        },
+        {
+            label: '05.00pm',
+            data: [3, 5, 7, 4, 8, 6, 2], // Replace with your actual data
+            borderColor: 'rgba(255, 0, 0, 1)',
+            backgroundColor: 'rgba(255, 0, 0, 0.2)',
+            pointBackgroundColor: 'rgba(255, 0, 0, 1)'
+        }
+    ]
+};
+
+// Get the canvas element and render the radar chart
+const ctxRadar = document.getElementById('appointmentCountRadarChart').getContext('2d');
+const myRadarChart = new Chart(ctxRadar, {
+    type: 'radar',
+    data: appointmentCountData,
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            r: {
+                suggestedMin: 0,
+                suggestedMax: 25
+            }
+        }
+    }
+});
+</script> -->
                
             ////////////////////////
 
         <div class=" card-container">
             <div class="col">
                 <div class=" common-border">
-                    <div class="card-title common-border">Chart title       </div>
+                    <div class="card-title common-border">Appointment by time distribution     </div>
                 </div>
                 
                 <div class=" common-border">
@@ -188,38 +788,100 @@
             
                 <div class="row common-border m-0">
                     <div class="col-sm col-12 common-border pb-2 " style="height:250px">
-              <canvas id="genderDistributionChart" width="40" height="40"></canvas>
+              <canvas id="appointmentsByTimeSlotChart" width="600" height="400"></canvas>
+
                       
                     </div>
                 </div>
             </div>
         </div>
+<%
+Map<String, Integer> appointmentsByTimeSlotData = appointmentManager.getAppointmentCountsByTimeSlot();
+%>
 
-        ///////////
+<script>
+// Replace the static data with the dynamic data from your Java backend
+const dynamicAppointmentsByTimeSlotData = {
+    labels: <%= new ArrayList<>(appointmentsByTimeSlotData.keySet()).stream().map(startTime -> "'" + startTime + "'").collect(Collectors.joining(", ", "[", "]")) %>,
+    datasets: [{
+        label: 'Appointments',
+        data: <%= new ArrayList<>(appointmentsByTimeSlotData.values()).toString() %>,
+        backgroundColor: 'rgba(75, 192, 192, 0.7)', // Green color for all bars
+        borderWidth: 1
+    }]
+};
+
+// Get the canvas element and render the bar chart
+const ctxAppointmentsByTimeSlot = document.getElementById('appointmentsByTimeSlotChart').getContext('2d');
+const myBarChartAppointmentsByTimeSlot = new Chart(ctxAppointmentsByTimeSlot, {
+    type: 'bar',
+    data: dynamicAppointmentsByTimeSlotData,
+    options: {
+        title: {
+            display: true,
+            text: 'Distribution of Appointments by Time Slot'
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                title: {
+                    display: true,
+                    text: 'Number of Appointments'
+                }
+            },
+            x: {
+                title: {
+                    display: true,
+                    text: 'Time Slot'
+                }
+            }
+        }
+    }
+});
+</script>
+
         
-               
-            ////////////////////////
+        
+<!-- <script>
+// Sample data for appointments by time slot
+const appointmentsByTimeSlotData = {
+    labels: ["09.00am","10.00am", "11.00am","12.00pm","01.00pm","02.00pm","03.00pm", "04.00pm","05.00pm"],
+    datasets: [{
+        label: 'Appointments',
+        data: [5, 10, 15, 12, 18, 10, 8, 5, 3], // Replace with your actual data
+        backgroundColor: 'rgba(75, 192, 192, 0.7)', // Green color for all bars
+        borderWidth: 1
+    }]
+};
 
-        <div class=" card-container">
-            <div class="col">
-                <div class=" common-border">
-                    <div class="card-title common-border">Chart title       </div>
-                </div>
-                
-                <div class=" common-border">
-                    <div class="card-comment common-border">Description
-                    </div>
-                </div>
-            
-                <div class="row common-border m-0">
-                    <div class="col-sm col-12 common-border pb-2 " style="height:250px">
-              <canvas id="geographicalDistributionChart" width="40" height="40"></canvas>
-
-                      
-                    </div>
-                </div>
-            </div>
-        </div>
+// Get the canvas element and render the bar chart
+const ctxAppointmentsByTimeSlot = document.getElementById('appointmentsByTimeSlotChart').getContext('2d');
+const myBarChartAppointmentsByTimeSlot = new Chart(ctxAppointmentsByTimeSlot, {
+    type: 'bar',
+    data: appointmentsByTimeSlotData,
+    options: {
+        title: {
+            display: true,
+            text: 'Distribution of Appointments by Time Slot'
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                title: {
+                    display: true,
+                    text: 'Number of Appointments'
+                }
+            },
+            x: {
+                title: {
+                    display: true,
+                    text: 'Time Slot'
+                }
+            }
+        }
+    }
+});
+</script> -->
 
         ///////////
         

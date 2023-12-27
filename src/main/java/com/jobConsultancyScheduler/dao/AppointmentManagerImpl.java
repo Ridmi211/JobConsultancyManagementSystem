@@ -7,7 +7,16 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.Year;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Logger;
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 import com.jobConsultancyScheduler.dao.dbUtils.DbDriverManager;
 import com.jobConsultancyScheduler.dao.dbUtils.DbDriverManagerFactory;
@@ -608,8 +617,208 @@ private Connection getConnection() throws ClassNotFoundException, SQLException {
 	        connection.close();
 	        return result;
 	    }
+	  private static final Logger LOGGER = Logger.getLogger(AppointmentManagerImpl.class.getName());
 
+	// Add this method to your AppointmentManagerImpl class
+	  public Map<String, Integer> getAppointmentStatusCounts() throws SQLException, ClassNotFoundException {
+		    Connection connection = getConnection();
+		    Map<String, Integer> statusCounts = new HashMap<>();
 
+		    String query = "SELECT status, COUNT(*) FROM appointments GROUP BY status";
+
+		    try (PreparedStatement ps = connection.prepareStatement(query)) {
+		        try (ResultSet rs = ps.executeQuery()) {
+		            while (rs.next()) {
+		                String statusValue = rs.getString("status");
+		                Status status = Status.valueOf(statusValue);
+		                String statusDisplayName = status.getDisplayName();
+		                int count = rs.getInt(2);
+		                statusCounts.put(statusDisplayName, count);
+		            }
+		        }
+		    }
+
+		    connection.close();
+		    LOGGER.info("statusCounts: " + statusCounts);
+
+		    return statusCounts;
+		}
+	 
+
+	  public Map<String, Integer> getAppointmentCountsByCountry() throws SQLException, ClassNotFoundException {
+	      Connection connection = getConnection();
+	      Map<String, Integer> countryAppointmentCounts = new HashMap<>();
+
+	      String query = "SELECT country, COUNT(*) FROM appointments GROUP BY country";
+
+	      try (PreparedStatement ps = connection.prepareStatement(query)) {
+	          try (ResultSet rs = ps.executeQuery()) {
+	              while (rs.next()) {
+	                  String country = rs.getString("country");
+	                  int count = rs.getInt(2);
+	                  countryAppointmentCounts.put(country, count);
+	              }
+	          }
+	      }
+
+	      connection.close();
+	      LOGGER.info("countryAppointmentCounts: " + countryAppointmentCounts);
+
+	      return countryAppointmentCounts;
+	  }
+
+	  public List<String> generateRandomColors(int count) {
+	      List<String> colors = new ArrayList<>();
+	      for (int i = 0; i < count; i++) {
+	          Color color = new Color((int) (Math.random() * 256), (int) (Math.random() * 256), (int) (Math.random() * 256));
+	          String hexColor = String.format("#%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue());
+	          colors.add(hexColor);
+	      }
+	      return colors;
+	  }
+
+	  public Map<String, Integer> getAppointmentCountsByJob() throws SQLException, ClassNotFoundException {
+		    Connection connection = getConnection();
+		    Map<String, Integer> jobAppointmentCounts = new HashMap<>();
+
+		    String query = "SELECT job, COUNT(*) FROM appointments GROUP BY job";
+
+		    try (PreparedStatement ps = connection.prepareStatement(query)) {
+		        try (ResultSet rs = ps.executeQuery()) {
+		            while (rs.next()) {
+		                String job = rs.getString("job");
+		                int count = rs.getInt(2);
+		                jobAppointmentCounts.put(job, count);
+		            }
+		        }
+		    }
+
+		    connection.close();
+		    LOGGER.info("jobAppointmentCounts: " + jobAppointmentCounts);
+
+		    return jobAppointmentCounts;
+		}
+	  public Map<String, Integer> getAppointmentCountsByDay() throws SQLException, ClassNotFoundException {
+		    Connection connection = getConnection();
+		    Map<String, Integer> appointmentsByDayData = new HashMap<>();
+
+		    String query = "SELECT DAYNAME(scheduledDate) AS day, COUNT(*) " +
+		            "FROM appointments " +
+		            "GROUP BY day " +
+		            "ORDER BY FIELD(day, 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday')";
+
+		    try (PreparedStatement ps = connection.prepareStatement(query)) {
+		        try (ResultSet rs = ps.executeQuery()) {
+		            while (rs.next()) {
+		                String day = rs.getString("day");
+		                int count = rs.getInt(2);
+		                appointmentsByDayData.put(day, count);
+		            }
+		        }
+		    }
+
+		    connection.close();
+		    LOGGER.info("appointmentsByDayData: " + appointmentsByDayData);
+
+		    return appointmentsByDayData;
+		}
+
+	  
+	  public Map<String, Integer> getAppointmentCountsByTimeSlot() throws SQLException, ClassNotFoundException {
+		    Connection connection = getConnection();
+		    Map<String, Integer> appointmentsByTimeSlotData = new HashMap<>();
+
+		    String query = "SELECT startTime, COUNT(*) FROM appointments GROUP BY startTime";
+
+		    try (PreparedStatement ps = connection.prepareStatement(query)) {
+		        try (ResultSet rs = ps.executeQuery()) {
+		            while (rs.next()) {
+		                String startTime = rs.getString("startTime");
+		                int count = rs.getInt(2);
+		                appointmentsByTimeSlotData.put(startTime, count);
+		            }
+		        }
+		    }
+
+		    connection.close();
+		    LOGGER.info("appointmentsByTimeSlotData: " + appointmentsByTimeSlotData);
+
+		    return appointmentsByTimeSlotData;
+		}
+
+		/*
+		 * public Map<String, Integer> getAppointmentCountsByDay() throws SQLException,
+		 * ClassNotFoundException { Connection connection = getConnection(); Map<String,
+		 * Integer> dayAppointmentCounts = new HashMap<>();
+		 * 
+		 * String query = "SELECT DAYNAME(scheduledDate) AS day, COUNT(*) " +
+		 * "FROM appointments " + "GROUP BY day " +
+		 * "ORDER BY FIELD(day, 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday')"
+		 * ;
+		 * 
+		 * try (PreparedStatement ps = connection.prepareStatement(query)) { try
+		 * (ResultSet rs = ps.executeQuery()) { while (rs.next()) { String dayOfWeek =
+		 * rs.getString("day"); int count = rs.getInt("COUNT(*)");
+		 * 
+		 * dayAppointmentCounts.put(dayOfWeek, count); } } }
+		 * 
+		 * connection.close(); LOGGER.info("dayAppointmentCounts: " +
+		 * dayAppointmentCounts);
+		 * 
+		 * return dayAppointmentCounts; }
+		 */
+		/*
+		 * public Map<String, Map<String, Integer>>
+		 * getAppointmentDistributionByDayAndTime() throws SQLException,
+		 * ClassNotFoundException { Connection connection = getConnection(); Map<String,
+		 * Map<String, Integer>> distributionData = new HashMap<>();
+		 * 
+		 * String query =
+		 * "SELECT DAYNAME(scheduledDate) AS day, TIME_FORMAT(startTime, '%h.%i%p') AS time, COUNT(*) "
+		 * + "FROM appointments " + "GROUP BY day, time " +
+		 * "ORDER BY FIELD(day, 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'), time"
+		 * ;
+		 * 
+		 * try (PreparedStatement ps = connection.prepareStatement(query)) { try
+		 * (ResultSet rs = ps.executeQuery()) { while (rs.next()) { String day =
+		 * rs.getString("day"); String time = rs.getString("time"); int count =
+		 * rs.getInt(3);
+		 * 
+		 * distributionData.computeIfAbsent(day, k -> new HashMap<>()).put(time, count);
+		 * } } }
+		 * 
+		 * connection.close(); LOGGER.info("appointmentDistributionByDayAndTime: " +
+		 * distributionData);
+		 * 
+		 * return distributionData; }
+		 */
+	  
+	  
+		/*
+		 * public Map<String, Map<String, Integer>> getAppointmentCountsByTimeAndDay()
+		 * throws SQLException, ClassNotFoundException { Connection connection =
+		 * getConnection(); Map<String, Map<String, Integer>> appointmentCounts = new
+		 * HashMap<>();
+		 * 
+		 * String query =
+		 * "SELECT DAYNAME(STR_TO_DATE(scheduledDate, '%Y-%m-%d')) as day, " +
+		 * "TIME_FORMAT(startTime, '%h:%i %p') as time, " + "COUNT(*) as count " +
+		 * "FROM appointments " + "GROUP BY day, time " + "ORDER BY day, time";
+		 * 
+		 * try (PreparedStatement ps = connection.prepareStatement(query)) { try
+		 * (ResultSet rs = ps.executeQuery()) { while (rs.next()) { String day =
+		 * rs.getString("day"); String time = rs.getString("time"); int count =
+		 * rs.getInt("count");
+		 * 
+		 * appointmentCounts.computeIfAbsent(day, k -> new HashMap<>()).put(time,
+		 * count); } } }
+		 * 
+		 * connection.close(); LOGGER.info("appointmentCounts: " + appointmentCounts);
+		 * 
+		 * return appointmentCounts; }
+		 */
+
+	  
 	    public List<Integer> getMonthlyAppointmentCounts() throws SQLException, ClassNotFoundException {
 	        Connection connection = getConnection();
 	        List<Integer> monthlyCounts = new ArrayList<>();
