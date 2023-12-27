@@ -123,7 +123,7 @@
 	
     <div id="divToExport" class="a4-container" >
      <div class="">
-            <div class="page-title d-flex align-items-center align-self-center">Consultant Summary Report</div>
+            <div class="page-title d-flex align-items-center align-self-center">Consultant Performance Report</div>
         </div>
         <!-- Card 1  numbers -->
         
