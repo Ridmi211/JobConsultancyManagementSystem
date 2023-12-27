@@ -896,7 +896,7 @@ const myBarChartAppointmentsByTimeSlot = new Chart(ctxAppointmentsByTimeSlot, {
         <div class=" card-container">
             <div class="col">
                 <div class=" common-border">
-                    <div class="card-title common-border">Chart title       </div>
+                    <div class="card-title common-border">Radar      </div>
                 </div>
                 
                 <div class=" common-border">
@@ -905,68 +905,173 @@ const myBarChartAppointmentsByTimeSlot = new Chart(ctxAppointmentsByTimeSlot, {
                 </div>
             
                 <div class="row common-border m-0">
-                    <div class="col-sm col-12 common-border pb-2 " style="height:250px">
-               <canvas id="accessRightsChart" width="10" height="10"></canvas>
+                    <div class="col-sm col-12 common-border pb-2 " style="height:450px">
+               <canvas id="appointmentCountRadarChart" width="000" height="400"></canvas>
                       
                     </div>
                 </div>
             </div>
         </div>
+<!--  <script>
+// Sample data for appointment count by start time and day
+const appointmentCountData = {
+    labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+    datasets: [
+        {
+            label: '09.00am',
+            data: [5, 8, 10, 6, 12, 7, 4], // Replace with your actual data
+            borderColor: 'rgba(255, 99, 132, 1)',
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            pointBackgroundColor: 'rgba(255, 99, 132, 1)'
+        },
+        {
+            label: '10.00am',
+            data: [3, 5, 8, 4, 10, 6, 3], // Replace with your actual data
+            borderColor: 'rgba(75, 192, 192, 1)',
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            pointBackgroundColor: 'rgba(75, 192, 192, 1)'
+        },
+        {
+            label: '11.00am',
+            data: [7, 9, 12, 8, 15, 10, 5], // Replace with your actual data
+            borderColor: 'rgba(255, 205, 86, 1)',
+            backgroundColor: 'rgba(255, 205, 86, 0.2)',
+            pointBackgroundColor: 'rgba(255, 205, 86, 1)'
+        },
+        {
+            label: '12.00pm',
+            data: [8, 11, 14, 9, 18, 12, 7], // Replace with your actual data
+            borderColor: 'rgba(54, 162, 235, 1)',
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            pointBackgroundColor: 'rgba(54, 162, 235, 1)'
+        },
+        {
+            label: '01.00pm',
+            data: [10, 13, 16, 12, 20, 15, 9], // Replace with your actual data
+            borderColor: 'rgba(153, 102, 255, 1)',
+            backgroundColor: 'rgba(153, 102, 255, 0.2)',
+            pointBackgroundColor: 'rgba(153, 102, 255, 1)'
+        },
+        {
+            label: '02.00pm',
+            data: [6, 9, 11, 8, 14, 10, 5], // Replace with your actual data
+            borderColor: 'rgba(255, 159, 64, 1)',
+            backgroundColor: 'rgba(255, 159, 64, 0.2)',
+            pointBackgroundColor: 'rgba(255, 159, 64, 1)'
+        },
+        {
+            label: '03.00pm',
+            data: [4, 7, 9, 6, 10, 8, 3], // Replace with your actual data
+            borderColor: 'rgba(128, 128, 128, 1)',
+            backgroundColor: 'rgba(128, 128, 128, 0.2)',
+            pointBackgroundColor: 'rgba(128, 128, 128, 1)'
+        },
+        {
+            label: '04.00pm',
+            data: [5, 8, 10, 7, 12, 9, 4], // Replace with your actual data
+            borderColor: 'rgba(0, 255, 0, 1)',
+            backgroundColor: 'rgba(0, 255, 0, 0.2)',
+            pointBackgroundColor: 'rgba(0, 255, 0, 1)'
+        },
+        {
+            label: '05.00pm',
+            data: [3, 5, 7, 4, 8, 6, 2], // Replace with your actual data
+            borderColor: 'rgba(255, 0, 0, 1)',
+            backgroundColor: 'rgba(255, 0, 0, 0.2)',
+            pointBackgroundColor: 'rgba(255, 0, 0, 1)'
+        }
+    ]
+};
 
+// Get the canvas element and render the radar chart
+const ctxRadar = document.getElementById('appointmentCountRadarChart').getContext('2d');
+const myRadarChart = new Chart(ctxRadar, {
+    type: 'radar',
+    data: appointmentCountData,
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            r: {
+                suggestedMin: 0,
+                suggestedMax: 25
+            }
+        }
+    }
+});
+</script>
         ///////////
         
-               
-            ////////////////////////
-
-        <div class=" card-container">
-            <div class="col">
-                <div class=" common-border">
-                    <div class="card-title common-border">Chart title       </div>
-                </div>
-                
-                <div class=" common-border">
-                    <div class="card-comment common-border">Description
-                    </div>
-                </div>
-            
-                <div class="row common-border m-0">
-                    <div class="col-sm col-12 common-border pb-2 " style="height:250px">
-              <canvas id="genderDistributionChart" width="40" height="40"></canvas>
-                      
-                    </div>
-                </div>
-            </div>
-        </div>
+                -->
+    
 
         ///////////
+        <%
+try {
+    Map<String, Map<String, Integer>> appointmentsByDayAndTimeSlotData = appointmentManager.getAppointmentCountsByDayAndTimeSlot();
+
+    String[] daysArray = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+    String[] timeSlotsArray = {"09.00am","10.00am", "11.00am","12.00pm","01.00pm","02.00pm","03.00pm", "04.00pm","05.00pm"};
+
+    String daysLabels = "['" + String.join("', '", daysArray) + "']";
+
+    String datasets = "[";
+    for (String timeSlot : timeSlotsArray) {
+        String dataValuesList = Arrays.stream(daysArray)
+                .map(day -> appointmentsByDayAndTimeSlotData.containsKey(day)
+                        ? appointmentsByDayAndTimeSlotData.get(day).getOrDefault(timeSlot, 0).toString()
+                        : "0")
+                .collect(Collectors.joining(", "));
+        datasets += "{ label: '" + timeSlot + "', data: [" + dataValuesList + "], backgroundColor: " +
+                "['rgba(75, 192, 192, 0.5)', 'rgba(255, 99, 132, 0.5)', 'rgba(55, 99, 172, 0.5)', 'rgba(205, 99, 192, 0.5)', 'rgba(125, 192, 132, 0.5)', 'rgba(255, 192, 0, 0.5)', 'rgba(255, 140, 0, 0.5)', 'rgba(128, 0, 128, 0.5)', 'rgba(0, 128, 128, 0.5)'], borderWidth: 2 },";
+    }
+    datasets = datasets.substring(0, datasets.length() - 1) + "]";
+%>
+
+<script>
+    var appointmentData4 = {
+        labels: <%= daysLabels %>,
+        datasets: <%= datasets %>
+    };
+
+    var ctxAppointment = document.getElementById('appointmentCountRadarChart').getContext('2d');
+    var appointmentChart = new Chart(ctxAppointment, {
+        type: 'radar',
+        data: appointmentData4,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                r: {
+                    angleLines: {
+                        display: true
+                    },
+                    suggestedMin: 0,
+                    //   suggestedMax: 10, // Adjust based on your data range
+                    title: {
+                        display: true,
+                        text: 'Number of Appointments'
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                }
+            }
+        }
+    });
+</script>
+<%
+} catch (SQLException | ClassNotFoundException e) {
+    // Handle exceptions
+    e.printStackTrace();
+}
+%>
         
-               
-            ////////////////////////
-
-        <div class=" card-container">
-            <div class="col">
-                <div class=" common-border">
-                    <div class="card-title common-border">Chart title       </div>
-                </div>
-                
-                <div class=" common-border">
-                    <div class="card-comment common-border">Description
-                    </div>
-                </div>
-            
-                <div class="row common-border m-0">
-                    <div class="col-sm col-12 common-border pb-2 " style="height:250px">
-              <canvas id="geographicalDistributionChart" width="40" height="40"></canvas>
-
-                      
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        ///////////
         
-        <script>
+       <!--  <script>
     // Dummy data for illustration purposes
     var accessRightsData = [30, 20, 50]; // User, Admin, Consultant
     var genderDistributionData = [45, 55]; // Male, Female
@@ -1007,7 +1112,7 @@ const myBarChartAppointmentsByTimeSlot = new Chart(ctxAppointmentsByTimeSlot, {
             }]
         }
     });
-</script>
+</script> -->
        
     <!--     ////////////////////////
 

@@ -747,6 +747,64 @@ private Connection getConnection() throws ClassNotFoundException, SQLException {
 		}
 
 		/*
+		 * public Map<String, Map<String, Integer>>
+		 * getAppointmentCountsByDayAndTimeSlot() throws SQLException,
+		 * ClassNotFoundException { Connection connection = getConnection(); Map<String,
+		 * Map<String, Integer>> appointmentsByDayAndTimeSlotData = new HashMap<>();
+		 * 
+		 * String query = "SELECT DAYNAME(scheduledDate) AS day, startTime, COUNT(*) " +
+		 * "FROM appointments " + "GROUP BY day, startTime " +
+		 * "ORDER BY FIELD(day, 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday')"
+		 * ;
+		 * 
+		 * try (PreparedStatement ps = connection.prepareStatement(query)) { try
+		 * (ResultSet rs = ps.executeQuery()) { while (rs.next()) { String day =
+		 * rs.getString("day"); String startTime = rs.getString("startTime"); int count
+		 * = rs.getInt(3);
+		 * 
+		 * // Initialize the inner map if it doesn't exist
+		 * appointmentsByDayAndTimeSlotData.computeIfAbsent(day, k -> new HashMap<>());
+		 * 
+		 * // Add the count to the inner map
+		 * appointmentsByDayAndTimeSlotData.get(day).put(startTime, count); } } }
+		 * 
+		 * connection.close(); LOGGER.info("appointmentsByDayAndTimeSlotData: " +
+		 * appointmentsByDayAndTimeSlotData);
+		 * 
+		 * return appointmentsByDayAndTimeSlotData; }
+		 */
+	  public Map<String, Map<String, Integer>> getAppointmentCountsByDayAndTimeSlot() throws SQLException, ClassNotFoundException {
+		    Connection connection = getConnection();
+		    Map<String, Map<String, Integer>> appointmentsByDayAndTimeSlotData = new HashMap<>();
+
+		    String query = "SELECT DAYNAME(scheduledDate) AS day, startTime, COUNT(*) " +
+		            "FROM appointments " +
+		            "GROUP BY day, startTime " +
+		            "ORDER BY FIELD(day, 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday')";
+
+		    try (PreparedStatement ps = connection.prepareStatement(query)) {
+		        try (ResultSet rs = ps.executeQuery()) {
+		            while (rs.next()) {
+		                String day = rs.getString("day");
+		                String startTime = rs.getString("startTime");
+		                int count = rs.getInt(3);
+
+		                // Initialize the inner map if it doesn't exist
+		                appointmentsByDayAndTimeSlotData.computeIfAbsent(day, k -> new HashMap<>());
+
+		                // Add the count to the inner map
+		                appointmentsByDayAndTimeSlotData.get(day).put(startTime, count);
+		            }
+		        }
+		    }
+
+		    connection.close();
+		    LOGGER.info("appointmentsByDayAndTimeSlotData: " + appointmentsByDayAndTimeSlotData);
+
+		    return appointmentsByDayAndTimeSlotData;
+		}
+
+		/*
 		 * public Map<String, Integer> getAppointmentCountsByDay() throws SQLException,
 		 * ClassNotFoundException { Connection connection = getConnection(); Map<String,
 		 * Integer> dayAppointmentCounts = new HashMap<>();
