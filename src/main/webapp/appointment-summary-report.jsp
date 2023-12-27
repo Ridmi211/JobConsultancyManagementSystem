@@ -119,7 +119,7 @@
                 </div>
                 
                 <div class=" common-border">
-                    <div class="card-comment common-border">Description
+                    <div class="card-comment common-border">
                     </div>
                 </div>
             
@@ -197,7 +197,7 @@ List<Integer> monthlyCounts = appointmentManager.getMonthlyAppointmentCounts();
                 </div>
                 
                 <div class=" common-border">
-                    <div class="card-comment common-border">Description
+                    <div class="card-comment common-border">
                     </div>
                 </div>
             
@@ -298,7 +298,7 @@ List<Integer> monthlyCounts = appointmentManager.getMonthlyAppointmentCounts();
                 </div>
                 
                 <div class=" common-border">
-                    <div class="card-comment common-border">Description
+                    <div class="card-comment common-border">
                     </div>
                 </div>
             
@@ -358,7 +358,7 @@ const myPieChartCountry = new Chart(ctxCountryPie, {
                 </div>
                 
                 <div class=" common-border">
-                    <div class="card-comment common-border">Description
+                    <div class="card-comment common-border">
                     </div>
                 </div>
             
@@ -410,7 +410,7 @@ const myPieChartJob = new Chart(ctxJobPie, {
                 </div>
                 
                 <div class=" common-border">
-                    <div class="card-comment common-border">Description
+                    <div class="card-comment common-border">
                     </div>
                 </div>
             
@@ -477,7 +477,7 @@ const myBarChartAppointmentsByDay = new Chart(ctxAppointmentsByDay, {
                 </div>
                 
                 <div class=" common-border">
-                    <div class="card-comment common-border">Description
+                    <div class="card-comment common-border">
                     </div>
                 </div>
             
@@ -535,10 +535,10 @@ const myBarChartAppointmentsByTimeSlot = new Chart(ctxAppointmentsByTimeSlot, {
 });
 </script>
 
-        
+       <!--  
          <div class="">
             <div class="page-title d-flex align-items-center align-self-center">Consultant availability Report</div>
-        </div>
+        </div> -->
      
 
         <div class=" card-container">
@@ -548,7 +548,7 @@ const myBarChartAppointmentsByTimeSlot = new Chart(ctxAppointmentsByTimeSlot, {
                 </div>
                 
                 <div class=" common-border">
-                    <div class="card-comment common-border">Description
+                    <div class="card-comment common-border">
                     </div>
                 </div>
             
