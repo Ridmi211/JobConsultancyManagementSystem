@@ -99,6 +99,11 @@ List<Integer> monthlyCounts = appointmentManager.getMonthlyAppointmentCounts();
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script> 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
    <!-- exportas pdf -->
+   
+   <!-- Add this in the head section of your HTML -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+   
     <title>User Summary Report</title>
 
     <style>
@@ -736,8 +741,8 @@ try {
                     </div>
                 </div>
             
-                <div class="row common-border m-0">
-                    <div class="col-sm col-12 common-border pb-2 " style="height:250px">
+                <div class="row common-border m-0 p-0">
+                    <div class="col-sm col-12 common-border pb-0 m-0 p-0">
             <canvas id="registrationStatusDoughnutChart" width="400" height="200"></canvas>
   
                     </div>
@@ -896,13 +901,13 @@ try {
         <div class=" card-container">
             <div class="col">
                 <div class=" common-border">
-                    <div class="card-title common-border">Distribution of consultants by specialized countries and jobs      </div>
+                    <div class="card-title common-border">Distribution of consultants by specialized  jobs      </div>
                 </div>
                 
                
             
                 <div class="row common-border m-0 p-0">
-                    <div class="col-sm col-6 common-border pb-2 m-0 p-0 " style="height:250px">
+                    <div class="col-sm col-12 common-border pb-2 m-0 p-0 " style="height:250px">
                 <div class=" common-border m-0 p-0">
                     <div class="card-comment common-border m-0 p-0">Description
                     </div>
@@ -910,7 +915,23 @@ try {
               <canvas id="consultantJobTypeChart" width="200" height="200"></canvas>
      
                     </div>
-                <div class="col-sm col-6 common-border pb-2 m-0 p-0" style="height:250px">
+                     </div>
+                 
+            </div>
+        </div>
+        
+        
+          
+        <div class=" card-container">
+            <div class="col">
+                <div class=" common-border">
+                    <div class="card-title common-border">Distribution of consultants by specialized countries      </div>
+                </div>
+               
+                     
+                     
+                     <div class="row common-border m-0 p-0">
+                <div class="col-sm col-12 common-border pb-2 m-0 p-0" style="height:250px">
                    <div class=" common-border m-0 p-0">
                     <div class="card-comment common-border m-0 p-0">Description
                     </div>
@@ -921,33 +942,107 @@ try {
                 </div>
             </div>
         </div>
+        
+        <%
+try {
+    Map<String, Integer> consultantJobTypeDistribution = userManager.getConsultantJobTypeDistribution();
+
+    // Convert the data into JavaScript arrays
+    String labelsArray = "['" + String.join("', '", consultantJobTypeDistribution.keySet()) + "']";
+    String dataValuesArray = "[" + String.join(", ", consultantJobTypeDistribution.values().stream().map(String::valueOf).toArray(String[]::new)) + "]";
+%>
+
 <script>
-    var consultantJobTypeData = [10, 15, 5, 50, 20]; // Adjusted data for consultant specialized job types
-    var consultantJobTypeChart = new Chart(document.getElementById('consultantJobTypeChart'), {
+    // JavaScript function to generate colors dynamically
+    function generateRandomColors(count) {
+        var colors = [];
+        for (var i = 0; i < count; i++) {
+            var red = Math.floor(Math.random() * 256);
+            var green = Math.floor(Math.random() * 256);
+            var blue = Math.floor(Math.random() * 256);
+            var alpha = 0.8; // Constant alpha value
+
+            colors.push(`rgba(${red}, ${green}, ${blue}, ${alpha})`);
+        }
+        return colors;
+    }
+
+    // Parse JSON data in JavaScript
+    var consultantJobTypeData = {
+        labels: <%= labelsArray %>,
+        datasets: [{
+            data: <%= dataValuesArray %>,
+            backgroundColor: generateRandomColors(<%= consultantJobTypeDistribution.size() %>),
+        }]
+    };
+
+    var ctx8 = document.getElementById('consultantJobTypeChart').getContext('2d');
+    var consultantJobTypeChart = new Chart(ctx8, {
         type: 'pie',
-        data: {
-            labels: ['Design', 'Development', 'Marketing', 'Consulting', 'Other'], // Updated labels
-            datasets: [{
-                data: consultantJobTypeData,
-                backgroundColor: [
-                    'rgba(173, 216, 230, 0.8)',
-                    'rgba(144, 238, 144, 0.8)',
-                    'rgba(255, 182, 193, 0.8)',
-                    'rgba(240, 230, 140, 0.8)',
-                    'rgba(192, 192, 192, 0.8)'
-                ]
-            }]
-        },
+        data: consultantJobTypeData,
         options: {
             responsive: true,
             maintainAspectRatio: false,
             title: {
                 display: true,
-                text: 'Consultant Specialized Job Type Distribution' // Updated chart title
+                text: 'Consultant Specialized Job Type Distribution'
             }
         }
     });
 </script>
+
+<%
+} catch (ClassNotFoundException | SQLException e) {
+    e.printStackTrace(); // Handle the exception appropriately in your application
+}
+%>
+        
+<%-- <%
+try {
+    Map<String, Integer> consultantJobTypeDistribution = userManager.getConsultantJobTypeDistribution();
+
+    // Convert the data into JavaScript arrays
+    String labelsArray = "['" + String.join("', '", consultantJobTypeDistribution.keySet()) + "']";
+    String dataValuesArray = "[" + String.join(", ", consultantJobTypeDistribution.values().stream().map(String::valueOf).toArray(String[]::new)) + "]";
+%>
+
+<script>
+    // Parse JSON data in JavaScript
+    var consultantJobTypeData = {
+        labels: <%= labelsArray %>,
+        datasets: [{
+            data: <%= dataValuesArray %>,
+            backgroundColor: [
+                'rgba(173, 216, 230, 0.8)',
+                'rgba(144, 238, 144, 0.8)',
+                'rgba(255, 182, 193, 0.8)',
+                'rgba(240, 230, 140, 0.8)',
+                'rgba(192, 192, 192, 0.8)'
+            ]
+        }]
+    };
+
+    var ctx8 = document.getElementById('consultantJobTypeChart').getContext('2d');
+    var consultantJobTypeChart = new Chart(ctx8, {
+        type: 'pie',
+        data: consultantJobTypeData,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            title: {
+                display: true,
+                text: 'Consultant Specialized Job Type Distribution'
+            }
+        }
+    });
+</script>
+
+<%
+} catch (ClassNotFoundException | SQLException e) {
+    e.printStackTrace(); // Handle the exception appropriately in your application
+}
+%> --%>
+
 
 <%
 try {
@@ -964,13 +1059,8 @@ try {
         labels: <%= labelsArray %>,
         datasets: [{
             data: <%= dataValuesArray %>,
-            backgroundColor: [
-                'rgba(173, 216, 230, 0.8)',
-                'rgba(144, 238, 144, 0.8)',
-                'rgba(255, 182, 193, 0.8)',
-                'rgba(240, 230, 140, 0.8)',
-                'rgba(192, 192, 192, 0.8)'
-            ]
+            backgroundColor: generateRandomColors(<%= consultantCountByCountry.size() %>),
+            
         }]
     };
 
@@ -995,8 +1085,104 @@ try {
 }
 %>
 
+ <%-- <div class=" card-container">
+            <div class="col">
+                <div class=" common-border">
+                    <div class="card-title common-border">Distribution of consultants by specialized countries      </div>
+                </div>
+               
+                     
+                     
+                     <div class="row common-border m-0 p-0">
+                <div class="col-sm col-12 common-border pb-2 m-0 p-0" >
+                   
+             <div id="map" style="height: 500px;"></div>
+     
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <%
+
+ Map<String, Integer> consultantCountByCountry = userManager.getConsultantCountByCountry();
+
+// Extract countries and counts
+ Set<Entry<String, Integer>> entrySet = consultantCountByCountry.entrySet();
+List<String> countries = entrySet.stream().map(Entry::getKey).collect(Collectors.toList());
+List<Integer> counts = entrySet.stream().map(Entry::getValue).collect(Collectors.toList());
+
+// Chart data
+String countriesArray = "['" + String.join("', '", countries) + "']";
+String countsArray = "[" + counts.stream().map(Object::toString).collect(Collectors.joining(", ")) + "]";
+
+%>
+<script>
+  const map = L.map('map').setView([0, 0], 2);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+  const countriesArray = <%=countriesArray%>;
+  const countsArray = <%=countsArray%>;
+
+  const countryCoordinates = {
+		  'Canada': [56.1304, -106.3468],
+		  'Australia': [-25.2744, 133.7751],
+		  'USA': [37.0902, -95.7129],
+		  'Malaysia': [4.2105, 101.9758],
+		  'Germany': [51.1657, 10.4515],
+		  'Singapore': [1.3521, 103.8198],
+		  'Sweden': [60.1282, 18.6435],
+		  'Norway': [60.4720, 8.4689],
+		  'Switzerland': [46.8182, 8.2275],
+		  'United Kingdom': [55.3781, -3.4360],
+		  'Netherlands': [52.1326, 5.2913],
+		  'Denmark': [56.2639, 9.5018],
+		  'Ireland': [53.1424, -7.6921],
+		  'Japan': [36.2048, 138.2529],
+		  'South Korea': [35.9078, 127.7669],
+		  'Hong Kong': [22.3193, 114.1694],
+		  'Qatar': [25.2769, 51.5200],
+		  'United Arab Emirates': [23.4241, 53.8478],
+		  'Luxembourg': [49.8153, 6.1296],
+		  'Chile': [-35.6751, -71.5430],
+		  'New Zealand': [-40.9006, 174.8860],
+		  'Italy': [41.8719, 12.5674],
+		  'Spain': [40.4637, -3.7492],
+		  'Brazil': [-14.2350, -51.9253],
+		  'India': [20.5937, 78.9629],
+		  'South Africa': [-30.5595, 22.9375],
+		  'Mexico': [23.6345, -102.5528],
+		  'China': [35.8617, 104.1954],
+		  'Russia': [61.5240, 105.3188],
+		  'Turkey': [38.9637, 35.2433],
+		  'Poland': [51.9194, 19.1451],
+		  'Finland': [61.9241, 25.7482],
+		  'Iceland': [64.9631, -19.0208],
+		};
 
 
+  countriesArray.forEach((country, index) => {
+    const count = countsArray[index];
+    const coordinates = countryCoordinates[country];
+
+    if (coordinates) {
+      const marker = L.marker(coordinates).addTo(map);
+      
+      marker.bindTooltip(`<b>${country}</b><br>Consultants: ${count}`, {
+        direction: 'top'
+      });
+
+      marker.on('mouseover', function() {
+        this.openTooltip();
+      });
+
+      marker.on('mouseout', function() {
+        this.closeTooltip();
+      });
+    }
+  });
+</script> --%>
     <!--     /////////// -->
         
        <!--    <script>
@@ -1095,10 +1281,211 @@ try {
                 </div>
             </div>
         </div>
+            <%
+    try {
+        Map<String, Map<String, Integer>> consultantAvailabilityData = userManager.getConsultantAvailabilityData();
+
+        // Convert the data into JavaScript arrays
+        String[] daysArray = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+        String[] timeSlotsArray = {"09.00am","10.00am", "11.00am","12.00pm","01.00pm","02.00pm","03.00pm", "04.00pm","05.00pm"};
+
+        String daysLabels = "['" + String.join("', '", daysArray) + "']";
+
+        String datasets = "[";
+        for (String timeSlot : timeSlotsArray) {
+            String dataValuesList = Arrays.stream(daysArray)
+                    .map(day -> consultantAvailabilityData.containsKey(day)
+                            ? consultantAvailabilityData.get(day).getOrDefault(timeSlot, 0).toString()
+                            : "0")
+                    .collect(Collectors.joining(", "));
+            datasets += "{ label: '" + timeSlot + "', data: [" + dataValuesList + "], backgroundColor: " +
+                    "['rgba(75, 192, 192, 0.5)', 'rgba(255, 99, 132, 0.5)', 'rgba(55, 99, 172, 0.5)', 'rgba(205, 99, 192, 0.5)', 'rgba(125, 192, 132, 0.5)', 'rgba(255, 192, 0, 0.5)', 'rgba(255, 140, 0, 0.5)', 'rgba(128, 0, 128, 0.5)', 'rgba(0, 128, 128, 0.5)'], borderWidth: 2 },";
+        }
+        datasets = datasets.substring(0, datasets.length() - 1) + "]";
+%>
+
+<script>
+    var consultantAvailabilityData = {
+        labels: <%= daysLabels %>,
+        datasets: <%= datasets %>
+    };
+
+    var ctx9 = document.getElementById('availabilityRadarChart').getContext('2d');
+    var consultantAvailabilityChart = new Chart(ctx9, {
+        type: 'radar',
+        data: consultantAvailabilityData,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                r: {
+                    angleLines: {
+                        display: true
+                    },
+                  suggestedMin: 0,
+                 //   suggestedMax: 10, // Adjust based on your data range
+                    title: {
+                        display: true,
+                        text: 'Number of Consultants'
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                }
+            }
+        }
+    });
+</script>
+
+<%
+    } catch (ClassNotFoundException | SQLException e) {
+        e.printStackTrace(); // Handle the exception appropriately in your application
+    }
+%>
+        
+    <%--     <%
+    try {
+        Map<String, Map<String, Integer>> consultantAvailabilityData = userManager.getConsultantAvailabilityData();
+
+        // Convert the data into JavaScript arrays
+        String[] daysArray = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+        String[] timeSlotsArray = {"10.00am", "11.00am", "03.00pm", "04.00pm"};
+
+        String daysLabels = "['" + String.join("', '", daysArray) + "']";
+
+        String datasets = "[";
+        for (String timeSlot : timeSlotsArray) {
+            String dataValuesList = Arrays.stream(daysArray)
+                    .map(day -> consultantAvailabilityData.containsKey(day)
+                            ? consultantAvailabilityData.get(day).getOrDefault(timeSlot, 0).toString()
+                            : "0")
+                    .collect(Collectors.joining(", "));
+            datasets += "{ label: '" + timeSlot + "', data: [" + dataValuesList + "], backgroundColor: " +
+                    "['rgba(75, 192, 192, 0.5)', 'rgba(255, 99, 132, 0.5)', 'rgba(55, 99, 172, 0.5)', " +
+                    "'rgba(205, 99, 192, 0.5)'], borderWidth: 2 },";
+        }
+        datasets = datasets.substring(0, datasets.length() - 1) + "]";
+%>
+
+<script>
+    var consultantAvailabilityData = {
+        labels: <%= daysLabels %>,
+        datasets: <%= datasets %>
+    };
+
+    var ctx9 = document.getElementById('availabilityRadarChart').getContext('2d');
+    var consultantAvailabilityChart = new Chart(ctx9, {
+        type: 'radar',
+        data: consultantAvailabilityData,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                r: {
+                    angleLines: {
+                        display: true
+                    },
+                    suggestedMin: 0,
+                    suggestedMax: 3, // Adjust based on your data range
+                    title: {
+                        display: true,
+                        text: 'Number of Consultants'
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                }
+            }
+        }
+    });
+</script>
+
+<%
+    } catch (ClassNotFoundException | SQLException e) {
+        e.printStackTrace(); // Handle the exception appropriately in your application
+    }
+%>
+         --%>
+        
+
+<%-- <%
+
+
+try {
+	
+	
+    Map<String, Map<String, Integer>> consultantAvailabilityData = userManager.getConsultantAvailabilityData();
+
+    // Convert the data into JavaScript arrays
+    String labelsArray = "['" + String.join("', '", consultantAvailabilityData.keySet()) + "']";
+
+    String datasetsArray = consultantAvailabilityData.entrySet().stream()
+        .map(entry -> {
+            String day = entry.getKey();
+            Map<String, Integer> timeCounts = entry.getValue();
+            String dataValuesArray = "[" + String.join(", ", timeCounts.values().stream().map(String::valueOf).toArray(String[]::new)) + "]";
+            String backgroundColor = getRandomColor();
+            return String.format("{ label: '%s', data: %s, backgroundColor: '%s', borderWidth: 2 }",
+                day, dataValuesArray, backgroundColor);
+        })
+        .collect(Collectors.joining(", "));
+
+%>
+
+<script>
+    // Parse JSON data in JavaScript
+    var consultantAvailabilityData = {
+        labels: <%= labelsArray %>,
+        datasets: [
+            <%= datasetsArray %>
+        ]
+    };
+
+    var ctx9 = document.getElementById('availabilityRadarChart').getContext('2d');
+    var consultantAvailabilityChart = new Chart(ctx9, {
+        type: 'radar',
+        data: consultantAvailabilityData,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                r: {
+                    angleLines: {
+                        display: true
+                    },
+                    suggestedMin: 0,
+                    suggestedMax: 25, // Adjust based on your data range
+                    title: {
+                        display: true,
+                        text: 'Number of Consultants'
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                }
+            }
+        }
+    });
+</script>
+
+<%
+} catch (ClassNotFoundException | SQLException e) {
+    e.printStackTrace(); // Handle the exception appropriately in your application
+}
+%> --%>
 
       <!--   /////////// -->
         
-          <script>
+        <!--   <script>
         // Sample data (replace this with your actual data)
         var consultantAvailabilityData = {
             labels: [
@@ -1191,7 +1578,7 @@ try {
             }
         });
     </script>
-       
+        -->
        
       
        
@@ -1255,10 +1642,19 @@ try {
         <div class="row page-footer">
             <div class="col-4 body-text"></div>
             <div class="col-5"></div>
-            <div class="col-3">2022/12/05 </div>
+            <div class="col-3" id="currentDay"> </div>
         </div>
     </div>
-      
+     <script>
+    // Get the current date
+    var currentDate = new Date();
+
+    // Format the date as YYYY/MM/DD
+    var formattedDate = currentDate.getFullYear() + '/' + (currentDate.getMonth() + 1) + '/' + currentDate.getDate();
+
+    // Display the formatted date in the specified element
+    document.getElementById('currentDay').innerHTML = formattedDate;
+</script> 
         <!-- Card structure-->
     </div>
 

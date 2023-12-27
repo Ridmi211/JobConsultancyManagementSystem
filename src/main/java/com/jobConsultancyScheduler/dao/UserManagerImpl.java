@@ -14,6 +14,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.logging.Logger;
 
 import com.jobConsultancyScheduler.dao.dbUtils.DbDriverManager;
 import com.jobConsultancyScheduler.dao.dbUtils.DbDriverManagerFactory;
@@ -421,7 +422,76 @@ public class UserManagerImpl implements UserManager {
         connection.close();
         return consultantCountByCountry;
     }
+    private static final Logger LOGGER = Logger.getLogger(UserManagerImpl.class.getName());
 
+    public Map<String, Map<String, Integer>> getConsultantAvailabilityData() throws SQLException, ClassNotFoundException {
+        Connection connection = getConnection();
+        Map<String, Map<String, Integer>> consultantAvailabilityData = new HashMap<>();
+
+        // Fetch the availability data for consultants
+        String consultantAvailabilityQuery = "SELECT availableDays, availableTimeSlots FROM user WHERE accessRight = 'ROLE_CONSULTANT'";
+        try (PreparedStatement availabilityPs = connection.prepareStatement(consultantAvailabilityQuery)) {
+            try (ResultSet availabilityRs = availabilityPs.executeQuery()) {
+                while (availabilityRs.next()) {
+                    String daysString = availabilityRs.getString("availableDays");
+                    String timeSlotsString = availabilityRs.getString("availableTimeSlots");
+                    LOGGER.info("Days String: " + daysString);
+                    LOGGER.info("Time Slots String: " + timeSlotsString);
+
+                    // Null check for days and time slots
+                    if (daysString != null && timeSlotsString != null) {
+                        // Split the days and time slots strings based on the delimiter
+                        String[] days = daysString.split(",\\s*");
+                        String[] timeSlots = timeSlotsString.split(",\\s*");
+
+                        // Count the occurrences of each day and time slot
+                        for (String day : days) {
+                            consultantAvailabilityData.computeIfAbsent(day, k -> new HashMap<>());
+                            for (String timeSlot : timeSlots) {
+                                consultantAvailabilityData.get(day).put(timeSlot, consultantAvailabilityData.get(day).getOrDefault(timeSlot, 0) + 1);
+                            }
+                        }
+                    }
+                }
+            }
+        } finally {
+            connection.close();
+        }
+        LOGGER.info("Consultant Availability Data: " + consultantAvailabilityData);
+
+        return consultantAvailabilityData;
+        
+       
+    }
+
+
+    public Map<String, Integer> getConsultantJobTypeDistribution() throws SQLException, ClassNotFoundException {
+        Connection connection = getConnection();
+        Map<String, Integer> jobTypeDistribution = new HashMap<>();
+
+        // Fetch the specialized job types for consultants
+        String consultantJobTypesQuery = "SELECT specializedJobs FROM user WHERE accessRight = 'ROLE_CONSULTANT'";
+        try (PreparedStatement jobTypesPs = connection.prepareStatement(consultantJobTypesQuery)) {
+            try (ResultSet jobTypesRs = jobTypesPs.executeQuery()) {
+                while (jobTypesRs.next()) {
+                    String jobTypesString = jobTypesRs.getString("specializedJobs");
+                    // Split the job types string based on the delimiter (assuming ',' is used)
+                    String[] jobTypes = jobTypesString.split(",\\s*");
+                    // Count the occurrences of each job type
+                    for (String jobType : jobTypes) {
+                        jobTypeDistribution.put(jobType, jobTypeDistribution.getOrDefault(jobType, 0) + 1);
+                    }
+                }
+            }
+        }
+
+        connection.close();
+        return jobTypeDistribution;
+    }
+
+
+
+  
     
 	@Override
 	public boolean editUser(User user) throws SQLException, ClassNotFoundException {
