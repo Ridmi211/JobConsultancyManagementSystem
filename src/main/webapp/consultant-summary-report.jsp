@@ -73,28 +73,12 @@
 
     </style>
         <style>
-        body {
+       /*  body {
             font-family: Arial, sans-serif;
             padding: 20px;
-        }
+        } */
 
-        .consultant {
-            margin-bottom: 10px;
-        }
-
-        .progress {
-            height: 25px;
-            margin-bottom: 5px;
-        }
-
-        .progress-bar {
-            background-color: #4CAF50;
-            height: 100%;
-            width: 0;
-            text-align: center;
-            line-height: 25px;
-            color: white;
-        }
+      
     </style>
 
 
@@ -166,7 +150,7 @@ try {
     
             <% for (Map.Entry<String, Integer> entry : appointmentsByConsultantData.entrySet()) { %>
                <div class="row common-border m-0 p-0">
-        <div class="col-sm col-3 common-border pb-2 m-0 p-0">
+        <div class="col-sm col-3 common-border pb-2 m-0 p-0 progress-text">
              <span><%= entry.getKey() %></span>
         </div>
         <div class="col-sm col-9 common-border pb-2 m-0 p-0">
@@ -178,7 +162,7 @@ try {
                       /*   int totalCount = getTotalAppointmentsCount(); */ // Replace with the total count if available
                         int percentage = totalCount > 0 ? (count * 100) / totalCount : 0;
                     %>
-                    <div class="progress-bar m-0 p-0" style="width: <%= percentage %>%;">
+                    <div class="progress-bar m-0 p-0" style="width: <%= percentage %>%;background-color: #9884e4;">
                         <%= count %> 
                     </div>
                 </div>

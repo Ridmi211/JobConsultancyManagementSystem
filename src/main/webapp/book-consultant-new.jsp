@@ -632,6 +632,8 @@ if (session.getAttribute("user") == null) {
 	border: 1px solid #03BFCB;
 	border-radius: 50%;
 	padding: 7px;
+	height:120px;
+	width:120px;
 }
 
 button.primary {
@@ -858,7 +860,7 @@ button.primary.ghost {
             <div class="work">
                 <div class="card-container">
                     <span class="pro">PRO</span>
-                    <img class="round" src="https://randomuser.me/api/portraits/women/79.jpg" alt="user" />
+                    <img class="round" src="https://png.pngtree.com/png-clipart/20191122/original/pngtree-user-vector-icon-with-white-background-png-image_5168884.jpg" alt="user" />
                     <br>
                     <div class="name"><%= consultant.getName() %></div>
                     <h6><%= consultant.getOccupation() %></h6>
