@@ -2,6 +2,54 @@
     pageEncoding="ISO-8859-1"%>
     <%@ taglib prefix="tag" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.jobConsultancyScheduler.model.User"%>
+       <%@ taglib prefix="tag" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="com.jobConsultancyScheduler.model.User"%>
+<%@ page import="com.jobConsultancyScheduler.model.RegistrationStatus"%>
+<%@ page import="com.jobConsultancyScheduler.model.AccessRight"%>
+<%@ page import="com.jobConsultancyScheduler.service.AppointmentService"%>
+<%@ page import="com.jobConsultancyScheduler.service.UserService"%>
+<%@ page import="com.jobConsultancyScheduler.service.MessageService"%>
+
+
+<%@ page import="java.time.Year"%>
+<%@ page import="java.util.List"%>
+<%@ page import="com.jobConsultancyScheduler.dao.AppointmentManagerImpl"%>
+
+<%@ page import="java.util.Map"%>
+<%@ page import="java.util.stream.Collectors"%>
+<%@ page import="java.util.ArrayList"%>
+
+<%@ page import="com.fasterxml.jackson.databind.ObjectMapper"%>
+<%@ page import="com.fasterxml.jackson.core.JsonProcessingException"%>
+
+<%@ page import="java.sql.SQLException"%>
+<%@ page import="java.util.HashMap"%>
+<%@ page import="com.jobConsultancyScheduler.dao.UserManagerImpl"%>
+<%@ page import="java.util.List"%>
+<%@ page import="java.util.Arrays"%>
+<%@ page import="java.util.Iterator"%>
+<%@ page import="java.util.Map.Entry"%>
+<%@ page import="java.awt.Color"%>
+<%@ page import="java.util.Random"%>
+
+<%@ page import="java.util.Calendar"%>
+<%@ page import="java.util.Date"%>
+<%@ page import="java.util.Iterator"%>
+<%@ page import="java.util.Set"%>
+<%@ page import="java.util.stream.Collectors"%>
+<%@ page import="java.util.stream.IntStream"%>
+<%@ page import="java.time.Year"%>
+<%@ page import="com.jobConsultancyScheduler.dao.UserManager"%>
+
+<%@ page import="com.fasterxml.jackson.databind.ObjectMapper"%>
+    
+<%@ page import="com.jobConsultancyScheduler.model.User"%>
+  <%@ page import="com.jobConsultancyScheduler.dao.AppointmentManagerImpl" %>
+<%@ page import="com.jobConsultancyScheduler.model.Appointment" %>
+<%@ page import="java.sql.SQLException" %>
+<%@ page import="com.jobConsultancyScheduler.model.Appointment.Status" %>
+
+        <%@ page import="com.jobConsultancyScheduler.service.AppointmentService" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,12 +64,40 @@
   <!-- exportas pdf -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script> 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+  
    <!-- exportas pdf -->
     <title>Consultant Summary Report</title>
 
     <style>
 
     </style>
+        <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .consultant {
+            margin-bottom: 10px;
+        }
+
+        .progress {
+            height: 25px;
+            margin-bottom: 5px;
+        }
+
+        .progress-bar {
+            background-color: #4CAF50;
+            height: 100%;
+            width: 0;
+            text-align: center;
+            line-height: 25px;
+            color: white;
+        }
+    </style>
+
+
 </head>
 <body style="margin: 0; padding: 0;
             background-color: #efdfff;">
@@ -67,354 +143,83 @@
         </div>
         <!-- Card 1  numbers -->
         
-        
-            ////////////////////////
-
-        <div class=" card-container">
+         <div class=" card-container">
             <div class="col">
                 <div class=" common-border">
-                    <div class="card-title common-border">Chart title       </div>
+                    <div class="card-title common-border">Number of Appointments per Consultant  </div>
                 </div>
                 
                 <div class=" common-border">
                     <div class="card-comment common-border">Description
                     </div>
                 </div>
-            
-                <div class="row common-border m-0">
-                    <div class="col-sm col-12 common-border pb-2 " style="height:250px">
-               <canvas id="accessRightsChart" width="10" height="10"></canvas>
-                      
+                
+                <%
+try {
+	  AppointmentService appointmentService = AppointmentService.getAppointmentService();
+      
+	AppointmentManagerImpl appointmentManager = new AppointmentManagerImpl();
+    Map<String, Integer> appointmentsByConsultantData = appointmentManager.getAppointmentCountsByConsultant();
+
+    // Sample consultant data (replace this with actual data)
+    %>
+    
+            <% for (Map.Entry<String, Integer> entry : appointmentsByConsultantData.entrySet()) { %>
+               <div class="row common-border m-0 p-0">
+        <div class="col-sm col-3 common-border pb-2 m-0 p-0">
+             <span><%= entry.getKey() %></span>
+        </div>
+        <div class="col-sm col-9 common-border pb-2 m-0 p-0">
+                <div class="progress m-0 p-0">
+                    <% 
+                        // Calculate the percentage value
+                        int count = entry.getValue();
+                    int totalCount = appointmentService.getTotalAppointmentsCount();
+                      /*   int totalCount = getTotalAppointmentsCount(); */ // Replace with the total count if available
+                        int percentage = totalCount > 0 ? (count * 100) / totalCount : 0;
+                    %>
+                    <div class="progress-bar m-0 p-0" style="width: <%= percentage %>%;">
+                        <%= count %> 
                     </div>
                 </div>
-            </div>
-        </div>
-
-        ///////////
-        
                
-            ////////////////////////
-
-        <div class=" card-container">
-            <div class="col">
-                <div class=" common-border">
-                    <div class="card-title common-border">Chart title       </div>
-                </div>
+          
+        </div>
+    </div>
+      <% } %>
+<%
+} catch (SQLException | ClassNotFoundException e) {
+    // Handle exceptions
+    e.printStackTrace();
+}
+%>
                 
-                <div class=" common-border">
-                    <div class="card-comment common-border">Description
-                    </div>
-                </div>
-            
-                <div class="row common-border m-0">
-                    <div class="col-sm col-12 common-border pb-2 " style="height:250px">
-              <canvas id="genderDistributionChart" width="40" height="40"></canvas>
-                      
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        ///////////
-        
-               
-            ////////////////////////
-
-        <div class=" card-container">
-            <div class="col">
-                <div class=" common-border">
-                    <div class="card-title common-border">Chart title       </div>
-                </div>
-                
-                <div class=" common-border">
-                    <div class="card-comment common-border">Description
-                    </div>
-                </div>
-            
-                <div class="row common-border m-0">
-                    <div class="col-sm col-12 common-border pb-2 " style="height:250px">
-              <canvas id="geographicalDistributionChart" width="40" height="40"></canvas>
-
-                      
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        ///////////
-        <div class="">
-            <div class="page-title d-flex align-items-center align-self-center">User Registration Report</div>
-        </div>
-        <!-- Card 1  numbers -->
-        
-        
-            ////////////////////////
-
-        <div class=" card-container">
-            <div class="col">
-                <div class=" common-border">
-                    <div class="card-title common-border">Chart title       </div>
-                </div>
-                
-                <div class=" common-border">
-                    <div class="card-comment common-border">Description
-                    </div>
-                </div>
-            
-                <div class="row common-border m-0">
-                    <div class="col-sm col-12 common-border pb-2 " style="height:250px">
-               <canvas id="accessRightsChart" width="10" height="10"></canvas>
-                      
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        ///////////
-        
-               
-            ////////////////////////
-
-        <div class=" card-container">
-            <div class="col">
-                <div class=" common-border">
-                    <div class="card-title common-border">Chart title       </div>
-                </div>
-                
-                <div class=" common-border">
-                    <div class="card-comment common-border">Description
-                    </div>
-                </div>
-            
-                <div class="row common-border m-0">
-                    <div class="col-sm col-12 common-border pb-2 " style="height:250px">
-              <canvas id="genderDistributionChart" width="40" height="40"></canvas>
-                      
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        ///////////
-        
-               
-            ////////////////////////
-
-        <div class=" card-container">
-            <div class="col">
-                <div class=" common-border">
-                    <div class="card-title common-border">Chart title       </div>
-                </div>
-                
-                <div class=" common-border">
-                    <div class="card-comment common-border">Description
-                    </div>
-                </div>
-            
-                <div class="row common-border m-0">
-                    <div class="col-sm col-12 common-border pb-2 " style="height:250px">
-              <canvas id="geographicalDistributionChart" width="40" height="40"></canvas>
-
-                      
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        ///////////
-        
-         <div class="">
-            <div class="page-title d-flex align-items-center align-self-center">Consultant availability Report</div>
-        </div>
-        <!-- Card 1  numbers -->
-        
-        
-            ////////////////////////
-
-        <div class=" card-container">
-            <div class="col">
-                <div class=" common-border">
-                    <div class="card-title common-border">Chart title       </div>
-                </div>
-                
-                <div class=" common-border">
-                    <div class="card-comment common-border">Description
-                    </div>
-                </div>
-            
-                <div class="row common-border m-0">
-                    <div class="col-sm col-12 common-border pb-2 " style="height:250px">
-               <canvas id="accessRightsChart" width="10" height="10"></canvas>
-                      
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        ///////////
-        
-               
-            ////////////////////////
-
-        <div class=" card-container">
-            <div class="col">
-                <div class=" common-border">
-                    <div class="card-title common-border">Chart title       </div>
-                </div>
-                
-                <div class=" common-border">
-                    <div class="card-comment common-border">Description
-                    </div>
-                </div>
-            
-                <div class="row common-border m-0">
-                    <div class="col-sm col-12 common-border pb-2 " style="height:250px">
-              <canvas id="genderDistributionChart" width="40" height="40"></canvas>
-                      
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        ///////////
-        
-               
-            ////////////////////////
-
-        <div class=" card-container">
-            <div class="col">
-                <div class=" common-border">
-                    <div class="card-title common-border">Chart title       </div>
-                </div>
-                
-                <div class=" common-border">
-                    <div class="card-comment common-border">Description
-                    </div>
-                </div>
-            
-                <div class="row common-border m-0">
-                    <div class="col-sm col-12 common-border pb-2 " style="height:250px">
-              <canvas id="geographicalDistributionChart" width="40" height="40"></canvas>
-
-                      
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        ///////////
-        
-        <script>
-    // Dummy data for illustration purposes
-    var accessRightsData = [30, 20, 50]; // User, Admin, Consultant
-    var genderDistributionData = [45, 55]; // Male, Female
-    var geographicalDistributionData = [25, 35, 40]; // Country A, Country B, Country C
-
-    // Pie Chart: Distribution of users by access rights
-    var accessRightsChart = new Chart(document.getElementById('accessRightsChart'), {
-        type: 'pie',
-        data: {
-            labels: ['User', 'Admin', 'Consultant'],
-            datasets: [{
-                data: accessRightsData,
-                backgroundColor: ['red', 'green', 'blue']
-            }]
-        }
-    });
-
-    // Bar Chart: Gender distribution of users
-    var genderDistributionChart = new Chart(document.getElementById('genderDistributionChart'), {
-        type: 'bar',
-        data: {
-            labels: ['Male', 'Female'],
-            datasets: [{
-                data: genderDistributionData,
-                backgroundColor: ['blue', 'pink']
-            }]
-        }
-    });
-
-    // Bar Chart: Geographical distribution of users
-    var geographicalDistributionChart = new Chart(document.getElementById('geographicalDistributionChart'), {
-        type: 'bar',
-        data: {
-            labels: ['Country A', 'Country B', 'Country C'],
-            datasets: [{
-                data: geographicalDistributionData,
-                backgroundColor: ['orange', 'purple', 'yellow']
-            }]
-        }
-    });
-</script>
-       
-    <!--     ////////////////////////
-
-        <div class=" card-container">
-            <div class="col">
-                <div class=" common-border">
-                    <div class="card-title common-border">44                   </div>
-                </div>
-                
-                <div class=" common-border">
-                    <div class="card-comment common-border">wwwwwwwwwwwwwww
-                    </div>
-                </div>
-            
-                <div class="row common-border m-0">
-                    <div class="col-sm col-6 common-border pb-2 ">
-                        <div class="row common-border">
-                            <div class="card-year">
-                                1111
-                            </div>
-                        </div>
-                        <div class="row common-border m-0">
-                            <div class="col-2 common-border card-text-whole">44</div>
-                            <div class="col-10 common-border ">
-                                <div class="custom-text-blue text-center font-weight-bold">
-                                    <span class="card1-custom-text-large "> 11111</span>
-                                    <span>1111</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm col-6 common-border pb-2 ">
-                       
-                        <div class="row common-border m-0">
-                            <div class="card-year">
-                               11111
-                            </div>
-                        </div>
-                        <div class="row common-border m-0">
-                            <div class="col-2 common-border card-text-whole">44</div>
-                            <div class="col-10 common-border ">
-                                <div class="custom-text-blue text-center font-weight-bold">
-                                    <span
-                                        class="card1-custom-text-large ">1111</span>
-                                    <span>11111</span>
-                                </div>
-                            </div>
-                        </div>
-                      
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        /////////// -->
-
+ 
 
     <div class="pebble-footer">
         <div class="row page-footer">
             <div class="col-4 body-text"></div>
             <div class="col-5"></div>
-            <div class="col-3">2022/12/05 </div>
+              <div class="col-3" id="currentDay"> </div>
         </div>
     </div>
+     <script>
+    // Get the current date
+    var currentDate = new Date();
+
+    // Format the date as YYYY/MM/DD
+    var formattedDate = currentDate.getFullYear() + '/' + (currentDate.getMonth() + 1) + '/' + currentDate.getDate();
+
+    // Display the formatted date in the specified element
+    document.getElementById('currentDay').innerHTML = formattedDate;
+</script> 
       
         <!-- Card structure-->
     </div>
-
+ </div> </div>
     <!-- footer template -->
   
 </body>
 </html>
+
+

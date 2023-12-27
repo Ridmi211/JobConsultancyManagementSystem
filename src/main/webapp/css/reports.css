@@ -34,7 +34,7 @@
 
         .a4-container {
             width: 794px;
-            /* height: 1120px; */
+            min-height: 1120px;
             margin: 0 auto;
             padding: 30px;
             padding-top: 20px;

@@ -804,6 +804,61 @@ private Connection getConnection() throws ClassNotFoundException, SQLException {
 		    return appointmentsByDayAndTimeSlotData;
 		}
 
+	  
+	  public Map<String, Integer> getAppointmentCountsByConsultant() throws SQLException, ClassNotFoundException {
+		    Connection connection = getConnection();
+		    Map<String, Integer> appointmentsByConsultantData = new HashMap<>();
+
+		    String query = "SELECT consultantId, COUNT(*) AS appointmentCount FROM appointments GROUP BY consultantId";
+
+		    try (PreparedStatement ps = connection.prepareStatement(query)) {
+		        try (ResultSet rs = ps.executeQuery()) {
+		            while (rs.next()) {
+		                String consultantId = rs.getString("consultantId"); // Assuming consultantId is a string, modify accordingly
+		                int appointmentCount = rs.getInt("appointmentCount");
+
+		                // Add the count to the map with the consultant's name (you may need to fetch the name from another table)
+		                String consultantName = getConsultantNameById(consultantId); // You'll need to implement this method
+		                appointmentsByConsultantData.put(consultantName, appointmentCount);
+		            }
+		        }
+		    }
+
+		    connection.close();
+		    LOGGER.info("appointmentsByConsultantData: " + appointmentsByConsultantData);
+
+		    return appointmentsByConsultantData;
+		}
+
+		// You may need to implement a method to fetch the consultant's name based on the consultantId
+		/*
+		 * private String getConsultantNameById(String consultantId) throws SQLException
+		 * { // Implement the logic to fetch the consultant's name from your database
+		 * based on the consultantId // Return the consultant's name // Example query:
+		 * "SELECT name FROM consultants WHERE id = ?" // Use a PreparedStatement to
+		 * avoid SQL injection return "Consultant Name"; // Replace this with the actual
+		 * name fetched from the database }
+		 */
+		
+		 public String getConsultantNameById(String userId) throws SQLException, ClassNotFoundException {
+		        Connection connection = getConnection();
+		        String consultantName = null;
+
+		        String query = "SELECT name FROM user WHERE userId = ?";
+		        try (PreparedStatement ps = connection.prepareStatement(query)) {
+		            ps.setString(1, userId);
+
+		            try (ResultSet rs = ps.executeQuery()) {
+		                if (rs.next()) {
+		                    consultantName = rs.getString("name");
+		                }
+		            }
+		        }
+
+		        connection.close();
+		        return consultantName;
+		    }
+
 		/*
 		 * public Map<String, Integer> getAppointmentCountsByDay() throws SQLException,
 		 * ClassNotFoundException { Connection connection = getConnection(); Map<String,

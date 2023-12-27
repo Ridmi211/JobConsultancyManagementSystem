@@ -212,6 +212,7 @@ User user = (User) session.getAttribute("user");
     <div class="dropdown-content">
       <a  href="user-report.jsp" >User</a>
       <a  href="appointment-summary-report.jsp" >Appointments</a>
+       <a  href="consultant-summary-report.jsp" >Consultant</a>
     </div>
   </div>
  
