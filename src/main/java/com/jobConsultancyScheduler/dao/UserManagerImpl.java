@@ -486,6 +486,41 @@ public class UserManagerImpl implements UserManager {
 		return consultantUsers;
 	}
 
+	public int getCountOfConsultantUsers() throws SQLException, ClassNotFoundException {
+	    Connection connection = getConnection();
+	    String query = "SELECT COUNT(*) FROM user WHERE accessRight = 'ROLE_CONSULTANT' AND registrationStatus = 'APPROVED'";
+	    
+	    try (Statement st = connection.createStatement();
+	         ResultSet rs = st.executeQuery(query)) {
+	        if (rs.next()) {
+	            int count = rs.getInt(1);
+	            return count;
+	        }
+	    } finally {
+	        connection.close();
+	    }
+	    
+	    return 0; 
+	}
+	
+	public int getCountOfClientUsers() throws SQLException, ClassNotFoundException {
+	    Connection connection = getConnection();
+	    String query = "SELECT COUNT(*) FROM user WHERE accessRight = 'ROLE_USER' AND registrationStatus = 'APPROVED'";
+	    
+	    try (Statement st = connection.createStatement();
+	         ResultSet rs = st.executeQuery(query)) {
+	        if (rs.next()) {
+	            int count = rs.getInt(1);
+	            return count;
+	        }
+	    } finally {
+	        connection.close();
+	    }
+	    
+	    return 0; 
+	}
+
+	
 	public List<User> fetchPendingUsers() throws SQLException, ClassNotFoundException {
 		Connection connection = getConnection();
 		String query = "SELECT * FROM user WHERE registrationStatus = 'PENDING'";
