@@ -65,8 +65,11 @@ Map<String, List<Integer>> monthlyCountsMap = userManager.getMonthlyUserRegistra
 List<Integer> userCounts = monthlyCountsMap.get("userCounts");
 List<Integer> consultantCounts = monthlyCountsMap.get("consultantCounts");
 
-int totalClientsCounts = userCounts.stream().mapToInt(Integer::intValue).sum();
-int totalConsultantCounts = consultantCounts.stream().mapToInt(Integer::intValue).sum();
+/* int totalClientsCounts = userCounts.stream().mapToInt(Integer::intValue).sum();
+int totalConsultantCounts = consultantCounts.stream().mapToInt(Integer::intValue).sum(); */
+
+int totalClientsCounts = userManager.getCountOfClientUsers();
+int totalConsultantCounts =  userManager.getCountOfConsultantUsers();
 
 // Get the monthly user registration counts
 %>
@@ -469,208 +472,7 @@ int newMessagesCount = messageService.getNewMessagesCount();
 		</div>
 	</div>
 	<!-------------------------------------------------- about  ----------------------------------------- -->
-	<%-- <div id="about" >
-
-  <div class="container" style="height: 85vh; ">
-    <div class="row mt-0">
-      <h1 class="mb-5 pt-0 sub-title " style="color: #5b4a6b;text-align: center;">Our Experts are the finest!</h1>
-    
-  <p>Chart below showcases the exciting journey of new users and consultants joining our platform and escalating demand for appointments. 
-        Be a part of this dynamic ecosystem and unlock countless opportunities. 
-        Join today and shape your future with us! 
-      <div class="about-col-1 ">
-        
-     <div style= "height:500px; width:500px;">
-  <canvas id="myChart2" ></canvas>
-</div> 
-        <!-- Add this where you want the map to be displayed -->
-
-        
-     
-      </div>
- 
-      
-      <div class="about-col-2">
-       
-          <div class="tab-titles">
-     
-          </div>
-          <!-- skills -->
-          <div class="tab-contents active-tab" id="Skills">
-            <div id="map" style="height: 400px;"></div>
-        <!--    <canvas id="consultantByCountryChart" width="400" height="200"></canvas> -->
-
-
-          
-    
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<script>
-  const ctx = document.getElementById('myChart');
-
-  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: <%= countriesArray %>,
-      datasets: [{
-        label: 'Number of consultants',
-        data: <%= countsArray %>,
-        borderWidth: 1
-      }]
-    },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true
-        }
-      }
-    }
-  });
-</script>
-
-<script>
-  const ctx = document.getElementById('myChart2');
-
-  // Function to generate a random color in rgba format
-  function randomColor() {
-    const r = Math.floor(Math.random() * 256);
-    const g = Math.floor(Math.random() * 256);
-    const b = Math.floor(Math.random() * 256);
-    return `rgba(${r},${g},${b},0.6)`;
-  }
-
-  // Replace this with your actual data
-  const countriesArray = <%= countriesArray %>;
-  const countsArray = <%= countsArray %>;
-
-  // Generate an array of random colors for each country
-  const backgroundColors = countriesArray.map(() => randomColor());
-
-  new Chart(ctx, {
-    type: 'doughnut', // Change the chart type to doughnut
-    data: {
-      labels: countriesArray,
-      datasets: [{
-        label: 'Number of consultants',
-        data: countsArray,
-        backgroundColor: backgroundColors,
-        borderWidth: 1
-      }]
-    },
-  
-  });
-</script>
-
-<script>
-  const ctx = document.getElementById('myChart');
-
-  // Function to generate a random color in rgba format
-  function randomColor() {
-    const r = Math.floor(Math.random() * 256);
-    const g = Math.floor(Math.random() * 256);
-    const b = Math.floor(Math.random() * 256);
-    return `rgba(${r},${g},${b},0.9)`;
-  }
-
-  // Replace this with your actual data
-  const countriesArray = <%= countriesArray %>;
-  const countsArray = <%= countsArray %>;
-
-  // Generate an array of random colors for each country
-  const backgroundColors = countriesArray.map(() => randomColor());
-
-  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: countriesArray,
-      datasets: [{
-        label: 'Number of consultants',
-        data: countsArray,
-        backgroundColor: backgroundColors,
-        borderWidth: 1
-      }]
-    },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true
-        }
-      }
-    }
-  });
-</script>
-
-     <%
-    // Assuming countriesArray is an array of strings
-   
-
-    // Iterate over the array and print each element
-System.out.println(countriesArray);
-     System.out.println(countsArray);
-%>
-     <script>
-    var ctx = document.getElementById('consultantByCountryChart').getContext('2d');
-    var consultantByCountryChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: <%= countriesArray %>,
-            datasets: [{
-                label: 'Consultants by Country',
-                data: <%= countsArray %>,
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-</script>
-          </div>          
-          <!-- Education -->
-          <div class="tab-contents" id="Education">
-   
-</div>
- 
-          <div class="tab-contents " id="Languages">
-
-            <div style="width: 320px; height: 420px;">
-              <canvas id="doughnutChart"></canvas>
-            </div>
-            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-            <script>
-              const data = {
-                labels: ['Red', 'Blue', 'Yellow'],
-                datasets: [{
-                  label: 'My First Dataset',
-                  data: [300, 50, 100],
-                  backgroundColor: ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(255, 205, 86)'],
-                  hoverOffset: 4
-                }]
-              };
-            
-              const chartContext = document.getElementById('doughnutChart').getContext('2d');
-              const myChart = new Chart(chartContext, {
-                type: 'doughnut',
-                data: data
-              });
-            </script> 
-            
-            
-          </div>
-      </div>
-    </div>
-
-  </div>
-</div>
-
- --%>
+	
 	<!-------------------------------------------------- about  ----------------------------------------- -->
 	<div id="growth" style="background-color: rgba(218, 186, 247, 0.195)">
 		<div class="container" style="height: 85vh;">
@@ -688,6 +490,7 @@ System.out.println(countriesArray);
 						consultants joining our platform and escalating demand for
 						appointments. Be a part of this dynamic ecosystem and unlock
 						countless opportunities. Join today and shape your future with us!
+
 					
 					<div class="tab-titles"></div>
 					<!-- skills -->
